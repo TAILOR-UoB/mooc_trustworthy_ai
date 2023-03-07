@@ -1,0 +1,64 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Foundations of Trustworthy AI"
+  reader-mode: true
+
+  sidebar:
+    logo: "TAILOR logo - full-color rgb.svg"
+
+  page-footer:
+    left: |
+      Foundations of Trustworthy AI was written by Miquel Perello Nieto by compiling multiple information from the TAILOR project.
+    right: |
+      This book was built with <a href="https://quarto.org/">Quarto</a>.
+  cover-image: "images/TAILOR-MOOC-tai.svg"
+  favicon: cropped-tailor-logo-symbol-32x32.png
+  site-url: https://tailor-uob.github.io/mooc_trustworthy_ai/
+  repo-url: https://github.com/TAILOR-UoB/mooc_trustworthy_ai
+  repo-branch: main
+  repo-actions: [edit, issue]
+  chapters:
+    - index.qmd
+
+    - intro.qmd
+
+    - part: explainable-ai-systems.qmd
+      chapters:
+        - xais-fea-imp.qmd
+        - xais-sal-map.qmd
+        - xais-sin-tre.qmd
+        - cha_wahcc/wahcc.qmd
+
+    - part: safety-and-robustness.qmd
+      chapters:
+        - sar-ali.qmd
+        - sar-rob.qmd
+        - sar-rel.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+      - r4ds.scss
+    code-link: true
+
+    author-meta: "Miquel Perello Nieto"
+    include-in-header: "plausible.html"
+    callout-appearance: simple
+    header-includes: |
+      <link rel="stylesheet" media="screen" href="/fonts/Myriad Pro Regular.ttf" type="text/css"/>
+
+
+  revealjs:
+    logo: "TAILOR logo - full-color rgb.svg"
+    footer: "Foundations of Trustworthy AI"
+
+bibliography: references.bib
+contrastcolor: "#37BEED"
+link-color: "#28306C"
+mainfont: Arial
+editor: visual
+jupyter: python3

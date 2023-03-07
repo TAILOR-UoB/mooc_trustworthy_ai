@@ -1,0 +1,260 @@
+# Why and How Classifier Calibration?
+
+## It always starts with the weather
+
+
+### Taking inspiration from forecasting
+
+- Weather forecasters started thinking about calibration a long time ago [@brier1950]. 
+    - A forecast `70% chance of rain` should be followed by rain 70\% of the time.
+- This is immediately applicable to binary classification: 
+    - A prediction `70% chance of spam` should be spam 70\% of the time.
+- and to multi-class classification: 
+    - A prediction `70% chance of setosa, 10% chance of versicolor and 20% chance of virginica` should be setosa/versicolor/virginica 70/10/20% of the time.
+- In general: 
+    - A predicted probability (vector) should match empirical (observed) probabilities.
+
+**Q:** What does `X% of the time` mean?
+
+
+### Forecasting example
+
+Let's consider a small toy example: 
+
+- Two predictions of `10% chance of rain` were both followed by `no rain`.
+- Two predictions of `40% chance of rain` were once followed by `no rain`, and once by `rain`.
+- Three predictions of `70% chance of rain` were once followed by `no rain`, and twice by `rain`.
+- One prediction of `90% chance of rain` was followed by `rain`.
+
+**Q:** Is this forecaster well-calibrated?
+
+### Over- and under-estimates
+
++-----+-----------+-----+
+|     | $\hat{p}$ | $y$ |
++=====+===========+=====+
+| 0\  | 0.1\      | 0\  |
+| 1   | 0.1       | 0   |
++-----+-----------+-----+
+| 2\  | 0.4\      | 0\  |
+| 3   | 0.4       | 1   |
++-----+-----------+-----+
+| 4\  | 0.7\      | 0\  |
+| 5\  | 0.7\      | 1\  |
+| 6   | 0.7       | 1
++-----+-----------+-----+
+| 7   | 0.9       | 1   |
++-----+-----------+-----+
+
+: Table with probabilities
+
+This forecaster is doing a pretty decent job:
+
+- `10% chance of rain` was a slight over-estimate  ($\bar{y} = 0/2 =   0\%$);
+- `40% chance of rain` was a slight under-estimate ($\bar{y} = 1/2 =  50\%$); 
+- `70% chance of rain` was a slight over-estimate  ($\bar{y} = 2/3 =  67\%$); 
+- `90% chance of rain` was a slight under-estimate ($\bar{y} = 1/1 = 100\%$).
+
+### Visualising forecasts: the reliability diagram
+
+```{python}
+#| label: fig-rd-1
+#| fig-cap: "Reliability diagram"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from pycalib.visualisations import plot_reliability_diagram
+
+labels = np.array([0, 0, 0, 1, 0, 1, 1, 1])
+scores = np.array([0.1, 0.1 ,0.4, 0.4,0.7, 0.7, 0.7, 0.9])
+bins = [0, 0.25, 0.5, 0.85, 1.0]
+fig = plt.figure(figsize=(5, 4))
+fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
+                               class_names=['not 1', 'rain'], bins=bins,
+                               fig=fig, show_gaps=True,
+                               show_bars=True)
+```
+
+### Changing the numbers slightly
+
++-----+-----------+-----+
+|     | $\hat{p}$ | $y$ |
++=====+===========+=====+
+| 0\  | 0.1\      | 0\  |
+| 1   | 0.2       | 0   |
++-----+-----------+-----+
+| 2\  | 0.3\      | 0\  |
+| 3   | 0.4       | 1   |
++-----+-----------+-----+
+| 4\  | 0.6\      | 0\  |
+| 5\  | 0.7\      | 1\  |
+| 6   | 0.8       | 1
++-----+-----------+-----+
+| 7   | 0.9       | 1   |
++-----+-----------+-----+
+
+: Table with probabilities
+
+```{python}
+#| label: fig-rd-2
+#| fig-cap: "Reliability diagram"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from pycalib.visualisations import plot_reliability_diagram
+
+labels = np.array([0, 0, 0, 1, 0, 1, 1, 1])
+scores = np.array([0.1, 0.2 ,0.3, 0.4, 0.6, 0.7, 0.8, 0.9])
+bins = [0, 0.25, 0.5, 0.85, 1.0]
+fig = plt.figure(figsize=(5, 4))
+fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
+                               class_names=['not 1', 'rain'], bins=bins,
+                               fig=fig, show_gaps=True,
+                               show_bars=True)
+```
+
+### Or should we group the forecasts differently?
+
++-----+-----------+-----+
+|     | $\hat{p}$ | $y$ |
++=====+===========+=====+
+| 0\  | 0.1\      | 0\  |
+| 1\  | 0.2\      | 0\  |
+| 2\  | 0.3\      | 0\  |
+| 3   | 0.4       | 1   |
++-----+-----------+-----+
+| 4\  | 0.6\      | 0\  |
+| 5\  | 0.7\      | 1\  |
+| 6\  | 0.8\      | 1\  |
+| 7   | 0.9       | 1   |
++-----+-----------+-----+
+
+: Table with probabilities
+
+```{python}
+#| label: fig-rd-3
+#| fig-cap: "Reliability diagram"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from pycalib.visualisations import plot_reliability_diagram
+
+labels = np.array([0, 0, 0, 1, 0, 1, 1, 1])
+scores = np.array([0.1, 0.2 ,0.3, 0.4, 0.6, 0.7, 0.8, 0.9])
+bins = [0, 0.5, 1.0]
+fig = plt.figure(figsize=(5, 4))
+fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
+                               class_names=['not 1', 'rain'], bins=bins,
+                               fig=fig, show_gaps=True,
+                               show_bars=True)
+```
+
+### Or not at all?
+
++-----+-----------+-----+
+|     | $\hat{p}$ | $y$ |
++=====+===========+=====+
+| 0   | 0.1       | 0   |
++-----+-----------+-----+
+| 1   | 0.2       | 0   |
++-----+-----------+-----+
+| 2   | 0.3       | 0   |
++-----+-----------+-----+
+| 3   | 0.4       | 1   |
++-----+-----------+-----+
+| 4   | 0.6       | 0   |
++-----+-----------+-----+
+| 5   | 0.7       | 1   |
++-----+-----------+-----+
+| 6   | 0.8       | 1
++-----+-----------+-----+
+| 7   | 0.9       | 1   |
++-----+-----------+-----+
+
+: Table with probabilities
+
+```{python}
+#| label: fig-rd-4
+#| fig-cap: "Reliability diagram"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from pycalib.visualisations import plot_reliability_diagram
+
+labels = np.array([0, 0, 0, 1, 0, 1, 1, 1])
+scores = np.array([0.1, 0.2 ,0.3, 0.4, 0.6, 0.7, 0.8, 0.9])
+bins = [0, 0.101, 0.201, 0.301, 0.401, 0.601, 0.701, 0.801, 0.901, 1.0]
+fig = plt.figure(figsize=(5, 4))
+fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
+                               class_names=['not 1', 'rain'], bins=bins,
+                               fig=fig, show_gaps=True,
+                               show_bars=True)
+```
+
+### Binning or pooling predictions is a fundamental notion
+
+We need bins to **evaluate** the degree of calibration: 
+
+- In order to decide whether a weather forecaster is well-calibrated, we need to look at a good number of forecasts, say over one year. 
+- We also need to make sure that there are a reasonable number of forecasts for separate probability values, so we can obtain reliable empirical estimates. 
+  - Trade-off: large bins give better empirical estimates, small bins allows a more fine-grained assessment of calibration.}
+
+But adjusting forecasts in groups also gives rise to practical calibration **methods**:
+
+- empirical binning
+- isotonic regression (aka ROC convex hull)
+
+## Why are we interested in calibration?
+
+### Why are we interested in calibration?
+
+To calibrate means **to employ a known scale with known properties**. 
+
+- E.g., additive scale with a well-defined zero, so that ratios are meaningful.
+
+For classifiers we want to use the probability scale, so that we can 
+
+- justifiably use default decision rules (e.g., maximum posterior probability);
+- adjust these decision rules in a straightforward way to account for different class priors or misclassification costs;
+- combine probability estimates in a well-founded way.
+
+**Q:** Is the probability scale additive?
+
+**Q:** How would you combine probability estimates from several well-calibrated models? 
+
+
+### Optimal decisions
+
+Denote the cost of predicting class $j$ for an instance of true class $i$ as $C(\hat{Y}=j|Y=i)$. 
+% Since we don't know the true class of an unlabelled instance, we need to base our prediction on an assessment of the expected cost over all possible true classes. 
+The expected cost of predicting class $j$ for instance $x$ is
+
+$$
+\begin{align*}%\label{eq::expected-cost}
+C(\hat{Y}=j|X=x) &= \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
+\end{align*}
+$$
+
+where $P(Y=i|X=x)$ is the probability of instance $x$ having true class $i$ (as would be given by the Bayes-optimal classifier). 
+
+
+The optimal decision is then to predict the class with lowest expected cost:
+
+$$
+\begin{align*}
+\hat{Y}^* = \argmin_j C(\hat{Y}=j|X=x) = \arg\min_j \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
+\end{align*}
+$$
+## References

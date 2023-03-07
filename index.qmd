@@ -1,0 +1,46 @@
+# Welcome {.unnumbered}
+
+This topic covers the dimensions of Trustworthy AI: (i) Explainability, (ii)
+Safety, (iii) Fairness, (iv) Accountability and Reproducibility, (v) Privacy,
+and (vi) Sustainability.
+
+## About {.unnumbered}
+
+This MOOC is based on the first topic proposed in the TAILOR PhD curriculum
+about Integrating Approaches for Trustworthy AI. The idea is to adapt the
+content of The TAILOR Handbook of Trustworthy AI and create a course with six
+subtopics
+
+1. Explainable AI Systems
+2. Safety and Robustness
+3. Fairness, Equity, and Justice by Design
+4. Accountability and Reproducibility
+5. Respect for Privacy
+6. Sustainability
+
+```{mermaid}
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#37BEED',
+      'primaryTextColor': '#28306C',
+      'primaryBorderColor': '#28306C',
+      'lineColor': '#37BEED',
+      'secondaryColor': '#37BEED',
+      'tertiaryColor': '#fff'
+    }
+  }
+}%%
+flowchart TD
+  A[Explainable <br> AI Systems] --> B(Accountability <br> and Reproducibility)
+  A --> C(Safety and <br> Robustness)
+  B --> D[Sustainability]
+  B --> E[Respect for Privacy]
+  B --> F[Fairness, Equity, <br> and Justice <br> by Design]
+  C --> F
+```
+
+## Acknowledgements {.unnumbered}
+
+Thanks to ...

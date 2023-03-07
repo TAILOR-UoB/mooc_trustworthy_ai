@@ -1,0 +1,34 @@
+---
+title: "Introducing Classifier Calibration"
+bibliography: references.bib
+format:
+  html:
+    code-fold: true
+    toc: true
+    number-sections: true
+jupyter: python3
+---
+
+
+
+Taking inspiration from forecasting
+-----------------------------------
+
+Weather forecasters started thinking about calibration a long time ago
+[@brier1950]. 
+- A forecast `70\% chance of rain' should be followed by rain 70\% of the
+time.
+This is immediately applicable to binary classification: 
+- A prediction `70\% chance of spam' should be spam 70\% of the time.
+and to multi-class classification: 
+- A prediction `70\% chance of setosa, 10\% chance of versicolor and 20\%
+chance of virginica' should be setosa/versicolor/virginica 70/10/20\% of the
+time.
+In general: 
+- A predicted probability (vector) should match empirical (observed)
+probabilities.
+
+Q: What does `$x\%$ of the time' mean?
+
+
+## References
