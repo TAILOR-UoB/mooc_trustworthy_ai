@@ -1,9 +1,89 @@
-# Why and How Classifier Calibration?
+---
+title: Why and How Classifier Calibration?
+author: 
+  - name: Peter Flach
+    orcid: 0000-0001-6857-5810
+    email: peter.flach@bristol.ac.uk
+    affiliations:
+      - name: University of Bristol
+        city: Bristol
+        country: United Kingdom
+        postal-code: BS8 1QU
+  - name:
+      given: Miquel
+      family: Perello Nieto
+    orcid: 0000-0001-8925-424X
+    email: miquel.perellonieto@bristol.ac.uk
+    affiliations:
+      - name: University of Bristol
+        city: Bristol
+        country: United Kingdom
+        postal-code: BS8 1QU
+    attributes:
+        equal-contributor: False
+---
 
-## It always starts with the weather
+$$
+\usepackage{amsmath}
 
+\renewcommand{\vph}{\hat{\mathbf{p}}}
+\newcommand{\va}{\mathbf{a}}
+\newcommand{\vb}{\mathbf{b}}
+\newcommand{\vc}{\mathbf{c}}
+\newcommand{\vp}{\mathbf{p}}
+\newcommand{\vq}{\mathbf{q}}
+\newcommand{\vs}{\mathbf{s}}
+\newcommand{\vu}{\mathbf{u}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\vw}{\mathbf{w}}
+\newcommand{\vx}{\mathbf{x}}
+\newcommand{\vz}{\mathbf{z}}
+\newcommand{\vX}{\mathbf{X}}
+\newcommand{\MI}{\mathbf{I}}
+\newcommand{\vzero}{\mathbf{0}}
+\newcommand{\valpha}{\boldsymbol{\alpha}}
+\newcommand{\vmu}{\boldsymbol{\mu}}
+\newcommand{\vmuh}{\hat{\boldsymbol{\mu}}}
+\newcommand{\vpi}{\boldsymbol{\pi}}
+\newcommand{\softmax}{\boldsymbol{\sigma}}
+\newcommand{\logistic}{\sigma_1}
+\newcommand{\vln}{\mathbf{ln}}
+\newcommand{\vexp}{\mathbf{exp}}
+\newcommand{\Dir}{\mathsf{Dir}}
+\newcommand{\sR}{\mathbb{R}}
+\newcommand{\ODIR}{ODIR}
 
-### Taking inspiration from forecasting
+\newcommand{\eE}{\mathbb{E}}
+
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+
+\newcommand{\ph}{\hat{p}}
+\newcommand{\vph}{\mathbf{\hat{p}}}
+\newcommand{\yh}{\hat{y}}
+\newcommand{\vsh}{\mathbf{\hat{s}}}
+\newcommand{\sh}{\hat{s}}
+\newcommand{\Ph}{\hat{P}}
+\newcommand{\vPh}{\mathbf{\hat{P}}}
+\newcommand{\qh}{\hat{q}}
+\newcommand{\vqh}{\mathbf{\hat{q}}}
+\newcommand{\muh}{\hat{\mu}}
+\newcommand{\vy}{\mathbf{y}}
+\newcommand{\Mph}{\mathbf{\hat{P}}}
+\newcommand{\My}{\mathbf{Y}}
+\newcommand{\MD}{\mathbf{D}}
+\newcommand{\MW}{\mathbf{W}}
+\newcommand{\MA}{\mathbf{A}}
+\newcommand{\Mp}{\mathbf{P}}
+
+\newcommand{\TO}[1]{{\color{red}[TO \uppercase{#1}]}}
+\newcommand{\TODO}{\TO{DO}}
+\newcommand{\Sk}{\Delta_{k}}
+\newcommand{\sX}{\mathcal{X}}
+\newtheorem{proposition}{Proposition}
+$$
+
+## Taking inspiration from forecasting
 
 - Weather forecasters started thinking about calibration a long time ago [@brier1950]. 
     - A forecast `70% chance of rain` should be followed by rain 70\% of the time.
@@ -30,6 +110,10 @@ Let's consider a small toy example:
 
 ### Over- and under-estimates
 
+:::: {.columns .v-center-container}
+
+::: {.column width="20%"}
+
 +-----+-----------+-----+
 |     | $\hat{p}$ | $y$ |
 +=====+===========+=====+
@@ -48,14 +132,62 @@ Let's consider a small toy example:
 
 : Table with probabilities
 
+:::
+
+::: {.column width="10%"}
+
+
+:::
+
+::: {.column width="70%" .v-center-container}
+
 This forecaster is doing a pretty decent job:
 
-- `10% chance of rain` was a slight over-estimate  ($\bar{y} = 0/2 =   0\%$);
-- `40% chance of rain` was a slight under-estimate ($\bar{y} = 1/2 =  50\%$); 
-- `70% chance of rain` was a slight over-estimate  ($\bar{y} = 2/3 =  67\%$); 
-- `90% chance of rain` was a slight under-estimate ($\bar{y} = 1/1 = 100\%$).
+- `10% chance of rain` was a slight over-estimate\
+  ($\bar{y} = 0/2 =   0\%$);
+- `40% chance of rain` was a slight under-estimate\
+  ($\bar{y} = 1/2 =  50\%$); 
+- `70% chance of rain` was a slight over-estimate\
+  ($\bar{y} = 2/3 =  67\%$); 
+- `90% chance of rain` was a slight under-estimate\
+  ($\bar{y} = 1/1 = 100\%$).
+
+:::
+
+::::
 
 ### Visualising forecasts: the reliability diagram
+
+:::: {.columns .v-center-container}
+
+::: {.column width="20%"}
+
++-----+-----------+-----+
+|     | $\hat{p}$ | $y$ |
++=====+===========+=====+
+| 0\  | 0.1\      | 0\  |
+| 1   | 0.1       | 0   |
++-----+-----------+-----+
+| 2\  | 0.4\      | 0\  |
+| 3   | 0.4       | 1   |
++-----+-----------+-----+
+| 4\  | 0.7\      | 0\  |
+| 5\  | 0.7\      | 1\  |
+| 6   | 0.7       | 1
++-----+-----------+-----+
+| 7   | 0.9       | 1   |
++-----+-----------+-----+
+
+: Table with probabilities
+
+:::
+
+::: {.column width="10%"}
+
+
+:::
+
+::: {.column width="70%" .v-center-container}
 
 ```{python}
 #| label: fig-rd-1
@@ -78,7 +210,15 @@ fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
                                show_bars=True)
 ```
 
+:::
+
+::::
+
 ### Changing the numbers slightly
+
+:::: {.columns .v-center-container}
+
+::: {.column width="20%"}
 
 +-----+-----------+-----+
 |     | $\hat{p}$ | $y$ |
@@ -96,7 +236,10 @@ fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
 | 7   | 0.9       | 1   |
 +-----+-----------+-----+
 
-: Table with probabilities
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="70%"}
 
 ```{python}
 #| label: fig-rd-2
@@ -119,7 +262,14 @@ fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
                                show_bars=True)
 ```
 
+:::
+::::
+
 ### Or should we group the forecasts differently?
+
+:::: {.columns .v-center-container}
+
+::: {.column width="20%"}
 
 +-----+-----------+-----+
 |     | $\hat{p}$ | $y$ |
@@ -137,6 +287,12 @@ fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
 
 : Table with probabilities
 
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="70%"}
 ```{python}
 #| label: fig-rd-3
 #| fig-cap: "Reliability diagram"
@@ -157,9 +313,13 @@ fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
                                fig=fig, show_gaps=True,
                                show_bars=True)
 ```
+:::
+::::
 
 ### Or not at all?
 
+:::: {.columns .v-center-container}
+::: {.column width="20%"}
 +-----+-----------+-----+
 |     | $\hat{p}$ | $y$ |
 +=====+===========+=====+
@@ -181,6 +341,12 @@ fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
 +-----+-----------+-----+
 
 : Table with probabilities
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="70%"}
 
 ```{python}
 #| label: fig-rd-4
@@ -202,6 +368,8 @@ fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
                                fig=fig, show_gaps=True,
                                show_bars=True)
 ```
+:::
+::::
 
 ### Binning or pooling predictions is a fundamental notion
 
@@ -217,8 +385,6 @@ But adjusting forecasts in groups also gives rise to practical calibration **met
 - isotonic regression (aka ROC convex hull)
 
 ## Why are we interested in calibration?
-
-### Why are we interested in calibration?
 
 To calibrate means **to employ a known scale with known properties**. 
 
@@ -242,9 +408,7 @@ Denote the cost of predicting class $j$ for an instance of true class $i$ as $C(
 The expected cost of predicting class $j$ for instance $x$ is
 
 $$
-\begin{align*}%\label{eq::expected-cost}
-C(\hat{Y}=j|X=x) &= \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
-\end{align*}
+C(\hat{Y}=j|X=x) = \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
 $$
 
 where $P(Y=i|X=x)$ is the probability of instance $x$ having true class $i$ (as would be given by the Bayes-optimal classifier). 
@@ -253,8 +417,262 @@ where $P(Y=i|X=x)$ is the probability of instance $x$ having true class $i$ (as 
 The optimal decision is then to predict the class with lowest expected cost:
 
 $$
-\begin{align*}
-\hat{Y}^* = \argmin_j C(\hat{Y}=j|X=x) = \arg\min_j \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
-\end{align*}
+\hat{Y}^* = \argmin_j C(\hat{Y}=j|X=x) = \argmin_j \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
 $$
+
+In binary classification we have:
+
+\begin{align*}
+C(\hat{Y}=+|X=x) &= P(+|x)C(+|+) + \big(1-P(+|x)\big)C(+|-) \\
+C(\hat{Y}=-|X=x) &= P(+|x)C(-|+) + \big(1-P(+|x)\big)C(-|-)
+\end{align*}
+
+On the optimal decision boundary these two expected costs are equal, 
+which gives
+
+\begin{align*}%\label{eq::cost-threshold}
+P(+|x)  = \frac{\textcolor{blue}{C(+|-)-C(-|-)}}{\textcolor{blue}{C(+|-)-C(-|-)}+\textcolor{red}{C(-|+)-C(+|+)}} \triangleq c
+\end{align*}
+
+This gives the optimal threshold on the hypothetical Bayes-optimal probabilities. 
+
+It is also the best thing to do in practice -- as long as the probabilities are well-calibrated! 
+
+\framebreak
+Without loss of generality we can set the cost of true positives and true negatives to zero; 
+$c = \frac{c_{\text{FP}}}{c_{\text{FP}} + c_{\text{FN}}}$ is then the cost of a false positive in proportion to the combined cost of one false positive and one false negative. 
+
+* E.g., if false positives are 4 times as costly as false negatives then we set the decision threshold to $4/(4+1)=0.8$ in order to only make positive predictions if we're pretty certain.
+
+Similar reasoning applies to changes in class priors: 
+
+- if we trained on balanced classes but want to deploy with 4 times as many positives compared to negatives, we lower the decision threshold to $0.2$; 
+- more generally, if we trained for class ratio $r$ and deploy for class ratio $r'$ we set the decision threshold to $r/(r+r')$. 
+
+Cost and class prior changes can be combined in the obvious way.
+
+
+## Common sources of miscalibration
+
+Underconfidence:
+
+:   a classifier thinks it's **worse** at separating classes than it actually is.
+
+    -   Hence we need to *pull predicted probabilities away from the
+        centre*.
+
+Overconfidence:
+
+:   a classifier thinks it's **better** at separating classes than it actually is.
+
+    -   Hence we need to *push predicted probabilities toward the
+        centre*.
+
+A classifier can be overconfident for one class and underconfident for
+the other, in which case all predicted probabilities need to be
+increased or decreased.
+
+### Underconfidence example
+
+
+:::: {.columns .v-center-container}
+
+::: {.column width="70%"}
+
+- Underconfidence typically gives \highlighted{ecmlred}{sigmoidal} distortions. 
+- To calibrate these means to \textit{pull predicted probabilities away from the centre}. 
+
+:::
+::: {.column width="30%"}
+
+![](images/Underconfidence.png)
+
+Source: [@niculescu-mizil2005]
+
+:::
+::::
+
+
+### Overconfidence example
+
+
+:::: {.columns .v-center-container}
+
+::: {.column width="70%"}
+
+- Overconfidence is very common, and usually a consequence of over-counting evidence. 
+%\\(e.g. naive Bayes, some forms of boosting).
+- Here, distortions are \highlighted{ecmlred}{inverse-sigmoidal}
+- Calibrating these means to \textit{push predicted probabilities toward the centre}. 
+
+:::
+::: {.column width="30%"}
+
+![](images/Overconfidence.png)
+
+Source: [@niculescu-mizil2005]
+
+:::
+::::
+
+### Why fitting the distortions helps with calibration
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+
+In clockwise direction, the dotted arrows show:
+
+1. using a point's uncalibrated score on the $x$-axis as input to the calibration map, 
+1. mapping the resulting output back to the diagonal, and 
+1. combine with the empirical probability of the point we started from. 
+
+The closer the original point is to the fitted calibration map, the closer the calibrated point (in red) will be to the diagonal.
+
+:::
+::: {.column width="50%"}
+
+![](images/caruana_fig_3.png)
+
+:::
+::::
+
+
+## A first look at some calibration techniques
+
+- **Parametric** calibration involves modelling the score distributions within each class. \\
+  - **Platt scaling** = Logistic calibration can be derived by assuming that the scores within both classes are normally distributed with the same variance [@platt2000].
+  - **Beta calibration** employs Beta distributions instead, to deal with scores already on a $[0,1]$ scale [@kull2017}].
+  - **Dirichlet calibration** for more than two classes [@kull2019].
+- **Non-parametric** calibration often ignores scores and employs ranks instead. \\
+  - E.g., **isotonic regression** = pool adjacent violators = ROC convex hull [@zadrozny2001] [@fawcett2007].
+
+### Platt scaling
+
+![](images/Logistic.png)
+
+\begin{align*}
+    p(s; w, m) &= \frac{1}{1+\exp(-w(s-m))}\\
+    w &= (\mu_{\textit{pos}}-\mu_{\textit{neg}})/\sigma^2, 
+    m = (\mu_{\textit{pos}}+\mu_{\textit{neg}})/2
+\end{align*}
+
+### Beta calibration
+
+![](images/Beta.png)
+
+\begin{align*}
+  p(s; a, b, c) &= \frac{1}{1+\exp(-a \ln s - b \ln (1-s) - c)} \\
+  a &= \alpha_{\textit{pos}}-\alpha_{\textit{neg}}, 
+  b = \beta_{\textit{neg}}-\beta_{\textit{pos}}
+\end{align*}
+
+### Isotonic regression
+
+:::: {.columns .v-center-container}
+
+::: {.column width="40%"}
+
+![](images/ROCCH.png)
+
+:::
+::: {.column width="10%"}
+:::
+
+::: {.column width="47%"}
+
+![](images/ROCcal2.png)
+
+Source: _flach2016roc_
+:::
+::::
+
+## Calibrating multi-class classifiers
+
+
+### What's so special about multi-class calibration?
+Similar to classification, some methods are inherently multi-class but most are not.
+
+This leads to (at least) three different ways of **defining** what it means to
+be fully multiclass-calibrated. 
+    - Many recent papers use the (weak) notion of confidence calibration.
+
+**Evaluating** multi-class calibration is in its full
+generality still an open problem. 
+
+
+### Definitions of calibration for more than two classes
+
+The following definitions of calibration are equivalent for binary
+classification but increasingly stronger for more than two classes: 
+
+- **Confidence calibration:** only consider the highest predicted probability. 
+- **Class-wise calibration:** only consider marginal probabilities.
+- **Multi-class calibration:** consider the entire vector of predicted probabilities.
+
+### Confidence calibration
+
+This was proposed by @guo2017, requiring that among all instances
+where the probability of **the most likely class** is
+predicted to be $c$, the expected accuracy is $c$.
+(We call this `confidence calibration' to distinguish it from the stronger notions of calibration.)
+
+Formally, a probabilistic classifier $\vph:\sX\to\Sk$ is
+**confidence-calibrated**, if for any confidence level $c\in[0,1]$, the actual
+proportion of the predicted class, among all possible instances $\vx$ being
+predicted this class with confidence $c$, is equal to $c$:  
+
+\begin{align*} 
+P(Y=i \: | \: \ph_i(\vx)=c)=c\qquad\text{where }\ i=\argmax_j \ph_j(\vx).
+%P\Big(Y=\argmax\big(\vph(X)\big) \: \Big| \: \max\big(\vph(X)\big)=c\Big)=c.
+\end{align*}
+
+### Class-wise calibration}{
+
+Originally proposed by @zadrozny2002, this requires that all **one-vs-rest**
+probability estimators obtained from the original multiclass model are
+calibrated. 
+
+Formally, a probabilistic classifier $\vph:\sX\to\Sk$ is
+**classwise-calibrated**, if for any class $i$ and any predicted probability
+$q_i$ for this class, the actual proportion of class $i$, among all possible
+instances $\vx$ getting the same prediction $\ph_i(\vx)=q_i$, is equal to
+$q_i$:  
+
+\begin{align*} 
+P(Y=i\mid \ph_i(\vx)=q_i)=q_i\qquad\text{for }\ i=1,\dots,k.
+\end{align*}
+
+### Multi-class calibration
+
+This is the **strongest form of calibration** for multiple classes, subsuming the previous two definitions. 
+
+A probabilistic classifier $\vph:\sX\to\Sk$ is **multiclass-calibrated** if for any prediction vector $\vq=(q_1,\dots,q_k)\in\Sk$, the proportions of classes among all possible instances $\vx$ getting the same prediction $\vph(\vx)=\vq$ are equal to the prediction vector $\vq$:  
+\begin{align*} %\label{eq:calib}
+P(Y=i\mid \vph(\vx)=\vq)=q_i\qquad\text{for }\ i=1,\dots,k.
+\end{align*}
+
+### Reminder: binning needed
+
+For practical purposes, the conditions in these definitions need to be relaxed.
+This is where **binning** comes in. 
+
+Once we have the bins, we can draw a **reliability diagram**
+as in the two-class case. For class-wise calibration, we can show per-class
+reliability diagrams or a single averaged one. 
+
+The degree of calibration is assessed using the **gaps** in the reliability diagram. 
+All of this will be elaborated in the next part of the tutorial. 
+
+
+### Important points to remember
+
+- **Only well-calibrated probability estimates are worthy to be called probabilities:**
+    otherwise they are just scores that happen to be in the $[0,1]$ range.
+- **Binning will be required in some form:**
+    instance-based probability evaluation metrics such as Brier score or
+    log-loss always measure calibration **plus something else**.
+- **In multi-class settings, think carefully about which form of calibration you need:**
+    e.g., confidence-calibration is too weak in a cost-sensitive setting.
+
 ## References

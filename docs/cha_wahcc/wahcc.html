@@ -148,6 +148,7 @@ div.csl-indent {
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<link rel="stylesheet" href="../style.css">
 </head>
 
 <body class="nav-sidebar floating">
@@ -264,22 +265,43 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#it-always-starts-with-the-weather" id="toc-it-always-starts-with-the-weather" class="nav-link active" data-scroll-target="#it-always-starts-with-the-weather"><span class="toc-section-number">5.1</span>  It always starts with the weather</a>
+  <li><a href="#taking-inspiration-from-forecasting" id="toc-taking-inspiration-from-forecasting" class="nav-link active" data-scroll-target="#taking-inspiration-from-forecasting"><span class="toc-section-number">5.1</span>  Taking inspiration from forecasting</a>
   <ul class="collapse">
-  <li><a href="#taking-inspiration-from-forecasting" id="toc-taking-inspiration-from-forecasting" class="nav-link" data-scroll-target="#taking-inspiration-from-forecasting"><span class="toc-section-number">5.1.1</span>  Taking inspiration from forecasting</a></li>
-  <li><a href="#forecasting-example" id="toc-forecasting-example" class="nav-link" data-scroll-target="#forecasting-example"><span class="toc-section-number">5.1.2</span>  Forecasting example</a></li>
-  <li><a href="#over--and-under-estimates" id="toc-over--and-under-estimates" class="nav-link" data-scroll-target="#over--and-under-estimates"><span class="toc-section-number">5.1.3</span>  Over- and under-estimates</a></li>
-  <li><a href="#visualising-forecasts-the-reliability-diagram" id="toc-visualising-forecasts-the-reliability-diagram" class="nav-link" data-scroll-target="#visualising-forecasts-the-reliability-diagram"><span class="toc-section-number">5.1.4</span>  Visualising forecasts: the reliability diagram</a></li>
-  <li><a href="#changing-the-numbers-slightly" id="toc-changing-the-numbers-slightly" class="nav-link" data-scroll-target="#changing-the-numbers-slightly"><span class="toc-section-number">5.1.5</span>  Changing the numbers slightly</a></li>
-  <li><a href="#or-should-we-group-the-forecasts-differently" id="toc-or-should-we-group-the-forecasts-differently" class="nav-link" data-scroll-target="#or-should-we-group-the-forecasts-differently"><span class="toc-section-number">5.1.6</span>  Or should we group the forecasts differently?</a></li>
-  <li><a href="#or-not-at-all" id="toc-or-not-at-all" class="nav-link" data-scroll-target="#or-not-at-all"><span class="toc-section-number">5.1.7</span>  Or not at all?</a></li>
-  <li><a href="#binning-or-pooling-predictions-is-a-fundamental-notion" id="toc-binning-or-pooling-predictions-is-a-fundamental-notion" class="nav-link" data-scroll-target="#binning-or-pooling-predictions-is-a-fundamental-notion"><span class="toc-section-number">5.1.8</span>  Binning or pooling predictions is a fundamental notion</a></li>
+  <li><a href="#forecasting-example" id="toc-forecasting-example" class="nav-link" data-scroll-target="#forecasting-example"><span class="toc-section-number">5.1.1</span>  Forecasting example</a></li>
+  <li><a href="#over--and-under-estimates" id="toc-over--and-under-estimates" class="nav-link" data-scroll-target="#over--and-under-estimates"><span class="toc-section-number">5.1.2</span>  Over- and under-estimates</a></li>
+  <li><a href="#visualising-forecasts-the-reliability-diagram" id="toc-visualising-forecasts-the-reliability-diagram" class="nav-link" data-scroll-target="#visualising-forecasts-the-reliability-diagram"><span class="toc-section-number">5.1.3</span>  Visualising forecasts: the reliability diagram</a></li>
+  <li><a href="#changing-the-numbers-slightly" id="toc-changing-the-numbers-slightly" class="nav-link" data-scroll-target="#changing-the-numbers-slightly"><span class="toc-section-number">5.1.4</span>  Changing the numbers slightly</a></li>
+  <li><a href="#or-should-we-group-the-forecasts-differently" id="toc-or-should-we-group-the-forecasts-differently" class="nav-link" data-scroll-target="#or-should-we-group-the-forecasts-differently"><span class="toc-section-number">5.1.5</span>  Or should we group the forecasts differently?</a></li>
+  <li><a href="#or-not-at-all" id="toc-or-not-at-all" class="nav-link" data-scroll-target="#or-not-at-all"><span class="toc-section-number">5.1.6</span>  Or not at all?</a></li>
+  <li><a href="#binning-or-pooling-predictions-is-a-fundamental-notion" id="toc-binning-or-pooling-predictions-is-a-fundamental-notion" class="nav-link" data-scroll-target="#binning-or-pooling-predictions-is-a-fundamental-notion"><span class="toc-section-number">5.1.7</span>  Binning or pooling predictions is a fundamental notion</a></li>
   </ul></li>
   <li><a href="#why-are-we-interested-in-calibration" id="toc-why-are-we-interested-in-calibration" class="nav-link" data-scroll-target="#why-are-we-interested-in-calibration"><span class="toc-section-number">5.2</span>  Why are we interested in calibration?</a>
   <ul class="collapse">
-  <li><a href="#why-are-we-interested-in-calibration-1" id="toc-why-are-we-interested-in-calibration-1" class="nav-link" data-scroll-target="#why-are-we-interested-in-calibration-1"><span class="toc-section-number">5.2.1</span>  Why are we interested in calibration?</a></li>
-  <li><a href="#optimal-decisions" id="toc-optimal-decisions" class="nav-link" data-scroll-target="#optimal-decisions"><span class="toc-section-number">5.2.2</span>  Optimal decisions</a></li>
+  <li><a href="#optimal-decisions" id="toc-optimal-decisions" class="nav-link" data-scroll-target="#optimal-decisions"><span class="toc-section-number">5.2.1</span>  Optimal decisions</a></li>
   </ul></li>
+  <li><a href="#common-sources-of-miscalibration" id="toc-common-sources-of-miscalibration" class="nav-link" data-scroll-target="#common-sources-of-miscalibration"><span class="toc-section-number">5.3</span>  Common sources of miscalibration</a>
+  <ul class="collapse">
+  <li><a href="#underconfidence-example" id="toc-underconfidence-example" class="nav-link" data-scroll-target="#underconfidence-example"><span class="toc-section-number">5.3.1</span>  Underconfidence example</a></li>
+  <li><a href="#overconfidence-example" id="toc-overconfidence-example" class="nav-link" data-scroll-target="#overconfidence-example"><span class="toc-section-number">5.3.2</span>  Overconfidence example</a></li>
+  <li><a href="#why-fitting-the-distortions-helps-with-calibration" id="toc-why-fitting-the-distortions-helps-with-calibration" class="nav-link" data-scroll-target="#why-fitting-the-distortions-helps-with-calibration"><span class="toc-section-number">5.3.3</span>  Why fitting the distortions helps with calibration</a></li>
+  </ul></li>
+  <li><a href="#a-first-look-at-some-calibration-techniques" id="toc-a-first-look-at-some-calibration-techniques" class="nav-link" data-scroll-target="#a-first-look-at-some-calibration-techniques"><span class="toc-section-number">5.4</span>  A first look at some calibration techniques</a>
+  <ul class="collapse">
+  <li><a href="#platt-scaling" id="toc-platt-scaling" class="nav-link" data-scroll-target="#platt-scaling"><span class="toc-section-number">5.4.1</span>  Platt scaling</a></li>
+  <li><a href="#beta-calibration" id="toc-beta-calibration" class="nav-link" data-scroll-target="#beta-calibration"><span class="toc-section-number">5.4.2</span>  Beta calibration</a></li>
+  <li><a href="#isotonic-regression" id="toc-isotonic-regression" class="nav-link" data-scroll-target="#isotonic-regression"><span class="toc-section-number">5.4.3</span>  Isotonic regression</a></li>
+  </ul></li>
+  <li><a href="#calibrating-multi-class-classifiers" id="toc-calibrating-multi-class-classifiers" class="nav-link" data-scroll-target="#calibrating-multi-class-classifiers"><span class="toc-section-number">5.5</span>  Calibrating multi-class classifiers</a>
+  <ul class="collapse">
+  <li><a href="#whats-so-special-about-multi-class-calibration" id="toc-whats-so-special-about-multi-class-calibration" class="nav-link" data-scroll-target="#whats-so-special-about-multi-class-calibration"><span class="toc-section-number">5.5.1</span>  What’s so special about multi-class calibration?</a></li>
+  <li><a href="#definitions-of-calibration-for-more-than-two-classes" id="toc-definitions-of-calibration-for-more-than-two-classes" class="nav-link" data-scroll-target="#definitions-of-calibration-for-more-than-two-classes"><span class="toc-section-number">5.5.2</span>  Definitions of calibration for more than two classes</a></li>
+  <li><a href="#confidence-calibration" id="toc-confidence-calibration" class="nav-link" data-scroll-target="#confidence-calibration"><span class="toc-section-number">5.5.3</span>  Confidence calibration</a></li>
+  <li><a href="#class-wise-calibration" id="toc-class-wise-calibration" class="nav-link" data-scroll-target="#class-wise-calibration"><span class="toc-section-number">5.5.4</span>  Class-wise calibration}{</a></li>
+  <li><a href="#multi-class-calibration" id="toc-multi-class-calibration" class="nav-link" data-scroll-target="#multi-class-calibration"><span class="toc-section-number">5.5.5</span>  Multi-class calibration</a></li>
+  <li><a href="#reminder-binning-needed" id="toc-reminder-binning-needed" class="nav-link" data-scroll-target="#reminder-binning-needed"><span class="toc-section-number">5.5.6</span>  Reminder: binning needed</a></li>
+  <li><a href="#important-points-to-remember" id="toc-important-points-to-remember" class="nav-link" data-scroll-target="#important-points-to-remember"><span class="toc-section-number">5.5.7</span>  Important points to remember</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">5.6</span>  References</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/main/cha_wahcc/wahcc.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -292,10 +314,31 @@ div.csl-indent {
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    Peter Flach <a href="https://orcid.org/0000-0001-6857-5810" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Bristol
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Bristol
+          </p>
+      </div>
+    </div>
 
 <div class="quarto-title-meta">
 
-    
+      
   
     
   </div>
@@ -303,10 +346,10 @@ div.csl-indent {
 
 </header>
 
-<section id="it-always-starts-with-the-weather" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="it-always-starts-with-the-weather"><span class="header-section-number">5.1</span> It always starts with the weather</h2>
-<section id="taking-inspiration-from-forecasting" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="taking-inspiration-from-forecasting"><span class="header-section-number">5.1.1</span> Taking inspiration from forecasting</h3>
+$$
+<p>$$</p>
+<section id="taking-inspiration-from-forecasting" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="taking-inspiration-from-forecasting"><span class="header-section-number">5.1</span> Taking inspiration from forecasting</h2>
 <ul>
 <li>Weather forecasters started thinking about calibration a long time ago <span class="citation" data-cites="brier1950">(<a href="#ref-brier1950" role="doc-biblioref">Brier 1950</a>)</span>.
 <ul>
@@ -326,9 +369,8 @@ div.csl-indent {
 </ul></li>
 </ul>
 <p><strong>Q:</strong> What does <code>X% of the time</code> mean?</p>
-</section>
-<section id="forecasting-example" class="level3" data-number="5.1.2">
-<h3 data-number="5.1.2" class="anchored" data-anchor-id="forecasting-example"><span class="header-section-number">5.1.2</span> Forecasting example</h3>
+<section id="forecasting-example" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="forecasting-example"><span class="header-section-number">5.1.1</span> Forecasting example</h3>
 <p>Let’s consider a small toy example:</p>
 <ul>
 <li>Two predictions of <code>10% chance of rain</code> were both followed by <code>no rain</code>.</li>
@@ -338,8 +380,10 @@ div.csl-indent {
 </ul>
 <p><strong>Q:</strong> Is this forecaster well-calibrated?</p>
 </section>
-<section id="over--and-under-estimates" class="level3" data-number="5.1.3">
-<h3 data-number="5.1.3" class="anchored" data-anchor-id="over--and-under-estimates"><span class="header-section-number">5.1.3</span> Over- and under-estimates</h3>
+<section id="over--and-under-estimates" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="over--and-under-estimates"><span class="header-section-number">5.1.2</span> Over- and under-estimates</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:20%;">
 <table class="table">
 <caption>Table with probabilities</caption>
 <colgroup>
@@ -389,16 +433,79 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column v-center-container" style="width:70%;">
 <p>This forecaster is doing a pretty decent job:</p>
 <ul>
-<li><code>10% chance of rain</code> was a slight over-estimate (<span class="math inline">\(\bar{y} = 0/2 = 0\%\)</span>);</li>
-<li><code>40% chance of rain</code> was a slight under-estimate (<span class="math inline">\(\bar{y} = 1/2 = 50\%\)</span>);</li>
-<li><code>70% chance of rain</code> was a slight over-estimate (<span class="math inline">\(\bar{y} = 2/3 = 67\%\)</span>);</li>
-<li><code>90% chance of rain</code> was a slight under-estimate (<span class="math inline">\(\bar{y} = 1/1 = 100\%\)</span>).</li>
+<li><code>10% chance of rain</code> was a slight over-estimate<br>
+(<span class="math inline">\(\bar{y} = 0/2 = 0\%\)</span>);</li>
+<li><code>40% chance of rain</code> was a slight under-estimate<br>
+(<span class="math inline">\(\bar{y} = 1/2 = 50\%\)</span>);</li>
+<li><code>70% chance of rain</code> was a slight over-estimate<br>
+(<span class="math inline">\(\bar{y} = 2/3 = 67\%\)</span>);</li>
+<li><code>90% chance of rain</code> was a slight under-estimate<br>
+(<span class="math inline">\(\bar{y} = 1/1 = 100\%\)</span>).</li>
 </ul>
+</div>
+</div>
 </section>
-<section id="visualising-forecasts-the-reliability-diagram" class="level3" data-number="5.1.4">
-<h3 data-number="5.1.4" class="anchored" data-anchor-id="visualising-forecasts-the-reliability-diagram"><span class="header-section-number">5.1.4</span> Visualising forecasts: the reliability diagram</h3>
+<section id="visualising-forecasts-the-reliability-diagram" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="visualising-forecasts-the-reliability-diagram"><span class="header-section-number">5.1.3</span> Visualising forecasts: the reliability diagram</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:20%;">
+<table class="table">
+<caption>Table with probabilities</caption>
+<colgroup>
+<col style="width: 8%">
+<col style="width: 16%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(\hat{p}\)</span></th>
+<th><span class="math inline">\(y\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0<br>
+1</td>
+<td>0.1<br>
+0.1</td>
+<td>0<br>
+0</td>
+</tr>
+<tr class="even">
+<td>2<br>
+3</td>
+<td>0.4<br>
+0.4</td>
+<td>0<br>
+1</td>
+</tr>
+<tr class="odd">
+<td>4<br>
+5<br>
+6</td>
+<td>0.7<br>
+0.7<br>
+0.7</td>
+<td>0<br>
+1<br>
+1</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>0.9</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column v-center-container" style="width:70%;">
 <div class="cell" data-execution_count="1">
 <details>
 <summary>Show the code</summary>
@@ -419,17 +526,20 @@ div.csl-indent {
 <div class="cell-output cell-output-display">
 <div id="fig-rd-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-1-output-1.png" width="439" height="361" class="figure-img"></p>
+<p><img src="wahcc_files/figure-html/fig-rd-1-output-1.png" width="439" height="355" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Figure&nbsp;5.1: Reliability diagram</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
+</div>
+</div>
 </section>
-<section id="changing-the-numbers-slightly" class="level3" data-number="5.1.5">
-<h3 data-number="5.1.5" class="anchored" data-anchor-id="changing-the-numbers-slightly"><span class="header-section-number">5.1.5</span> Changing the numbers slightly</h3>
+<section id="changing-the-numbers-slightly" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="changing-the-numbers-slightly"><span class="header-section-number">5.1.4</span> Changing the numbers slightly</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:20%;">
 <table class="table">
-<caption>Table with probabilities</caption>
 <colgroup>
 <col style="width: 8%">
 <col style="width: 16%">
@@ -477,6 +587,9 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:70%;">
 <div class="cell" data-execution_count="2">
 <details>
 <summary>Show the code</summary>
@@ -497,15 +610,19 @@ div.csl-indent {
 <div class="cell-output cell-output-display">
 <div id="fig-rd-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-2-output-1.png" width="439" height="361" class="figure-img"></p>
+<p><img src="wahcc_files/figure-html/fig-rd-2-output-1.png" width="439" height="355" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Figure&nbsp;5.2: Reliability diagram</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
+</div>
+</div>
 </section>
-<section id="or-should-we-group-the-forecasts-differently" class="level3" data-number="5.1.6">
-<h3 data-number="5.1.6" class="anchored" data-anchor-id="or-should-we-group-the-forecasts-differently"><span class="header-section-number">5.1.6</span> Or should we group the forecasts differently?</h3>
+<section id="or-should-we-group-the-forecasts-differently" class="level3" data-number="5.1.5">
+<h3 data-number="5.1.5" class="anchored" data-anchor-id="or-should-we-group-the-forecasts-differently"><span class="header-section-number">5.1.5</span> Or should we group the forecasts differently?</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:20%;">
 <table class="table">
 <caption>Table with probabilities</caption>
 <colgroup>
@@ -551,6 +668,9 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:70%;">
 <div class="cell" data-execution_count="3">
 <details>
 <summary>Show the code</summary>
@@ -571,15 +691,19 @@ div.csl-indent {
 <div class="cell-output cell-output-display">
 <div id="fig-rd-3" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-3-output-1.png" width="439" height="361" class="figure-img"></p>
+<p><img src="wahcc_files/figure-html/fig-rd-3-output-1.png" width="439" height="355" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Figure&nbsp;5.3: Reliability diagram</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
+</div>
+</div>
 </section>
-<section id="or-not-at-all" class="level3" data-number="5.1.7">
-<h3 data-number="5.1.7" class="anchored" data-anchor-id="or-not-at-all"><span class="header-section-number">5.1.7</span> Or not at all?</h3>
+<section id="or-not-at-all" class="level3" data-number="5.1.6">
+<h3 data-number="5.1.6" class="anchored" data-anchor-id="or-not-at-all"><span class="header-section-number">5.1.6</span> Or not at all?</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:20%;">
 <table class="table">
 <caption>Table with probabilities</caption>
 <colgroup>
@@ -637,6 +761,9 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:70%;">
 <div class="cell" data-execution_count="4">
 <details>
 <summary>Show the code</summary>
@@ -657,15 +784,17 @@ div.csl-indent {
 <div class="cell-output cell-output-display">
 <div id="fig-rd-4" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-4-output-1.png" width="439" height="361" class="figure-img"></p>
+<p><img src="wahcc_files/figure-html/fig-rd-4-output-1.png" width="439" height="355" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Figure&nbsp;5.4: Reliability diagram</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
+</div>
+</div>
 </section>
-<section id="binning-or-pooling-predictions-is-a-fundamental-notion" class="level3" data-number="5.1.8">
-<h3 data-number="5.1.8" class="anchored" data-anchor-id="binning-or-pooling-predictions-is-a-fundamental-notion"><span class="header-section-number">5.1.8</span> Binning or pooling predictions is a fundamental notion</h3>
+<section id="binning-or-pooling-predictions-is-a-fundamental-notion" class="level3" data-number="5.1.7">
+<h3 data-number="5.1.7" class="anchored" data-anchor-id="binning-or-pooling-predictions-is-a-fundamental-notion"><span class="header-section-number">5.1.7</span> Binning or pooling predictions is a fundamental notion</h3>
 <p>We need bins to <strong>evaluate</strong> the degree of calibration:</p>
 <ul>
 <li>In order to decide whether a weather forecaster is well-calibrated, we need to look at a good number of forecasts, say over one year.</li>
@@ -683,8 +812,6 @@ div.csl-indent {
 </section>
 <section id="why-are-we-interested-in-calibration" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="why-are-we-interested-in-calibration"><span class="header-section-number">5.2</span> Why are we interested in calibration?</h2>
-<section id="why-are-we-interested-in-calibration-1" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="why-are-we-interested-in-calibration-1"><span class="header-section-number">5.2.1</span> Why are we interested in calibration?</h3>
 <p>To calibrate means <strong>to employ a known scale with known properties</strong>.</p>
 <ul>
 <li>E.g., additive scale with a well-defined zero, so that ratios are meaningful.</li>
@@ -697,30 +824,241 @@ div.csl-indent {
 </ul>
 <p><strong>Q:</strong> Is the probability scale additive?</p>
 <p><strong>Q:</strong> How would you combine probability estimates from several well-calibrated models?</p>
-</section>
-<section id="optimal-decisions" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="optimal-decisions"><span class="header-section-number">5.2.2</span> Optimal decisions</h3>
+<section id="optimal-decisions" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="optimal-decisions"><span class="header-section-number">5.2.1</span> Optimal decisions</h3>
 <p>Denote the cost of predicting class <span class="math inline">\(j\)</span> for an instance of true class <span class="math inline">\(i\)</span> as <span class="math inline">\(C(\hat{Y}=j|Y=i)\)</span>. % Since we don’t know the true class of an unlabelled instance, we need to base our prediction on an assessment of the expected cost over all possible true classes. The expected cost of predicting class <span class="math inline">\(j\)</span> for instance <span class="math inline">\(x\)</span> is</p>
 <p><span class="math display">\[
-\begin{align*}%\label{eq::expected-cost}
-C(\hat{Y}=j|X=x) &amp;= \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
-\end{align*}
+C(\hat{Y}=j|X=x) = \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
 \]</span></p>
 <p>where <span class="math inline">\(P(Y=i|X=x)\)</span> is the probability of instance <span class="math inline">\(x\)</span> having true class <span class="math inline">\(i\)</span> (as would be given by the Bayes-optimal classifier).</p>
 <p>The optimal decision is then to predict the class with lowest expected cost:</p>
 <p><span class="math display">\[
-\begin{align*}
-\hat{Y}^* = \argmin_j C(\hat{Y}=j|X=x) = \arg\min_j \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
-\end{align*}
-\]</span> ## References</p>
+\hat{Y}^* = \mathop{\mathrm{argmin}}_j C(\hat{Y}=j|X=x) = \mathop{\mathrm{argmin}}_j \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
+\]</span></p>
+<p>In binary classification we have:</p>
+<p><span class="math display">\[\begin{align*}
+C(\hat{Y}=+|X=x) &amp;= P(+|x)C(+|+) + \big(1-P(+|x)\big)C(+|-) \\
+C(\hat{Y}=-|X=x) &amp;= P(+|x)C(-|+) + \big(1-P(+|x)\big)C(-|-)
+\end{align*}\]</span></p>
+<p>On the optimal decision boundary these two expected costs are equal, which gives</p>
+<p><span class="math display">\[\begin{align*}%\label{eq::cost-threshold}
+P(+|x)  = \frac{\textcolor{blue}{C(+|-)-C(-|-)}}{\textcolor{blue}{C(+|-)-C(-|-)}+\textcolor{red}{C(-|+)-C(+|+)}} \triangleq c
+\end{align*}\]</span></p>
+<p>This gives the optimal threshold on the hypothetical Bayes-optimal probabilities.</p>
+<p>It is also the best thing to do in practice – as long as the probabilities are well-calibrated!</p>
+<p>Without loss of generality we can set the cost of true positives and true negatives to zero; <span class="math inline">\(c = \frac{c_{\text{FP}}}{c_{\text{FP}} + c_{\text{FN}}}\)</span> is then the cost of a false positive in proportion to the combined cost of one false positive and one false negative.</p>
+<ul>
+<li>E.g., if false positives are 4 times as costly as false negatives then we set the decision threshold to <span class="math inline">\(4/(4+1)=0.8\)</span> in order to only make positive predictions if we’re pretty certain.</li>
+</ul>
+<p>Similar reasoning applies to changes in class priors:</p>
+<ul>
+<li>if we trained on balanced classes but want to deploy with 4 times as many positives compared to negatives, we lower the decision threshold to <span class="math inline">\(0.2\)</span>;</li>
+<li>more generally, if we trained for class ratio <span class="math inline">\(r\)</span> and deploy for class ratio <span class="math inline">\(r'\)</span> we set the decision threshold to <span class="math inline">\(r/(r+r')\)</span>.</li>
+</ul>
+<p>Cost and class prior changes can be combined in the obvious way.</p>
+</section>
+</section>
+<section id="common-sources-of-miscalibration" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="common-sources-of-miscalibration"><span class="header-section-number">5.3</span> Common sources of miscalibration</h2>
+<dl>
+<dt>Underconfidence:</dt>
+<dd>
+<p>a classifier thinks it’s <strong>worse</strong> at separating classes than it actually is.</p>
+<ul>
+<li>Hence we need to <em>pull predicted probabilities away from the centre</em>.</li>
+</ul>
+</dd>
+<dt>Overconfidence:</dt>
+<dd>
+<p>a classifier thinks it’s <strong>better</strong> at separating classes than it actually is.</p>
+<ul>
+<li>Hence we need to <em>push predicted probabilities toward the centre</em>.</li>
+</ul>
+</dd>
+</dl>
+<p>A classifier can be overconfident for one class and underconfident for the other, in which case all predicted probabilities need to be increased or decreased.</p>
+<section id="underconfidence-example" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="underconfidence-example"><span class="header-section-number">5.3.1</span> Underconfidence example</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:70%;">
+<ul>
+<li>Underconfidence typically gives distortions.</li>
+<li>To calibrate these means to .</li>
+</ul>
+</div><div class="column" style="width:30%;">
+<p><img src="images/Underconfidence.png" class="img-fluid"></p>
+<p>Source: <span class="citation" data-cites="niculescu-mizil2005">(<a href="#ref-niculescu-mizil2005" role="doc-biblioref">Niculescu-Mizil and Caruana 2005</a>)</span></p>
+</div>
+</div>
+</section>
+<section id="overconfidence-example" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="overconfidence-example"><span class="header-section-number">5.3.2</span> Overconfidence example</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:70%;">
+<ul>
+<li>Overconfidence is very common, and usually a consequence of over-counting evidence. %\(e.g.&nbsp;naive Bayes, some forms of boosting).</li>
+<li>Here, distortions are </li>
+<li>Calibrating these means to .</li>
+</ul>
+</div><div class="column" style="width:30%;">
+<p><img src="images/Overconfidence.png" class="img-fluid"></p>
+<p>Source: <span class="citation" data-cites="niculescu-mizil2005">(<a href="#ref-niculescu-mizil2005" role="doc-biblioref">Niculescu-Mizil and Caruana 2005</a>)</span></p>
+</div>
+</div>
+</section>
+<section id="why-fitting-the-distortions-helps-with-calibration" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="why-fitting-the-distortions-helps-with-calibration"><span class="header-section-number">5.3.3</span> Why fitting the distortions helps with calibration</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:50%;">
+<p>In clockwise direction, the dotted arrows show:</p>
+<ol type="1">
+<li>using a point’s uncalibrated score on the <span class="math inline">\(x\)</span>-axis as input to the calibration map,</li>
+<li>mapping the resulting output back to the diagonal, and</li>
+<li>combine with the empirical probability of the point we started from.</li>
+</ol>
+<p>The closer the original point is to the fitted calibration map, the closer the calibrated point (in red) will be to the diagonal.</p>
+</div><div class="column" style="width:50%;">
+<p><img src="images/caruana_fig_3.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="a-first-look-at-some-calibration-techniques" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="a-first-look-at-some-calibration-techniques"><span class="header-section-number">5.4</span> A first look at some calibration techniques</h2>
+<ul>
+<li><strong>Parametric</strong> calibration involves modelling the score distributions within each class. \
+<ul>
+<li><strong>Platt scaling</strong> = Logistic calibration can be derived by assuming that the scores within both classes are normally distributed with the same variance <span class="citation" data-cites="platt2000">(<a href="#ref-platt2000" role="doc-biblioref">Platt 2000</a>)</span>.</li>
+<li><strong>Beta calibration</strong> employs Beta distributions instead, to deal with scores already on a <span class="math inline">\([0,1]\)</span> scale <span class="citation" data-cites="kull2017">(<a href="#ref-kull2017" role="doc-biblioref">Kull, Silva Filho, and Flach 2017</a>})</span>.</li>
+<li><strong>Dirichlet calibration</strong> for more than two classes <span class="citation" data-cites="kull2019">(<a href="#ref-kull2019" role="doc-biblioref">Kull et al. 2019</a>)</span>.</li>
+</ul></li>
+<li><strong>Non-parametric</strong> calibration often ignores scores and employs ranks instead. \
+<ul>
+<li>E.g., <strong>isotonic regression</strong> = pool adjacent violators = ROC convex hull <span class="citation" data-cites="zadrozny2001">(<a href="#ref-zadrozny2001" role="doc-biblioref">Zadrozny and Elkan 2001</a>)</span> <span class="citation" data-cites="fawcett2007">(<a href="#ref-fawcett2007" role="doc-biblioref">Fawcett and Niculescu-Mizil 2007</a>)</span>.</li>
+</ul></li>
+</ul>
+<section id="platt-scaling" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="platt-scaling"><span class="header-section-number">5.4.1</span> Platt scaling</h3>
+<p><img src="images/Logistic.png" class="img-fluid"></p>
+<p><span class="math display">\[\begin{align*}
+    p(s; w, m) &amp;= \frac{1}{1+\exp(-w(s-m))}\\
+    w &amp;= (\mu_{\textit{pos}}-\mu_{\textit{neg}})/\sigma^2,
+    m = (\mu_{\textit{pos}}+\mu_{\textit{neg}})/2
+\end{align*}\]</span></p>
+</section>
+<section id="beta-calibration" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="beta-calibration"><span class="header-section-number">5.4.2</span> Beta calibration</h3>
+<p><img src="images/Beta.png" class="img-fluid"></p>
+<p><span class="math display">\[\begin{align*}
+  p(s; a, b, c) &amp;= \frac{1}{1+\exp(-a \ln s - b \ln (1-s) - c)} \\
+  a &amp;= \alpha_{\textit{pos}}-\alpha_{\textit{neg}},
+  b = \beta_{\textit{neg}}-\beta_{\textit{pos}}
+\end{align*}\]</span></p>
+</section>
+<section id="isotonic-regression" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="isotonic-regression"><span class="header-section-number">5.4.3</span> Isotonic regression</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:40%;">
+<p><img src="images/ROCCH.png" class="img-fluid"></p>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:47%;">
+<p><img src="images/ROCcal2.png" class="img-fluid"></p>
+<p>Source: <em>flach2016roc</em></p>
+</div>
+</div>
+</section>
+</section>
+<section id="calibrating-multi-class-classifiers" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="calibrating-multi-class-classifiers"><span class="header-section-number">5.5</span> Calibrating multi-class classifiers</h2>
+<section id="whats-so-special-about-multi-class-calibration" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="whats-so-special-about-multi-class-calibration"><span class="header-section-number">5.5.1</span> What’s so special about multi-class calibration?</h3>
+<p>Similar to classification, some methods are inherently multi-class but most are not.</p>
+<p>This leads to (at least) three different ways of <strong>defining</strong> what it means to be fully multiclass-calibrated. - Many recent papers use the (weak) notion of confidence calibration.</p>
+<p><strong>Evaluating</strong> multi-class calibration is in its full generality still an open problem.</p>
+</section>
+<section id="definitions-of-calibration-for-more-than-two-classes" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="definitions-of-calibration-for-more-than-two-classes"><span class="header-section-number">5.5.2</span> Definitions of calibration for more than two classes</h3>
+<p>The following definitions of calibration are equivalent for binary classification but increasingly stronger for more than two classes:</p>
+<ul>
+<li><strong>Confidence calibration:</strong> only consider the highest predicted probability.</li>
+<li><strong>Class-wise calibration:</strong> only consider marginal probabilities.</li>
+<li><strong>Multi-class calibration:</strong> consider the entire vector of predicted probabilities.</li>
+</ul>
+</section>
+<section id="confidence-calibration" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="confidence-calibration"><span class="header-section-number">5.5.3</span> Confidence calibration</h3>
+<p>This was proposed by <span class="citation" data-cites="guo2017">Guo et al. (<a href="#ref-guo2017" role="doc-biblioref">2017</a>)</span>, requiring that among all instances where the probability of <strong>the most likely class</strong> is predicted to be <span class="math inline">\(c\)</span>, the expected accuracy is <span class="math inline">\(c\)</span>. (We call this `confidence calibration’ to distinguish it from the stronger notions of calibration.)</p>
+<p>Formally, a probabilistic classifier <span class="math inline">\(\hat{\mathbf{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>confidence-calibrated</strong>, if for any confidence level <span class="math inline">\(c\in[0,1]\)</span>, the actual proportion of the predicted class, among all possible instances <span class="math inline">\(\mathbf{x}\)</span> being predicted this class with confidence <span class="math inline">\(c\)</span>, is equal to <span class="math inline">\(c\)</span>:</p>
+<p><span class="math display">\[\begin{align*}
+P(Y=i \: | \: \hat{p}_i(\mathbf{x})=c)=c\qquad\text{where }\ i=\mathop{\mathrm{argmax}}_j \hat{p}_j(\mathbf{x}).
+%P\Big(Y=\argmax\big(\vph(X)\big) \: \Big| \: \max\big(\vph(X)\big)=c\Big)=c.
+\end{align*}\]</span></p>
+</section>
+<section id="class-wise-calibration" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="class-wise-calibration"><span class="header-section-number">5.5.4</span> Class-wise calibration}{</h3>
+<p>Originally proposed by <span class="citation" data-cites="zadrozny2002">Zadrozny and Elkan (<a href="#ref-zadrozny2002" role="doc-biblioref">2002</a>)</span>, this requires that all <strong>one-vs-rest</strong> probability estimators obtained from the original multiclass model are calibrated.</p>
+<p>Formally, a probabilistic classifier <span class="math inline">\(\hat{\mathbf{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>classwise-calibrated</strong>, if for any class <span class="math inline">\(i\)</span> and any predicted probability <span class="math inline">\(q_i\)</span> for this class, the actual proportion of class <span class="math inline">\(i\)</span>, among all possible instances <span class="math inline">\(\mathbf{x}\)</span> getting the same prediction <span class="math inline">\(\hat{p}_i(\mathbf{x})=q_i\)</span>, is equal to <span class="math inline">\(q_i\)</span>:</p>
+<p><span class="math display">\[\begin{align*}
+P(Y=i\mid \hat{p}_i(\mathbf{x})=q_i)=q_i\qquad\text{for }\ i=1,\dots,k.
+\end{align*}\]</span></p>
+</section>
+<section id="multi-class-calibration" class="level3" data-number="5.5.5">
+<h3 data-number="5.5.5" class="anchored" data-anchor-id="multi-class-calibration"><span class="header-section-number">5.5.5</span> Multi-class calibration</h3>
+<p>This is the <strong>strongest form of calibration</strong> for multiple classes, subsuming the previous two definitions.</p>
+<p>A probabilistic classifier <span class="math inline">\(\hat{\mathbf{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>multiclass-calibrated</strong> if for any prediction vector <span class="math inline">\(\mathbf{q}=(q_1,\dots,q_k)\in\Delta_{k}\)</span>, the proportions of classes among all possible instances <span class="math inline">\(\mathbf{x}\)</span> getting the same prediction <span class="math inline">\(\hat{\mathbf{p}}(\mathbf{x})=\mathbf{q}\)</span> are equal to the prediction vector <span class="math inline">\(\mathbf{q}\)</span>:<br>
+<span class="math display">\[\begin{align*} %\label{eq:calib}
+P(Y=i\mid \hat{\mathbf{p}}(\mathbf{x})=\mathbf{q})=q_i\qquad\text{for }\ i=1,\dots,k.
+\end{align*}\]</span></p>
+</section>
+<section id="reminder-binning-needed" class="level3" data-number="5.5.6">
+<h3 data-number="5.5.6" class="anchored" data-anchor-id="reminder-binning-needed"><span class="header-section-number">5.5.6</span> Reminder: binning needed</h3>
+<p>For practical purposes, the conditions in these definitions need to be relaxed. This is where <strong>binning</strong> comes in.</p>
+<p>Once we have the bins, we can draw a <strong>reliability diagram</strong> as in the two-class case. For class-wise calibration, we can show per-class reliability diagrams or a single averaged one.</p>
+<p>The degree of calibration is assessed using the <strong>gaps</strong> in the reliability diagram. All of this will be elaborated in the next part of the tutorial.</p>
+</section>
+<section id="important-points-to-remember" class="level3" data-number="5.5.7">
+<h3 data-number="5.5.7" class="anchored" data-anchor-id="important-points-to-remember"><span class="header-section-number">5.5.7</span> Important points to remember</h3>
+<ul>
+<li><strong>Only well-calibrated probability estimates are worthy to be called probabilities:</strong> otherwise they are just scores that happen to be in the <span class="math inline">\([0,1]\)</span> range.</li>
+<li><strong>Binning will be required in some form:</strong> instance-based probability evaluation metrics such as Brier score or log-loss always measure calibration <strong>plus something else</strong>.</li>
+<li><strong>In multi-class settings, think carefully about which form of calibration you need:</strong> e.g., confidence-calibration is too weak in a cost-sensitive setting.</li>
+</ul>
+</section>
+</section>
+<section id="references" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="references"><span class="header-section-number">5.6</span> References</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-brier1950" class="csl-entry" role="doc-biblioentry">
 Brier, Glenn W. 1950. <span>“<span class="nocase">Verification of forecasts expressed in terms of probabilities</span>.”</span> <em>Monthly Weather Review</em> 78 (1): 1–3.
 </div>
+<div id="ref-fawcett2007" class="csl-entry" role="doc-biblioentry">
+Fawcett, Tom, and Alexandru Niculescu-Mizil. 2007. <span>“<span class="nocase">PAV and the ROC convex hull</span>.”</span> <em>Machine Learning</em> 68 (1): 97–106.
 </div>
-</section>
+<div id="ref-guo2017" class="csl-entry" role="doc-biblioentry">
+Guo, Chuan, Geoff Pleiss, Yu Sun, and Kilian Q Weinberger. 2017. <span>“<span class="nocase">On Calibration of Modern Neural Networks</span>.”</span> In <em>34th International Conference on Machine Learning</em>, 1321–30.
+</div>
+<div id="ref-kull2019" class="csl-entry" role="doc-biblioentry">
+Kull, Meelis, Miquel Perello-Nieto, Markus Kängsepp, Telmo Silva Filho, Hao Song, and Peter Flach. 2019. <span>“<span class="nocase">Beyond temperature scaling: Obtaining well-calibrated multiclass probabilities with Dirichlet calibration</span>.”</span> In <em>Advances in Neural Information Processing Systems (NIPS’19)</em>, 12316–26.
+</div>
+<div id="ref-kull2017" class="csl-entry" role="doc-biblioentry">
+Kull, Meelis, Telmo M. Silva Filho, and Peter Flach. 2017. <span>“<span class="nocase">Beyond Sigmoids: How to obtain well-calibrated probabilities from binary classifiers with beta calibration</span>.”</span> <em>Electronic Journal of Statistics</em> 11 (2): 5052–80.
+</div>
+<div id="ref-niculescu-mizil2005" class="csl-entry" role="doc-biblioentry">
+Niculescu-Mizil, Alexandru, and Rich Caruana. 2005. <span>“<span class="nocase">Predicting good probabilities with supervised learning</span>.”</span> In <em>22nd International Conference on Machine Learning (ICML’05)</em>, 625–32. ACM Press.
+</div>
+<div id="ref-platt2000" class="csl-entry" role="doc-biblioentry">
+Platt, JC. 2000. <span>“<span class="nocase">Probabilities for SV Machines</span>.”</span> In <em>Advances in Large-Margin Classifiers</em>, edited by Alexander J. Smola, Peter Bartlett, Bernhard Schölkopf, and Dale Schuurmans, 61—–74. MIT Press.
+</div>
+<div id="ref-zadrozny2001" class="csl-entry" role="doc-biblioentry">
+Zadrozny, Bianca, and Charles Elkan. 2001. <span>“<span class="nocase">Obtaining calibrated probability estimates from decision trees and naive Bayesian classifiers</span>.”</span> In <em>18th International Conference on Machine Learning (ICML’01)</em>, 609—–616.
+</div>
+<div id="ref-zadrozny2002" class="csl-entry" role="doc-biblioentry">
+———. 2002. <span>“<span class="nocase">Transforming Classifier Scores into Accurate Multiclass Probability Estimates</span>.”</span> In <em>8th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining - KDD ’02</em>, 694—–699. ACM Press.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
