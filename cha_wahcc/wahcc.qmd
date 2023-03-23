@@ -1,5 +1,5 @@
 ---
-title: Why and How Classifier Calibration?
+title: Classifier Calibration, Why and How?
 author: 
   - name: Peter Flach
     orcid: 0000-0001-6857-5810
@@ -23,65 +23,13 @@ author:
         equal-contributor: False
 ---
 
-$$
-\usepackage{amsmath}
+{{< include definitions.tex >}}
 
-\renewcommand{\vph}{\hat{\mathbf{p}}}
-\newcommand{\va}{\mathbf{a}}
-\newcommand{\vb}{\mathbf{b}}
-\newcommand{\vc}{\mathbf{c}}
-\newcommand{\vp}{\mathbf{p}}
-\newcommand{\vq}{\mathbf{q}}
-\newcommand{\vs}{\mathbf{s}}
-\newcommand{\vu}{\mathbf{u}}
-\newcommand{\vv}{\mathbf{v}}
-\newcommand{\vw}{\mathbf{w}}
-\newcommand{\vx}{\mathbf{x}}
-\newcommand{\vz}{\mathbf{z}}
-\newcommand{\vX}{\mathbf{X}}
-\newcommand{\MI}{\mathbf{I}}
-\newcommand{\vzero}{\mathbf{0}}
-\newcommand{\valpha}{\boldsymbol{\alpha}}
-\newcommand{\vmu}{\boldsymbol{\mu}}
-\newcommand{\vmuh}{\hat{\boldsymbol{\mu}}}
-\newcommand{\vpi}{\boldsymbol{\pi}}
-\newcommand{\softmax}{\boldsymbol{\sigma}}
-\newcommand{\logistic}{\sigma_1}
-\newcommand{\vln}{\mathbf{ln}}
-\newcommand{\vexp}{\mathbf{exp}}
-\newcommand{\Dir}{\mathsf{Dir}}
-\newcommand{\sR}{\mathbb{R}}
-\newcommand{\ODIR}{ODIR}
-
-\newcommand{\eE}{\mathbb{E}}
-
-\DeclareMathOperator*{\argmin}{argmin}
-\DeclareMathOperator*{\argmax}{argmax}
-
-\newcommand{\ph}{\hat{p}}
-\newcommand{\vph}{\mathbf{\hat{p}}}
-\newcommand{\yh}{\hat{y}}
-\newcommand{\vsh}{\mathbf{\hat{s}}}
-\newcommand{\sh}{\hat{s}}
-\newcommand{\Ph}{\hat{P}}
-\newcommand{\vPh}{\mathbf{\hat{P}}}
-\newcommand{\qh}{\hat{q}}
-\newcommand{\vqh}{\mathbf{\hat{q}}}
-\newcommand{\muh}{\hat{\mu}}
-\newcommand{\vy}{\mathbf{y}}
-\newcommand{\Mph}{\mathbf{\hat{P}}}
-\newcommand{\My}{\mathbf{Y}}
-\newcommand{\MD}{\mathbf{D}}
-\newcommand{\MW}{\mathbf{W}}
-\newcommand{\MA}{\mathbf{A}}
-\newcommand{\Mp}{\mathbf{P}}
-
-\newcommand{\TO}[1]{{\color{red}[TO \uppercase{#1}]}}
-\newcommand{\TODO}{\TO{DO}}
-\newcommand{\Sk}{\Delta_{k}}
-\newcommand{\sX}{\mathcal{X}}
-\newtheorem{proposition}{Proposition}
-$$
+<iframe allowfullscreen
+src="https://media.upv.es/player/embed.html?id=003597b0-bf29-11ed-83a4-bf04f88f22c5"
+style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
+frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
 
 ## Taking inspiration from forecasting
 
@@ -94,7 +42,13 @@ $$
 - In general: 
     - A predicted probability (vector) should match empirical (observed) probabilities.
 
-**Q:** What does `X% of the time` mean?
+
+::: {.callout-note collapse="true"}
+## **Q:** What does `X% of the time` mean?
+
+It means that we expect the occurrence of an event to happen "X%" of the time.
+:::
+
 
 
 ### Forecasting example
@@ -106,7 +60,13 @@ Let's consider a small toy example:
 - Three predictions of `70% chance of rain` were once followed by `no rain`, and twice by `rain`.
 - One prediction of `90% chance of rain` was followed by `rain`.
 
-**Q:** Is this forecaster well-calibrated?
+::: {.callout-note collapse="true"}
+## **Q:** Is this forecaster well-calibrated?
+
+The evaluation of calibration requires a large number of samples to make a
+statement. However, in this toy example we can assume that a $10\%$ discrepancy
+is acceptable, and that the number of samples is sufficient.
+:::
 
 ### Over- and under-estimates
 
@@ -384,7 +344,207 @@ But adjusting forecasts in groups also gives rise to practical calibration **met
 - empirical binning
 - isotonic regression (aka ROC convex hull)
 
+### Questions and Answers
+
+::: {.callout-tip} 
+# Question 1
+
+A binary classifier for weather predictions produces a score of 0.1 for rain
+two times but it does not rain,  two times 0.4 and it rains only once, five
+times 0.6 and it rains 80% of the times and one time 0.9 and it rains. Does the
+following reliability diagram show that information?
+:::
+
+```{python}
+#| label: fig-q-1
+#| fig-cap: "Reliability diagram"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from pycalib.visualisations import plot_reliability_diagram
+
+labels = np.array([0,   0,  0,  1,  0,  1,  1,  1,  1,  1])
+scores = np.array([.1, .1, .4, .4, .6, .6, .6, .6, .6, .9])
+fig = plt.figure(figsize=(5, 3))
+fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
+                               class_names=['not 1', 'rain'], bins=4,
+                               fig=fig,
+                               hist_per_class=False,
+                               show_bars=True,
+                               show_gaps=True)
+```
+
+::: {.callout-caution collapse="true"}
+# Yes
+
+**Correct**. You can see that there is one bin per predicted score $0.1, 0.4, 0.6$
+and $0.9$. Each bin contains the number of scores indicated in the smaller
+histogram below with 2, 2, 5 and 1 samples respectively. Finally, the height of
+each bin corresponds to the fraction of rains indicated in the question 0%, 50%,
+80% and 100%.
+:::
+
+::: {.callout-caution collapse="true"}
+# No
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-tip} 
+# Question 2
+
+A binary classifier for weather predictions produces a score of 0.1 for rain
+two times and it rains once, three times 0.4 and it rains two times, four times
+0.6 and it rains once and one time 0.9 and it rains. Does the following
+reliability diagram show that information?
+:::
+
+```{python}
+#| label: fig-q-2
+#| fig-cap: "Reliability diagram"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+labels = np.array([0,   1,  0,  1,  1,  0,  0,  0,  1,  1])
+scores = np.array([.1, .1, .4, .4, .4, .6, .6, .6, .6, .9])
+fig = plt.figure(figsize=(5, 3))
+fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
+                               class_names=['not 1', 'rain'], bins=4,
+                               fig=fig,
+                               hist_per_class=False,
+                               show_bars=False,
+                               show_gaps=True)
+```
+
+::: {.callout-caution collapse="true"}
+# Yes
+
+**Correct**. You can see that there is one bin per predicted score $0.1, 0.4, 0.6$
+and $0.9$. Each bin contains the number of scores indicated in the smaller
+histogram below with 2, 3, 4 and 1 samples respectively. Finally, the height of
+each bin corresponds to the fraction of rains indicated in the question 50%,
+66.6%, 25% and 100%.
+:::
+
+::: {.callout-caution collapse="true"}
+# No
+
+**Incorrect**. Try another answer.
+:::
+
+
+::: {.callout-tip} 
+# Question 3
+
+Do we need multiple instances in each bin in order to visualise a
+reliability diagram?
+:::
+
+::: {.callout-caution collapse="true"}
+# Yes
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# No
+
+**Correct**. It is not necessary to have multiple instances in each bin for
+visualisation purposes. However, the lack of information does not allow us to
+know if the model is calibrated for those scores.
+:::
+
+::: {.callout-tip} 
+# Question 4
+
+The following figure shows the reliability diagram of a binary classifier on
+enough samples to be statistically significant. Is the model calibrated,
+producing under-estimates or over-estimates?
+:::
+
+```{python}
+#| label: fig-q-4
+#| fig-cap: "Reliability diagram"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+import numpy as np
+
+from pycalib.visualisations import plot_reliability_diagram_precomputed
+
+scores = np.array([0, .1, .3, .6, .8, 1]).reshape(-1, 1)
+empirical = np.array([.1, .2, .5, .7, .9, 1]).reshape(-1, 1)
+fig = plt.figure(figsize=(5, 4))
+fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
+                               class_names=['rain'],
+                               fig=fig, show_gaps=True)
+```
+
+::: {.callout-caution collapse="true"}
+# Over-estimates
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# Under-estimates
+
+**Correct**. For each predicted score the actual fraction of positives is
+higher.
+:::
+
+
+::: {.callout-tip} 
+# Question 5
+
+The following figure shows the reliability diagram of a binary classifier on
+enough samples to be statistically significant. Is the model calibrated,
+producing under-estimates or over-estimates?
+:::
+
+```{python}
+#| label: fig-q-5
+#| fig-cap: "Reliability diagram"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+import numpy as np
+
+from pycalib.visualisations import plot_reliability_diagram_precomputed
+
+scores = np.array([0, .1, .3, .5, .7, .8, .9, 1]).reshape(-1, 1)
+empirical = np.array([0, .05, .1, .3, .33, .6, .8, 1]).reshape(-1, 1)
+fig = plt.figure(figsize=(5, 4))
+fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
+                               class_names=['rain'],
+                               fig=fig, show_gaps=True)
+```
+
+::: {.callout-caution collapse="true"}
+# Over-estimates
+
+**Correct**. For each predicted score the actual fraction of positives is
+lower.
+:::
+
+::: {.callout-caution collapse="true"}
+# Under-estimates
+
+**Incorrect**. Try another answer.
+:::
+
+
+
 ## Why are we interested in calibration?
+
+<iframe allowfullscreen
+src="https://media.upv.es/player/embed.html?id=2a1113c0-bf29-11ed-83a4-bf04f88f22c5"
+style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
+frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
 
 To calibrate means **to employ a known scale with known properties**. 
 
@@ -396,15 +556,75 @@ For classifiers we want to use the probability scale, so that we can
 - adjust these decision rules in a straightforward way to account for different class priors or misclassification costs;
 - combine probability estimates in a well-founded way.
 
-**Q:** Is the probability scale additive?
+::: {.callout-note collapse="true"}
+## Q: Is the probability scale additive?
 
-**Q:** How would you combine probability estimates from several well-calibrated models? 
+In some situations we may want to sum probabilities, for example if we have a
+set of mutually exclusive events, the probability of at least one of them
+happening can be computed by their sum. In other situations the product of
+probabilities is used, e.g. the probability of two independent events happening
+at the same time.
+:::
+
+::: {.callout-note collapse="true"}
+## **Q:** How would you combine probability estimates from several well-calibrated models? 
+
+Check some online information e.g.
+[When pooling forecasts, use the geometric mean of odds](https://forum.effectivealtruism.org/posts/sMjcjnnpoAQCcedL2/when-pooling-forecasts-use-the-geometric-mean-of-odds#:~:text=Whereas%20the%20arithmetic%20mean%20adds,(1%E2%88%92p).%5B)
+
+And the following code shows some examples.
+:::
+
+```{python}
+#| label: tbl-prob-mean
+#| tbl-cap: Example of probability means
+#| code-fold: true
+#| code-summary: "Show the code"
+import numpy as np
+from tabulate import tabulate
+from IPython.display import Markdown
+
+def mean(p):
+    '''Arithmetic mean'''
+    p = np.array(p)
+    return np.sum(p)/(len(p))
+
+def gmean(p):
+    '''Geometric mean'''
+    p = np.array(p)
+    o = np.power(np.prod(p/(1-p)), 1/len(p))
+    return o/(1+o)
+
+def hmean(p):
+    '''Harmonic mean'''
+    p = np.array(p)
+    return len(p)/np.sum(1/p)
+
+example_list = [[.1, .1], [.5, .5], [.1, .9],
+                [.1, .1, .9], [.1, .1, .99], [.1, .1, .999]]
+
+functions = {'Arithmetic mean': mean,
+             'Geometric mean': gmean,
+             'Harmonic mean': hmean}
+
+table = []
+
+for example in example_list:
+    table.append([np.array2string(np.array(example))])
+    table[-1].extend([f'{f(example):.2f}' for f in functions.values()])
+
+
+headers = ['Probabilities']
+headers.extend(list(functions.keys()))
+
+Markdown(tabulate(table, headers=headers))
+```
+
 
 
 ### Optimal decisions
 
 Denote the cost of predicting class $j$ for an instance of true class $i$ as $C(\hat{Y}=j|Y=i)$. 
-% Since we don't know the true class of an unlabelled instance, we need to base our prediction on an assessment of the expected cost over all possible true classes. 
 The expected cost of predicting class $j$ for instance $x$ is
 
 $$
@@ -452,7 +672,129 @@ Similar reasoning applies to changes in class priors:
 Cost and class prior changes can be combined in the obvious way.
 
 
+### Questions and Answers
+
+::: {.callout-tip}
+# Question
+
+Is it possible to compute optimal risks given a cost matrix and a probabilistic
+classifier that is not calibrated?
+:::
+
+::: {.callout-caution collapse="true"}
+# Yes
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# No
+
+**Correct**. 
+:::
+
+
+::: {.callout-tip}
+# Question
+
+Given a calibrated probabilistic classifier, is it optimal to select the
+class with the highest predicted probability?
+:::
+
+::: {.callout-caution collapse="true"}
+# Yes
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# No
+
+**Correct**. 
+:::
+
+
+::: {.callout-tip}
+# Question
+
+If we have the following cost matrix, and a model outputs 0.6 probability for
+class 1. What would be the expected cost of predicting class 2?
+:::
+
+```{python}
+#| label: tbl-q-cm
+#| tbl-cap: Example of a cost matrix
+#| code-fold: true
+#| code-summary: "Show the code"
+import numpy as np
+from tabulate import tabulate
+from IPython.display import Markdown
+
+cost_matrix = [[-1,  2],
+               [ 4, -2]]
+
+table = [['Predicted Class 1'],
+         ['Predicted Class 2']]
+
+for i, c in enumerate(cost_matrix):
+    table[i].extend(c)
+
+headers = ['True Class 1', 'True Class 2']
+
+Markdown(tabulate(table, headers=headers))
+```
+
+::: {.callout-caution collapse="true"}
+# 0.4
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# -0.4
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# 1.6
+
+**Correct**. $4*0.6 - 2*0.4$
+:::
+
+
+::: {.callout-tip}
+# Question
+
+What would be the expected cost of predicting class 1?
+:::
+
+::: {.callout-caution collapse="true"}
+# 0.4
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# -0.4
+
+**Correct**. $-1*0.6 + 2*0.4$
+:::
+
+::: {.callout-caution collapse="true"}
+# 1.6
+
+**Incorrect**. Try another answer.
+:::
+
+
 ## Common sources of miscalibration
+
+<iframe allowfullscreen
+src="https://media.upv.es/player/embed.html?id=543b2f90-bf2a-11ed-b716-77ee466eb043"
+style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
+frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
 
 Underconfidence:
 
@@ -537,8 +879,146 @@ The closer the original point is to the fitted calibration map, the closer the c
 :::
 ::::
 
+### Questions and Answers
+
+::: {.callout-tip}
+# Question
+
+The following figures show the reliability diagram of several binary
+classifiers. Assuming that there are enough samples on each bin, indicate if
+the model seems calibrated, over-confident or under-confident.
+:::
+
+```{python}
+#| fig-cap: "Reliability diagram"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+import numpy as np
+from pycalib.visualisations import plot_reliability_diagram_precomputed
+
+scores =    np.array([0., .1, .3, .4, .7, .9, 1.]).reshape(-1, 1)
+empirical = np.array([.1, .2, .4, .5, .6, .8, .9]).reshape(-1, 1)
+fig = plt.figure(figsize=(5, 4))
+fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
+                               class_names=['rain'],
+                               fig=fig, show_gaps=True)
+```
+
+::: {.callout-caution collapse="true"}
+# Calibrated.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# Over-confident.
+
+**Correct**.
+:::
+
+::: {.callout-caution collapse="true"}
+# Under-confident.
+
+**Incorrect**. Try another answer.
+:::
+
+```{python}
+#| fig-cap: "Reliability diagram"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+import numpy as np
+from pycalib.visualisations import plot_reliability_diagram_precomputed
+
+scores = np.array([0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1]).reshape(-1, 1)
+empirical = scores
+fig = plt.figure(figsize=(5, 4))
+fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
+                               class_names=['rain'],
+                               fig=fig, show_gaps=True)
+```
+
+::: {.callout-caution collapse="true"}
+# Calibrated.
+
+**Correct**.
+:::
+
+::: {.callout-caution collapse="true"}
+# Over-confident.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# Under-confident.
+
+**Incorrect**. Try another answer.
+:::
+
+```{python}
+#| fig-cap: "Reliability diagram"
+#| code-fold: true
+#| code-summary: "Show the code"
+
+import numpy as np
+from pycalib.visualisations import plot_reliability_diagram_precomputed
+
+scores =    np.array([.1, .3, .5, .6, .8, .9]).reshape(-1, 1)
+empirical = np.array([0., .2, .5, .7, .9, 1.]).reshape(-1, 1)
+fig = plt.figure(figsize=(5, 4))
+fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
+                               class_names=['rain'],
+                               fig=fig, show_gaps=True)
+```
+
+::: {.callout-caution collapse="true"}
+# Calibrated.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# Over-confident.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# Under-confident.
+
+**Correct**.
+:::
+
+::: {.callout-tip}
+# Question
+
+Can a binary classifier show a calibrated reliability diagram with a number of
+equally distributed bins, and a non-calibrated one with a higher number of
+equally distributed bins?
+:::
+
+::: {.callout-caution collapse="true"}
+# Yes.
+
+**Correct**.
+:::
+
+::: {.callout-caution collapse="true"}
+# No.
+
+**Incorrect**. Try another answer.
+:::
+
 
 ## A first look at some calibration techniques
+
+<iframe allowfullscreen
+src="https://media.upv.es/player/embed.html?id=6f5e0e00-bf2a-11ed-b716-77ee466eb043"
+style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
+frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
 
 - **Parametric** calibration involves modelling the score distributions within each class. \\
   - **Platt scaling** = Logistic calibration can be derived by assuming that the scores within both classes are normally distributed with the same variance [@platt2000].
@@ -587,7 +1067,82 @@ Source: _flach2016roc_
 :::
 ::::
 
+
+::: {.callout-tip}
+# Question
+
+Can a binary classifier show a calibrated reliability diagram with a number of
+equally distributed bins, and a non-calibrated one with a higher number of
+equally distributed bins?
+:::
+
+::: {.callout-caution collapse="true"}
+# What is a calibration map?
+
+It is a mapping between the scores to be calibrated and the objective
+probabilities.
+:::
+
+::: {.callout-tip}
+# Can Platt scaling calibrate models that are overconfident?
+:::
+
+::: {.callout-caution collapse="true"}
+# Yes.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# No.
+
+**Correct**. Platt scaling can only generate S shaped calibration maps, which
+can only calibrate under-confident scores.
+:::
+
+::: {.callout-tip}
+# Is isotonic regression a parametric method?
+:::
+
+::: {.callout-caution collapse="true"}
+# Yes.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# No.
+
+**Correct**.
+:::
+
+::: {.callout-tip}
+# Can Platt scaling learn an identity function if the model is already calibrated?
+:::
+
+::: {.callout-caution collapse="true"}
+# Yes.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# No.
+
+**Correct**. Platt scaling can only learn S shaped functions, and the identity
+function requires a straight line.
+:::
+
+
+
 ## Calibrating multi-class classifiers
+
+
+<iframe allowfullscreen
+src="https://media.upv.es/player/embed.html?id=8f343b50-bf2a-11ed-83a4-bf04f88f22c5"
+style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
+frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
 
 
 ### What's so special about multi-class calibration?
@@ -674,5 +1229,86 @@ All of this will be elaborated in the next part of the tutorial.
     log-loss always measure calibration **plus something else**.
 - **In multi-class settings, think carefully about which form of calibration you need:**
     e.g., confidence-calibration is too weak in a cost-sensitive setting.
+
+
+### Questions and Answers
+
+::: {.callout-tip}
+# Can we interpret the output of any model that produces values between zero and
+one as probabilities?
+:::
+
+::: {.callout-caution collapse="true"}
+# Yes.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# No.
+
+**Correct**. Some models have been trained to generate values in any arbitrary
+range, but this does not mean that the model is predicting actual
+probabilities.
+:::
+
+::: {.callout-tip}
+# Question
+
+Is there only one way to measure calibration for multiclass probability scores.
+:::
+
+::: {.callout-caution collapse="true"}
+# Yes.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# No.
+
+**Correct**. There are multiple measures of calibration.
+:::
+
+::: {.callout-tip}
+# Question
+
+Can we perform optimal decisions in a multiclass setting by knowing the highest
+probability among the classes and the misclassification costs?
+:::
+
+::: {.callout-caution collapse="true"}
+# Yes.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# No.
+
+**Correct**. We need the probabilities of every class in order to make an optimal decision.
+:::
+
+
+::: {.callout-tip}
+# Question
+
+If the data distribution, operating conditions and the missclassification
+costs do not change from training to test set, and a model makes optimal
+predictions in the training set. Do we need the exact probabilities in the test
+set to make optimal decisions?
+:::
+
+::: {.callout-caution collapse="true"}
+# Yes.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution collapse="true"}
+# No.
+
+**Correct**.  
+:::
 
 ## References

@@ -2,3 +2,4 @@ matplotlib
 plotly
 jupyter
 pycalib
+tabulate

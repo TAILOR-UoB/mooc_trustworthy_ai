@@ -1,0 +1,8 @@
+/* file: style.css */
+.v-center-container {
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  align-items: center;
+  height: 90%;
+}

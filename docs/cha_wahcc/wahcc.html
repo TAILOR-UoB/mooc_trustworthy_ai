@@ -8,7 +8,7 @@
 
 <meta name="author" content="Miquel Perello Nieto">
 
-<title>Foundations of Trustworthy AI - 5&nbsp; Why and How Classifier Calibration?</title>
+<title>Foundations of Trustworthy AI - 5&nbsp; Classifier Calibration, Why and How?</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -157,7 +157,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Why and How Classifier Calibration?</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration, Why and How?</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -226,7 +226,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cha_wahcc/wahcc.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Why and How Classifier Calibration?</span></a>
+  <a href="../cha_wahcc/wahcc.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration, Why and How?</span></a>
   </div>
 </li>
       </ul>
@@ -274,16 +274,19 @@ div.csl-indent {
   <li><a href="#or-should-we-group-the-forecasts-differently" id="toc-or-should-we-group-the-forecasts-differently" class="nav-link" data-scroll-target="#or-should-we-group-the-forecasts-differently"><span class="toc-section-number">5.1.5</span>  Or should we group the forecasts differently?</a></li>
   <li><a href="#or-not-at-all" id="toc-or-not-at-all" class="nav-link" data-scroll-target="#or-not-at-all"><span class="toc-section-number">5.1.6</span>  Or not at all?</a></li>
   <li><a href="#binning-or-pooling-predictions-is-a-fundamental-notion" id="toc-binning-or-pooling-predictions-is-a-fundamental-notion" class="nav-link" data-scroll-target="#binning-or-pooling-predictions-is-a-fundamental-notion"><span class="toc-section-number">5.1.7</span>  Binning or pooling predictions is a fundamental notion</a></li>
+  <li><a href="#questions-and-answers" id="toc-questions-and-answers" class="nav-link" data-scroll-target="#questions-and-answers"><span class="toc-section-number">5.1.8</span>  Questions and Answers</a></li>
   </ul></li>
   <li><a href="#why-are-we-interested-in-calibration" id="toc-why-are-we-interested-in-calibration" class="nav-link" data-scroll-target="#why-are-we-interested-in-calibration"><span class="toc-section-number">5.2</span>  Why are we interested in calibration?</a>
   <ul class="collapse">
   <li><a href="#optimal-decisions" id="toc-optimal-decisions" class="nav-link" data-scroll-target="#optimal-decisions"><span class="toc-section-number">5.2.1</span>  Optimal decisions</a></li>
+  <li><a href="#questions-and-answers-1" id="toc-questions-and-answers-1" class="nav-link" data-scroll-target="#questions-and-answers-1"><span class="toc-section-number">5.2.2</span>  Questions and Answers</a></li>
   </ul></li>
   <li><a href="#common-sources-of-miscalibration" id="toc-common-sources-of-miscalibration" class="nav-link" data-scroll-target="#common-sources-of-miscalibration"><span class="toc-section-number">5.3</span>  Common sources of miscalibration</a>
   <ul class="collapse">
   <li><a href="#underconfidence-example" id="toc-underconfidence-example" class="nav-link" data-scroll-target="#underconfidence-example"><span class="toc-section-number">5.3.1</span>  Underconfidence example</a></li>
   <li><a href="#overconfidence-example" id="toc-overconfidence-example" class="nav-link" data-scroll-target="#overconfidence-example"><span class="toc-section-number">5.3.2</span>  Overconfidence example</a></li>
   <li><a href="#why-fitting-the-distortions-helps-with-calibration" id="toc-why-fitting-the-distortions-helps-with-calibration" class="nav-link" data-scroll-target="#why-fitting-the-distortions-helps-with-calibration"><span class="toc-section-number">5.3.3</span>  Why fitting the distortions helps with calibration</a></li>
+  <li><a href="#questions-and-answers-2" id="toc-questions-and-answers-2" class="nav-link" data-scroll-target="#questions-and-answers-2"><span class="toc-section-number">5.3.4</span>  Questions and Answers</a></li>
   </ul></li>
   <li><a href="#a-first-look-at-some-calibration-techniques" id="toc-a-first-look-at-some-calibration-techniques" class="nav-link" data-scroll-target="#a-first-look-at-some-calibration-techniques"><span class="toc-section-number">5.4</span>  A first look at some calibration techniques</a>
   <ul class="collapse">
@@ -300,6 +303,7 @@ div.csl-indent {
   <li><a href="#multi-class-calibration" id="toc-multi-class-calibration" class="nav-link" data-scroll-target="#multi-class-calibration"><span class="toc-section-number">5.5.5</span>  Multi-class calibration</a></li>
   <li><a href="#reminder-binning-needed" id="toc-reminder-binning-needed" class="nav-link" data-scroll-target="#reminder-binning-needed"><span class="toc-section-number">5.5.6</span>  Reminder: binning needed</a></li>
   <li><a href="#important-points-to-remember" id="toc-important-points-to-remember" class="nav-link" data-scroll-target="#important-points-to-remember"><span class="toc-section-number">5.5.7</span>  Important points to remember</a></li>
+  <li><a href="#questions-and-answers-3" id="toc-questions-and-answers-3" class="nav-link" data-scroll-target="#questions-and-answers-3"><span class="toc-section-number">5.5.8</span>  Questions and Answers</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">5.6</span>  References</a></li>
   </ul>
@@ -310,7 +314,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Why and How Classifier Calibration?</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration, Why and How?</span></h1>
 </div>
 
 
@@ -346,8 +350,8 @@ div.csl-indent {
 
 </header>
 
-$$
-<p>$$</p>
+<iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=003597b0-bf29-11ed-83a4-bf04f88f22c5" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
 <section id="taking-inspiration-from-forecasting" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="taking-inspiration-from-forecasting"><span class="header-section-number">5.1</span> Taking inspiration from forecasting</h2>
 <ul>
@@ -368,7 +372,22 @@ $$
 <li>A predicted probability (vector) should match empirical (observed) probabilities.</li>
 </ul></li>
 </ul>
-<p><strong>Q:</strong> What does <code>X% of the time</code> mean?</p>
+<div class="callout-note callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong>Q:</strong> What does <code>X% of the time</code> mean?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>It means that we expect the occurrence of an event to happen “X%” of the time.</p>
+</div>
+</div>
+</div>
 <section id="forecasting-example" class="level3" data-number="5.1.1">
 <h3 data-number="5.1.1" class="anchored" data-anchor-id="forecasting-example"><span class="header-section-number">5.1.1</span> Forecasting example</h3>
 <p>Let’s consider a small toy example:</p>
@@ -378,7 +397,22 @@ $$
 <li>Three predictions of <code>70% chance of rain</code> were once followed by <code>no rain</code>, and twice by <code>rain</code>.</li>
 <li>One prediction of <code>90% chance of rain</code> was followed by <code>rain</code>.</li>
 </ul>
-<p><strong>Q:</strong> Is this forecaster well-calibrated?</p>
+<div class="callout-note callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong>Q:</strong> Is this forecaster well-calibrated?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The evaluation of calibration requires a large number of samples to make a statement. However, in this toy example we can assume that a <span class="math inline">\(10\%\)</span> discrepancy is acceptable, and that the number of samples is sufficient.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="over--and-under-estimates" class="level3" data-number="5.1.2">
 <h3 data-number="5.1.2" class="anchored" data-anchor-id="over--and-under-estimates"><span class="header-section-number">5.1.2</span> Over- and under-estimates</h3>
@@ -526,7 +560,7 @@ $$
 <div class="cell-output cell-output-display">
 <div id="fig-rd-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-1-output-1.png" width="439" height="355" class="figure-img"></p>
+<p><img src="wahcc_files/figure-html/fig-rd-1-output-1.png" width="439" height="361" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Figure&nbsp;5.1: Reliability diagram</figcaption><p></p>
 </figure>
 </div>
@@ -610,7 +644,7 @@ $$
 <div class="cell-output cell-output-display">
 <div id="fig-rd-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-2-output-1.png" width="439" height="355" class="figure-img"></p>
+<p><img src="wahcc_files/figure-html/fig-rd-2-output-1.png" width="439" height="361" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Figure&nbsp;5.2: Reliability diagram</figcaption><p></p>
 </figure>
 </div>
@@ -691,7 +725,7 @@ $$
 <div class="cell-output cell-output-display">
 <div id="fig-rd-3" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-3-output-1.png" width="439" height="355" class="figure-img"></p>
+<p><img src="wahcc_files/figure-html/fig-rd-3-output-1.png" width="439" height="361" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Figure&nbsp;5.3: Reliability diagram</figcaption><p></p>
 </figure>
 </div>
@@ -784,7 +818,7 @@ $$
 <div class="cell-output cell-output-display">
 <div id="fig-rd-4" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-4-output-1.png" width="439" height="355" class="figure-img"></p>
+<p><img src="wahcc_files/figure-html/fig-rd-4-output-1.png" width="439" height="361" class="figure-img"></p>
 <p></p><figcaption class="figure-caption">Figure&nbsp;5.4: Reliability diagram</figcaption><p></p>
 </figure>
 </div>
@@ -809,9 +843,334 @@ $$
 <li>isotonic regression (aka ROC convex hull)</li>
 </ul>
 </section>
+<section id="questions-and-answers" class="level3" data-number="5.1.8">
+<h3 data-number="5.1.8" class="anchored" data-anchor-id="questions-and-answers"><span class="header-section-number">5.1.8</span> Questions and Answers</h3>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A binary classifier for weather predictions produces a score of 0.1 for rain two times but it does not rain, two times 0.4 and it rains only once, five times 0.6 and it rains 80% of the times and one time 0.9 and it rains. Does the following reliability diagram show that information?</p>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>,   <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>])</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.4</span>, <span class="fl">.4</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.9</span>])</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                               hist_per_class<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                               show_bars<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                               show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-q-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="wahcc_files/figure-html/fig-q-1-output-1.png" width="439" height="287" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5.5: Reliability diagram</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. You can see that there is one bin per predicted score <span class="math inline">\(0.1, 0.4, 0.6\)</span> and <span class="math inline">\(0.9\)</span>. Each bin contains the number of scores indicated in the smaller histogram below with 2, 2, 5 and 1 samples respectively. Finally, the height of each bin corresponds to the fraction of rains indicated in the question 0%, 50%, 80% and 100%.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A binary classifier for weather predictions produces a score of 0.1 for rain two times and it rains once, three times 0.4 and it rains two times, four times 0.6 and it rains once and one time 0.9 and it rains. Does the following reliability diagram show that information?</p>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>,   <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>])</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.4</span>, <span class="fl">.4</span>, <span class="fl">.4</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.9</span>])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                               hist_per_class<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                               show_bars<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                               show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-q-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="wahcc_files/figure-html/fig-q-2-output-1.png" width="439" height="287" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5.6: Reliability diagram</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. You can see that there is one bin per predicted score <span class="math inline">\(0.1, 0.4, 0.6\)</span> and <span class="math inline">\(0.9\)</span>. Each bin contains the number of scores indicated in the smaller histogram below with 2, 3, 4 and 1 samples respectively. Finally, the height of each bin corresponds to the fraction of rains indicated in the question 50%, 66.6%, 25% and 100%.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do we need multiple instances in each bin in order to visualise a reliability diagram?</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. It is not necessary to have multiple instances in each bin for visualisation purposes. However, the lack of information does not allow us to know if the model is calibrated for those scores.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The following figure shows the reliability diagram of a binary classifier on enough samples to be statistically significant. Is the model calibrated, producing under-estimates or over-estimates?</p>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>empirical <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="fl">.7</span>, <span class="fl">.9</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-q-4" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="wahcc_files/figure-html/fig-q-4-output-1.png" width="439" height="361" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5.7: Reliability diagram</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Over-estimates
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Under-estimates
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. For each predicted score the actual fraction of positives is higher.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The following figure shows the reliability diagram of a binary classifier on enough samples to be statistically significant. Is the model calibrated, producing under-estimates or over-estimates?</p>
+</div>
+</div>
+<div class="cell" data-execution_count="8">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.5</span>, <span class="fl">.7</span>, <span class="fl">.8</span>, <span class="fl">.9</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>empirical <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.05</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.33</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-q-5" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="wahcc_files/figure-html/fig-q-5-output-1.png" width="439" height="361" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5.8: Reliability diagram</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Over-estimates
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. For each predicted score the actual fraction of positives is lower.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Under-estimates
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="why-are-we-interested-in-calibration" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="why-are-we-interested-in-calibration"><span class="header-section-number">5.2</span> Why are we interested in calibration?</h2>
+<iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=2a1113c0-bf29-11ed-83a4-bf04f88f22c5" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
 <p>To calibrate means <strong>to employ a known scale with known properties</strong>.</p>
 <ul>
 <li>E.g., additive scale with a well-defined zero, so that ratios are meaningful.</li>
@@ -822,11 +1181,138 @@ $$
 <li>adjust these decision rules in a straightforward way to account for different class priors or misclassification costs;</li>
 <li>combine probability estimates in a well-founded way.</li>
 </ul>
-<p><strong>Q:</strong> Is the probability scale additive?</p>
-<p><strong>Q:</strong> How would you combine probability estimates from several well-calibrated models?</p>
+<div class="callout-note callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Q: Is the probability scale additive?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In some situations we may want to sum probabilities, for example if we have a set of mutually exclusive events, the probability of at least one of them happening can be computed by their sum. In other situations the product of probabilities is used, e.g.&nbsp;the probability of two independent events happening at the same time.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<strong>Q:</strong> How would you combine probability estimates from several well-calibrated models?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Check some online information e.g. <a href="https://forum.effectivealtruism.org/posts/sMjcjnnpoAQCcedL2/when-pooling-forecasts-use-the-geometric-mean-of-odds#:~:text=Whereas%20the%20arithmetic%20mean%20adds,(1%E2%88%92p).%5B">When pooling forecasts, use the geometric mean of odds</a></p>
+<p>And the following code shows some examples.</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mean(p):</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''Arithmetic mean'''</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> np.array(p)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(p)<span class="op">/</span>(<span class="bu">len</span>(p))</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gmean(p):</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''Geometric mean'''</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> np.array(p)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    o <span class="op">=</span> np.power(np.prod(p<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>p)), <span class="dv">1</span><span class="op">/</span><span class="bu">len</span>(p))</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> o<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span>o)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hmean(p):</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''Harmonic mean'''</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> np.array(p)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">len</span>(p)<span class="op">/</span>np.<span class="bu">sum</span>(<span class="dv">1</span><span class="op">/</span>p)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>example_list <span class="op">=</span> [[<span class="fl">.1</span>, <span class="fl">.1</span>], [<span class="fl">.5</span>, <span class="fl">.5</span>], [<span class="fl">.1</span>, <span class="fl">.9</span>],</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                [<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.9</span>], [<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.99</span>], [<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.999</span>]]</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>functions <span class="op">=</span> {<span class="st">'Arithmetic mean'</span>: mean,</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>             <span class="st">'Geometric mean'</span>: gmean,</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>             <span class="st">'Harmonic mean'</span>: hmean}</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> []</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> example <span class="kw">in</span> example_list:</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    table.append([np.array2string(np.array(example))])</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    table[<span class="op">-</span><span class="dv">1</span>].extend([<span class="ss">f'</span><span class="sc">{</span>f(example)<span class="sc">:.2f}</span><span class="ss">'</span> <span class="cf">for</span> f <span class="kw">in</span> functions.values()])</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> [<span class="st">'Probabilities'</span>]</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>headers.extend(<span class="bu">list</span>(functions.keys()))</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>Markdown(tabulate(table, headers<span class="op">=</span>headers))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="tbl-prob-mean" class="anchored">
+<table class="table table-sm table-striped">
+<caption>Table&nbsp;5.1: Example of probability means</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Probabilities</th>
+<th style="text-align: right;">Arithmetic mean</th>
+<th style="text-align: right;">Geometric mean</th>
+<th style="text-align: right;">Harmonic mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">[0.1 0.1]</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[0.5 0.5]</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[0.1 0.9]</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[0.1 0.1 0.9]</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[0.1 0.1 0.99]</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[0.1 0.1 0.999]</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 <section id="optimal-decisions" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="optimal-decisions"><span class="header-section-number">5.2.1</span> Optimal decisions</h3>
-<p>Denote the cost of predicting class <span class="math inline">\(j\)</span> for an instance of true class <span class="math inline">\(i\)</span> as <span class="math inline">\(C(\hat{Y}=j|Y=i)\)</span>. % Since we don’t know the true class of an unlabelled instance, we need to base our prediction on an assessment of the expected cost over all possible true classes. The expected cost of predicting class <span class="math inline">\(j\)</span> for instance <span class="math inline">\(x\)</span> is</p>
+<p>Denote the cost of predicting class <span class="math inline">\(j\)</span> for an instance of true class <span class="math inline">\(i\)</span> as <span class="math inline">\(C(\hat{Y}=j|Y=i)\)</span>. The expected cost of predicting class <span class="math inline">\(j\)</span> for instance <span class="math inline">\(x\)</span> is</p>
 <p><span class="math display">\[
 C(\hat{Y}=j|X=x) = \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
 \]</span></p>
@@ -857,9 +1343,273 @@ P(+|x)  = \frac{\textcolor{blue}{C(+|-)-C(-|-)}}{\textcolor{blue}{C(+|-)-C(-|-)}
 </ul>
 <p>Cost and class prior changes can be combined in the obvious way.</p>
 </section>
+<section id="questions-and-answers-1" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="questions-and-answers-1"><span class="header-section-number">5.2.2</span> Questions and Answers</h3>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Is it possible to compute optimal risks given a cost matrix and a probabilistic classifier that is not calibrated?</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Given a calibrated probabilistic classifier, is it optimal to select the class with the highest predicted probability?</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If we have the following cost matrix, and a model outputs 0.6 probability for class 1. What would be the expected cost of predicting class 2?</p>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>cost_matrix <span class="op">=</span> [[<span class="op">-</span><span class="dv">1</span>,  <span class="dv">2</span>],</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>               [ <span class="dv">4</span>, <span class="op">-</span><span class="dv">2</span>]]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> [[<span class="st">'Predicted Class 1'</span>],</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>         [<span class="st">'Predicted Class 2'</span>]]</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(cost_matrix):</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    table[i].extend(c)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> [<span class="st">'True Class 1'</span>, <span class="st">'True Class 2'</span>]</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>Markdown(tabulate(table, headers<span class="op">=</span>headers))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div id="tbl-q-cm" class="anchored">
+<table class="table table-sm table-striped">
+<caption>Table&nbsp;5.2: Example of a cost matrix</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">True Class 1</th>
+<th style="text-align: right;">True Class 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Predicted Class 1</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td>Predicted Class 2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">-2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+0.4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-27" class="callout-27-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+-0.4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-28" class="callout-28-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+1.6
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-29" class="callout-29-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. <span class="math inline">\(4*0.6 - 2*0.4\)</span></p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What would be the expected cost of predicting class 1?</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+0.4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-31" class="callout-31-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-32-contents" aria-controls="callout-32" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+-0.4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-32" class="callout-32-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. <span class="math inline">\(-1*0.6 + 2*0.4\)</span></p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-33-contents" aria-controls="callout-33" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+1.6
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-33" class="callout-33-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="common-sources-of-miscalibration" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="common-sources-of-miscalibration"><span class="header-section-number">5.3</span> Common sources of miscalibration</h2>
+<iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=543b2f90-bf2a-11ed-b716-77ee466eb043" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
 <dl>
 <dt>Underconfidence:</dt>
 <dd>
@@ -922,9 +1672,282 @@ P(+|x)  = \frac{\textcolor{blue}{C(+|-)-C(-|-)}}{\textcolor{blue}{C(+|-)-C(-|-)}
 </div>
 </div>
 </section>
+<section id="questions-and-answers-2" class="level3" data-number="5.3.4">
+<h3 data-number="5.3.4" class="anchored" data-anchor-id="questions-and-answers-2"><span class="header-section-number">5.3.4</span> Questions and Answers</h3>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The following figures show the reliability diagram of several binary classifiers. Assuming that there are enough samples on each bin, indicate if the model seems calibrated, over-confident or under-confident.</p>
+</div>
+</div>
+<div class="cell" data-execution_count="11">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span>    np.array([<span class="fl">0.</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.4</span>, <span class="fl">.7</span>, <span class="fl">.9</span>, <span class="fl">1.</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>empirical <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.4</span>, <span class="fl">.5</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="fl">.9</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="wahcc_files/figure-html/cell-12-output-1.png" width="439" height="361" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Reliability diagram</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-35-contents" aria-controls="callout-35" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Calibrated.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-35" class="callout-35-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-36-contents" aria-controls="callout-36" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Over-confident.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-36" class="callout-36-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-37-contents" aria-controls="callout-37" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Under-confident.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-37" class="callout-37-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="12">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.3</span>, <span class="fl">.4</span>, <span class="fl">.5</span>, <span class="fl">.6</span>, <span class="fl">.7</span>, <span class="fl">.8</span>, <span class="fl">.9</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>empirical <span class="op">=</span> scores</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="wahcc_files/figure-html/cell-13-output-1.png" width="439" height="361" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Reliability diagram</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Calibrated.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-38" class="callout-38-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-39-contents" aria-controls="callout-39" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Over-confident.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-39" class="callout-39-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Under-confident.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-40" class="callout-40-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="13">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span>    np.array([<span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.5</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="fl">.9</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>empirical <span class="op">=</span> np.array([<span class="fl">0.</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="fl">.7</span>, <span class="fl">.9</span>, <span class="fl">1.</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="wahcc_files/figure-html/cell-14-output-1.png" width="439" height="361" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Reliability diagram</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-41-contents" aria-controls="callout-41" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Calibrated.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-41" class="callout-41-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-42-contents" aria-controls="callout-42" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Over-confident.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-42" class="callout-42-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-43-contents" aria-controls="callout-43" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Under-confident.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-43" class="callout-43-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Can a binary classifier show a calibrated reliability diagram with a number of equally distributed bins, and a non-calibrated one with a higher number of equally distributed bins?</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-45" class="callout-45-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-46" class="callout-46-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="a-first-look-at-some-calibration-techniques" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="a-first-look-at-some-calibration-techniques"><span class="header-section-number">5.4</span> A first look at some calibration techniques</h2>
+<iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=6f5e0e00-bf2a-11ed-b716-77ee466eb043" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
 <ul>
 <li><strong>Parametric</strong> calibration involves modelling the score distributions within each class. \
 <ul>
@@ -967,10 +1990,176 @@ P(+|x)  = \frac{\textcolor{blue}{C(+|-)-C(-|-)}}{\textcolor{blue}{C(+|-)-C(-|-)}
 <p>Source: <em>flach2016roc</em></p>
 </div>
 </div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Can a binary classifier show a calibrated reliability diagram with a number of equally distributed bins, and a non-calibrated one with a higher number of equally distributed bins?</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+What is a calibration map?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-48" class="callout-48-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>It is a mapping between the scores to be calibrated and the objective probabilities.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Can Platt scaling calibrate models that are overconfident?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-50-contents" aria-controls="callout-50" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-50" class="callout-50-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-51-contents" aria-controls="callout-51" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-51" class="callout-51-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. Platt scaling can only generate S shaped calibration maps, which can only calibrate under-confident scores.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Is isotonic regression a parametric method?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-53-contents" aria-controls="callout-53" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-53" class="callout-53-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-54-contents" aria-controls="callout-54" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-54" class="callout-54-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Can Platt scaling learn an identity function if the model is already calibrated?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-56-contents" aria-controls="callout-56" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-56" class="callout-56-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-57-contents" aria-controls="callout-57" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-57" class="callout-57-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. Platt scaling can only learn S shaped functions, and the identity function requires a straight line.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="calibrating-multi-class-classifiers" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="calibrating-multi-class-classifiers"><span class="header-section-number">5.5</span> Calibrating multi-class classifiers</h2>
+<iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=8f343b50-bf2a-11ed-83a4-bf04f88f22c5" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
 <section id="whats-so-special-about-multi-class-calibration" class="level3" data-number="5.5.1">
 <h3 data-number="5.5.1" class="anchored" data-anchor-id="whats-so-special-about-multi-class-calibration"><span class="header-section-number">5.5.1</span> What’s so special about multi-class calibration?</h3>
 <p>Similar to classification, some methods are inherently multi-class but most are not.</p>
@@ -989,7 +2178,7 @@ P(+|x)  = \frac{\textcolor{blue}{C(+|-)-C(-|-)}}{\textcolor{blue}{C(+|-)-C(-|-)}
 <section id="confidence-calibration" class="level3" data-number="5.5.3">
 <h3 data-number="5.5.3" class="anchored" data-anchor-id="confidence-calibration"><span class="header-section-number">5.5.3</span> Confidence calibration</h3>
 <p>This was proposed by <span class="citation" data-cites="guo2017">Guo et al. (<a href="#ref-guo2017" role="doc-biblioref">2017</a>)</span>, requiring that among all instances where the probability of <strong>the most likely class</strong> is predicted to be <span class="math inline">\(c\)</span>, the expected accuracy is <span class="math inline">\(c\)</span>. (We call this `confidence calibration’ to distinguish it from the stronger notions of calibration.)</p>
-<p>Formally, a probabilistic classifier <span class="math inline">\(\hat{\mathbf{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>confidence-calibrated</strong>, if for any confidence level <span class="math inline">\(c\in[0,1]\)</span>, the actual proportion of the predicted class, among all possible instances <span class="math inline">\(\mathbf{x}\)</span> being predicted this class with confidence <span class="math inline">\(c\)</span>, is equal to <span class="math inline">\(c\)</span>:</p>
+<p>Formally, a probabilistic classifier <span class="math inline">\(\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>confidence-calibrated</strong>, if for any confidence level <span class="math inline">\(c\in[0,1]\)</span>, the actual proportion of the predicted class, among all possible instances <span class="math inline">\(\mathbf{x}\)</span> being predicted this class with confidence <span class="math inline">\(c\)</span>, is equal to <span class="math inline">\(c\)</span>:</p>
 <p><span class="math display">\[\begin{align*}
 P(Y=i \: | \: \hat{p}_i(\mathbf{x})=c)=c\qquad\text{where }\ i=\mathop{\mathrm{argmax}}_j \hat{p}_j(\mathbf{x}).
 %P\Big(Y=\argmax\big(\vph(X)\big) \: \Big| \: \max\big(\vph(X)\big)=c\Big)=c.
@@ -998,7 +2187,7 @@ P(Y=i \: | \: \hat{p}_i(\mathbf{x})=c)=c\qquad\text{where }\ i=\mathop{\mathrm{a
 <section id="class-wise-calibration" class="level3" data-number="5.5.4">
 <h3 data-number="5.5.4" class="anchored" data-anchor-id="class-wise-calibration"><span class="header-section-number">5.5.4</span> Class-wise calibration}{</h3>
 <p>Originally proposed by <span class="citation" data-cites="zadrozny2002">Zadrozny and Elkan (<a href="#ref-zadrozny2002" role="doc-biblioref">2002</a>)</span>, this requires that all <strong>one-vs-rest</strong> probability estimators obtained from the original multiclass model are calibrated.</p>
-<p>Formally, a probabilistic classifier <span class="math inline">\(\hat{\mathbf{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>classwise-calibrated</strong>, if for any class <span class="math inline">\(i\)</span> and any predicted probability <span class="math inline">\(q_i\)</span> for this class, the actual proportion of class <span class="math inline">\(i\)</span>, among all possible instances <span class="math inline">\(\mathbf{x}\)</span> getting the same prediction <span class="math inline">\(\hat{p}_i(\mathbf{x})=q_i\)</span>, is equal to <span class="math inline">\(q_i\)</span>:</p>
+<p>Formally, a probabilistic classifier <span class="math inline">\(\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>classwise-calibrated</strong>, if for any class <span class="math inline">\(i\)</span> and any predicted probability <span class="math inline">\(q_i\)</span> for this class, the actual proportion of class <span class="math inline">\(i\)</span>, among all possible instances <span class="math inline">\(\mathbf{x}\)</span> getting the same prediction <span class="math inline">\(\hat{p}_i(\mathbf{x})=q_i\)</span>, is equal to <span class="math inline">\(q_i\)</span>:</p>
 <p><span class="math display">\[\begin{align*}
 P(Y=i\mid \hat{p}_i(\mathbf{x})=q_i)=q_i\qquad\text{for }\ i=1,\dots,k.
 \end{align*}\]</span></p>
@@ -1006,9 +2195,9 @@ P(Y=i\mid \hat{p}_i(\mathbf{x})=q_i)=q_i\qquad\text{for }\ i=1,\dots,k.
 <section id="multi-class-calibration" class="level3" data-number="5.5.5">
 <h3 data-number="5.5.5" class="anchored" data-anchor-id="multi-class-calibration"><span class="header-section-number">5.5.5</span> Multi-class calibration</h3>
 <p>This is the <strong>strongest form of calibration</strong> for multiple classes, subsuming the previous two definitions.</p>
-<p>A probabilistic classifier <span class="math inline">\(\hat{\mathbf{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>multiclass-calibrated</strong> if for any prediction vector <span class="math inline">\(\mathbf{q}=(q_1,\dots,q_k)\in\Delta_{k}\)</span>, the proportions of classes among all possible instances <span class="math inline">\(\mathbf{x}\)</span> getting the same prediction <span class="math inline">\(\hat{\mathbf{p}}(\mathbf{x})=\mathbf{q}\)</span> are equal to the prediction vector <span class="math inline">\(\mathbf{q}\)</span>:<br>
+<p>A probabilistic classifier <span class="math inline">\(\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>multiclass-calibrated</strong> if for any prediction vector <span class="math inline">\(\mathbf{q}=(q_1,\dots,q_k)\in\Delta_{k}\)</span>, the proportions of classes among all possible instances <span class="math inline">\(\mathbf{x}\)</span> getting the same prediction <span class="math inline">\(\mathbf{\hat{p}}(\mathbf{x})=\mathbf{q}\)</span> are equal to the prediction vector <span class="math inline">\(\mathbf{q}\)</span>:<br>
 <span class="math display">\[\begin{align*} %\label{eq:calib}
-P(Y=i\mid \hat{\mathbf{p}}(\mathbf{x})=\mathbf{q})=q_i\qquad\text{for }\ i=1,\dots,k.
+P(Y=i\mid \mathbf{\hat{p}}(\mathbf{x})=\mathbf{q})=q_i\qquad\text{for }\ i=1,\dots,k.
 \end{align*}\]</span></p>
 </section>
 <section id="reminder-binning-needed" class="level3" data-number="5.5.6">
@@ -1024,6 +2213,189 @@ P(Y=i\mid \hat{\mathbf{p}}(\mathbf{x})=\mathbf{q})=q_i\qquad\text{for }\ i=1,\do
 <li><strong>Binning will be required in some form:</strong> instance-based probability evaluation metrics such as Brier score or log-loss always measure calibration <strong>plus something else</strong>.</li>
 <li><strong>In multi-class settings, think carefully about which form of calibration you need:</strong> e.g., confidence-calibration is too weak in a cost-sensitive setting.</li>
 </ul>
+</section>
+<section id="questions-and-answers-3" class="level3" data-number="5.5.8">
+<h3 data-number="5.5.8" class="anchored" data-anchor-id="questions-and-answers-3"><span class="header-section-number">5.5.8</span> Questions and Answers</h3>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Can we interpret the output of any model that produces values between zero and
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>one as probabilities?</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-59-contents" aria-controls="callout-59" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-59" class="callout-59-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-60-contents" aria-controls="callout-60" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-60" class="callout-60-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. Some models have been trained to generate values in any arbitrary range, but this does not mean that the model is predicting actual probabilities.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Is there only one way to measure calibration for multiclass probability scores.</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-62-contents" aria-controls="callout-62" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-62" class="callout-62-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-63-contents" aria-controls="callout-63" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-63" class="callout-63-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. There are multiple measures of calibration.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Can we perform optimal decisions in a multiclass setting by knowing the highest probability among the classes and the misclassification costs?</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-65-contents" aria-controls="callout-65" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-65" class="callout-65-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-66-contents" aria-controls="callout-66" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-66" class="callout-66-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>. We need the probabilities of every class in order to make an optimal decision.</p>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If the data distribution, operating conditions and the missclassification costs do not change from training to test set, and a model makes optimal predictions in the training set. Do we need the exact probabilities in the test set to make optimal decisions?</p>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-68-contents" aria-controls="callout-68" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Yes.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-68" class="callout-68-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-69-contents" aria-controls="callout-69" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+No.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-69" class="callout-69-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="references" class="level2" data-number="5.6">
