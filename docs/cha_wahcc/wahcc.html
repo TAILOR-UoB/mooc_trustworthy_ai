@@ -8,7 +8,7 @@
 
 <meta name="author" content="Miquel Perello Nieto">
 
-<title>Foundations of Trustworthy AI - 5&nbsp; Classifier Calibration, Why and How?</title>
+<title>Foundations of Trustworthy AI - 5&nbsp; Classifier Calibration</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -146,7 +146,22 @@ div.csl-indent {
 }</script>
 <link rel="stylesheet" media="screen" href="../fonts/Myriad Pro Regular.ttf" type="text/css">
 
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
 
 <link rel="stylesheet" href="../style.css">
 </head>
@@ -157,7 +172,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration, Why and How?</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -198,7 +213,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="../intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">(Introduction)</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -211,29 +226,29 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../xais-fea-imp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Feature Importance</span></a>
+  <a href="../xais-fea-imp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">(Feature Importance)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../xais-sal-map.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Saliency Maps</span></a>
+  <a href="../xais-sal-map.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">(Saliency Maps)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../xais-sin-tre.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Single Tree Approximation</span></a>
+  <a href="../xais-sin-tre.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">(Single Tree Approximation)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cha_wahcc/wahcc.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration, Why and How?</span></a>
+  <a href="../cha_wahcc/wahcc.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../safety-and-robustness.html" class="sidebar-item-text sidebar-link">Safety and Robustness</a>
+            <a href="../safety-and-robustness.html" class="sidebar-item-text sidebar-link">(Safety and Robustness)</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -241,20 +256,32 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sar-ali.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Alignment</span></a>
+  <a href="../sar-ali.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">(Alignment)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sar-rob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Robustness</span></a>
+  <a href="../sar-rob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">(Robustness)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sar-rel.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability</span></a>
+  <a href="../sar-rel.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">(Reliability)</span></a>
   </div>
 </li>
       </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">(Fairness, Equity, and Justice by Design)</span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">Accountability and Reproducibility (placeholder)</span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">(Respect for Privacy)</span>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">(Sustainability)</span>
   </li>
     </ul>
     </div>
@@ -267,54 +294,55 @@ div.csl-indent {
   <ul>
   <li><a href="#taking-inspiration-from-forecasting" id="toc-taking-inspiration-from-forecasting" class="nav-link active" data-scroll-target="#taking-inspiration-from-forecasting"><span class="toc-section-number">5.1</span>  Taking inspiration from forecasting</a>
   <ul class="collapse">
-  <li><a href="#forecasting-example" id="toc-forecasting-example" class="nav-link" data-scroll-target="#forecasting-example"><span class="toc-section-number">5.1.1</span>  Forecasting example</a></li>
-  <li><a href="#over--and-under-estimates" id="toc-over--and-under-estimates" class="nav-link" data-scroll-target="#over--and-under-estimates"><span class="toc-section-number">5.1.2</span>  Over- and under-estimates</a></li>
-  <li><a href="#visualising-forecasts-the-reliability-diagram" id="toc-visualising-forecasts-the-reliability-diagram" class="nav-link" data-scroll-target="#visualising-forecasts-the-reliability-diagram"><span class="toc-section-number">5.1.3</span>  Visualising forecasts: the reliability diagram</a></li>
-  <li><a href="#changing-the-numbers-slightly" id="toc-changing-the-numbers-slightly" class="nav-link" data-scroll-target="#changing-the-numbers-slightly"><span class="toc-section-number">5.1.4</span>  Changing the numbers slightly</a></li>
-  <li><a href="#or-should-we-group-the-forecasts-differently" id="toc-or-should-we-group-the-forecasts-differently" class="nav-link" data-scroll-target="#or-should-we-group-the-forecasts-differently"><span class="toc-section-number">5.1.5</span>  Or should we group the forecasts differently?</a></li>
-  <li><a href="#or-not-at-all" id="toc-or-not-at-all" class="nav-link" data-scroll-target="#or-not-at-all"><span class="toc-section-number">5.1.6</span>  Or not at all?</a></li>
-  <li><a href="#binning-or-pooling-predictions-is-a-fundamental-notion" id="toc-binning-or-pooling-predictions-is-a-fundamental-notion" class="nav-link" data-scroll-target="#binning-or-pooling-predictions-is-a-fundamental-notion"><span class="toc-section-number">5.1.7</span>  Binning or pooling predictions is a fundamental notion</a></li>
-  <li><a href="#questions-and-answers" id="toc-questions-and-answers" class="nav-link" data-scroll-target="#questions-and-answers"><span class="toc-section-number">5.1.8</span>  Questions and Answers</a></li>
+  <li><a href="#forecasting-example" id="toc-forecasting-example" class="nav-link" data-scroll-target="#forecasting-example">Forecasting example</a></li>
+  <li><a href="#over--and-under-estimates" id="toc-over--and-under-estimates" class="nav-link" data-scroll-target="#over--and-under-estimates">Over- and under-estimates</a></li>
+  <li><a href="#visualising-forecasts-the-reliability-diagram" id="toc-visualising-forecasts-the-reliability-diagram" class="nav-link" data-scroll-target="#visualising-forecasts-the-reliability-diagram">Visualising forecasts: the reliability diagram</a></li>
+  <li><a href="#changing-the-numbers-slightly" id="toc-changing-the-numbers-slightly" class="nav-link" data-scroll-target="#changing-the-numbers-slightly">Changing the numbers slightly</a></li>
+  <li><a href="#or-should-we-group-the-forecasts-differently" id="toc-or-should-we-group-the-forecasts-differently" class="nav-link" data-scroll-target="#or-should-we-group-the-forecasts-differently">Or should we group the forecasts differently?</a></li>
+  <li><a href="#or-not-at-all" id="toc-or-not-at-all" class="nav-link" data-scroll-target="#or-not-at-all">Or not at all?</a></li>
+  <li><a href="#binning-or-pooling-predictions-is-a-fundamental-notion" id="toc-binning-or-pooling-predictions-is-a-fundamental-notion" class="nav-link" data-scroll-target="#binning-or-pooling-predictions-is-a-fundamental-notion">Binning or pooling predictions is a fundamental notion</a></li>
+  <li><a href="#questions-and-answers" id="toc-questions-and-answers" class="nav-link" data-scroll-target="#questions-and-answers">Questions and answers</a></li>
   </ul></li>
   <li><a href="#why-are-we-interested-in-calibration" id="toc-why-are-we-interested-in-calibration" class="nav-link" data-scroll-target="#why-are-we-interested-in-calibration"><span class="toc-section-number">5.2</span>  Why are we interested in calibration?</a>
   <ul class="collapse">
-  <li><a href="#optimal-decisions" id="toc-optimal-decisions" class="nav-link" data-scroll-target="#optimal-decisions"><span class="toc-section-number">5.2.1</span>  Optimal decisions</a></li>
-  <li><a href="#questions-and-answers-1" id="toc-questions-and-answers-1" class="nav-link" data-scroll-target="#questions-and-answers-1"><span class="toc-section-number">5.2.2</span>  Questions and Answers</a></li>
+  <li><a href="#optimal-decisions" id="toc-optimal-decisions" class="nav-link" data-scroll-target="#optimal-decisions">Optimal decisions</a></li>
+  <li><a href="#questions-and-answers-1" id="toc-questions-and-answers-1" class="nav-link" data-scroll-target="#questions-and-answers-1">Questions and answers</a></li>
   </ul></li>
   <li><a href="#common-sources-of-miscalibration" id="toc-common-sources-of-miscalibration" class="nav-link" data-scroll-target="#common-sources-of-miscalibration"><span class="toc-section-number">5.3</span>  Common sources of miscalibration</a>
   <ul class="collapse">
-  <li><a href="#underconfidence-example" id="toc-underconfidence-example" class="nav-link" data-scroll-target="#underconfidence-example"><span class="toc-section-number">5.3.1</span>  Underconfidence example</a></li>
-  <li><a href="#overconfidence-example" id="toc-overconfidence-example" class="nav-link" data-scroll-target="#overconfidence-example"><span class="toc-section-number">5.3.2</span>  Overconfidence example</a></li>
-  <li><a href="#why-fitting-the-distortions-helps-with-calibration" id="toc-why-fitting-the-distortions-helps-with-calibration" class="nav-link" data-scroll-target="#why-fitting-the-distortions-helps-with-calibration"><span class="toc-section-number">5.3.3</span>  Why fitting the distortions helps with calibration</a></li>
-  <li><a href="#questions-and-answers-2" id="toc-questions-and-answers-2" class="nav-link" data-scroll-target="#questions-and-answers-2"><span class="toc-section-number">5.3.4</span>  Questions and Answers</a></li>
+  <li><a href="#underconfidence-example" id="toc-underconfidence-example" class="nav-link" data-scroll-target="#underconfidence-example">Underconfidence example</a></li>
+  <li><a href="#overconfidence-example" id="toc-overconfidence-example" class="nav-link" data-scroll-target="#overconfidence-example">Overconfidence example</a></li>
+  <li><a href="#why-fitting-the-distortions-helps-with-calibration" id="toc-why-fitting-the-distortions-helps-with-calibration" class="nav-link" data-scroll-target="#why-fitting-the-distortions-helps-with-calibration">Why fitting the distortions helps with calibration</a></li>
+  <li><a href="#questions-and-answers-2" id="toc-questions-and-answers-2" class="nav-link" data-scroll-target="#questions-and-answers-2">Questions and answers</a></li>
   </ul></li>
   <li><a href="#a-first-look-at-some-calibration-techniques" id="toc-a-first-look-at-some-calibration-techniques" class="nav-link" data-scroll-target="#a-first-look-at-some-calibration-techniques"><span class="toc-section-number">5.4</span>  A first look at some calibration techniques</a>
   <ul class="collapse">
-  <li><a href="#platt-scaling" id="toc-platt-scaling" class="nav-link" data-scroll-target="#platt-scaling"><span class="toc-section-number">5.4.1</span>  Platt scaling</a></li>
-  <li><a href="#beta-calibration" id="toc-beta-calibration" class="nav-link" data-scroll-target="#beta-calibration"><span class="toc-section-number">5.4.2</span>  Beta calibration</a></li>
-  <li><a href="#isotonic-regression" id="toc-isotonic-regression" class="nav-link" data-scroll-target="#isotonic-regression"><span class="toc-section-number">5.4.3</span>  Isotonic regression</a></li>
+  <li><a href="#platt-scaling" id="toc-platt-scaling" class="nav-link" data-scroll-target="#platt-scaling">Platt scaling</a></li>
+  <li><a href="#beta-calibration" id="toc-beta-calibration" class="nav-link" data-scroll-target="#beta-calibration">Beta calibration</a></li>
+  <li><a href="#isotonic-regression" id="toc-isotonic-regression" class="nav-link" data-scroll-target="#isotonic-regression">Isotonic regression</a></li>
+  <li><a href="#questions-and-answers-3" id="toc-questions-and-answers-3" class="nav-link" data-scroll-target="#questions-and-answers-3">Questions and answers</a></li>
   </ul></li>
   <li><a href="#calibrating-multi-class-classifiers" id="toc-calibrating-multi-class-classifiers" class="nav-link" data-scroll-target="#calibrating-multi-class-classifiers"><span class="toc-section-number">5.5</span>  Calibrating multi-class classifiers</a>
   <ul class="collapse">
-  <li><a href="#whats-so-special-about-multi-class-calibration" id="toc-whats-so-special-about-multi-class-calibration" class="nav-link" data-scroll-target="#whats-so-special-about-multi-class-calibration"><span class="toc-section-number">5.5.1</span>  What’s so special about multi-class calibration?</a></li>
-  <li><a href="#definitions-of-calibration-for-more-than-two-classes" id="toc-definitions-of-calibration-for-more-than-two-classes" class="nav-link" data-scroll-target="#definitions-of-calibration-for-more-than-two-classes"><span class="toc-section-number">5.5.2</span>  Definitions of calibration for more than two classes</a></li>
-  <li><a href="#confidence-calibration" id="toc-confidence-calibration" class="nav-link" data-scroll-target="#confidence-calibration"><span class="toc-section-number">5.5.3</span>  Confidence calibration</a></li>
-  <li><a href="#class-wise-calibration" id="toc-class-wise-calibration" class="nav-link" data-scroll-target="#class-wise-calibration"><span class="toc-section-number">5.5.4</span>  Class-wise calibration}{</a></li>
-  <li><a href="#multi-class-calibration" id="toc-multi-class-calibration" class="nav-link" data-scroll-target="#multi-class-calibration"><span class="toc-section-number">5.5.5</span>  Multi-class calibration</a></li>
-  <li><a href="#reminder-binning-needed" id="toc-reminder-binning-needed" class="nav-link" data-scroll-target="#reminder-binning-needed"><span class="toc-section-number">5.5.6</span>  Reminder: binning needed</a></li>
-  <li><a href="#important-points-to-remember" id="toc-important-points-to-remember" class="nav-link" data-scroll-target="#important-points-to-remember"><span class="toc-section-number">5.5.7</span>  Important points to remember</a></li>
-  <li><a href="#questions-and-answers-3" id="toc-questions-and-answers-3" class="nav-link" data-scroll-target="#questions-and-answers-3"><span class="toc-section-number">5.5.8</span>  Questions and Answers</a></li>
+  <li><a href="#whats-so-special-about-multi-class-calibration" id="toc-whats-so-special-about-multi-class-calibration" class="nav-link" data-scroll-target="#whats-so-special-about-multi-class-calibration">What’s so special about multi-class calibration?</a></li>
+  <li><a href="#definitions-of-calibration-for-more-than-two-classes" id="toc-definitions-of-calibration-for-more-than-two-classes" class="nav-link" data-scroll-target="#definitions-of-calibration-for-more-than-two-classes">Definitions of calibration for more than two classes</a></li>
+  <li><a href="#confidence-calibration" id="toc-confidence-calibration" class="nav-link" data-scroll-target="#confidence-calibration">Confidence calibration</a></li>
+  <li><a href="#class-wise-calibration" id="toc-class-wise-calibration" class="nav-link" data-scroll-target="#class-wise-calibration">Class-wise calibration}{</a></li>
+  <li><a href="#multi-class-calibration" id="toc-multi-class-calibration" class="nav-link" data-scroll-target="#multi-class-calibration">Multi-class calibration</a></li>
+  <li><a href="#reminder-binning-needed" id="toc-reminder-binning-needed" class="nav-link" data-scroll-target="#reminder-binning-needed">Reminder: binning needed</a></li>
+  <li><a href="#important-points-to-remember" id="toc-important-points-to-remember" class="nav-link" data-scroll-target="#important-points-to-remember">Important points to remember</a></li>
+  <li><a href="#questions-and-answers-4" id="toc-questions-and-answers-4" class="nav-link" data-scroll-target="#questions-and-answers-4">Questions and answers</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">5.6</span>  References</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/main/cha_wahcc/wahcc.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/master/cha_wahcc/wahcc.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration, Why and How?</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration</span></h1>
 </div>
 
 
@@ -388,8 +416,8 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<section id="forecasting-example" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="forecasting-example"><span class="header-section-number">5.1.1</span> Forecasting example</h3>
+<section id="forecasting-example" class="level3">
+<h3 class="anchored" data-anchor-id="forecasting-example">Forecasting example</h3>
 <p>Let’s consider a small toy example:</p>
 <ul>
 <li>Two predictions of <code>10% chance of rain</code> were both followed by <code>no rain</code>.</li>
@@ -409,17 +437,16 @@ div.csl-indent {
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The evaluation of calibration requires a large number of samples to make a statement. However, in this toy example we can assume that a <span class="math inline">\(10\%\)</span> discrepancy is acceptable, and that the number of samples is sufficient.</p>
+<p>The evaluation of calibration requires a large number of samples to make a statement. However, in this toy example we can assume that a <span class="math inline">10\%</span> discrepancy is acceptable, and that the number of samples is sufficient.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="over--and-under-estimates" class="level3" data-number="5.1.2">
-<h3 data-number="5.1.2" class="anchored" data-anchor-id="over--and-under-estimates"><span class="header-section-number">5.1.2</span> Over- and under-estimates</h3>
+<section id="over--and-under-estimates" class="level3">
+<h3 class="anchored" data-anchor-id="over--and-under-estimates">Over- and under-estimates</h3>
 <div class="columns v-center-container">
 <div class="column" style="width:20%;">
 <table class="table">
-<caption>Table with probabilities</caption>
 <colgroup>
 <col style="width: 8%">
 <col style="width: 16%">
@@ -428,8 +455,8 @@ div.csl-indent {
 <thead>
 <tr class="header">
 <th></th>
-<th><span class="math inline">\(\hat{p}\)</span></th>
-<th><span class="math inline">\(y\)</span></th>
+<th><span class="math inline">\hat{p}</span></th>
+<th><span class="math inline">y</span></th>
 </tr>
 </thead>
 <tbody>
@@ -473,23 +500,22 @@ div.csl-indent {
 <p>This forecaster is doing a pretty decent job:</p>
 <ul>
 <li><code>10% chance of rain</code> was a slight over-estimate<br>
-(<span class="math inline">\(\bar{y} = 0/2 = 0\%\)</span>);</li>
+(<span class="math inline">\bar{y} = 0/2 = 0\%</span>);</li>
 <li><code>40% chance of rain</code> was a slight under-estimate<br>
-(<span class="math inline">\(\bar{y} = 1/2 = 50\%\)</span>);</li>
+(<span class="math inline">\bar{y} = 1/2 = 50\%</span>);</li>
 <li><code>70% chance of rain</code> was a slight over-estimate<br>
-(<span class="math inline">\(\bar{y} = 2/3 = 67\%\)</span>);</li>
+(<span class="math inline">\bar{y} = 2/3 = 67\%</span>);</li>
 <li><code>90% chance of rain</code> was a slight under-estimate<br>
-(<span class="math inline">\(\bar{y} = 1/1 = 100\%\)</span>).</li>
+(<span class="math inline">\bar{y} = 1/1 = 100\%</span>).</li>
 </ul>
 </div>
 </div>
 </section>
-<section id="visualising-forecasts-the-reliability-diagram" class="level3" data-number="5.1.3">
-<h3 data-number="5.1.3" class="anchored" data-anchor-id="visualising-forecasts-the-reliability-diagram"><span class="header-section-number">5.1.3</span> Visualising forecasts: the reliability diagram</h3>
+<section id="visualising-forecasts-the-reliability-diagram" class="level3">
+<h3 class="anchored" data-anchor-id="visualising-forecasts-the-reliability-diagram">Visualising forecasts: the reliability diagram</h3>
 <div class="columns v-center-container">
 <div class="column" style="width:20%;">
 <table class="table">
-<caption>Table with probabilities</caption>
 <colgroup>
 <col style="width: 8%">
 <col style="width: 16%">
@@ -498,8 +524,8 @@ div.csl-indent {
 <thead>
 <tr class="header">
 <th></th>
-<th><span class="math inline">\(\hat{p}\)</span></th>
-<th><span class="math inline">\(y\)</span></th>
+<th><span class="math inline">\hat{p}</span></th>
+<th><span class="math inline">y</span></th>
 </tr>
 </thead>
 <tbody>
@@ -543,34 +569,29 @@ div.csl-indent {
 <div class="cell" data-execution_count="1">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="fl">0.1</span>, <span class="fl">0.1</span> ,<span class="fl">0.4</span>, <span class="fl">0.4</span>,<span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="fl">0.9</span>])</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.85</span>, <span class="fl">1.0</span>]</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span>bins,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                               show_bars<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb1-7"><a href="#cb1-7"></a>scores <span class="op">=</span> np.array([<span class="fl">0.1</span>, <span class="fl">0.1</span> ,<span class="fl">0.4</span>, <span class="fl">0.4</span>,<span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="fl">0.9</span>])</span>
+<span id="cb1-8"><a href="#cb1-8"></a>bins <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.85</span>, <span class="fl">1.0</span>]</span>
+<span id="cb1-9"><a href="#cb1-9"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb1-10"><a href="#cb1-10"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
+<span id="cb1-11"><a href="#cb1-11"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span>bins,</span>
+<span id="cb1-12"><a href="#cb1-12"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb1-13"><a href="#cb1-13"></a>                               show_bars<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-rd-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-1-output-1.png" width="439" height="361" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5.1: Reliability diagram</figcaption><p></p>
-</figure>
-</div>
+<p><img src="wahcc_files/figure-html/cell-2-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="changing-the-numbers-slightly" class="level3" data-number="5.1.4">
-<h3 data-number="5.1.4" class="anchored" data-anchor-id="changing-the-numbers-slightly"><span class="header-section-number">5.1.4</span> Changing the numbers slightly</h3>
+<section id="changing-the-numbers-slightly" class="level3">
+<h3 class="anchored" data-anchor-id="changing-the-numbers-slightly">Changing the numbers slightly</h3>
 <div class="columns v-center-container">
 <div class="column" style="width:20%;">
 <table class="table">
@@ -582,8 +603,8 @@ div.csl-indent {
 <thead>
 <tr class="header">
 <th></th>
-<th><span class="math inline">\(\hat{p}\)</span></th>
-<th><span class="math inline">\(y\)</span></th>
+<th><span class="math inline">\hat{p}</span></th>
+<th><span class="math inline">y</span></th>
 </tr>
 </thead>
 <tbody>
@@ -627,38 +648,32 @@ div.csl-indent {
 <div class="cell" data-execution_count="2">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="fl">0.1</span>, <span class="fl">0.2</span> ,<span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>])</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.85</span>, <span class="fl">1.0</span>]</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span>bins,</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                               show_bars<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram</span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb2-7"><a href="#cb2-7"></a>scores <span class="op">=</span> np.array([<span class="fl">0.1</span>, <span class="fl">0.2</span> ,<span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>])</span>
+<span id="cb2-8"><a href="#cb2-8"></a>bins <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.85</span>, <span class="fl">1.0</span>]</span>
+<span id="cb2-9"><a href="#cb2-9"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb2-10"><a href="#cb2-10"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
+<span id="cb2-11"><a href="#cb2-11"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span>bins,</span>
+<span id="cb2-12"><a href="#cb2-12"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb2-13"><a href="#cb2-13"></a>                               show_bars<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-rd-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-2-output-1.png" width="439" height="361" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5.2: Reliability diagram</figcaption><p></p>
-</figure>
-</div>
+<p><img src="wahcc_files/figure-html/cell-3-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="or-should-we-group-the-forecasts-differently" class="level3" data-number="5.1.5">
-<h3 data-number="5.1.5" class="anchored" data-anchor-id="or-should-we-group-the-forecasts-differently"><span class="header-section-number">5.1.5</span> Or should we group the forecasts differently?</h3>
+<section id="or-should-we-group-the-forecasts-differently" class="level3">
+<h3 class="anchored" data-anchor-id="or-should-we-group-the-forecasts-differently">Or should we group the forecasts differently?</h3>
 <div class="columns v-center-container">
 <div class="column" style="width:20%;">
 <table class="table">
-<caption>Table with probabilities</caption>
 <colgroup>
 <col style="width: 8%">
 <col style="width: 16%">
@@ -667,8 +682,8 @@ div.csl-indent {
 <thead>
 <tr class="header">
 <th></th>
-<th><span class="math inline">\(\hat{p}\)</span></th>
-<th><span class="math inline">\(y\)</span></th>
+<th><span class="math inline">\hat{p}</span></th>
+<th><span class="math inline">y</span></th>
 </tr>
 </thead>
 <tbody>
@@ -708,38 +723,32 @@ div.csl-indent {
 <div class="cell" data-execution_count="3">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="fl">0.1</span>, <span class="fl">0.2</span> ,<span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>])</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>]</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span>bins,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                               show_bars<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram</span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb3-7"><a href="#cb3-7"></a>scores <span class="op">=</span> np.array([<span class="fl">0.1</span>, <span class="fl">0.2</span> ,<span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>])</span>
+<span id="cb3-8"><a href="#cb3-8"></a>bins <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>]</span>
+<span id="cb3-9"><a href="#cb3-9"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb3-10"><a href="#cb3-10"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
+<span id="cb3-11"><a href="#cb3-11"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span>bins,</span>
+<span id="cb3-12"><a href="#cb3-12"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-13"><a href="#cb3-13"></a>                               show_bars<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-rd-3" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-3-output-1.png" width="439" height="361" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5.3: Reliability diagram</figcaption><p></p>
-</figure>
-</div>
+<p><img src="wahcc_files/figure-html/cell-4-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="or-not-at-all" class="level3" data-number="5.1.6">
-<h3 data-number="5.1.6" class="anchored" data-anchor-id="or-not-at-all"><span class="header-section-number">5.1.6</span> Or not at all?</h3>
+<section id="or-not-at-all" class="level3">
+<h3 class="anchored" data-anchor-id="or-not-at-all">Or not at all?</h3>
 <div class="columns v-center-container">
 <div class="column" style="width:20%;">
 <table class="table">
-<caption>Table with probabilities</caption>
 <colgroup>
 <col style="width: 8%">
 <col style="width: 16%">
@@ -748,8 +757,8 @@ div.csl-indent {
 <thead>
 <tr class="header">
 <th></th>
-<th><span class="math inline">\(\hat{p}\)</span></th>
-<th><span class="math inline">\(y\)</span></th>
+<th><span class="math inline">\hat{p}</span></th>
+<th><span class="math inline">y</span></th>
 </tr>
 </thead>
 <tbody>
@@ -801,34 +810,29 @@ div.csl-indent {
 <div class="cell" data-execution_count="4">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="fl">0.1</span>, <span class="fl">0.2</span> ,<span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>])</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.101</span>, <span class="fl">0.201</span>, <span class="fl">0.301</span>, <span class="fl">0.401</span>, <span class="fl">0.601</span>, <span class="fl">0.701</span>, <span class="fl">0.801</span>, <span class="fl">0.901</span>, <span class="fl">1.0</span>]</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span>bins,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                               show_bars<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram</span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb4-7"><a href="#cb4-7"></a>scores <span class="op">=</span> np.array([<span class="fl">0.1</span>, <span class="fl">0.2</span> ,<span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>])</span>
+<span id="cb4-8"><a href="#cb4-8"></a>bins <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.101</span>, <span class="fl">0.201</span>, <span class="fl">0.301</span>, <span class="fl">0.401</span>, <span class="fl">0.601</span>, <span class="fl">0.701</span>, <span class="fl">0.801</span>, <span class="fl">0.901</span>, <span class="fl">1.0</span>]</span>
+<span id="cb4-9"><a href="#cb4-9"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb4-10"><a href="#cb4-10"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
+<span id="cb4-11"><a href="#cb4-11"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span>bins,</span>
+<span id="cb4-12"><a href="#cb4-12"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-13"><a href="#cb4-13"></a>                               show_bars<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-rd-4" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-rd-4-output-1.png" width="439" height="361" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5.4: Reliability diagram</figcaption><p></p>
-</figure>
-</div>
+<p><img src="wahcc_files/figure-html/cell-5-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section id="binning-or-pooling-predictions-is-a-fundamental-notion" class="level3" data-number="5.1.7">
-<h3 data-number="5.1.7" class="anchored" data-anchor-id="binning-or-pooling-predictions-is-a-fundamental-notion"><span class="header-section-number">5.1.7</span> Binning or pooling predictions is a fundamental notion</h3>
+<section id="binning-or-pooling-predictions-is-a-fundamental-notion" class="level3">
+<h3 class="anchored" data-anchor-id="binning-or-pooling-predictions-is-a-fundamental-notion">Binning or pooling predictions is a fundamental notion</h3>
 <p>We need bins to <strong>evaluate</strong> the degree of calibration:</p>
 <ul>
 <li>In order to decide whether a weather forecaster is well-calibrated, we need to look at a good number of forecasts, say over one year.</li>
@@ -843,8 +847,8 @@ div.csl-indent {
 <li>isotonic regression (aka ROC convex hull)</li>
 </ul>
 </section>
-<section id="questions-and-answers" class="level3" data-number="5.1.8">
-<h3 data-number="5.1.8" class="anchored" data-anchor-id="questions-and-answers"><span class="header-section-number">5.1.8</span> Questions and Answers</h3>
+<section id="questions-and-answers" class="level3">
+<h3 class="anchored" data-anchor-id="questions-and-answers">Questions and answers</h3>
 <div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -861,53 +865,48 @@ Question 1
 <div class="cell" data-execution_count="5">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>,   <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>])</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.4</span>, <span class="fl">.4</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.9</span>])</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span><span class="dv">4</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                               hist_per_class<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                               show_bars<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                               show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram</span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>,   <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>])</span>
+<span id="cb5-7"><a href="#cb5-7"></a>scores <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.4</span>, <span class="fl">.4</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.9</span>])</span>
+<span id="cb5-8"><a href="#cb5-8"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb5-9"><a href="#cb5-9"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
+<span id="cb5-10"><a href="#cb5-10"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb5-11"><a href="#cb5-11"></a>                               fig<span class="op">=</span>fig,</span>
+<span id="cb5-12"><a href="#cb5-12"></a>                               hist_per_class<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb5-13"><a href="#cb5-13"></a>                               show_bars<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-14"><a href="#cb5-14"></a>                               show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-q-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-q-1-output-1.png" width="439" height="287" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5.5: Reliability diagram</figcaption><p></p>
-</figure>
+<p><img src="wahcc_files/figure-html/cell-6-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
-</div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes
+Answer: Yes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Correct</strong>. You can see that there is one bin per predicted score <span class="math inline">\(0.1, 0.4, 0.6\)</span> and <span class="math inline">\(0.9\)</span>. Each bin contains the number of scores indicated in the smaller histogram below with 2, 2, 5 and 1 samples respectively. Finally, the height of each bin corresponds to the fraction of rains indicated in the question 0%, 50%, 80% and 100%.</p>
+<p><strong>Correct</strong>. You can see that there is one bin per predicted score <span class="math inline">0.1, 0.4, 0.6</span> and <span class="math inline">0.9</span>. Each bin contains the number of scores indicated in the smaller histogram below with 2, 2, 5 and 1 samples respectively. Finally, the height of each bin corresponds to the fraction of rains indicated in the question 0%, 50%, 80% and 100%.</p>
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No
+Answer: No
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -933,48 +932,43 @@ Question 2
 <div class="cell" data-execution_count="6">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>,   <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>])</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.4</span>, <span class="fl">.4</span>, <span class="fl">.4</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.9</span>])</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span><span class="dv">4</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                               hist_per_class<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                               show_bars<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                               show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>,   <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>])</span>
+<span id="cb6-2"><a href="#cb6-2"></a>scores <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.4</span>, <span class="fl">.4</span>, <span class="fl">.4</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.6</span>, <span class="fl">.9</span>])</span>
+<span id="cb6-3"><a href="#cb6-3"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb6-4"><a href="#cb6-4"></a>fig <span class="op">=</span> plot_reliability_diagram(labels, np.vstack([<span class="dv">1</span> <span class="op">-</span> scores, scores]).T,</span>
+<span id="cb6-5"><a href="#cb6-5"></a>                               class_names<span class="op">=</span>[<span class="st">'not 1'</span>, <span class="st">'rain'</span>], bins<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb6-6"><a href="#cb6-6"></a>                               fig<span class="op">=</span>fig,</span>
+<span id="cb6-7"><a href="#cb6-7"></a>                               hist_per_class<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-8"><a href="#cb6-8"></a>                               show_bars<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-9"><a href="#cb6-9"></a>                               show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-q-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-q-2-output-1.png" width="439" height="287" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5.6: Reliability diagram</figcaption><p></p>
-</figure>
+<p><img src="wahcc_files/figure-html/cell-7-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
-</div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes
+Answer: Yes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Correct</strong>. You can see that there is one bin per predicted score <span class="math inline">\(0.1, 0.4, 0.6\)</span> and <span class="math inline">\(0.9\)</span>. Each bin contains the number of scores indicated in the smaller histogram below with 2, 3, 4 and 1 samples respectively. Finally, the height of each bin corresponds to the fraction of rains indicated in the question 50%, 66.6%, 25% and 100%.</p>
+<p><strong>Correct</strong>. You can see that there is one bin per predicted score <span class="math inline">0.1, 0.4, 0.6</span> and <span class="math inline">0.9</span>. Each bin contains the number of scores indicated in the smaller histogram below with 2, 3, 4 and 1 samples respectively. Finally, the height of each bin corresponds to the fraction of rains indicated in the question 50%, 66.6%, 25% and 100%.</p>
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No
+Answer: No
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -997,13 +991,13 @@ Question 3
 <p>Do we need multiple instances in each bin in order to visualise a reliability diagram?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes
+Answer: Yes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1013,13 +1007,13 @@ Yes
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No
+Answer: No
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1045,33 +1039,28 @@ Question 4
 <div class="cell" data-execution_count="7">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>empirical <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="fl">.7</span>, <span class="fl">.9</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a>scores <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6"></a>empirical <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="fl">.7</span>, <span class="fl">.9</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb7-7"><a href="#cb7-7"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb7-8"><a href="#cb7-8"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
+<span id="cb7-9"><a href="#cb7-9"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
+<span id="cb7-10"><a href="#cb7-10"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-q-4" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-q-4-output-1.png" width="439" height="361" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5.7: Reliability diagram</figcaption><p></p>
-</figure>
+<p><img src="wahcc_files/figure-html/cell-8-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
-</div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Over-estimates
+Answer: Over-estimates
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1081,13 +1070,13 @@ Over-estimates
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Under-estimates
+Answer: Under-estimates
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1113,33 +1102,28 @@ Question 5
 <div class="cell" data-execution_count="8">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.5</span>, <span class="fl">.7</span>, <span class="fl">.8</span>, <span class="fl">.9</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>empirical <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.05</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.33</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a>scores <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.5</span>, <span class="fl">.7</span>, <span class="fl">.8</span>, <span class="fl">.9</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb8-6"><a href="#cb8-6"></a>empirical <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.05</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.33</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb8-7"><a href="#cb8-7"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb8-8"><a href="#cb8-8"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
+<span id="cb8-9"><a href="#cb8-9"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
+<span id="cb8-10"><a href="#cb8-10"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-q-5" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="wahcc_files/figure-html/fig-q-5-output-1.png" width="439" height="361" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5.8: Reliability diagram</figcaption><p></p>
-</figure>
+<p><img src="wahcc_files/figure-html/cell-9-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
-</div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Over-estimates
+Answer: Over-estimates
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1149,13 +1133,13 @@ Over-estimates
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Under-estimates
+Answer: Under-estimates
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1217,44 +1201,44 @@ Q: Is the probability scale additive?
 <div class="cell" data-execution_count="9">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mean(p):</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''Arithmetic mean'''</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> np.array(p)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(p)<span class="op">/</span>(<span class="bu">len</span>(p))</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gmean(p):</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''Geometric mean'''</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> np.array(p)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    o <span class="op">=</span> np.power(np.prod(p<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>p)), <span class="dv">1</span><span class="op">/</span><span class="bu">len</span>(p))</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> o<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span>o)</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hmean(p):</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''Harmonic mean'''</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> np.array(p)</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">len</span>(p)<span class="op">/</span>np.<span class="bu">sum</span>(<span class="dv">1</span><span class="op">/</span>p)</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>example_list <span class="op">=</span> [[<span class="fl">.1</span>, <span class="fl">.1</span>], [<span class="fl">.5</span>, <span class="fl">.5</span>], [<span class="fl">.1</span>, <span class="fl">.9</span>],</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                [<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.9</span>], [<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.99</span>], [<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.999</span>]]</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>functions <span class="op">=</span> {<span class="st">'Arithmetic mean'</span>: mean,</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>             <span class="st">'Geometric mean'</span>: gmean,</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>             <span class="st">'Harmonic mean'</span>: hmean}</span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> []</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> example <span class="kw">in</span> example_list:</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    table.append([np.array2string(np.array(example))])</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    table[<span class="op">-</span><span class="dv">1</span>].extend([<span class="ss">f'</span><span class="sc">{</span>f(example)<span class="sc">:.2f}</span><span class="ss">'</span> <span class="cf">for</span> f <span class="kw">in</span> functions.values()])</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> [<span class="st">'Probabilities'</span>]</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>headers.extend(<span class="bu">list</span>(functions.keys()))</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>Markdown(tabulate(table, headers<span class="op">=</span>headers))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="kw">def</span> mean(p):</span>
+<span id="cb9-6"><a href="#cb9-6"></a>    <span class="co">'''Arithmetic mean'''</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>    p <span class="op">=</span> np.array(p)</span>
+<span id="cb9-8"><a href="#cb9-8"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(p)<span class="op">/</span>(<span class="bu">len</span>(p))</span>
+<span id="cb9-9"><a href="#cb9-9"></a></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="kw">def</span> gmean(p):</span>
+<span id="cb9-11"><a href="#cb9-11"></a>    <span class="co">'''Geometric mean'''</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a>    p <span class="op">=</span> np.array(p)</span>
+<span id="cb9-13"><a href="#cb9-13"></a>    o <span class="op">=</span> np.power(np.prod(p<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>p)), <span class="dv">1</span><span class="op">/</span><span class="bu">len</span>(p))</span>
+<span id="cb9-14"><a href="#cb9-14"></a>    <span class="cf">return</span> o<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span>o)</span>
+<span id="cb9-15"><a href="#cb9-15"></a></span>
+<span id="cb9-16"><a href="#cb9-16"></a><span class="kw">def</span> hmean(p):</span>
+<span id="cb9-17"><a href="#cb9-17"></a>    <span class="co">'''Harmonic mean'''</span></span>
+<span id="cb9-18"><a href="#cb9-18"></a>    p <span class="op">=</span> np.array(p)</span>
+<span id="cb9-19"><a href="#cb9-19"></a>    <span class="cf">return</span> <span class="bu">len</span>(p)<span class="op">/</span>np.<span class="bu">sum</span>(<span class="dv">1</span><span class="op">/</span>p)</span>
+<span id="cb9-20"><a href="#cb9-20"></a></span>
+<span id="cb9-21"><a href="#cb9-21"></a>example_list <span class="op">=</span> [[<span class="fl">.1</span>, <span class="fl">.1</span>], [<span class="fl">.5</span>, <span class="fl">.5</span>], [<span class="fl">.1</span>, <span class="fl">.9</span>],</span>
+<span id="cb9-22"><a href="#cb9-22"></a>                [<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.9</span>], [<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.99</span>], [<span class="fl">.1</span>, <span class="fl">.1</span>, <span class="fl">.999</span>]]</span>
+<span id="cb9-23"><a href="#cb9-23"></a></span>
+<span id="cb9-24"><a href="#cb9-24"></a>functions <span class="op">=</span> {<span class="st">'Arithmetic mean'</span>: mean,</span>
+<span id="cb9-25"><a href="#cb9-25"></a>             <span class="st">'Geometric mean'</span>: gmean,</span>
+<span id="cb9-26"><a href="#cb9-26"></a>             <span class="st">'Harmonic mean'</span>: hmean}</span>
+<span id="cb9-27"><a href="#cb9-27"></a></span>
+<span id="cb9-28"><a href="#cb9-28"></a>table <span class="op">=</span> []</span>
+<span id="cb9-29"><a href="#cb9-29"></a></span>
+<span id="cb9-30"><a href="#cb9-30"></a><span class="cf">for</span> example <span class="kw">in</span> example_list:</span>
+<span id="cb9-31"><a href="#cb9-31"></a>    table.append([np.array2string(np.array(example))])</span>
+<span id="cb9-32"><a href="#cb9-32"></a>    table[<span class="op">-</span><span class="dv">1</span>].extend([<span class="ss">f'</span><span class="sc">{</span>f(example)<span class="sc">:.2f}</span><span class="ss">'</span> <span class="cf">for</span> f <span class="kw">in</span> functions.values()])</span>
+<span id="cb9-33"><a href="#cb9-33"></a></span>
+<span id="cb9-34"><a href="#cb9-34"></a></span>
+<span id="cb9-35"><a href="#cb9-35"></a>headers <span class="op">=</span> [<span class="st">'Probabilities'</span>]</span>
+<span id="cb9-36"><a href="#cb9-36"></a>headers.extend(<span class="bu">list</span>(functions.keys()))</span>
+<span id="cb9-37"><a href="#cb9-37"></a></span>
+<span id="cb9-38"><a href="#cb9-38"></a>Markdown(tabulate(table, headers<span class="op">=</span>headers))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div id="tbl-prob-mean" class="anchored">
@@ -1310,41 +1294,41 @@ Q: Is the probability scale additive?
 </div>
 </div>
 </div>
-<section id="optimal-decisions" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="optimal-decisions"><span class="header-section-number">5.2.1</span> Optimal decisions</h3>
-<p>Denote the cost of predicting class <span class="math inline">\(j\)</span> for an instance of true class <span class="math inline">\(i\)</span> as <span class="math inline">\(C(\hat{Y}=j|Y=i)\)</span>. The expected cost of predicting class <span class="math inline">\(j\)</span> for instance <span class="math inline">\(x\)</span> is</p>
-<p><span class="math display">\[
+<section id="optimal-decisions" class="level3">
+<h3 class="anchored" data-anchor-id="optimal-decisions">Optimal decisions</h3>
+<p>Denote the cost of predicting class <span class="math inline">j</span> for an instance of true class <span class="math inline">i</span> as <span class="math inline">C(\hat{Y}=j|Y=i)</span>. The expected cost of predicting class <span class="math inline">j</span> for instance <span class="math inline">x</span> is</p>
+<p><span class="math display">
 C(\hat{Y}=j|X=x) = \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
-\]</span></p>
-<p>where <span class="math inline">\(P(Y=i|X=x)\)</span> is the probability of instance <span class="math inline">\(x\)</span> having true class <span class="math inline">\(i\)</span> (as would be given by the Bayes-optimal classifier).</p>
+</span></p>
+<p>where <span class="math inline">P(Y=i|X=x)</span> is the probability of instance <span class="math inline">x</span> having true class <span class="math inline">i</span> (as would be given by the Bayes-optimal classifier).</p>
 <p>The optimal decision is then to predict the class with lowest expected cost:</p>
-<p><span class="math display">\[
+<p><span class="math display">
 \hat{Y}^* = \mathop{\mathrm{argmin}}_j C(\hat{Y}=j|X=x) = \mathop{\mathrm{argmin}}_j \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
-\]</span></p>
+</span></p>
 <p>In binary classification we have:</p>
-<p><span class="math display">\[\begin{align*}
+<p><span class="math display">\begin{align*}
 C(\hat{Y}=+|X=x) &amp;= P(+|x)C(+|+) + \big(1-P(+|x)\big)C(+|-) \\
 C(\hat{Y}=-|X=x) &amp;= P(+|x)C(-|+) + \big(1-P(+|x)\big)C(-|-)
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 <p>On the optimal decision boundary these two expected costs are equal, which gives</p>
-<p><span class="math display">\[\begin{align*}%\label{eq::cost-threshold}
+<p><span class="math display">\begin{align*}%\label{eq::cost-threshold}
 P(+|x)  = \frac{\textcolor{blue}{C(+|-)-C(-|-)}}{\textcolor{blue}{C(+|-)-C(-|-)}+\textcolor{red}{C(-|+)-C(+|+)}} \triangleq c
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 <p>This gives the optimal threshold on the hypothetical Bayes-optimal probabilities.</p>
 <p>It is also the best thing to do in practice – as long as the probabilities are well-calibrated!</p>
-<p>Without loss of generality we can set the cost of true positives and true negatives to zero; <span class="math inline">\(c = \frac{c_{\text{FP}}}{c_{\text{FP}} + c_{\text{FN}}}\)</span> is then the cost of a false positive in proportion to the combined cost of one false positive and one false negative.</p>
+<p>Without loss of generality we can set the cost of true positives and true negatives to zero; <span class="math inline">c = \frac{c_{\text{FP}}}{c_{\text{FP}} + c_{\text{FN}}}</span> is then the cost of a false positive in proportion to the combined cost of one false positive and one false negative.</p>
 <ul>
-<li>E.g., if false positives are 4 times as costly as false negatives then we set the decision threshold to <span class="math inline">\(4/(4+1)=0.8\)</span> in order to only make positive predictions if we’re pretty certain.</li>
+<li>E.g., if false positives are 4 times as costly as false negatives then we set the decision threshold to <span class="math inline">4/(4+1)=0.8</span> in order to only make positive predictions if we’re pretty certain.</li>
 </ul>
 <p>Similar reasoning applies to changes in class priors:</p>
 <ul>
-<li>if we trained on balanced classes but want to deploy with 4 times as many positives compared to negatives, we lower the decision threshold to <span class="math inline">\(0.2\)</span>;</li>
-<li>more generally, if we trained for class ratio <span class="math inline">\(r\)</span> and deploy for class ratio <span class="math inline">\(r'\)</span> we set the decision threshold to <span class="math inline">\(r/(r+r')\)</span>.</li>
+<li>if we trained on balanced classes but want to deploy with 4 times as many positives compared to negatives, we lower the decision threshold to <span class="math inline">0.2</span>;</li>
+<li>more generally, if we trained for class ratio <span class="math inline">r</span> and deploy for class ratio <span class="math inline">r'</span> we set the decision threshold to <span class="math inline">r/(r+r')</span>.</li>
 </ul>
 <p>Cost and class prior changes can be combined in the obvious way.</p>
 </section>
-<section id="questions-and-answers-1" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="questions-and-answers-1"><span class="header-section-number">5.2.2</span> Questions and Answers</h3>
+<section id="questions-and-answers-1" class="level3">
+<h3 class="anchored" data-anchor-id="questions-and-answers-1">Questions and answers</h3>
 <div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1358,13 +1342,13 @@ Question
 <p>Is it possible to compute optimal risks given a cost matrix and a probabilistic classifier that is not calibrated?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes
+Answer: Yes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1374,13 +1358,13 @@ Yes
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No
+Answer: No
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1403,13 +1387,13 @@ Question
 <p>Given a calibrated probabilistic classifier, is it optimal to select the class with the highest predicted probability?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes
+Answer: Yes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1419,13 +1403,13 @@ Yes
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No
+Answer: No
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1451,22 +1435,22 @@ Question
 <div class="cell" data-execution_count="10">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>cost_matrix <span class="op">=</span> [[<span class="op">-</span><span class="dv">1</span>,  <span class="dv">2</span>],</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>               [ <span class="dv">4</span>, <span class="op">-</span><span class="dv">2</span>]]</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>table <span class="op">=</span> [[<span class="st">'Predicted Class 1'</span>],</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>         [<span class="st">'Predicted Class 2'</span>]]</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(cost_matrix):</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    table[i].extend(c)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> [<span class="st">'True Class 1'</span>, <span class="st">'True Class 2'</span>]</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>Markdown(tabulate(table, headers<span class="op">=</span>headers))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a>cost_matrix <span class="op">=</span> [[<span class="op">-</span><span class="dv">1</span>,  <span class="dv">2</span>],</span>
+<span id="cb10-6"><a href="#cb10-6"></a>               [ <span class="dv">4</span>, <span class="op">-</span><span class="dv">2</span>]]</span>
+<span id="cb10-7"><a href="#cb10-7"></a></span>
+<span id="cb10-8"><a href="#cb10-8"></a>table <span class="op">=</span> [[<span class="st">'Predicted Class 1'</span>],</span>
+<span id="cb10-9"><a href="#cb10-9"></a>         [<span class="st">'Predicted Class 2'</span>]]</span>
+<span id="cb10-10"><a href="#cb10-10"></a></span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(cost_matrix):</span>
+<span id="cb10-12"><a href="#cb10-12"></a>    table[i].extend(c)</span>
+<span id="cb10-13"><a href="#cb10-13"></a></span>
+<span id="cb10-14"><a href="#cb10-14"></a>headers <span class="op">=</span> [<span class="st">'True Class 1'</span>, <span class="st">'True Class 2'</span>]</span>
+<span id="cb10-15"><a href="#cb10-15"></a></span>
+<span id="cb10-16"><a href="#cb10-16"></a>Markdown(tabulate(table, headers<span class="op">=</span>headers))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div id="tbl-q-cm" class="anchored">
@@ -1495,13 +1479,13 @@ Question
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-0.4
+Answer: 0.4
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1511,13 +1495,13 @@ Question
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
--0.4
+Answer: -0.4
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1527,19 +1511,19 @@ Question
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-1.6
+Answer: 1.6
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-29" class="callout-29-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Correct</strong>. <span class="math inline">\(4*0.6 - 2*0.4\)</span></p>
+<p><strong>Correct</strong>. <span class="math inline">4*0.6 - 2*0.4</span></p>
 </div>
 </div>
 </div>
@@ -1556,13 +1540,13 @@ Question
 <p>What would be the expected cost of predicting class 1?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-0.4
+Answer: 0.4
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1572,29 +1556,29 @@ Question
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-32-contents" aria-controls="callout-32" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
--0.4
+Answer: -0.4
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-32" class="callout-32-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Correct</strong>. <span class="math inline">\(-1*0.6 + 2*0.4\)</span></p>
+<p><strong>Correct</strong>. <span class="math inline">-1*0.6 + 2*0.4</span></p>
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-33-contents" aria-controls="callout-33" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-1.6
+Answer: 1.6
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1627,8 +1611,8 @@ Question
 </dd>
 </dl>
 <p>A classifier can be overconfident for one class and underconfident for the other, in which case all predicted probabilities need to be increased or decreased.</p>
-<section id="underconfidence-example" class="level3" data-number="5.3.1">
-<h3 data-number="5.3.1" class="anchored" data-anchor-id="underconfidence-example"><span class="header-section-number">5.3.1</span> Underconfidence example</h3>
+<section id="underconfidence-example" class="level3">
+<h3 class="anchored" data-anchor-id="underconfidence-example">Underconfidence example</h3>
 <div class="columns v-center-container">
 <div class="column" style="width:70%;">
 <ul>
@@ -1641,8 +1625,8 @@ Question
 </div>
 </div>
 </section>
-<section id="overconfidence-example" class="level3" data-number="5.3.2">
-<h3 data-number="5.3.2" class="anchored" data-anchor-id="overconfidence-example"><span class="header-section-number">5.3.2</span> Overconfidence example</h3>
+<section id="overconfidence-example" class="level3">
+<h3 class="anchored" data-anchor-id="overconfidence-example">Overconfidence example</h3>
 <div class="columns v-center-container">
 <div class="column" style="width:70%;">
 <ul>
@@ -1656,13 +1640,13 @@ Question
 </div>
 </div>
 </section>
-<section id="why-fitting-the-distortions-helps-with-calibration" class="level3" data-number="5.3.3">
-<h3 data-number="5.3.3" class="anchored" data-anchor-id="why-fitting-the-distortions-helps-with-calibration"><span class="header-section-number">5.3.3</span> Why fitting the distortions helps with calibration</h3>
+<section id="why-fitting-the-distortions-helps-with-calibration" class="level3">
+<h3 class="anchored" data-anchor-id="why-fitting-the-distortions-helps-with-calibration">Why fitting the distortions helps with calibration</h3>
 <div class="columns v-center-container">
 <div class="column" style="width:50%;">
 <p>In clockwise direction, the dotted arrows show:</p>
 <ol type="1">
-<li>using a point’s uncalibrated score on the <span class="math inline">\(x\)</span>-axis as input to the calibration map,</li>
+<li>using a point’s uncalibrated score on the <span class="math inline">x</span>-axis as input to the calibration map,</li>
 <li>mapping the resulting output back to the diagonal, and</li>
 <li>combine with the empirical probability of the point we started from.</li>
 </ol>
@@ -1672,8 +1656,8 @@ Question
 </div>
 </div>
 </section>
-<section id="questions-and-answers-2" class="level3" data-number="5.3.4">
-<h3 data-number="5.3.4" class="anchored" data-anchor-id="questions-and-answers-2"><span class="header-section-number">5.3.4</span> Questions and Answers</h3>
+<section id="questions-and-answers-2" class="level3">
+<h3 class="anchored" data-anchor-id="questions-and-answers-2">Questions and answers</h3>
 <div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1690,32 +1674,27 @@ Question
 <div class="cell" data-execution_count="11">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span>    np.array([<span class="fl">0.</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.4</span>, <span class="fl">.7</span>, <span class="fl">.9</span>, <span class="fl">1.</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>empirical <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.4</span>, <span class="fl">.5</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="fl">.9</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a>scores <span class="op">=</span>    np.array([<span class="fl">0.</span>, <span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.4</span>, <span class="fl">.7</span>, <span class="fl">.9</span>, <span class="fl">1.</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb11-5"><a href="#cb11-5"></a>empirical <span class="op">=</span> np.array([<span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.4</span>, <span class="fl">.5</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="fl">.9</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb11-6"><a href="#cb11-6"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb11-7"><a href="#cb11-7"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
+<span id="cb11-8"><a href="#cb11-8"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
+<span id="cb11-9"><a href="#cb11-9"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="wahcc_files/figure-html/cell-12-output-1.png" width="439" height="361" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Reliability diagram</figcaption><p></p>
-</figure>
+<p><img src="wahcc_files/figure-html/cell-12-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
-</div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-35-contents" aria-controls="callout-35" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Calibrated.
+Answer: Calibrated.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1725,13 +1704,13 @@ Calibrated.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-36-contents" aria-controls="callout-36" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Over-confident.
+Answer: Over-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1741,13 +1720,13 @@ Over-confident.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-37-contents" aria-controls="callout-37" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Under-confident.
+Answer: Under-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1760,32 +1739,27 @@ Under-confident.
 <div class="cell" data-execution_count="12">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.3</span>, <span class="fl">.4</span>, <span class="fl">.5</span>, <span class="fl">.6</span>, <span class="fl">.7</span>, <span class="fl">.8</span>, <span class="fl">.9</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>empirical <span class="op">=</span> scores</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
+<span id="cb12-3"><a href="#cb12-3"></a></span>
+<span id="cb12-4"><a href="#cb12-4"></a>scores <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.3</span>, <span class="fl">.4</span>, <span class="fl">.5</span>, <span class="fl">.6</span>, <span class="fl">.7</span>, <span class="fl">.8</span>, <span class="fl">.9</span>, <span class="dv">1</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb12-5"><a href="#cb12-5"></a>empirical <span class="op">=</span> scores</span>
+<span id="cb12-6"><a href="#cb12-6"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb12-7"><a href="#cb12-7"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
+<span id="cb12-8"><a href="#cb12-8"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
+<span id="cb12-9"><a href="#cb12-9"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="wahcc_files/figure-html/cell-13-output-1.png" width="439" height="361" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Reliability diagram</figcaption><p></p>
-</figure>
+<p><img src="wahcc_files/figure-html/cell-13-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
-</div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Calibrated.
+Answer: Calibrated.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1795,13 +1769,13 @@ Calibrated.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-39-contents" aria-controls="callout-39" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Over-confident.
+Answer: Over-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1811,13 +1785,13 @@ Over-confident.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Under-confident.
+Answer: Under-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1830,32 +1804,27 @@ Under-confident.
 <div class="cell" data-execution_count="13">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span>    np.array([<span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.5</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="fl">.9</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>empirical <span class="op">=</span> np.array([<span class="fl">0.</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="fl">.7</span>, <span class="fl">.9</span>, <span class="fl">1.</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="im">from</span> pycalib.visualisations <span class="im">import</span> plot_reliability_diagram_precomputed</span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a>scores <span class="op">=</span>    np.array([<span class="fl">.1</span>, <span class="fl">.3</span>, <span class="fl">.5</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="fl">.9</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb13-5"><a href="#cb13-5"></a>empirical <span class="op">=</span> np.array([<span class="fl">0.</span>, <span class="fl">.2</span>, <span class="fl">.5</span>, <span class="fl">.7</span>, <span class="fl">.9</span>, <span class="fl">1.</span>]).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb13-6"><a href="#cb13-6"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">4</span>))</span>
+<span id="cb13-7"><a href="#cb13-7"></a>fig <span class="op">=</span> plot_reliability_diagram_precomputed(avg_true<span class="op">=</span>empirical, avg_pred<span class="op">=</span>scores,</span>
+<span id="cb13-8"><a href="#cb13-8"></a>                               class_names<span class="op">=</span>[<span class="st">'rain'</span>],</span>
+<span id="cb13-9"><a href="#cb13-9"></a>                               fig<span class="op">=</span>fig, show_gaps<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="wahcc_files/figure-html/cell-14-output-1.png" width="439" height="361" class="figure-img"></p>
-<p></p><figcaption class="figure-caption">Reliability diagram</figcaption><p></p>
-</figure>
+<p><img src="wahcc_files/figure-html/cell-14-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
-</div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-41-contents" aria-controls="callout-41" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Calibrated.
+Answer: Calibrated.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1865,13 +1834,13 @@ Calibrated.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-42-contents" aria-controls="callout-42" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Over-confident.
+Answer: Over-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1881,13 +1850,13 @@ Over-confident.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-43-contents" aria-controls="callout-43" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Under-confident.
+Answer: Under-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1910,13 +1879,13 @@ Question
 <p>Can a binary classifier show a calibrated reliability diagram with a number of equally distributed bins, and a non-calibrated one with a higher number of equally distributed bins?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes.
+Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1926,13 +1895,13 @@ Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No.
+Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -1952,7 +1921,7 @@ No.
 <li><strong>Parametric</strong> calibration involves modelling the score distributions within each class. \
 <ul>
 <li><strong>Platt scaling</strong> = Logistic calibration can be derived by assuming that the scores within both classes are normally distributed with the same variance <span class="citation" data-cites="platt2000">(<a href="#ref-platt2000" role="doc-biblioref">Platt 2000</a>)</span>.</li>
-<li><strong>Beta calibration</strong> employs Beta distributions instead, to deal with scores already on a <span class="math inline">\([0,1]\)</span> scale <span class="citation" data-cites="kull2017">(<a href="#ref-kull2017" role="doc-biblioref">Kull, Silva Filho, and Flach 2017</a>})</span>.</li>
+<li><strong>Beta calibration</strong> employs Beta distributions instead, to deal with scores already on a <span class="math inline">[0,1]</span> scale <span class="citation" data-cites="kull2017">(<a href="#ref-kull2017" role="doc-biblioref">Kull, Silva Filho, and Flach 2017</a>})</span>.</li>
 <li><strong>Dirichlet calibration</strong> for more than two classes <span class="citation" data-cites="kull2019">(<a href="#ref-kull2019" role="doc-biblioref">Kull et al. 2019</a>)</span>.</li>
 </ul></li>
 <li><strong>Non-parametric</strong> calibration often ignores scores and employs ranks instead. \
@@ -1960,26 +1929,26 @@ No.
 <li>E.g., <strong>isotonic regression</strong> = pool adjacent violators = ROC convex hull <span class="citation" data-cites="zadrozny2001">(<a href="#ref-zadrozny2001" role="doc-biblioref">Zadrozny and Elkan 2001</a>)</span> <span class="citation" data-cites="fawcett2007">(<a href="#ref-fawcett2007" role="doc-biblioref">Fawcett and Niculescu-Mizil 2007</a>)</span>.</li>
 </ul></li>
 </ul>
-<section id="platt-scaling" class="level3" data-number="5.4.1">
-<h3 data-number="5.4.1" class="anchored" data-anchor-id="platt-scaling"><span class="header-section-number">5.4.1</span> Platt scaling</h3>
+<section id="platt-scaling" class="level3">
+<h3 class="anchored" data-anchor-id="platt-scaling">Platt scaling</h3>
 <p><img src="images/Logistic.png" class="img-fluid"></p>
-<p><span class="math display">\[\begin{align*}
+<p><span class="math display">\begin{align*}
     p(s; w, m) &amp;= \frac{1}{1+\exp(-w(s-m))}\\
     w &amp;= (\mu_{\textit{pos}}-\mu_{\textit{neg}})/\sigma^2,
     m = (\mu_{\textit{pos}}+\mu_{\textit{neg}})/2
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 </section>
-<section id="beta-calibration" class="level3" data-number="5.4.2">
-<h3 data-number="5.4.2" class="anchored" data-anchor-id="beta-calibration"><span class="header-section-number">5.4.2</span> Beta calibration</h3>
+<section id="beta-calibration" class="level3">
+<h3 class="anchored" data-anchor-id="beta-calibration">Beta calibration</h3>
 <p><img src="images/Beta.png" class="img-fluid"></p>
-<p><span class="math display">\[\begin{align*}
+<p><span class="math display">\begin{align*}
   p(s; a, b, c) &amp;= \frac{1}{1+\exp(-a \ln s - b \ln (1-s) - c)} \\
   a &amp;= \alpha_{\textit{pos}}-\alpha_{\textit{neg}},
   b = \beta_{\textit{neg}}-\beta_{\textit{pos}}
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 </section>
-<section id="isotonic-regression" class="level3" data-number="5.4.3">
-<h3 data-number="5.4.3" class="anchored" data-anchor-id="isotonic-regression"><span class="header-section-number">5.4.3</span> Isotonic regression</h3>
+<section id="isotonic-regression" class="level3">
+<h3 class="anchored" data-anchor-id="isotonic-regression">Isotonic regression</h3>
 <div class="columns v-center-container">
 <div class="column" style="width:40%;">
 <p><img src="images/ROCCH.png" class="img-fluid"></p>
@@ -1987,9 +1956,12 @@ No.
 
 </div><div class="column" style="width:47%;">
 <p><img src="images/ROCcal2.png" class="img-fluid"></p>
-<p>Source: <em>flach2016roc</em></p>
+<p>Source: <span class="citation" data-cites="flach2016roc">Flach (<a href="#ref-flach2016roc" role="doc-biblioref">2016</a>)</span></p>
 </div>
 </div>
+</section>
+<section id="questions-and-answers-3" class="level3">
+<h3 class="anchored" data-anchor-id="questions-and-answers-3">Questions and answers</h3>
 <div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2003,13 +1975,13 @@ Question
 <p>Can a binary classifier show a calibrated reliability diagram with a number of equally distributed bins, and a non-calibrated one with a higher number of equally distributed bins?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-What is a calibration map?
+Answer: What is a calibration map?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2032,13 +2004,13 @@ Can Platt scaling calibrate models that are overconfident?
 
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-50-contents" aria-controls="callout-50" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes.
+Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2048,13 +2020,13 @@ Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-51-contents" aria-controls="callout-51" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No.
+Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2077,13 +2049,13 @@ Is isotonic regression a parametric method?
 
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-53-contents" aria-controls="callout-53" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes.
+Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2093,13 +2065,13 @@ Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-54-contents" aria-controls="callout-54" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No.
+Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2122,13 +2094,13 @@ Can Platt scaling learn an identity function if the model is already calibrated?
 
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-56-contents" aria-controls="callout-56" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes.
+Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2138,13 +2110,13 @@ Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-57-contents" aria-controls="callout-57" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No.
+Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2160,14 +2132,14 @@ No.
 <h2 data-number="5.5" class="anchored" data-anchor-id="calibrating-multi-class-classifiers"><span class="header-section-number">5.5</span> Calibrating multi-class classifiers</h2>
 <iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=8f343b50-bf2a-11ed-83a4-bf04f88f22c5" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
-<section id="whats-so-special-about-multi-class-calibration" class="level3" data-number="5.5.1">
-<h3 data-number="5.5.1" class="anchored" data-anchor-id="whats-so-special-about-multi-class-calibration"><span class="header-section-number">5.5.1</span> What’s so special about multi-class calibration?</h3>
+<section id="whats-so-special-about-multi-class-calibration" class="level3">
+<h3 class="anchored" data-anchor-id="whats-so-special-about-multi-class-calibration">What’s so special about multi-class calibration?</h3>
 <p>Similar to classification, some methods are inherently multi-class but most are not.</p>
 <p>This leads to (at least) three different ways of <strong>defining</strong> what it means to be fully multiclass-calibrated. - Many recent papers use the (weak) notion of confidence calibration.</p>
 <p><strong>Evaluating</strong> multi-class calibration is in its full generality still an open problem.</p>
 </section>
-<section id="definitions-of-calibration-for-more-than-two-classes" class="level3" data-number="5.5.2">
-<h3 data-number="5.5.2" class="anchored" data-anchor-id="definitions-of-calibration-for-more-than-two-classes"><span class="header-section-number">5.5.2</span> Definitions of calibration for more than two classes</h3>
+<section id="definitions-of-calibration-for-more-than-two-classes" class="level3">
+<h3 class="anchored" data-anchor-id="definitions-of-calibration-for-more-than-two-classes">Definitions of calibration for more than two classes</h3>
 <p>The following definitions of calibration are equivalent for binary classification but increasingly stronger for more than two classes:</p>
 <ul>
 <li><strong>Confidence calibration:</strong> only consider the highest predicted probability.</li>
@@ -2175,47 +2147,47 @@ No.
 <li><strong>Multi-class calibration:</strong> consider the entire vector of predicted probabilities.</li>
 </ul>
 </section>
-<section id="confidence-calibration" class="level3" data-number="5.5.3">
-<h3 data-number="5.5.3" class="anchored" data-anchor-id="confidence-calibration"><span class="header-section-number">5.5.3</span> Confidence calibration</h3>
-<p>This was proposed by <span class="citation" data-cites="guo2017">Guo et al. (<a href="#ref-guo2017" role="doc-biblioref">2017</a>)</span>, requiring that among all instances where the probability of <strong>the most likely class</strong> is predicted to be <span class="math inline">\(c\)</span>, the expected accuracy is <span class="math inline">\(c\)</span>. (We call this `confidence calibration’ to distinguish it from the stronger notions of calibration.)</p>
-<p>Formally, a probabilistic classifier <span class="math inline">\(\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>confidence-calibrated</strong>, if for any confidence level <span class="math inline">\(c\in[0,1]\)</span>, the actual proportion of the predicted class, among all possible instances <span class="math inline">\(\mathbf{x}\)</span> being predicted this class with confidence <span class="math inline">\(c\)</span>, is equal to <span class="math inline">\(c\)</span>:</p>
-<p><span class="math display">\[\begin{align*}
+<section id="confidence-calibration" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-calibration">Confidence calibration</h3>
+<p>This was proposed by <span class="citation" data-cites="guo2017">Guo et al. (<a href="#ref-guo2017" role="doc-biblioref">2017</a>)</span>, requiring that among all instances where the probability of <strong>the most likely class</strong> is predicted to be <span class="math inline">c</span>, the expected accuracy is <span class="math inline">c</span>. (We call this `confidence calibration’ to distinguish it from the stronger notions of calibration.)</p>
+<p>Formally, a probabilistic classifier <span class="math inline">\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}</span> is <strong>confidence-calibrated</strong>, if for any confidence level <span class="math inline">c\in[0,1]</span>, the actual proportion of the predicted class, among all possible instances <span class="math inline">\mathbf{x}</span> being predicted this class with confidence <span class="math inline">c</span>, is equal to <span class="math inline">c</span>:</p>
+<p><span class="math display">\begin{align*}
 P(Y=i \: | \: \hat{p}_i(\mathbf{x})=c)=c\qquad\text{where }\ i=\mathop{\mathrm{argmax}}_j \hat{p}_j(\mathbf{x}).
 %P\Big(Y=\argmax\big(\vph(X)\big) \: \Big| \: \max\big(\vph(X)\big)=c\Big)=c.
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 </section>
-<section id="class-wise-calibration" class="level3" data-number="5.5.4">
-<h3 data-number="5.5.4" class="anchored" data-anchor-id="class-wise-calibration"><span class="header-section-number">5.5.4</span> Class-wise calibration}{</h3>
+<section id="class-wise-calibration" class="level3">
+<h3 class="anchored" data-anchor-id="class-wise-calibration">Class-wise calibration}{</h3>
 <p>Originally proposed by <span class="citation" data-cites="zadrozny2002">Zadrozny and Elkan (<a href="#ref-zadrozny2002" role="doc-biblioref">2002</a>)</span>, this requires that all <strong>one-vs-rest</strong> probability estimators obtained from the original multiclass model are calibrated.</p>
-<p>Formally, a probabilistic classifier <span class="math inline">\(\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>classwise-calibrated</strong>, if for any class <span class="math inline">\(i\)</span> and any predicted probability <span class="math inline">\(q_i\)</span> for this class, the actual proportion of class <span class="math inline">\(i\)</span>, among all possible instances <span class="math inline">\(\mathbf{x}\)</span> getting the same prediction <span class="math inline">\(\hat{p}_i(\mathbf{x})=q_i\)</span>, is equal to <span class="math inline">\(q_i\)</span>:</p>
-<p><span class="math display">\[\begin{align*}
+<p>Formally, a probabilistic classifier <span class="math inline">\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}</span> is <strong>classwise-calibrated</strong>, if for any class <span class="math inline">i</span> and any predicted probability <span class="math inline">q_i</span> for this class, the actual proportion of class <span class="math inline">i</span>, among all possible instances <span class="math inline">\mathbf{x}</span> getting the same prediction <span class="math inline">\hat{p}_i(\mathbf{x})=q_i</span>, is equal to <span class="math inline">q_i</span>:</p>
+<p><span class="math display">\begin{align*}
 P(Y=i\mid \hat{p}_i(\mathbf{x})=q_i)=q_i\qquad\text{for }\ i=1,\dots,k.
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 </section>
-<section id="multi-class-calibration" class="level3" data-number="5.5.5">
-<h3 data-number="5.5.5" class="anchored" data-anchor-id="multi-class-calibration"><span class="header-section-number">5.5.5</span> Multi-class calibration</h3>
+<section id="multi-class-calibration" class="level3">
+<h3 class="anchored" data-anchor-id="multi-class-calibration">Multi-class calibration</h3>
 <p>This is the <strong>strongest form of calibration</strong> for multiple classes, subsuming the previous two definitions.</p>
-<p>A probabilistic classifier <span class="math inline">\(\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>multiclass-calibrated</strong> if for any prediction vector <span class="math inline">\(\mathbf{q}=(q_1,\dots,q_k)\in\Delta_{k}\)</span>, the proportions of classes among all possible instances <span class="math inline">\(\mathbf{x}\)</span> getting the same prediction <span class="math inline">\(\mathbf{\hat{p}}(\mathbf{x})=\mathbf{q}\)</span> are equal to the prediction vector <span class="math inline">\(\mathbf{q}\)</span>:<br>
-<span class="math display">\[\begin{align*} %\label{eq:calib}
+<p>A probabilistic classifier <span class="math inline">\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}</span> is <strong>multiclass-calibrated</strong> if for any prediction vector <span class="math inline">\mathbf{q}=(q_1,\dots,q_k)\in\Delta_{k}</span>, the proportions of classes among all possible instances <span class="math inline">\mathbf{x}</span> getting the same prediction <span class="math inline">\mathbf{\hat{p}}(\mathbf{x})=\mathbf{q}</span> are equal to the prediction vector <span class="math inline">\mathbf{q}</span>:<br>
+<span class="math display">\begin{align*} %\label{eq:calib}
 P(Y=i\mid \mathbf{\hat{p}}(\mathbf{x})=\mathbf{q})=q_i\qquad\text{for }\ i=1,\dots,k.
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 </section>
-<section id="reminder-binning-needed" class="level3" data-number="5.5.6">
-<h3 data-number="5.5.6" class="anchored" data-anchor-id="reminder-binning-needed"><span class="header-section-number">5.5.6</span> Reminder: binning needed</h3>
+<section id="reminder-binning-needed" class="level3">
+<h3 class="anchored" data-anchor-id="reminder-binning-needed">Reminder: binning needed</h3>
 <p>For practical purposes, the conditions in these definitions need to be relaxed. This is where <strong>binning</strong> comes in.</p>
 <p>Once we have the bins, we can draw a <strong>reliability diagram</strong> as in the two-class case. For class-wise calibration, we can show per-class reliability diagrams or a single averaged one.</p>
 <p>The degree of calibration is assessed using the <strong>gaps</strong> in the reliability diagram. All of this will be elaborated in the next part of the tutorial.</p>
 </section>
-<section id="important-points-to-remember" class="level3" data-number="5.5.7">
-<h3 data-number="5.5.7" class="anchored" data-anchor-id="important-points-to-remember"><span class="header-section-number">5.5.7</span> Important points to remember</h3>
+<section id="important-points-to-remember" class="level3">
+<h3 class="anchored" data-anchor-id="important-points-to-remember">Important points to remember</h3>
 <ul>
-<li><strong>Only well-calibrated probability estimates are worthy to be called probabilities:</strong> otherwise they are just scores that happen to be in the <span class="math inline">\([0,1]\)</span> range.</li>
+<li><strong>Only well-calibrated probability estimates are worthy to be called probabilities:</strong> otherwise they are just scores that happen to be in the <span class="math inline">[0,1]</span> range.</li>
 <li><strong>Binning will be required in some form:</strong> instance-based probability evaluation metrics such as Brier score or log-loss always measure calibration <strong>plus something else</strong>.</li>
 <li><strong>In multi-class settings, think carefully about which form of calibration you need:</strong> e.g., confidence-calibration is too weak in a cost-sensitive setting.</li>
 </ul>
 </section>
-<section id="questions-and-answers-3" class="level3" data-number="5.5.8">
-<h3 data-number="5.5.8" class="anchored" data-anchor-id="questions-and-answers-3"><span class="header-section-number">5.5.8</span> Questions and Answers</h3>
+<section id="questions-and-answers-4" class="level3">
+<h3 class="anchored" data-anchor-id="questions-and-answers-4">Questions and answers</h3>
 <div class="callout-tip callout callout-style-simple callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2229,13 +2201,13 @@ Can we interpret the output of any model that produces values between zero and
 <p>one as probabilities?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-59-contents" aria-controls="callout-59" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes.
+Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2245,13 +2217,13 @@ Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-60-contents" aria-controls="callout-60" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No.
+Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2274,13 +2246,13 @@ Question
 <p>Is there only one way to measure calibration for multiclass probability scores.</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-62-contents" aria-controls="callout-62" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes.
+Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2290,13 +2262,13 @@ Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-63-contents" aria-controls="callout-63" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No.
+Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2319,13 +2291,13 @@ Question
 <p>Can we perform optimal decisions in a multiclass setting by knowing the highest probability among the classes and the misclassification costs?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-65-contents" aria-controls="callout-65" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes.
+Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2335,13 +2307,13 @@ Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-66-contents" aria-controls="callout-66" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No.
+Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2364,13 +2336,13 @@ Question
 <p>If the data distribution, operating conditions and the missclassification costs do not change from training to test set, and a model makes optimal predictions in the training set. Do we need the exact probabilities in the test set to make optimal decisions?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-68-contents" aria-controls="callout-68" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Yes.
+Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2380,13 +2352,13 @@ Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple callout-captioned">
+<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-69-contents" aria-controls="callout-69" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-No.
+Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -2408,6 +2380,9 @@ Brier, Glenn W. 1950. <span>“<span class="nocase">Verification of forecasts ex
 </div>
 <div id="ref-fawcett2007" class="csl-entry" role="doc-biblioentry">
 Fawcett, Tom, and Alexandru Niculescu-Mizil. 2007. <span>“<span class="nocase">PAV and the ROC convex hull</span>.”</span> <em>Machine Learning</em> 68 (1): 97–106.
+</div>
+<div id="ref-flach2016roc" class="csl-entry" role="doc-biblioentry">
+Flach, Peter A. 2016. <span>“<span>ROC</span> Analysis.”</span> In <em>Encyclopedia of Machine Learning and Data Mining</em>. Springer.
 </div>
 <div id="ref-guo2017" class="csl-entry" role="doc-biblioentry">
 Guo, Chuan, Geoff Pleiss, Yu Sun, and Kilian Q Weinberger. 2017. <span>“<span class="nocase">On Calibration of Modern Neural Networks</span>.”</span> In <em>34th International Conference on Machine Learning</em>, 1321–30.
@@ -2570,12 +2545,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../xais-sin-tre.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Single Tree Approximation</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">(Single Tree Approximation)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../safety-and-robustness.html" class="pagination-link">
-        <span class="nav-page-text">Safety and Robustness</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text">(Safety and Robustness)</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

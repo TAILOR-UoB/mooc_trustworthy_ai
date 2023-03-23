@@ -18,7 +18,7 @@ book:
   favicon: cropped-tailor-logo-symbol-32x32.png
   site-url: https://tailor-uob.github.io/mooc_trustworthy_ai/
   repo-url: https://github.com/TAILOR-UoB/mooc_trustworthy_ai
-  repo-branch: main
+  repo-branch: master
   repo-actions: [edit, issue]
   chapters:
     - index.qmd
@@ -31,12 +31,15 @@ book:
         - xais-sal-map.qmd
         - xais-sin-tre.qmd
         - cha_wahcc/wahcc.qmd
-
     - part: safety-and-robustness.qmd
       chapters:
         - sar-ali.qmd
         - sar-rob.qmd
         - sar-rel.qmd
+    - part: fairness-equity-justice-design.qmd
+    - part: accountability-reproducibility.qmd
+    - part: respect-privacy.qmd
+    - part: sustainability.qmd
 
 format:
   html:
@@ -45,14 +48,22 @@ format:
       - r4ds.scss
     code-link: true
     css: style.css
-
+    toc: true
+    toc-expand: false
+    html-math-method: katex
+    number-depth: 2
     author-meta: "Miquel Perello Nieto"
+    tbl-cap-location: bottom
+    fig-cap-location: bottom
+    shift-heading-level-by: 1
+    code-line-numbers: true
+    fig-format: svg
+    fig-responsive: true
     include-in-header:
       - "plausible.html"
     callout-appearance: simple
     header-includes: |
       <link rel="stylesheet" media="screen" href="/fonts/Myriad Pro Regular.ttf" type="text/css"/>
-
 
   revealjs:
     logo: "TAILOR logo - full-color rgb.svg"
