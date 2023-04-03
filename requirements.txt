@@ -4,3 +4,6 @@ jupyter
 pycalib
 tabulate
 pandas
+branca
+ipyleaflet
+tabulate

@@ -1,0 +1,55 @@
+/*-- scss:defaults --*/
+
+/*-- TAILOR logo colors
+Dark blue
+color: #28306C
+Light blue
+color: #37BEED
+--*/
+
+$primary: #28306C !default;
+
+/*-- scss:rules --*/
+
+.sidebar-title {
+  color: #28306C;
+}
+
+/* Headings ------------------------------------------------------ */
+
+h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+h3 { margin-top: 1.5em; font-size: 1.2rem; }
+h4 { margin-top: 1.5em; font-size: 1.1rem; }
+h5 { margin-top: 1.5em; font-size: 1rem; }
+
+h1, h2, h3, h4, h5 {
+  line-height: 1.3;
+}
+
+/* Code ------------------------------------------------ */
+
+code {
+  color: #37BEED;
+}
+
+code a:any-link {
+  text-decoration: underline;
+  text-decoration-color: #CCC;
+}
+
+pre {
+  background-image: linear-gradient(160deg,#F8F8F8 0,#F1F1F1 100%);
+}
+
+/* file: style.css */
+.v-center-container {
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  align-items: center;
+  height: 90%;
+}

@@ -21,9 +21,21 @@ author:
         postal-code: BS8 1QU
     attributes:
         equal-contributor: False
+bibliography: references.bib
 ---
 
+::: {.content-visible when-format="html"}
+
+<a
+href="https://www.perellonieto.com/quarto_simple_example/slides/calibration/calibration.html"
+target="_blank"><img
+src="https://img.shields.io/badge/slides-calibration-yellow"></a>
+
+:::
+
 {{< include definitions.tex >}}
+
+# Taking inspiration from forecasting
 
 <iframe allowfullscreen
 src="https://media.upv.es/player/embed.html?id=003597b0-bf29-11ed-83a4-bf04f88f22c5"
@@ -31,7 +43,7 @@ style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
 frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
 
-# Taking inspiration from forecasting
+## Weather forecasters
 
 - Weather forecasters started thinking about calibration a long time ago [@brier1950]. 
     - A forecast `70% chance of rain` should be followed by rain 70\% of the time.
@@ -327,6 +339,12 @@ But adjusting forecasts in groups also gives rise to practical calibration **met
 
 ## Questions and answers
 
+### Q&A 1
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+
 ::: {.callout-tip} 
 # Question 1
 
@@ -335,6 +353,26 @@ two times but it does not rain,  two times 0.4 and it rains only once, five
 times 0.6 and it rains 80% of the times and one time 0.9 and it rains. Does the
 following reliability diagram show that information?
 :::
+
+::: {.callout-caution icon="false" collapse="true"}
+# Answer: Yes
+
+**Correct**. You can see that there is one bin per predicted score $0.1, 0.4, 0.6$
+and $0.9$. Each bin contains the number of scores indicated in the smaller
+histogram below with 2, 2, 5 and 1 samples respectively. Finally, the height of
+each bin corresponds to the fraction of rains indicated in the question 0%, 50%,
+80% and 100%.
+:::
+
+::: {.callout-caution icon="false" collapse="true"}
+# Answer: No
+
+**Incorrect**. Try another answer.
+:::
+
+
+:::
+::: {.column width="50%"}
 
 ```{python}
 #| code-fold: true
@@ -356,21 +394,14 @@ fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
                                show_gaps=True)
 ```
 
-::: {.callout-caution icon="false" collapse="true"}
-# Answer: Yes
-
-**Correct**. You can see that there is one bin per predicted score $0.1, 0.4, 0.6$
-and $0.9$. Each bin contains the number of scores indicated in the smaller
-histogram below with 2, 2, 5 and 1 samples respectively. Finally, the height of
-each bin corresponds to the fraction of rains indicated in the question 0%, 50%,
-80% and 100%.
 :::
+::::
 
-::: {.callout-caution icon="false" collapse="true"}
-# Answer: No
+### Q&A 2
 
-**Incorrect**. Try another answer.
-:::
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
 
 ::: {.callout-tip} 
 # Question 2
@@ -380,6 +411,25 @@ two times and it rains once, three times 0.4 and it rains two times, four times
 0.6 and it rains once and one time 0.9 and it rains. Does the following
 reliability diagram show that information?
 :::
+
+::: {.callout-caution icon="false" collapse="true"}
+# Answer: Yes
+
+**Correct**. You can see that there is one bin per predicted score $0.1, 0.4, 0.6$
+and 0.9. Each bin contains the number of scores indicated in the smaller
+histogram below with 2, 3, 4 and 1 samples respectively. Finally, the height of
+each bin corresponds to the fraction of rains indicated in the question 50%,
+66.6%, 25% and 100%.
+:::
+
+::: {.callout-caution icon="false" collapse="true"}
+# Answer: No
+
+**Incorrect**. Try another answer.
+:::
+
+:::
+::: {.column width="50%"}
 
 ```{python}
 #| code-fold: true
@@ -396,22 +446,10 @@ fig = plot_reliability_diagram(labels, np.vstack([1 - scores, scores]).T,
                                show_gaps=True)
 ```
 
-::: {.callout-caution icon="false" collapse="true"}
-# Answer: Yes
-
-**Correct**. You can see that there is one bin per predicted score $0.1, 0.4, 0.6$
-and $0.9$. Each bin contains the number of scores indicated in the smaller
-histogram below with 2, 3, 4 and 1 samples respectively. Finally, the height of
-each bin corresponds to the fraction of rains indicated in the question 50%,
-66.6%, 25% and 100%.
 :::
+::::
 
-::: {.callout-caution icon="false" collapse="true"}
-# Answer: No
-
-**Incorrect**. Try another answer.
-:::
-
+### Q&A 3
 
 ::: {.callout-tip} 
 # Question 3
@@ -434,6 +472,12 @@ visualisation purposes. However, the lack of information does not allow us to
 know if the model is calibrated for those scores.
 :::
 
+### Q&A 4
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+
 ::: {.callout-tip} 
 # Question 4
 
@@ -441,6 +485,22 @@ The following figure shows the reliability diagram of a binary classifier on
 enough samples to be statistically significant. Is the model calibrated,
 producing under-estimates or over-estimates?
 :::
+
+::: {.callout-caution icon="false" collapse="true"}
+# Answer: Over-estimates
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution icon="false" collapse="true"}
+# Answer: Under-estimates
+
+**Correct**. For each predicted score the actual fraction of positives is
+higher.
+:::
+
+:::
+::: {.column width="50%"}
 
 ```{python}
 #| code-fold: true
@@ -458,19 +518,14 @@ fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
                                fig=fig, show_gaps=True)
 ```
 
-::: {.callout-caution icon="false" collapse="true"}
-# Answer: Over-estimates
-
-**Incorrect**. Try another answer.
 :::
+::::
 
-::: {.callout-caution icon="false" collapse="true"}
-# Answer: Under-estimates
+### Q&A 5
 
-**Correct**. For each predicted score the actual fraction of positives is
-higher.
-:::
+:::: {.columns .v-center-container}
 
+::: {.column width="50%"}
 
 ::: {.callout-tip} 
 # Question 5
@@ -479,6 +534,22 @@ The following figure shows the reliability diagram of a binary classifier on
 enough samples to be statistically significant. Is the model calibrated,
 producing under-estimates or over-estimates?
 :::
+
+::: {.callout-caution icon="false" collapse="true"}
+# Answer: Over-estimates
+
+**Correct**. For each predicted score the actual fraction of positives is
+lower.
+:::
+
+::: {.callout-caution icon="false" collapse="true"}
+# Answer: Under-estimates
+
+**Incorrect**. Try another answer.
+:::
+
+:::
+::: {.column width="50%"}
 
 ```{python}
 #| code-fold: true
@@ -496,18 +567,8 @@ fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
                                fig=fig, show_gaps=True)
 ```
 
-::: {.callout-caution icon="false" collapse="true"}
-# Answer: Over-estimates
-
-**Correct**. For each predicted score the actual fraction of positives is
-lower.
 :::
-
-::: {.callout-caution icon="false" collapse="true"}
-# Answer: Under-estimates
-
-**Incorrect**. Try another answer.
-:::
+::::
 
 
 
@@ -518,6 +579,8 @@ src="https://media.upv.es/player/embed.html?id=2a1113c0-bf29-11ed-83a4-bf04f88f2
 style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
 frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
+
+## Why are we interested in calibration?
 
 To calibrate means **to employ a known scale with known properties**. 
 
@@ -593,9 +656,7 @@ headers.extend(list(functions.keys()))
 Markdown(tabulate(table, headers=headers))
 ```
 
-
-
-## Optimal decisions
+## Optimal decisions I
 
 Denote the cost of predicting class $j$ for an instance of true class $i$ as $C(\hat{Y}=j|Y=i)$. 
 The expected cost of predicting class $j$ for instance $x$ is
@@ -612,6 +673,8 @@ The optimal decision is then to predict the class with lowest expected cost:
 $$
 \hat{Y}^* = \argmin_j C(\hat{Y}=j|X=x) = \argmin_j \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
 $$
+
+## Optimal decisions II
 
 In binary classification we have:
 
@@ -632,6 +695,9 @@ This gives the optimal threshold on the hypothetical Bayes-optimal probabilities
 It is also the best thing to do in practice -- as long as the probabilities are well-calibrated! 
 
 \framebreak
+
+## Optimal decisions III
+
 Without loss of generality we can set the cost of true positives and true negatives to zero; 
 $c = \frac{c_{\text{FP}}}{c_{\text{FP}} + c_{\text{FN}}}$ is then the cost of a false positive in proportion to the combined cost of one false positive and one false negative. 
 
@@ -647,8 +713,10 @@ Cost and class prior changes can be combined in the obvious way.
 
 ## Questions and answers
 
+### Q&A 1
+
 ::: {.callout-tip}
-# Question
+# Question 1
 
 Is it possible to compute optimal risks given a cost matrix and a probabilistic
 classifier that is not calibrated?
@@ -666,6 +734,7 @@ classifier that is not calibrated?
 **Correct**. 
 :::
 
+### Q&A 2
 
 ::: {.callout-tip}
 # Question
@@ -769,6 +838,8 @@ style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
 frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
 
+## Common sources of miscalibration
+
 Underconfidence:
 
 :   a classifier thinks it's **worse** at separating classes than it actually is.
@@ -854,6 +925,12 @@ The closer the original point is to the fitted calibration map, the closer the c
 
 ## Questions and answers
 
+### Q&A 1
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+
 ::: {.callout-tip}
 # Question
 
@@ -861,6 +938,27 @@ The following figures show the reliability diagram of several binary
 classifiers. Assuming that there are enough samples on each bin, indicate if
 the model seems calibrated, over-confident or under-confident.
 :::
+
+::: {.callout-caution icon="false" collapse="true"}
+# Answer: Calibrated.
+
+**Incorrect**. Try another answer.
+:::
+
+::: {.callout-caution icon="false" collapse="true"}
+# Answer: Over-confident.
+
+**Correct**.
+:::
+
+::: {.callout-caution icon="false" collapse="true"}
+# Answer: Under-confident.
+
+**Incorrect**. Try another answer.
+:::
+
+:::
+::: {.column width="50%"}
 
 ```{python}
 #| code-fold: true
@@ -877,16 +975,25 @@ fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
                                fig=fig, show_gaps=True)
 ```
 
+:::
+::::
+
+### Q&A 2
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
+
 ::: {.callout-caution icon="false" collapse="true"}
 # Answer: Calibrated.
 
-**Incorrect**. Try another answer.
+**Correct**.
 :::
 
 ::: {.callout-caution icon="false" collapse="true"}
 # Answer: Over-confident.
 
-**Correct**.
+**Incorrect**. Try another answer.
 :::
 
 ::: {.callout-caution icon="false" collapse="true"}
@@ -894,6 +1001,9 @@ fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
 
 **Incorrect**. Try another answer.
 :::
+
+:::
+::: {.column width="50%"}
 
 ```{python}
 #| code-fold: true
@@ -909,11 +1019,20 @@ fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
                                class_names=['rain'],
                                fig=fig, show_gaps=True)
 ```
+:::
+::::
+
+
+### Q&A 3
+
+:::: {.columns .v-center-container}
+
+::: {.column width="50%"}
 
 ::: {.callout-caution icon="false" collapse="true"}
 # Answer: Calibrated.
 
-**Correct**.
+**Incorrect**. Try another answer.
 :::
 
 ::: {.callout-caution icon="false" collapse="true"}
@@ -925,8 +1044,11 @@ fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
 ::: {.callout-caution icon="false" collapse="true"}
 # Answer: Under-confident.
 
-**Incorrect**. Try another answer.
+**Correct**.
 :::
+
+:::
+::: {.column width="50%"}
 
 ```{python}
 #| code-fold: true
@@ -942,24 +1064,10 @@ fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
                                class_names=['rain'],
                                fig=fig, show_gaps=True)
 ```
-
-::: {.callout-caution icon="false" collapse="true"}
-# Answer: Calibrated.
-
-**Incorrect**. Try another answer.
 :::
+::::
 
-::: {.callout-caution icon="false" collapse="true"}
-# Answer: Over-confident.
-
-**Incorrect**. Try another answer.
-:::
-
-::: {.callout-caution icon="false" collapse="true"}
-# Answer: Under-confident.
-
-**Correct**.
-:::
+### Q&A 4
 
 ::: {.callout-tip}
 # Question
@@ -989,6 +1097,8 @@ src="https://media.upv.es/player/embed.html?id=6f5e0e00-bf2a-11ed-b716-77ee466eb
 style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
 frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
+
+## A first look at some calibration techniques
 
 - **Parametric** calibration involves modelling the score distributions within each class. \\
   - **Platt scaling** = Logistic calibration can be derived by assuming that the scores within both classes are normally distributed with the same variance [@platt2000].
@@ -1153,7 +1263,7 @@ P(Y=i \: | \: \ph_i(\vx)=c)=c\qquad\text{where }\ i=\argmax_j \ph_j(\vx).
 %P\Big(Y=\argmax\big(\vph(X)\big) \: \Big| \: \max\big(\vph(X)\big)=c\Big)=c.
 \end{align*}
 
-## Class-wise calibration}{
+## Class-wise calibration
 
 Originally proposed by @zadrozny2002, this requires that all **one-vs-rest**
 probability estimators obtained from the original multiclass model are

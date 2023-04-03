@@ -4,10 +4,33 @@ project:
 
 book:
   title: "Foundations of Trustworthy AI"
+  author: 
+    - name: Peter Flach
+      orcid: 0000-0001-6857-5810
+      email: peter.flach@bristol.ac.uk
+      affiliations:
+        - name: University of Bristol
+          city: Bristol
+          country: United Kingdom
+          postal-code: BS8 1QU
+    - name:
+        given: Miquel
+        family: Perello Nieto
+      orcid: 0000-0001-8925-424X
+      email: miquel.perellonieto@bristol.ac.uk
+      affiliations:
+        - name: University of Bristol
+          city: Bristol
+          country: United Kingdom
+          postal-code: BS8 1QU
+      attributes:
+          equal-contributor: False
   reader-mode: true
 
   sidebar:
     logo: "TAILOR logo - full-color rgb.svg"
+    style: floating
+    collapse-level: 1
 
   page-footer:
     left: |
@@ -20,19 +43,21 @@ book:
   repo-url: https://github.com/TAILOR-UoB/mooc_trustworthy_ai
   repo-branch: master
   repo-actions: [edit, issue]
+  downloads: [pdf, epub]
+  output-file: "mooc_trustworthy_ai"
   chapters:
     - index.qmd
-
     - intro.qmd
-
     - part: explainable-ai-systems.qmd
       chapters:
         - xais-fea-imp.qmd
         - xais-sal-map.qmd
         - xais-sin-tre.qmd
         - cha_wahcc/wahcc.qmd
+        - cha_wahcc/Calibration example.ipynb
     - part: safety-and-robustness.qmd
       chapters:
+        - cha_unc/uncertainty.ipynb
         - sar-ali.qmd
         - sar-rob.qmd
         - sar-rel.qmd
@@ -42,14 +67,24 @@ book:
     - part: sustainability.qmd
 
 format:
+  pdf:
+    documentclass: scrbook
+    fontfamily: libertinus
+    papersize: a4
+    toc: true
+    toc-depth: 2
+    toc-title: "Contents"
+    number-sections: true
+    number-detph: 2
+    cite-method: biblatex
   html:
     theme:
-      - cosmo
-      - r4ds.scss
+      light: [yeti, mooctai.scss]
+      dark: [superhero, mooctai_dark.scss]
     code-link: true
     css: style.css
     toc: true
-    toc-expand: false
+    page-layout: full
     html-math-method: katex
     number-depth: 2
     author-meta: "Miquel Perello Nieto"
@@ -59,21 +94,28 @@ format:
     code-line-numbers: true
     fig-format: svg
     fig-responsive: true
-    include-in-header:
-      - "plausible.html"
     callout-appearance: simple
     header-includes: |
       <link rel="stylesheet" media="screen" href="/fonts/Myriad Pro Regular.ttf" type="text/css"/>
+    #  revealjs:
+    #    from: markdown
+    #    theme: sky
+    #    width: 1680
+    #    toc: true
+    #    toc-depth: 1
+    #    logo: "TAILOR logo - full-color rgb.svg"
+    #    footer: "Foundations of Trustworthy AI"
+    #    css: style.css
+    #    output-file: page-reveal.html
 
-  revealjs:
-    logo: "TAILOR logo - full-color rgb.svg"
-    footer: "Foundations of Trustworthy AI"
-    css: style.css
-    output-file: page-reveal.html
-
-bibliography: references.bib
 contrastcolor: "#37BEED"
-link-color: "#28306C"
+link-color: "#37BEED"
 mainfont: Arial
 editor: visual
 jupyter: python3
+exclude_patterns:
+  - .DS_Store
+  - .git
+  - .github
+  - .gitignore
+  - .nojekyll
