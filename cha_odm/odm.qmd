@@ -1,0 +1,218 @@
+---
+title: Optimal Decision Making
+author: 
+  - name:
+      given: Miquel
+      family: Perello Nieto
+    orcid: 0000-0001-8925-424X
+    email: miquel.perellonieto@bristol.ac.uk
+    affiliations:
+      - name: University of Bristol
+        city: Bristol
+        country: United Kingdom
+        postal-code: BS8 1QU
+    attributes:
+        equal-contributor: False
+includes:
+  in_header: "definitions.tex"
+---
+
+{{< include commands.tex >}}
+
+# Cost-sensitive Classification
+
+## Binary examples
+
+|          | Predicted $C_\posc$               | Predicted $C_\negc$ |
+|-|-|-|
+|True $C_\posc$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$ |
+|True $C_\negc$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
+
+\begin{equation}
+  l(\vec{x},i) = \sum_{j = 1}^K P(C_j|\vec{x}) c_{i|j}.
+\end{equation}
+
+- Predicting **Positive Class** will have an expected cost of $0.4 \times 0 +
+    0.6 \times 1 = \color{darkred}{0.6}$
+- Predicting **Negative Class** will have an expected cost of $0.4 \times 1
+    + 0.6 \times 0 = \mathbf{\color{darkred}{0.4}}$.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the code"
+import matplotlib.pyplot as plt
+
+plt.grid(True)
+plt.plot([0, 1], [1, 0], label="Predict $C_{+}$")
+plt.plot([0, 1], [0, 1], label="Predict $C_{-}$")
+plt.xlabel('$P(C_{+}|x)$')
+plt.ylabel('Expected cost')
+plt.legend()
+plt.show()
+```
+
+## Cost Matrix "reasonableness" condition
+
+It is reasonable to expect cost matrices where:
+
+1. For a given class $j$ the correct prediction has always a lower cost than an
+incorrect prediction $c_{j|j} < c_{i|j}$ with $i \neq j$.
+2. And one class does not consistently have lower costs than other classes
+$c_{i|j} \leq c_{k|j}$ for all $j$ (class domination).
+
+### Cost Matrix Class Domination
+
+The following is an example of class domination.
+
+|               | Predicted $C_\posc$       | Predicted $C_\negc$      |
+|---------------|---------------------------|--------------------------|
+|True $C_\posc$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$   |
+|True $C_\negc$ | $\color{darkred}{0.4}$      | $\color{darkgreen}{0.5}$ |
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the code"
+import matplotlib.pyplot as plt
+
+plt.grid(True)
+plt.plot([0, 1], [0.4, 0], label="Predict $C_{+}$")
+plt.plot([0, 1], [0.5, 1], label="Predict $C_{-}$")
+plt.xlabel('$P(C_{+}|x)$')
+plt.ylabel('Expected cost')
+plt.legend()
+plt.show()
+```
+
+## Multiclass setting
+
+|              | Predicted $C_1$              | Predicted $C_2$              | $\cdots$ | Predicted $C_K$                |
+|--------------|------------------------------|------------------------------|----------|--------------------------------|
+| True $C_1$   | $\color{darkgreen}{c_{1|1}}$ | $\color{darkred}{c_{1|2}}$   | $\cdots$ | $\color{darkred}{c_{1|K}}$     |
+| True $C_2$   | $\color{darkred}{c_{2|1}}$   | $\color{darkgreen}{c_{2|2}}$ | $\cdots$ | $\color{darkred}{c_{2|K}}$     |
+| $\vdots$     | $\vdots$ 			   	 	  | $\vdots$                     | $\ddots$ | $\vdots$                       |
+| True $C_K$   | $\color{darkred}{c_{K|1}}$   | $\color{darkred}{c_{K|2}}$   | $\cdots$ | $\color{darkgreen}{c_{K|K}}$   |
+
+
+## Optimal Decision
+
+\begin{equation}
+  \hat{y}(\vec{x}) = \argmin_{i=\{1, \dots, K\}} L(\vec{x},i)
+                   = \argmin_{i=\{1, \dots, K\}} \sum_{j=1}^K P(C_j|\vec{x}) c_{i|j}.
+\end{equation}
+
+In the binary classification setting we can also derive the optimal threshold to
+predict the second class $C_2$
+
+\begin{equation}
+  t_2^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
+               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
+                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}.
+\end{equation}
+
+Which for the previous cost matrix corresponds to
+
+\begin{equation}
+  t_2^* = \frac{1 - 0}{1 + 1 - 0 - 0} = 0.5
+\end{equation}
+
+\begin{equation}
+  t_i^* = \frac{\sum_{j=1; j \ne i}^K {\color{darkred}c_{j|i}} - {\color{darkgreen}c_{i|i}}}
+               {\sum_{j = 1}^K \sum_{k=1; k \ne j}^K {\color{darkred}c_{j|k}}
+                 + \sum_{j}^K - {\color{darkgreen}c_{j|j}}}.
+\end{equation}
+
+|               | Predicted $C_\posc$       | Predicted $C_\negc$      |
+|---------------|---------------------------|--------------------------|
+|True $C_\posc$ | $\color{darkgreen}{-5}$    | $\color{darkred}{10}$   |
+|True $C_\negc$ | $\color{darkred}{1}$      | $\color{darkgreen}{-1}$ |
+
+\begin{itemize}
+  \item Predicting positive class will have an expected gain of $5 \times 0.4 - 1 \times
+    0.6 = \mathbf{\color{darkgreen}{1.4}}$
+  \item Predicting negative class will have an expected gain of $-10 \times 0.4 + 1 \times
+    0.6 = \color{darkred}{-3.4}$
+\end{itemize}
+
+
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the code"
+import matplotlib.pyplot as plt
+
+plt.grid(True)
+plt.plot([0, 1], [1, -5], label="Predict $C_{+}$")
+plt.plot([0, 1], [-1, 10], label="Predict $C_{-}$")
+plt.xlabel('$P(C_{+}|x)$')
+plt.ylabel('Expected cost')
+plt.legend()
+plt.show()
+```
+
+|              | Predicted $C_1$ | Predicted $C_2$ | Predicted $C_3$   |
+|--------------|-----------------|-----------------|-------------------|
+| True $C_1$   | -10 |  20 |  30   |
+| True $C_2$   |  40 | -50 |  60   |
+| True $C_3$   |  70 |  80 | -90   |
+
+
+- Predicting Class 1 will have a gain of 
+$10 \times 0.5 - 40 \times 0.1 -70 \times 0.4 = \color{darkred}{-27}$
+- Predicting Class 2 will have a gain of 
+$-20 \times 0.5 + 50 \times 0.1 -80 \times 0.4 = \color{darkred}{-37}$
+- Predicting Class 3 will have a gain of 
+$-30 \times 0.5 - 60 \times 0.1  90 \times 0.4 = \mathbf{\color{darkgreen}{15}}$
+
+
+
+|              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
+|--------------|-----------------|-----------------|---------|
+| True $C_1$   | 0 | 10 | 2 |
+| True $C_2$   | 9 | -3 | 2 |
+
+
+
+|              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
+|--------------|-----------------|-----------------|---------|
+| True $C_1$   | 0 | 10 |  2 |
+| True $C_2$   | 9 | -3 | -1 |
+
+
+
+- Predicting \emph{Positive Class} has an expected gain of
+$ 0 \times 0.3 - 9 \times 0.7 = \color{darkred}{-6.3}$
+- Predicting \emph{Negative Class} has an expected gain of
+$-10 \times 0.3 + 3 \times 0.7 = \color{darkred}{-0.9}$
+- \emph{Abstaining} has an expected gain of
+$-2 \times 0.3 + 1 \times 0.7 = \mathbf{\color{darkgreen}{0.1}}$
+
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the code"
+import matplotlib.pyplot as plt
+
+plt.grid(True)
+plt.plot([0, 1], [9, 0], label="Predict $C_{+}$")
+plt.plot([0, 1], [-3, 10], label="Predict $C_{-}$")
+plt.plot([0, 1], [2, 2], label="Abstain")
+plt.xlabel('$P(C_{+}|x)$')
+plt.ylabel('Expected cost')
+plt.legend()
+plt.show()
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the code"
+import matplotlib.pyplot as plt
+
+plt.grid(True)
+plt.plot([0, 1], [9, 0], label="Predict $C_{+}$")
+plt.plot([0, 1], [-3, 10], label="Predict $C_{-}$")
+plt.plot([0, 1], [-1, 2], label="Abstain")
+plt.xlabel('$P(C_{+}|x)$')
+plt.ylabel('Expected cost')
+plt.legend()
+plt.show()
+```
