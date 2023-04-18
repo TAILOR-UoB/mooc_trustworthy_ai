@@ -172,18 +172,11 @@ $-30 \times 0.5 - 60 \times 0.1  90 \times 0.4 = \mathbf{\color{darkgreen}{15}}$
 
 
 
-|              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
-|--------------|-----------------|-----------------|---------|
-| True $C_1$   | 0 | 10 |  2 |
-| True $C_2$   | 9 | -3 | -1 |
-
-
-
-- Predicting \emph{Positive Class} has an expected gain of
+- Predicting **Positive Class** has an expected gain of
 $ 0 \times 0.3 - 9 \times 0.7 = \color{darkred}{-6.3}$
-- Predicting \emph{Negative Class} has an expected gain of
+- Predicting **Negative Class** has an expected gain of
 $-10 \times 0.3 + 3 \times 0.7 = \color{darkred}{-0.9}$
-- \emph{Abstaining} has an expected gain of
+- **Abstaining** has an expected gain of
 $-2 \times 0.3 + 1 \times 0.7 = \mathbf{\color{darkgreen}{0.1}}$
 
 
@@ -201,6 +194,12 @@ plt.ylabel('Expected cost')
 plt.legend()
 plt.show()
 ```
+
+|              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
+|--------------|-----------------|-----------------|---------|
+| True $C_1$   | 0 | 10 |  2 |
+| True $C_2$   | 9 | -3 | -1 |
+
 
 ```{python}
 #| code-fold: true
