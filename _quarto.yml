@@ -1,82 +1,47 @@
 project:
-  type: book
-  output-dir: docs
+  type: website
 
-book:
+website:
   title: "Foundations of Trustworthy AI"
-  author: 
-    - name: Peter Flach
-      orcid: 0000-0001-6857-5810
-      email: peter.flach@bristol.ac.uk
-      affiliations:
-        - name: University of Bristol
-          city: Bristol
-          country: United Kingdom
-          postal-code: BS8 1QU
-    - name:
-        given: Miquel
-        family: Perello Nieto
-      orcid: 0000-0001-8925-424X
-      email: miquel.perellonieto@bristol.ac.uk
-      affiliations:
-        - name: University of Bristol
-          city: Bristol
-          country: United Kingdom
-          postal-code: BS8 1QU
-      attributes:
-          equal-contributor: False
   reader-mode: true
+  site-url: https://tailor-uob.github.io/mooc_trustworthy_ai/
+  repo-url: https://github.com/TAILOR-UoB/mooc_trustworthy_ai
+  repo-branch: main
+  repo-actions: [edit, issue]
 
   sidebar:
+    style: "docked"
+    search: true
     logo: "TAILOR logo - full-color rgb.svg"
-    style: floating
     collapse-level: 1
+    contents:
+      - index.qmd
+      - intro.qmd
+      - section: explainable-ai-systems.qmd
+        contents:
+          - cha_wahcc/wahcc.qmd
+          - cha_odm/odm.qmd
 
   page-footer:
     left: |
       Foundations of Trustworthy AI was written by Miquel Perello Nieto by compiling multiple information from the TAILOR project.
     right: |
-      This book was built with <a href="https://quarto.org/">Quarto</a>.
-  cover-image: "images/TAILOR-MOOC-tai.svg"
+      This website was built with <a href="https://quarto.org/">Quarto</a>.
+  #cover-image: "images/TAILOR-MOOC-tai.svg"
   favicon: cropped-tailor-logo-symbol-32x32.png
-  site-url: https://tailor-uob.github.io/mooc_trustworthy_ai/
-  repo-url: https://github.com/TAILOR-UoB/mooc_trustworthy_ai
-  repo-branch: master
-  repo-actions: [edit, issue]
-  downloads: [pdf, epub]
-  output-file: "mooc_trustworthy_ai"
-  chapters:
-    - index.qmd
-    - intro.qmd
-    - part: explainable-ai-systems.qmd
-      chapters:
-        - xais-fea-imp.qmd
-        - xais-sal-map.qmd
-        - xais-sin-tre.qmd
-        - cha_wahcc/wahcc.qmd
-        - cha_wahcc/Calibration example.ipynb
-    - part: safety-and-robustness.qmd
-      chapters:
-        - cha_unc/uncertainty.ipynb
-        - sar-ali.qmd
-        - sar-rob.qmd
-        - sar-rel.qmd
-    - part: fairness-equity-justice-design.qmd
-    - part: accountability-reproducibility.qmd
-    - part: respect-privacy.qmd
-    - part: sustainability.qmd
+  #downloads: [pdf, epub]
 
 format:
-  pdf:
-    documentclass: scrbook
-    fontfamily: libertinus
-    papersize: a4
-    toc: true
-    toc-depth: 2
-    toc-title: "Contents"
-    number-sections: true
-    number-detph: 2
-    cite-method: biblatex
+    #pdf:
+    #  documentclass: scrbook
+    #  fontfamily: libertinus
+    #  papersize: a4
+    #  toc: true
+    #  toc-depth: 2
+    #  toc-title: "Contents"
+    #  number-sections: true
+    #  number-detph: 2
+    #  cite-method: biblatex
   html:
     theme:
       light: [yeti, mooctai.scss]
@@ -85,6 +50,8 @@ format:
     css: style.css
     toc: true
     page-layout: full
+    grid:
+      sidebar-width: 500px
     html-math-method: katex
     number-depth: 2
     author-meta: "Miquel Perello Nieto"
@@ -97,16 +64,17 @@ format:
     callout-appearance: simple
     header-includes: |
       <link rel="stylesheet" media="screen" href="/fonts/Myriad Pro Regular.ttf" type="text/css"/>
-    #  revealjs:
-    #    from: markdown
-    #    theme: sky
-    #    width: 1680
-    #    toc: true
-    #    toc-depth: 1
-    #    logo: "TAILOR logo - full-color rgb.svg"
-    #    footer: "Foundations of Trustworthy AI"
-    #    css: style.css
-    #    output-file: page-reveal.html
+  revealjs:
+    smaller: true
+    scrollable: true
+    logo: "images/TAILOR logo - full-color rgb.svg"
+    footer: "These slides are part of a MOOC on Trustworthy AI by The TAILOR Network"
+    center: true
+    slide-number: true
+    incremental: true
+    number-depth: 2
+    slide-level: 3
+    show-slide-number: "all"
 
 contrastcolor: "#37BEED"
 link-color: "#37BEED"
