@@ -23,6 +23,10 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
         with:
           tinytex: true 
+
+      - name: Install Quarto extensions
+        run: |
+          quarto add coatless/quarto-webr
       
       # add software dependencies here
 
