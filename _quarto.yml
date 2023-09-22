@@ -17,6 +17,10 @@ website:
     contents:
       - index.qmd
       - intro.qmd
+      - section: shinylive.qmd
+        contents:
+          - cha_sl/shinylive.qmd
+          - cha_sl/shinylive-not-working.qmd
       - section: explainable-ai-systems.qmd
         contents:
           - cha_wahcc/wahcc.qmd
@@ -64,17 +68,6 @@ format:
     callout-appearance: simple
     header-includes: |
       <link rel="stylesheet" media="screen" href="/fonts/Myriad Pro Regular.ttf" type="text/css"/>
-  revealjs:
-    smaller: true
-    scrollable: true
-    logo: "images/TAILOR logo - full-color rgb.svg"
-    footer: "These slides are part of a MOOC on Trustworthy AI by The TAILOR Network"
-    center: true
-    slide-number: true
-    incremental: true
-    number-depth: 2
-    slide-level: 3
-    show-slide-number: "all"
 
 contrastcolor: "#37BEED"
 link-color: "#37BEED"

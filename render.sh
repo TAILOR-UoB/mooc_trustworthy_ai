@@ -3,8 +3,12 @@
 TO_RENDER=(index.qmd
            intro.qmd
            explainable-ai-systems.qmd
+           shinylive.qmd
+           cha_sl/shinylive.qmd
+           cha_sl/shinylive-not-working.qmd
            cha_wahcc/wahcc.qmd
-           cha_odm/odm.qmd)
+           cha_odm/odm.qmd
+           cha_ds/ds.qmd)
 
 echo "Removing previous slides"
 rm -rf slides

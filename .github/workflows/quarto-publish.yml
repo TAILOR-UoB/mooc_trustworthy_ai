@@ -27,6 +27,7 @@ jobs:
       - name: Install Quarto extensions
         run: |
           quarto add coatless/quarto-webr
+          quarto add quarto-ext/shinylive
       
       # add software dependencies here
 

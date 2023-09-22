@@ -1,0 +1,113 @@
+---
+title: Shinylive Introduction
+author: 
+  - name:
+      given: Miquel
+      family: Perello Nieto
+    orcid: 0000-0001-8925-424X
+    email: miquel.perellonieto@bristol.ac.uk
+    affiliations:
+      - name: University of Bristol
+        city: Bristol
+        country: United Kingdom
+        postal-code: BS8 1QU
+    attributes:
+        equal-contributor: False
+format: html
+filters:
+  - shinylive
+---
+
+**The current version only prints out on the last terminal (end of the page),
+while the rest of the terminals seems to be used only as a standard input.**
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+print('Hello world!')
+```
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+l1 = list() 
+l2 = []
+
+print(l1)
+print(l2)
+```
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+print(len(l1))
+print(len(l2))
+```
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+l3 = [1, 2, 3]
+print(l3)
+print(len(l3))
+```
+
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+l1.append(1)
+print(l1)
+l1.append(10)
+print(l1)
+```
+```{shinylive-python}
+#| components: [editor, terminal]
+
+l2.append(100)
+print(l2)
+```
+Note that the `+` operator does not modify the lists inplace, rather it
+constructs a new list from the values of `l1` and `l2`.
+
+If inplace extension is required, the `.extend` member function should be used:
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+print(l1)
+print(l2)
+print(l1 + l2)
+```
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+l1.extend(l2)
+print(l1)
+print(l2)
+```
+
+Items can be removed from the lists too, with the `pop` function. When called,
+the pop function removes the last element of the list. If an argument is passed
+into the `pop` function, the element contained at that position in the list is
+removed, e.g.
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+l2 = [0, 1, 2, 3, 4, 5, 6]
+
+l2.pop(1)
+print(l2)
+
+l2.pop()
+print(l2)
+```
+
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+print(l1)
+```
