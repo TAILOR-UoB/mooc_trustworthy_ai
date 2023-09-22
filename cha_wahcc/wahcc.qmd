@@ -27,7 +27,7 @@ bibliography: references.bib
 ::: {.content-visible when-format="html"}
 
 <a
-href="https://www.perellonieto.com/quarto_simple_example/slides/calibration/calibration.html"
+href="/slides/cha_wahcc/wahcc.html"
 target="_blank"><img
 src="https://img.shields.io/badge/slides-calibration-yellow"></a>
 
@@ -772,16 +772,16 @@ import numpy as np
 from tabulate import tabulate
 from IPython.display import Markdown
 
-cost_matrix = [[-1,  2],
-               [ 4, -2]]
+cost_matrix = [[-1,  4],
+               [ 2, -2]]
 
-table = [['Predicted Class 1'],
-         ['Predicted Class 2']]
+table = [['True Class 1'],
+         ['True Class 2']]
 
 for i, c in enumerate(cost_matrix):
     table[i].extend(c)
 
-headers = ['True Class 1', 'True Class 2']
+headers = ['Predicted Class 1', 'Predicted Class 2']
 
 Markdown(tabulate(table, headers=headers))
 ```

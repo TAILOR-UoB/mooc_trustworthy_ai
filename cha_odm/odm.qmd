@@ -17,16 +17,45 @@ includes:
   in_header: "definitions.tex"
 ---
 
+::: {.content-visible when-format="html"}
+
+<a
+href="/slides/cha_odm/odm.html"
+target="_blank"><img
+src="https://img.shields.io/badge/slides-decision-yellow"></a>
+
+<!-- Code to test Thebe -->
+<script src="https://unpkg.com/thebe@latest/lib/index.js"></script>
+<!-- Code to test Thebe -->
+
+:::
+
 {{< include commands.tex >}}
 
 # Cost-sensitive Classification
 
-## Binary examples
+- In order to make a classification decision we need to know the cost of making
+  a wrong prediction
+- If in addition we have access to the probability of the different outcomes,
+  we can make optimal decisions
+- This is very important in critical applications: e.g. medical diagnosis.
+- Even if we know a class prior change during deployment
+
+## Binary example
+
+- The following is a typical example of a cost matrix for a binary problem
+
+. . .
 
 |          | Predicted $C_1$               | Predicted $C_2$ |
 |-|-|-|
 |True $C_1$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$ |
 |True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
+
+- Given the posterior probabilities $P(C_i|\vec{x})$ and the cost matrix we can
+  calculate the expected cost of predicting class $i$
+
+. . .
 
 \begin{equation}
   l(\vec{x},i) = \sum_{j = 1}^K P(C_j|\vec{x}) c_{i|j}.
@@ -36,6 +65,13 @@ includes:
     0.6 \times 1 = \color{darkred}{0.6}$
 - Predicting **Class 2** will have an expected cost of $0.4 \times 1
     + 0.6 \times 0 = \mathbf{\color{darkred}{0.4}}$.
+
+### Expected costs figure
+
+|          | Predicted $C_1$               | Predicted $C_2$ |
+|-|-|-|
+|True $C_1$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$ |
+|True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
 
 ```{python}
 #| code-fold: true
@@ -58,7 +94,6 @@ plt.annotate("Cost = 0.4", (0.6, 0.38), xytext=(0.5, 0.2),
 plt.scatter(0.6, 0.4, s=100, facecolors='none', edgecolors='tab:red', zorder=10)
 plt.show()
 ```
-
 ## Cost Matrix "reasonableness" condition
 
 It is reasonable to expect cost matrices where:
@@ -92,16 +127,6 @@ plt.legend()
 plt.show()
 ```
 
-## Multiclass setting
-
-|              | Predicted $C_1$              | Predicted $C_2$              | $\cdots$ | Predicted $C_K$                |
-|--------------|------------------------------|------------------------------|----------|--------------------------------|
-| True $C_1$   | $\color{darkgreen}{c_{1|1}}$ | $\color{darkred}{c_{1|2}}$   | $\cdots$ | $\color{darkred}{c_{1|K}}$     |
-| True $C_2$   | $\color{darkred}{c_{2|1}}$   | $\color{darkgreen}{c_{2|2}}$ | $\cdots$ | $\color{darkred}{c_{2|K}}$     |
-| $\vdots$     | $\vdots$ 			   	 	  | $\vdots$                     | $\ddots$ | $\vdots$                       |
-| True $C_K$   | $\color{darkred}{c_{K|1}}$   | $\color{darkred}{c_{K|2}}$   | $\cdots$ | $\color{darkgreen}{c_{K|K}}$   |
-
-
 ## Optimal Decision
 
 \begin{equation}
@@ -124,6 +149,7 @@ Which for the previous cost matrix corresponds to
   t_2^* = \frac{1 - 0}{1 + 1 - 0 - 0} = 0.5
 \end{equation}
 
+## Different costs binary example
 
 |               | Predicted $C_1$       | Predicted $C_2$      |
 |---------------|---------------------------|--------------------------|
@@ -136,8 +162,6 @@ Which for the previous cost matrix corresponds to
   \item Predicting **Class 2** will have an expected gain of $-10 \times 0.4 + 1 \times
     0.6 = \color{darkred}{-3.4}$
 \end{itemize}
-
-
 
 ```{python}
 #| code-fold: true
@@ -158,6 +182,18 @@ plt.legend()
 plt.show()
 ```
 
+## Multiclass setting
+
+|              | Predicted $C_1$              | Predicted $C_2$              | $\cdots$ | Predicted $C_K$                |
+|--------------|------------------------------|------------------------------|----------|--------------------------------|
+| True $C_1$   | $\color{darkgreen}{c_{1|1}}$ | $\color{darkred}{c_{1|2}}$   | $\cdots$ | $\color{darkred}{c_{1|K}}$     |
+| True $C_2$   | $\color{darkred}{c_{2|1}}$   | $\color{darkgreen}{c_{2|2}}$ | $\cdots$ | $\color{darkred}{c_{2|K}}$     |
+| $\vdots$     | $\vdots$ 			   	 	  | $\vdots$                     | $\ddots$ | $\vdots$                       |
+| True $C_K$   | $\color{darkred}{c_{K|1}}$   | $\color{darkred}{c_{K|2}}$   | $\cdots$ | $\color{darkgreen}{c_{K|K}}$   |
+
+
+## Ternary example
+
 |              | Predicted $C_1$ | Predicted $C_2$ | Predicted $C_3$   |
 |--------------|-----------------|-----------------|-------------------|
 | True $C_1$   | -10 |  20 |  30   |
@@ -165,12 +201,14 @@ plt.show()
 | True $C_3$   |  70 |  80 | -90   |
 
 
-- Predicting Class 1 will have a gain of 
+- Predicting **Class 1** will have a gain of 
 $10 \times 0.5 - 40 \times 0.1 -70 \times 0.4 = \color{darkred}{-27}$
-- Predicting Class 2 will have a gain of 
+- Predicting **Class 2** will have a gain of 
 $-20 \times 0.5 + 50 \times 0.1 -80 \times 0.4 = \color{darkred}{-37}$
-- Predicting Class 3 will have a gain of 
+- Predicting **Class 3** will have a gain of 
 $-30 \times 0.5 - 60 \times 0.1  90 \times 0.4 = \mathbf{\color{darkgreen}{15}}$
+
+### Ternary hyperplanes per decision
 
 ```{python}
 #| code-fold: true
@@ -195,6 +233,7 @@ for i in range(len(C)):
                        cmap=cmaps[i], fig=fig, ax=ax)
 ```
 
+### Ternary hyperplanes optimal decision
 
 ```{python}
 #| code-fold: true
@@ -227,6 +266,8 @@ for i in range(len(C)):
 plt.show()
 ```
 
+### Ternary hyperplanes optimal decision combined
+
 ```{python}
 #| code-fold: true
 #| code-summary: "Show the code"
@@ -242,7 +283,7 @@ labels = [f"$P(C_{i+1}|x) = 1$" for i in range(len(C))]
 
 fig = plt.figure(figsize=(5, 5))
 ax = fig.add_subplot()
-ax.set_title(f"Expected cost of predicting the optimal class\n")
+ax.set_title(f"Expected cost of predicting \nthe optimal class")
 for i in range(len(C)):
     def cost_func(prob):
         expected_costs = np.inner(prob, C)
@@ -252,12 +293,13 @@ for i in range(len(C)):
         return np.nan
 
     draw_func_contours(cost_func, labels=labels, nlevels=10, subdiv=5,
-                       cmap=cmaps[i],    fig=fig, ax=ax)
+                       cmap=cmaps[i], cb_orientation='vertical', fig=fig, ax=ax)
 
 
 plt.show()
 ```
 
+## Option to abstain
 
 |              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
 |--------------|-----------------|-----------------|---------|
@@ -273,6 +315,7 @@ $-10 \times 0.3 + 3 \times 0.7 = \color{darkred}{-0.9}$
 - **Abstaining** has an expected gain of
 $-2 \times 0.3 + 1 \times 0.7 = \mathbf{\color{darkgreen}{0.1}}$
 
+### Option to abstain optimal costs
 
 ```{python}
 #| code-fold: true
@@ -295,6 +338,8 @@ plt.ylabel('Expected cost')
 plt.legend()
 plt.show()
 ```
+
+## Option to abstain different costs
 
 |              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
 |--------------|-----------------|-----------------|---------|

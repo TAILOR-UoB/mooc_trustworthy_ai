@@ -7,3 +7,4 @@ pandas
 branca
 ipyleaflet
 tabulate
+shinylive
