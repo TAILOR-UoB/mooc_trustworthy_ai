@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Miquel Perello Nieto">
 
-<title>Foundations of Trustworthy AI - 5&nbsp; Classifier Calibration</title>
+<title>Foundations of Trustworthy AI - Classifier Calibration</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -18,9 +18,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -47,48 +48,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -102,8 +74,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -113,8 +84,6 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../cha_wahcc/Calibration example.html" rel="next">
-<link href="../xais-sin-tre.html" rel="prev">
 <link href="../cropped-tailor-logo-symbol-32x32.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -143,7 +112,8 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <link rel="stylesheet" media="screen" href="../fonts/Myriad Pro Regular.ttf" type="text/css">
@@ -168,15 +138,20 @@ div.csl-indent {
 <link rel="stylesheet" href="../style.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../explainable-ai-systems.html">Explainable AI systems</a></li><li class="breadcrumb-item"><a href="../cha_wahcc/wahcc.html">Classifier Calibration</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -184,128 +159,96 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../index.html" class="sidebar-logo-link">
       <img src="../TAILOR logo - full-color rgb.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
-    <div class="sidebar-title mb-0 py-0">
-      <a href="../">Foundations of Trustworthy AI</a> 
-        <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-  <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
   </div>
 </a>
 </div>
-    </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">(Introduction)</span></a>
+  <a href="../intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">WebR in Quarto HTML Documents</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../explainable-ai-systems.html" class="sidebar-item-text sidebar-link">Explainable AI systems</a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a href="../shinylive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shinylive Introduction</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../xais-fea-imp.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">(Feature Importance)</span></a>
+  <a href="../cha_sl/shinylive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shinylive</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../xais-sal-map.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">(Saliency Maps)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../xais-sin-tre.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">(Single Tree Approximation)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../cha_wahcc/wahcc.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../cha_wahcc/Calibration example.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration example</span></a>
+  <a href="../cha_sl/shinylive-not-working.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shinylive, Not working</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../safety-and-robustness.html" class="sidebar-item-text sidebar-link">(Safety and Robustness)</a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <a href="../explainable-ai-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Explainable AI systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cha_unc/uncertainty.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Some recent COVID-19 data</span></a>
+  <a href="../cha_wahcc/wahcc.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Classifier Calibration</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sar-ali.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">(Alignment)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../sar-rob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">(Robustness)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../sar-rel.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">(Reliability)</span></a>
+  <a href="../cha_odm/odm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Optimal Decision Making</span></a>
   </div>
 </li>
       </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">(Fairness, Equity, and Justice by Design)</span>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">Accountability and Reproducibility (placeholder)</span>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">(Respect for Privacy)</span>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">(Sustainability)</span>
   </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+    <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#taking-inspiration-from-forecasting" id="toc-taking-inspiration-from-forecasting" class="nav-link active" data-scroll-target="#taking-inspiration-from-forecasting"><span class="toc-section-number">5.1</span>  Taking inspiration from forecasting</a>
+  <li><a href="#taking-inspiration-from-forecasting" id="toc-taking-inspiration-from-forecasting" class="nav-link active" data-scroll-target="#taking-inspiration-from-forecasting">Taking inspiration from forecasting</a>
   <ul class="collapse">
   <li><a href="#weather-forecasters" id="toc-weather-forecasters" class="nav-link" data-scroll-target="#weather-forecasters">Weather forecasters</a></li>
   <li><a href="#forecasting-example" id="toc-forecasting-example" class="nav-link" data-scroll-target="#forecasting-example">Forecasting example</a></li>
@@ -317,7 +260,7 @@ div.csl-indent {
   <li><a href="#binning-or-pooling-predictions-is-a-fundamental-notion" id="toc-binning-or-pooling-predictions-is-a-fundamental-notion" class="nav-link" data-scroll-target="#binning-or-pooling-predictions-is-a-fundamental-notion">Binning or pooling predictions is a fundamental notion</a></li>
   <li><a href="#questions-and-answers" id="toc-questions-and-answers" class="nav-link" data-scroll-target="#questions-and-answers">Questions and answers</a></li>
   </ul></li>
-  <li><a href="#why-are-we-interested-in-calibration" id="toc-why-are-we-interested-in-calibration" class="nav-link" data-scroll-target="#why-are-we-interested-in-calibration"><span class="toc-section-number">5.2</span>  Why are we interested in calibration?</a>
+  <li><a href="#why-are-we-interested-in-calibration" id="toc-why-are-we-interested-in-calibration" class="nav-link" data-scroll-target="#why-are-we-interested-in-calibration">Why are we interested in calibration?</a>
   <ul class="collapse">
   <li><a href="#why-are-we-interested-in-calibration-1" id="toc-why-are-we-interested-in-calibration-1" class="nav-link" data-scroll-target="#why-are-we-interested-in-calibration-1">Why are we interested in calibration?</a></li>
   <li><a href="#optimal-decisions-i" id="toc-optimal-decisions-i" class="nav-link" data-scroll-target="#optimal-decisions-i">Optimal decisions I</a></li>
@@ -325,7 +268,7 @@ div.csl-indent {
   <li><a href="#optimal-decisions-iii" id="toc-optimal-decisions-iii" class="nav-link" data-scroll-target="#optimal-decisions-iii">Optimal decisions III</a></li>
   <li><a href="#questions-and-answers-1" id="toc-questions-and-answers-1" class="nav-link" data-scroll-target="#questions-and-answers-1">Questions and answers</a></li>
   </ul></li>
-  <li><a href="#common-sources-of-miscalibration" id="toc-common-sources-of-miscalibration" class="nav-link" data-scroll-target="#common-sources-of-miscalibration"><span class="toc-section-number">5.3</span>  Common sources of miscalibration</a>
+  <li><a href="#common-sources-of-miscalibration" id="toc-common-sources-of-miscalibration" class="nav-link" data-scroll-target="#common-sources-of-miscalibration">Common sources of miscalibration</a>
   <ul class="collapse">
   <li><a href="#common-sources-of-miscalibration-1" id="toc-common-sources-of-miscalibration-1" class="nav-link" data-scroll-target="#common-sources-of-miscalibration-1">Common sources of miscalibration</a></li>
   <li><a href="#underconfidence-example" id="toc-underconfidence-example" class="nav-link" data-scroll-target="#underconfidence-example">Underconfidence example</a></li>
@@ -333,7 +276,7 @@ div.csl-indent {
   <li><a href="#why-fitting-the-distortions-helps-with-calibration" id="toc-why-fitting-the-distortions-helps-with-calibration" class="nav-link" data-scroll-target="#why-fitting-the-distortions-helps-with-calibration">Why fitting the distortions helps with calibration</a></li>
   <li><a href="#questions-and-answers-2" id="toc-questions-and-answers-2" class="nav-link" data-scroll-target="#questions-and-answers-2">Questions and answers</a></li>
   </ul></li>
-  <li><a href="#a-first-look-at-some-calibration-techniques" id="toc-a-first-look-at-some-calibration-techniques" class="nav-link" data-scroll-target="#a-first-look-at-some-calibration-techniques"><span class="toc-section-number">5.4</span>  A first look at some calibration techniques</a>
+  <li><a href="#a-first-look-at-some-calibration-techniques" id="toc-a-first-look-at-some-calibration-techniques" class="nav-link" data-scroll-target="#a-first-look-at-some-calibration-techniques">A first look at some calibration techniques</a>
   <ul class="collapse">
   <li><a href="#a-first-look-at-some-calibration-techniques-1" id="toc-a-first-look-at-some-calibration-techniques-1" class="nav-link" data-scroll-target="#a-first-look-at-some-calibration-techniques-1">A first look at some calibration techniques</a></li>
   <li><a href="#platt-scaling" id="toc-platt-scaling" class="nav-link" data-scroll-target="#platt-scaling">Platt scaling</a></li>
@@ -341,7 +284,7 @@ div.csl-indent {
   <li><a href="#isotonic-regression" id="toc-isotonic-regression" class="nav-link" data-scroll-target="#isotonic-regression">Isotonic regression</a></li>
   <li><a href="#questions-and-answers-3" id="toc-questions-and-answers-3" class="nav-link" data-scroll-target="#questions-and-answers-3">Questions and answers</a></li>
   </ul></li>
-  <li><a href="#calibrating-multi-class-classifiers" id="toc-calibrating-multi-class-classifiers" class="nav-link" data-scroll-target="#calibrating-multi-class-classifiers"><span class="toc-section-number">5.5</span>  Calibrating multi-class classifiers</a>
+  <li><a href="#calibrating-multi-class-classifiers" id="toc-calibrating-multi-class-classifiers" class="nav-link" data-scroll-target="#calibrating-multi-class-classifiers">Calibrating multi-class classifiers</a>
   <ul class="collapse">
   <li><a href="#whats-so-special-about-multi-class-calibration" id="toc-whats-so-special-about-multi-class-calibration" class="nav-link" data-scroll-target="#whats-so-special-about-multi-class-calibration">What’s so special about multi-class calibration?</a></li>
   <li><a href="#definitions-of-calibration-for-more-than-two-classes" id="toc-definitions-of-calibration-for-more-than-two-classes" class="nav-link" data-scroll-target="#definitions-of-calibration-for-more-than-two-classes">Definitions of calibration for more than two classes</a></li>
@@ -352,16 +295,16 @@ div.csl-indent {
   <li><a href="#important-points-to-remember" id="toc-important-points-to-remember" class="nav-link" data-scroll-target="#important-points-to-remember">Important points to remember</a></li>
   <li><a href="#questions-and-answers-4" id="toc-questions-and-answers-4" class="nav-link" data-scroll-target="#questions-and-answers-4">Questions and answers</a></li>
   </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">5.6</span>  References</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/master/cha_wahcc/wahcc.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/main/cha_wahcc/wahcc.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classifier Calibration</span></h1>
+<h1 class="title">Classifier Calibration</h1>
 </div>
 
 
@@ -370,7 +313,7 @@ div.csl-indent {
   <div class="quarto-title-meta-heading">Affiliation</div>
   
     <div class="quarto-title-meta-contents">
-    Peter Flach <a href="https://orcid.org/0000-0001-6857-5810" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+    <p class="author">Peter Flach <a href="https://orcid.org/0000-0001-6857-5810" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -378,7 +321,7 @@ div.csl-indent {
           </p>
       </div>
       <div class="quarto-title-meta-contents">
-    Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+    <p class="author">Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -397,11 +340,9 @@ div.csl-indent {
 
 </header>
 
-<div>
-<p><a href="https://www.perellonieto.com/quarto_simple_example/slides/calibration/calibration.html" target="_blank"><img src="https://img.shields.io/badge/slides-calibration-yellow"></a></p>
-</div>
-<section id="taking-inspiration-from-forecasting" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="taking-inspiration-from-forecasting"><span class="header-section-number">5.1</span> Taking inspiration from forecasting</h2>
+<p><a href="../slides/cha_wahcc/wahcc.html" target="_blank"><img src="https://img.shields.io/badge/slides-calibration-yellow"></a></p>
+<section id="taking-inspiration-from-forecasting" class="level2">
+<h2 class="anchored" data-anchor-id="taking-inspiration-from-forecasting">Taking inspiration from forecasting</h2>
 <iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=003597b0-bf29-11ed-83a4-bf04f88f22c5" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
 <section id="weather-forecasters" class="level3">
@@ -424,12 +365,12 @@ div.csl-indent {
 <li>A predicted probability (vector) should match empirical (observed) probabilities.</li>
 </ul></li>
 </ul>
-<div class="callout-note callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 <strong>Q:</strong> What does <code>X% of the time</code> mean?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -450,12 +391,12 @@ div.csl-indent {
 <li>Three predictions of <code>70% chance of rain</code> were once followed by <code>no rain</code>, and twice by <code>rain</code>.</li>
 <li>One prediction of <code>90% chance of rain</code> was followed by <code>rain</code>.</li>
 </ul>
-<div class="callout-note callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 <strong>Q:</strong> Is this forecaster well-calibrated?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -878,12 +819,12 @@ div.csl-indent {
 <h4 class="anchored" data-anchor-id="qa-1">Q&amp;A 1</h4>
 <div class="columns v-center-container">
 <div class="column" style="width:50%;">
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question 1
 </div>
 </div>
@@ -891,12 +832,12 @@ Question 1
 <p>A binary classifier for weather predictions produces a score of 0.1 for rain two times but it does not rain, two times 0.4 and it rains only once, five times 0.6 and it rains 80% of the times and one time 0.9 and it rains. Does the following reliability diagram show that information?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -907,12 +848,12 @@ Answer: Yes
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -953,12 +894,12 @@ Answer: No
 <h4 class="anchored" data-anchor-id="qa-2">Q&amp;A 2</h4>
 <div class="columns v-center-container">
 <div class="column" style="width:50%;">
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question 2
 </div>
 </div>
@@ -966,12 +907,12 @@ Question 2
 <p>A binary classifier for weather predictions produces a score of 0.1 for rain two times and it rains once, three times 0.4 and it rains two times, four times 0.6 and it rains once and one time 0.9 and it rains. Does the following reliability diagram show that information?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -982,12 +923,12 @@ Answer: Yes
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1021,12 +962,12 @@ Answer: No
 </section>
 <section id="qa-3" class="level4">
 <h4 class="anchored" data-anchor-id="qa-3">Q&amp;A 3</h4>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question 3
 </div>
 </div>
@@ -1034,12 +975,12 @@ Question 3
 <p>Do we need multiple instances in each bin in order to visualise a reliability diagram?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1050,12 +991,12 @@ Answer: Yes
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1071,12 +1012,12 @@ Answer: No
 <h4 class="anchored" data-anchor-id="qa-4">Q&amp;A 4</h4>
 <div class="columns v-center-container">
 <div class="column" style="width:50%;">
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question 4
 </div>
 </div>
@@ -1084,12 +1025,12 @@ Question 4
 <p>The following figure shows the reliability diagram of a binary classifier on enough samples to be statistically significant. Is the model calibrated, producing under-estimates or over-estimates?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Over-estimates
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1100,12 +1041,12 @@ Answer: Over-estimates
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Under-estimates
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1142,12 +1083,12 @@ Answer: Under-estimates
 <h4 class="anchored" data-anchor-id="qa-5">Q&amp;A 5</h4>
 <div class="columns v-center-container">
 <div class="column" style="width:50%;">
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question 5
 </div>
 </div>
@@ -1155,12 +1096,12 @@ Question 5
 <p>The following figure shows the reliability diagram of a binary classifier on enough samples to be statistically significant. Is the model calibrated, producing under-estimates or over-estimates?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Over-estimates
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1171,12 +1112,12 @@ Answer: Over-estimates
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Under-estimates
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1211,8 +1152,8 @@ Answer: Under-estimates
 </section>
 </section>
 </section>
-<section id="why-are-we-interested-in-calibration" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="why-are-we-interested-in-calibration"><span class="header-section-number">5.2</span> Why are we interested in calibration?</h2>
+<section id="why-are-we-interested-in-calibration" class="level2">
+<h2 class="anchored" data-anchor-id="why-are-we-interested-in-calibration">Why are we interested in calibration?</h2>
 <iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=2a1113c0-bf29-11ed-83a4-bf04f88f22c5" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
 <section id="why-are-we-interested-in-calibration-1" class="level3">
@@ -1227,12 +1168,12 @@ Answer: Under-estimates
 <li>adjust these decision rules in a straightforward way to account for different class priors or misclassification costs;</li>
 <li>combine probability estimates in a well-founded way.</li>
 </ul>
-<div class="callout-note callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Q: Is the probability scale additive?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1243,12 +1184,12 @@ Q: Is the probability scale additive?
 </div>
 </div>
 </div>
-<div class="callout-note callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 <strong>Q:</strong> How would you combine probability estimates from several well-calibrated models?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1304,8 +1245,8 @@ Q: Is the probability scale additive?
 </details>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div id="tbl-prob-mean" class="anchored">
-<table class="table table-sm table-striped">
-<caption>Table&nbsp;5.1: Example of probability means</caption>
+<table class="table table-sm table-striped small">
+<caption>Table&nbsp;1: Example of probability means</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Probabilities</th>
@@ -1400,12 +1341,12 @@ P(+|x)  = \frac{\textcolor{blue}{C(+|-)-C(-|-)}}{\textcolor{blue}{C(+|-)-C(-|-)}
 <h3 class="anchored" data-anchor-id="questions-and-answers-1">Questions and answers</h3>
 <section id="qa-1-1" class="level4">
 <h4 class="anchored" data-anchor-id="qa-1-1">Q&amp;A 1</h4>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question 1
 </div>
 </div>
@@ -1413,12 +1354,12 @@ Question 1
 <p>Is it possible to compute optimal risks given a cost matrix and a probabilistic classifier that is not calibrated?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1429,12 +1370,12 @@ Answer: Yes
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1448,12 +1389,12 @@ Answer: No
 </section>
 <section id="qa-2-1" class="level4">
 <h4 class="anchored" data-anchor-id="qa-2-1">Q&amp;A 2</h4>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question
 </div>
 </div>
@@ -1461,12 +1402,12 @@ Question
 <p>Given a calibrated probabilistic classifier, is it optimal to select the class with the highest predicted probability?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1477,12 +1418,12 @@ Answer: Yes
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1493,12 +1434,12 @@ Answer: No
 </div>
 </div>
 </div>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question
 </div>
 </div>
@@ -1513,39 +1454,39 @@ Question
 <span id="cb10-2"><a href="#cb10-2"></a><span class="im">from</span> tabulate <span class="im">import</span> tabulate</span>
 <span id="cb10-3"><a href="#cb10-3"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
 <span id="cb10-4"><a href="#cb10-4"></a></span>
-<span id="cb10-5"><a href="#cb10-5"></a>cost_matrix <span class="op">=</span> [[<span class="op">-</span><span class="dv">1</span>,  <span class="dv">2</span>],</span>
-<span id="cb10-6"><a href="#cb10-6"></a>               [ <span class="dv">4</span>, <span class="op">-</span><span class="dv">2</span>]]</span>
+<span id="cb10-5"><a href="#cb10-5"></a>cost_matrix <span class="op">=</span> [[<span class="op">-</span><span class="dv">1</span>,  <span class="dv">4</span>],</span>
+<span id="cb10-6"><a href="#cb10-6"></a>               [ <span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>]]</span>
 <span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a>table <span class="op">=</span> [[<span class="st">'Predicted Class 1'</span>],</span>
-<span id="cb10-9"><a href="#cb10-9"></a>         [<span class="st">'Predicted Class 2'</span>]]</span>
+<span id="cb10-8"><a href="#cb10-8"></a>table <span class="op">=</span> [[<span class="st">'True Class 1'</span>],</span>
+<span id="cb10-9"><a href="#cb10-9"></a>         [<span class="st">'True Class 2'</span>]]</span>
 <span id="cb10-10"><a href="#cb10-10"></a></span>
 <span id="cb10-11"><a href="#cb10-11"></a><span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(cost_matrix):</span>
 <span id="cb10-12"><a href="#cb10-12"></a>    table[i].extend(c)</span>
 <span id="cb10-13"><a href="#cb10-13"></a></span>
-<span id="cb10-14"><a href="#cb10-14"></a>headers <span class="op">=</span> [<span class="st">'True Class 1'</span>, <span class="st">'True Class 2'</span>]</span>
+<span id="cb10-14"><a href="#cb10-14"></a>headers <span class="op">=</span> [<span class="st">'Predicted Class 1'</span>, <span class="st">'Predicted Class 2'</span>]</span>
 <span id="cb10-15"><a href="#cb10-15"></a></span>
 <span id="cb10-16"><a href="#cb10-16"></a>Markdown(tabulate(table, headers<span class="op">=</span>headers))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div id="tbl-q-cm" class="anchored">
-<table class="table table-sm table-striped">
-<caption>Table&nbsp;5.2: Example of a cost matrix</caption>
+<table class="table table-sm table-striped small">
+<caption>Table&nbsp;2: Example of a cost matrix</caption>
 <thead>
 <tr class="header">
 <th></th>
-<th style="text-align: right;">True Class 1</th>
-<th style="text-align: right;">True Class 2</th>
+<th style="text-align: right;">Predicted Class 1</th>
+<th style="text-align: right;">Predicted Class 2</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Predicted Class 1</td>
+<td>True Class 1</td>
 <td style="text-align: right;">-1</td>
-<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr class="even">
-<td>Predicted Class 2</td>
-<td style="text-align: right;">4</td>
+<td>True Class 2</td>
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">-2</td>
 </tr>
 </tbody>
@@ -1553,12 +1494,12 @@ Question
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: 0.4
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1569,12 +1510,12 @@ Answer: 0.4
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: -0.4
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1585,12 +1526,12 @@ Answer: -0.4
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: 1.6
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1601,12 +1542,12 @@ Answer: 1.6
 </div>
 </div>
 </div>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question
 </div>
 </div>
@@ -1614,12 +1555,12 @@ Question
 <p>What would be the expected cost of predicting class 1?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: 0.4
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1630,12 +1571,12 @@ Answer: 0.4
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-32-contents" aria-controls="callout-32" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: -0.4
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1646,12 +1587,12 @@ Answer: -0.4
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-33-contents" aria-controls="callout-33" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: 1.6
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1665,8 +1606,8 @@ Answer: 1.6
 </section>
 </section>
 </section>
-<section id="common-sources-of-miscalibration" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="common-sources-of-miscalibration"><span class="header-section-number">5.3</span> Common sources of miscalibration</h2>
+<section id="common-sources-of-miscalibration" class="level2">
+<h2 class="anchored" data-anchor-id="common-sources-of-miscalibration">Common sources of miscalibration</h2>
 <iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=543b2f90-bf2a-11ed-b716-77ee466eb043" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
 <section id="common-sources-of-miscalibration-1" class="level3">
@@ -1740,12 +1681,12 @@ Answer: 1.6
 <h4 class="anchored" data-anchor-id="qa-1-2">Q&amp;A 1</h4>
 <div class="columns v-center-container">
 <div class="column" style="width:50%;">
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question
 </div>
 </div>
@@ -1753,12 +1694,12 @@ Question
 <p>The following figures show the reliability diagram of several binary classifiers. Assuming that there are enough samples on each bin, indicate if the model seems calibrated, over-confident or under-confident.</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-35-contents" aria-controls="callout-35" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Calibrated.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1769,12 +1710,12 @@ Answer: Calibrated.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-36-contents" aria-controls="callout-36" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Over-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1785,12 +1726,12 @@ Answer: Over-confident.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-37-contents" aria-controls="callout-37" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Under-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1826,12 +1767,12 @@ Answer: Under-confident.
 <h4 class="anchored" data-anchor-id="qa-2-2">Q&amp;A 2</h4>
 <div class="columns v-center-container">
 <div class="column" style="width:50%;">
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Calibrated.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1842,12 +1783,12 @@ Answer: Calibrated.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-39-contents" aria-controls="callout-39" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Over-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1858,12 +1799,12 @@ Answer: Over-confident.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Under-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1899,12 +1840,12 @@ Answer: Under-confident.
 <h4 class="anchored" data-anchor-id="qa-3-1">Q&amp;A 3</h4>
 <div class="columns v-center-container">
 <div class="column" style="width:50%;">
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-41-contents" aria-controls="callout-41" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Calibrated.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1915,12 +1856,12 @@ Answer: Calibrated.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-42-contents" aria-controls="callout-42" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Over-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1931,12 +1872,12 @@ Answer: Over-confident.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-43-contents" aria-controls="callout-43" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Under-confident.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1970,12 +1911,12 @@ Answer: Under-confident.
 </section>
 <section id="qa-4-1" class="level4">
 <h4 class="anchored" data-anchor-id="qa-4-1">Q&amp;A 4</h4>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question
 </div>
 </div>
@@ -1983,12 +1924,12 @@ Question
 <p>Can a binary classifier show a calibrated reliability diagram with a number of equally distributed bins, and a non-calibrated one with a higher number of equally distributed bins?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1999,12 +1940,12 @@ Answer: Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2018,8 +1959,8 @@ Answer: No.
 </section>
 </section>
 </section>
-<section id="a-first-look-at-some-calibration-techniques" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="a-first-look-at-some-calibration-techniques"><span class="header-section-number">5.4</span> A first look at some calibration techniques</h2>
+<section id="a-first-look-at-some-calibration-techniques" class="level2">
+<h2 class="anchored" data-anchor-id="a-first-look-at-some-calibration-techniques">A first look at some calibration techniques</h2>
 <iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=6f5e0e00-bf2a-11ed-b716-77ee466eb043" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
 <section id="a-first-look-at-some-calibration-techniques-1" class="level3">
@@ -2070,12 +2011,12 @@ Answer: No.
 </section>
 <section id="questions-and-answers-3" class="level3">
 <h3 class="anchored" data-anchor-id="questions-and-answers-3">Questions and answers</h3>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question
 </div>
 </div>
@@ -2083,12 +2024,12 @@ Question
 <p>Can a binary classifier show a calibrated reliability diagram with a number of equally distributed bins, and a non-calibrated one with a higher number of equally distributed bins?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: What is a calibration map?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2099,12 +2040,12 @@ Answer: What is a calibration map?
 </div>
 </div>
 </div>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Can Platt scaling calibrate models that are overconfident?
 </div>
 </div>
@@ -2112,12 +2053,12 @@ Can Platt scaling calibrate models that are overconfident?
 
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-50-contents" aria-controls="callout-50" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2128,12 +2069,12 @@ Answer: Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-51-contents" aria-controls="callout-51" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2144,12 +2085,12 @@ Answer: No.
 </div>
 </div>
 </div>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Is isotonic regression a parametric method?
 </div>
 </div>
@@ -2157,12 +2098,12 @@ Is isotonic regression a parametric method?
 
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-53-contents" aria-controls="callout-53" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2173,12 +2114,12 @@ Answer: Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-54-contents" aria-controls="callout-54" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2189,12 +2130,12 @@ Answer: No.
 </div>
 </div>
 </div>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Can Platt scaling learn an identity function if the model is already calibrated?
 </div>
 </div>
@@ -2202,12 +2143,12 @@ Can Platt scaling learn an identity function if the model is already calibrated?
 
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-56-contents" aria-controls="callout-56" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2218,12 +2159,12 @@ Answer: Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-57-contents" aria-controls="callout-57" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2236,8 +2177,8 @@ Answer: No.
 </div>
 </section>
 </section>
-<section id="calibrating-multi-class-classifiers" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="calibrating-multi-class-classifiers"><span class="header-section-number">5.5</span> Calibrating multi-class classifiers</h2>
+<section id="calibrating-multi-class-classifiers" class="level2">
+<h2 class="anchored" data-anchor-id="calibrating-multi-class-classifiers">Calibrating multi-class classifiers</h2>
 <iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=8f343b50-bf2a-11ed-83a4-bf04f88f22c5" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
 <section id="whats-so-special-about-multi-class-calibration" class="level3">
@@ -2296,12 +2237,12 @@ P(Y=i\mid \mathbf{\hat{p}}(\mathbf{x})=\mathbf{q})=q_i\qquad\text{for }\ i=1,\do
 </section>
 <section id="questions-and-answers-4" class="level3">
 <h3 class="anchored" data-anchor-id="questions-and-answers-4">Questions and answers</h3>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Can we interpret the output of any model that produces values between zero and
 </div>
 </div>
@@ -2309,12 +2250,12 @@ Can we interpret the output of any model that produces values between zero and
 <p>one as probabilities?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-59-contents" aria-controls="callout-59" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2325,12 +2266,12 @@ Answer: Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-60-contents" aria-controls="callout-60" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2341,12 +2282,12 @@ Answer: No.
 </div>
 </div>
 </div>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question
 </div>
 </div>
@@ -2354,12 +2295,12 @@ Question
 <p>Is there only one way to measure calibration for multiclass probability scores.</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-62-contents" aria-controls="callout-62" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2370,12 +2311,12 @@ Answer: Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-63-contents" aria-controls="callout-63" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2386,12 +2327,12 @@ Answer: No.
 </div>
 </div>
 </div>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question
 </div>
 </div>
@@ -2399,12 +2340,12 @@ Question
 <p>Can we perform optimal decisions in a multiclass setting by knowing the highest probability among the classes and the misclassification costs?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-65-contents" aria-controls="callout-65" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2415,12 +2356,12 @@ Answer: Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-66-contents" aria-controls="callout-66" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2431,12 +2372,12 @@ Answer: No.
 </div>
 </div>
 </div>
-<div class="callout-tip callout callout-style-simple callout-captioned">
+<div class="callout callout-style-simple callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Question
 </div>
 </div>
@@ -2444,12 +2385,12 @@ Question
 <p>If the data distribution, operating conditions and the missclassification costs do not change from training to test set, and a model makes optimal predictions in the training set. Do we need the exact probabilities in the test set to make optimal decisions?</p>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-68-contents" aria-controls="callout-68" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: Yes.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2460,12 +2401,12 @@ Answer: Yes.
 </div>
 </div>
 </div>
-<div class="callout-caution callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-69-contents" aria-controls="callout-69" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Answer: No.
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -2478,45 +2419,45 @@ Answer: No.
 </div>
 </section>
 </section>
-<section id="references" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="references"><span class="header-section-number">5.6</span> References</h2>
+<section id="references" class="level2">
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-brier1950" class="csl-entry" role="doc-biblioentry">
-Brier, Glenn W. 1950. <span>“<span class="nocase">Verification of forecasts expressed in terms of probabilities</span>.”</span> <em>Monthly Weather Review</em> 78 (1): 1–3.
-</div>
-<div id="ref-fawcett2007" class="csl-entry" role="doc-biblioentry">
-Fawcett, Tom, and Alexandru Niculescu-Mizil. 2007. <span>“<span class="nocase">PAV and the ROC convex hull</span>.”</span> <em>Machine Learning</em> 68 (1): 97–106.
-</div>
-<div id="ref-flach2016roc" class="csl-entry" role="doc-biblioentry">
-Flach, Peter A. 2016. <span>“<span>ROC</span> Analysis.”</span> In <em>Encyclopedia of Machine Learning and Data Mining</em>. Springer.
-</div>
-<div id="ref-guo2017" class="csl-entry" role="doc-biblioentry">
-Guo, Chuan, Geoff Pleiss, Yu Sun, and Kilian Q Weinberger. 2017. <span>“<span class="nocase">On Calibration of Modern Neural Networks</span>.”</span> In <em>34th International Conference on Machine Learning</em>, 1321–30.
-</div>
-<div id="ref-kull2019" class="csl-entry" role="doc-biblioentry">
-Kull, Meelis, Miquel Perello-Nieto, Markus Kängsepp, Telmo Silva Filho, Hao Song, and Peter Flach. 2019. <span>“<span class="nocase">Beyond temperature scaling: Obtaining well-calibrated multiclass probabilities with Dirichlet calibration</span>.”</span> In <em>Advances in Neural Information Processing Systems (NIPS’19)</em>, 12316–26.
-</div>
-<div id="ref-kull2017" class="csl-entry" role="doc-biblioentry">
-Kull, Meelis, Telmo M. Silva Filho, and Peter Flach. 2017. <span>“<span class="nocase">Beyond Sigmoids: How to obtain well-calibrated probabilities from binary classifiers with beta calibration</span>.”</span> <em>Electronic Journal of Statistics</em> 11 (2): 5052–80.
-</div>
-<div id="ref-niculescu-mizil2005" class="csl-entry" role="doc-biblioentry">
-Niculescu-Mizil, Alexandru, and Rich Caruana. 2005. <span>“<span class="nocase">Predicting good probabilities with supervised learning</span>.”</span> In <em>22nd International Conference on Machine Learning (ICML’05)</em>, 625–32. ACM Press.
-</div>
-<div id="ref-platt2000" class="csl-entry" role="doc-biblioentry">
-Platt, JC. 2000. <span>“<span class="nocase">Probabilities for SV Machines</span>.”</span> In <em>Advances in Large-Margin Classifiers</em>, edited by Alexander J. Smola, Peter Bartlett, Bernhard Schölkopf, and Dale Schuurmans, 61—–74. MIT Press.
-</div>
-<div id="ref-zadrozny2001" class="csl-entry" role="doc-biblioentry">
-Zadrozny, Bianca, and Charles Elkan. 2001. <span>“<span class="nocase">Obtaining calibrated probability estimates from decision trees and naive Bayesian classifiers</span>.”</span> In <em>18th International Conference on Machine Learning (ICML’01)</em>, 609—–616.
-</div>
-<div id="ref-zadrozny2002" class="csl-entry" role="doc-biblioentry">
-———. 2002. <span>“<span class="nocase">Transforming Classifier Scores into Accurate Multiclass Probability Estimates</span>.”</span> In <em>8th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining - KDD ’02</em>, 694—–699. ACM Press.
-</div>
-</div>
+
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-brier1950" class="csl-entry" role="listitem">
+Brier, Glenn W. 1950. <span>“<span class="nocase">Verification of forecasts expressed in terms of probabilities</span>.”</span> <em>Monthly Weather Review</em> 78 (1): 1–3.
+</div>
+<div id="ref-fawcett2007" class="csl-entry" role="listitem">
+Fawcett, Tom, and Alexandru Niculescu-Mizil. 2007. <span>“<span class="nocase">PAV and the ROC convex hull</span>.”</span> <em>Machine Learning</em> 68 (1): 97–106.
+</div>
+<div id="ref-flach2016roc" class="csl-entry" role="listitem">
+Flach, Peter A. 2016. <span>“<span>ROC</span> Analysis.”</span> In <em>Encyclopedia of Machine Learning and Data Mining</em>. Springer.
+</div>
+<div id="ref-guo2017" class="csl-entry" role="listitem">
+Guo, Chuan, Geoff Pleiss, Yu Sun, and Kilian Q Weinberger. 2017. <span>“<span class="nocase">On Calibration of Modern Neural Networks</span>.”</span> In <em>34th International Conference on Machine Learning</em>, 1321–30.
+</div>
+<div id="ref-kull2019" class="csl-entry" role="listitem">
+Kull, Meelis, Miquel Perello-Nieto, Markus Kängsepp, Telmo Silva Filho, Hao Song, and Peter Flach. 2019. <span>“<span class="nocase">Beyond temperature scaling: Obtaining well-calibrated multiclass probabilities with Dirichlet calibration</span>.”</span> In <em>Advances in Neural Information Processing Systems (NIPS’19)</em>, 12316–26.
+</div>
+<div id="ref-kull2017" class="csl-entry" role="listitem">
+Kull, Meelis, Telmo M. Silva Filho, and Peter Flach. 2017. <span>“<span class="nocase">Beyond Sigmoids: How to obtain well-calibrated probabilities from binary classifiers with beta calibration</span>.”</span> <em>Electronic Journal of Statistics</em> 11 (2): 5052–80.
+</div>
+<div id="ref-niculescu-mizil2005" class="csl-entry" role="listitem">
+Niculescu-Mizil, Alexandru, and Rich Caruana. 2005. <span>“<span class="nocase">Predicting good probabilities with supervised learning</span>.”</span> In <em>22nd International Conference on Machine Learning (ICML’05)</em>, 625–32. ACM Press.
+</div>
+<div id="ref-platt2000" class="csl-entry" role="listitem">
+Platt, JC. 2000. <span>“<span class="nocase">Probabilities for SV Machines</span>.”</span> In <em>Advances in Large-Margin Classifiers</em>, edited by Alexander J. Smola, Peter Bartlett, Bernhard Schölkopf, and Dale Schuurmans, 61—–74. MIT Press.
+</div>
+<div id="ref-zadrozny2001" class="csl-entry" role="listitem">
+Zadrozny, Bianca, and Charles Elkan. 2001. <span>“<span class="nocase">Obtaining calibrated probability estimates from decision trees and naive Bayesian classifiers</span>.”</span> In <em>18th International Conference on Machine Learning (ICML’01)</em>, 609—–616.
+</div>
+<div id="ref-zadrozny2002" class="csl-entry" role="listitem">
+———. 2002. <span>“<span class="nocase">Transforming Classifier Scores into Accurate Multiclass Probability Estimates</span>.”</span> In <em>8th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining - KDD ’02</em>, 694—–699. ACM Press.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -2659,9 +2600,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -2726,6 +2681,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -2765,23 +2806,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation column-body">
-  <div class="nav-page nav-page-previous">
-      <a href="../xais-sin-tre.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">(Single Tree Approximation)</span></span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../cha_wahcc/Calibration example.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Calibration example</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">Foundations of Trustworthy AI was written by Miquel Perello Nieto by compiling multiple information from the TAILOR project.</div>   
-    <div class="nav-footer-right">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">This website was built with <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>
 

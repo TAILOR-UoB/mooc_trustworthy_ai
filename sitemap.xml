@@ -1,71 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/index.html</loc>
-    <lastmod>2023-04-03T13:45:31.304Z</lastmod>
-  </url>
-  <url>
     <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/intro.html</loc>
-    <lastmod>2023-04-03T13:45:31.304Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/explainable-ai-systems.html</loc>
-    <lastmod>2023-04-03T13:45:31.304Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/xais-fea-imp.html</loc>
-    <lastmod>2023-04-03T13:45:31.304Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/xais-sal-map.html</loc>
-    <lastmod>2023-04-03T13:45:31.304Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/xais-sin-tre.html</loc>
-    <lastmod>2023-04-03T13:45:31.304Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/cha_wahcc/wahcc.html</loc>
-    <lastmod>2023-04-03T13:45:31.312Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/cha_wahcc/Calibration example.html</loc>
-    <lastmod>2023-04-03T13:45:31.320Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/safety-and-robustness.html</loc>
-    <lastmod>2023-04-03T13:45:31.320Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/cha_unc/uncertainty.html</loc>
-    <lastmod>2023-04-03T13:45:31.320Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/sar-ali.html</loc>
-    <lastmod>2023-04-03T13:45:31.320Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/sar-rob.html</loc>
-    <lastmod>2023-04-03T13:45:31.324Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/sar-rel.html</loc>
-    <lastmod>2023-04-03T13:45:31.324Z</lastmod>
-  </url>
-  <url>
-    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/fairness-equity-justice-design.html</loc>
-    <lastmod>2023-04-03T13:45:31.324Z</lastmod>
+    <lastmod>2023-09-22T16:16:01.314Z</lastmod>
   </url>
   <url>
     <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/accountability-reproducibility.html</loc>
-    <lastmod>2023-04-03T13:45:31.324Z</lastmod>
+    <lastmod>2023-09-22T16:16:00.430Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/fairness-equity-justice-design.html</loc>
+    <lastmod>2023-09-22T16:15:54.474Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/cha_wahcc/wahcc.html</loc>
+    <lastmod>2023-09-22T16:15:52.750Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/cha_sl/shinylive-not-working.html</loc>
+    <lastmod>2023-09-22T16:15:27.385Z</lastmod>
   </url>
   <url>
     <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/respect-privacy.html</loc>
-    <lastmod>2023-04-03T13:45:31.328Z</lastmod>
+    <lastmod>2023-09-22T16:15:23.345Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/sar-ali.html</loc>
+    <lastmod>2023-09-22T16:15:22.497Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/xais-sin-tre.html</loc>
+    <lastmod>2023-09-22T16:15:11.581Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/explainable-ai-systems.html</loc>
+    <lastmod>2023-09-22T16:15:10.745Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/index.html</loc>
+    <lastmod>2023-09-22T16:15:08.496Z</lastmod>
   </url>
   <url>
     <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/sustainability.html</loc>
-    <lastmod>2023-04-03T13:45:31.328Z</lastmod>
+    <lastmod>2023-09-22T16:15:11.165Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/shinylive.html</loc>
+    <lastmod>2023-09-22T16:15:22.029Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/safety-and-robustness.html</loc>
+    <lastmod>2023-09-22T16:15:22.925Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/cha_sl/shinylive.html</loc>
+    <lastmod>2023-09-22T16:15:25.193Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/cha_odm/odm.html</loc>
+    <lastmod>2023-09-22T16:15:42.413Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/cha_wahcc/Calibration example.html</loc>
+    <lastmod>2023-09-22T16:15:54.022Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/xais-fea-imp.html</loc>
+    <lastmod>2023-09-22T16:16:00.010Z</lastmod>
+  </url>
+  <url>
+    <loc>https://tailor-uob.github.io/mooc_trustworthy_ai/xais-sal-map.html</loc>
+    <lastmod>2023-09-22T16:16:00.882Z</lastmod>
   </url>
 </urlset>
