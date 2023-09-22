@@ -24,6 +24,9 @@ jobs:
         with:
           tinytex: true 
 
+      - name: Install rmarkdown
+        run: Rscript -e 'install.packages("rmarkdown")'
+
           #- name: Install Quarto extensions
           #  run: |
           #    quarto add coatless/quarto-webr
