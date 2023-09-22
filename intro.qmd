@@ -13,9 +13,9 @@ I have removed the following lines from the header
 
 This is a webr-enabled code cell in a Quarto HTML document.
 
-I changed `{webr-r}` for `{r}` while a problem is fixed.
+I changed `{webr-r}` for ` ` while a problem is fixed.
 
-```{r}
+```
 fit = lm(mpg ~ am, data = mtcars)
 summary(fit)
 ```
