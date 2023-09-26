@@ -33,7 +33,7 @@ jobs:
       - name: Render Quarto Project
         uses: quarto-dev/quarto-actions/render@v2
         with:
-          to: _site/ # If set, it will be equivalent to `quarto render --to html`
+          to: html # If set, it will be equivalent to `quarto render --to html`
           path: source-folder # By default, the current working dir is used i.e `quarto render .`
       - name: Publish to GitHub Pages 
         uses: JamesIves/github-pages-deploy-action@3.7.1
