@@ -41,19 +41,17 @@ jobs:
           #    quarto add coatless/quarto-webr
           #    quarto add quarto-ext/shinylive
       
-      # add software dependencies here
+      - name: Publish to GitHub Pages 
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: _site/
+          CLEAN: true
 
-    - name: Publish to GitHub Pages 
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: _site/
-        CLEAN: true
-
-        #- name: Publish to GitHub Pages (and render)
-        #  uses: quarto-dev/quarto-actions/publish@v2
-        #  with:
-        #    target: gh-pages
-        #  env:
-        #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #- name: Publish to GitHub Pages (and render)
+          #  uses: quarto-dev/quarto-actions/publish@v2
+          #  with:
+          #    target: gh-pages
+          #  env:
+          #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
