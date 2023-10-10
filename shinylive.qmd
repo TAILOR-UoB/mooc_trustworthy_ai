@@ -18,96 +18,83 @@ filters:
   - shinylive
 ---
 
-**The current version only prints out on the last terminal (end of the page),
-while the rest of the terminals seems to be used only as a standard input.**
+Quarto offers a set of extensions maintained by the core Quarto team[^1].
+Among them, the shinylive extension[^2] allows to embed Shinylive for Python
+code in the client web browser. 
 
-```{shinylive-python}
-#| components: [editor, terminal]
+[^1]: [https://github.com/quarto-ext](https://github.com/quarto-ext)
+[^2]: [https://github.com/quarto-ext/shinylive](https://github.com/quarto-ext/shinylive)
 
-print('Hello world!')
+
+Shinylive combines a version of Shiny for Python [^3] with some common Python
+libraries, complied into WebAssembly which can be run in the client's web
+browser (aka Pyodide[^4]).
+
+[^3]: [https://shiny.posit.co/py/](https://shiny.posit.co/py/)
+[^4]: [https://pyodide.org/en/stable/#](https://pyodide.org/en/stable/#)
+
+To run code it is necessary to first install the Python package shinylive in
+the Python environment 
+
+```bash
+pip install shinylive --upgrade
 ```
 
-```{shinylive-python}
-#| components: [editor, terminal]
+And add the extension in quarto
 
-l1 = list() 
-l2 = []
-
-print(l1)
-print(l2)
+```bash
+quarto add quarto-ext/shinylive
 ```
 
-```{shinylive-python}
-#| components: [editor, terminal]
+Once installed, in the yaml header section of a quarto markdown file that
+includes shinylive code needs to have the following lines:
 
-print(len(l1))
-print(len(l2))
+```yaml
+filters:
+  - shinylive
 ```
 
+There are 3 possible components in a Shiny environment: the editor, which
+contains the code to be modified and/or executed; the terminal, which shows the
+inputs and outputs and can be interacted with; and a viewer, which is a
+special shiny class that renders text and figures as html.
+The following is and example of a code and a directive that shows the three
+components.
+
+````yaml
 ```{shinylive-python}
-#| components: [editor, terminal]
+#| standalone: true
+#| components: [editor, terminal, viewer]
+#| layout: vertical
+#| viewerHeight: 20
 
-l3 = [1, 2, 3]
-print(l3)
-print(len(l3))
+print('The standard output is printed in the terminal below')
+
+# Formated text can be shown in the user interface with the shiny library
+from shiny import App, ui
+
+app_ui = ui.page_fluid(ui.h2("This is an html header (level 2) example"))
+
+app = App(app_ui, None)
 ```
+````
 
-
-```{shinylive-python}
-#| components: [editor, terminal]
-
-l1.append(1)
-print(l1)
-l1.append(10)
-print(l1)
-```
-```{shinylive-python}
-#| components: [editor, terminal]
-
-l2.append(100)
-print(l2)
-```
-Note that the `+` operator does not modify the lists inplace, rather it
-constructs a new list from the values of `l1` and `l2`.
-
-If inplace extension is required, the `.extend` member function should be used:
-
-```{shinylive-python}
-#| components: [editor, terminal]
-
-print(l1)
-print(l2)
-print(l1 + l2)
-```
+which is rendered as follows
 
 ```{shinylive-python}
-#| components: [editor, terminal]
+#| standalone: true
+#| components: [editor, terminal, viewer]
+#| viewerHeight: 20
 
-l1.extend(l2)
-print(l1)
-print(l2)
+print('The standard output is printed in the terminal below')
+
+# Formated text can be shown in the user interface with the shiny library
+from shiny import App, ui
+
+app_ui = ui.page_fluid(ui.h2("This is an html header (level 2) example"))
+
+app = App(app_ui, None)
 ```
 
-Items can be removed from the lists too, with the `pop` function. When called,
-the pop function removes the last element of the list. If an argument is passed
-into the `pop` function, the element contained at that position in the list is
-removed, e.g.
-
-```{shinylive-python}
-#| components: [editor, terminal]
-
-l2 = [0, 1, 2, 3, 4, 5, 6]
-
-l2.pop(1)
-print(l2)
-
-l2.pop()
-print(l2)
-```
-
-
-```{shinylive-python}
-#| components: [editor, terminal]
-
-print(l1)
-```
+The following subsections show multiple examples of the current functionalities
+and its limitations in the Quarto publishing system.

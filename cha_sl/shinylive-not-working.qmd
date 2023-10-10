@@ -1,5 +1,5 @@
 ---
-title: Shinylive, Not working
+title: Problem with a terminal and viewers
 author: 
   - name:
       given: Miquel
@@ -18,61 +18,31 @@ filters:
   - shinylive
 ---
 
-**Showing the terminal in one code block stops the other code blocks'
-viewers.**
-
+This page shows a problem when showing a terminal in a code block that does not
+allow the viewers to update their content in the subsequent code blocks.
 
 ```{shinylive-python}
 #| components: [editor, terminal]
 
-print('Hello world!')
+print('First code will prevent the rest of the code blocks from showing their rendered output')
 ```
 
 ```{shinylive-python}
 #| standalone: true
 #| components: [editor, viewer]
+from shiny import App, ui
 
-from shiny import *
+app_ui = ui.page_fluid("The text in the second code block is not shown.")
 
-app_ui = ui.page_fluid(
-    ui.input_slider("n", "N", 0, 100, 40),
-    ui.output_text_verbatim("txt"),
-)
-
-def server(input, output, session):
-    @output
-    @render.text
-    def txt():
-        return f"The value of n*2 is {input.n() * 2}"
-
-app = App(app_ui, server)
+app = App(app_ui, None)
 ```
 
 ```{shinylive-python}
 #| standalone: true
 #| components: [editor, viewer]
+from shiny import App, ui
 
-import matplotlib.pyplot as plt
-import numpy as np
-from shiny import App, render, ui
+app_ui = ui.page_fluid("The text in the third code block is not shown.")
 
-app_ui = ui.page_fluid(
-    ui.input_slider("n", "Number of bins", 0, 100, 20),
-    ui.output_plot("plot"),
-)
-
-
-def server(input, output, session):
-    @output
-    @render.plot(alt="A histogram")
-    def plot():
-        np.random.seed(19680801)
-        x = 100 + 15 * np.random.randn(437)
-
-        fig, ax = plt.subplots()
-        ax.hist(x, input.n(), density=True)
-        return fig
-
-
-app = App(app_ui, server, debug=True)
+app = App(app_ui, None)
 ```

@@ -21,6 +21,7 @@ website:
         contents:
           - cha_sl/shinylive.qmd
           - cha_sl/shinylive-not-working.qmd
+          - cha_sl/shinylive-not-working-terminals.qmd
       - section: explainable-ai-systems.qmd
         contents:
           - cha_wahcc/wahcc.qmd

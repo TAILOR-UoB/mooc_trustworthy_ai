@@ -18,10 +18,6 @@ filters:
   - shinylive
 ---
 
-%#| components: [editor, terminal, viewer]
-%#| layout: vertical
-%#| viewerHeight: 420
-%#| components: [editor, terminal]
 
 ```{shinylive-python}
 #| standalone: true
