@@ -8,7 +8,7 @@
 
 <meta name="author" content="Miquel Perello Nieto">
 
-<title>Foundations of Trustworthy AI - Shinylive</title>
+<title>Foundations of Trustworthy AI - Problem with multiple terminals</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../shinylive.html">Shinylive Introduction</a></li><li class="breadcrumb-item"><a href="../cha_sl/shinylive.html">Shinylive</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../shinylive.html">Shinylive Introduction</a></li><li class="breadcrumb-item"><a href="../cha_sl/shinylive-not-working-terminals.html">Problem with multiple terminals</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -132,7 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../index.html" class="sidebar-logo-link">
-      <img src="../TAILOR logo - full-color rgb.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="../TAILOR logo small - full-color rgb.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
@@ -173,8 +173,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cha_sl/shinylive.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Shinylive</span></a>
+  <a href="../cha_sl/shinylive-user-interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shinylive User Interface</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -184,8 +184,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
           <li class="sidebar-item">
- <span class="menu-text">cha_sl/shinylive-not-working-terminals.qmd</span>
-  </li>
+  <div class="sidebar-item-container"> 
+  <a href="../cha_sl/shinylive-not-working-terminals.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Problem with multiple terminals</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -224,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Shinylive</h1>
+<h1 class="title">Problem with multiple terminals</h1>
 </div>
 
 
@@ -252,49 +255,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="sourceCode" id="cb1" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>#| standalone: true</span>
-<span id="cb1-2"><a href="#cb1-2"></a>#| components: [editor, viewer]</span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>from shiny import *</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a>app_ui = ui.page_fluid(</span>
-<span id="cb1-7"><a href="#cb1-7"></a>    ui.input_slider("n", "N", 0, 100, 40),</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    ui.output_text_verbatim("txt"),</span>
-<span id="cb1-9"><a href="#cb1-9"></a>)</span>
-<span id="cb1-10"><a href="#cb1-10"></a></span>
-<span id="cb1-11"><a href="#cb1-11"></a>def server(input, output, session):</span>
-<span id="cb1-12"><a href="#cb1-12"></a>    @output</span>
-<span id="cb1-13"><a href="#cb1-13"></a>    @render.text</span>
-<span id="cb1-14"><a href="#cb1-14"></a>    def txt():</span>
-<span id="cb1-15"><a href="#cb1-15"></a>        return f"The value of n*2 is {input.n() * 2}"</span>
-<span id="cb1-16"><a href="#cb1-16"></a></span>
-<span id="cb1-17"><a href="#cb1-17"></a>app = App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb2" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="#cb2-1"></a>#| standalone: true</span>
-<span id="cb2-2"><a href="#cb2-2"></a>#| components: [editor, viewer]</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a>import matplotlib.pyplot as plt</span>
-<span id="cb2-5"><a href="#cb2-5"></a>import numpy as np</span>
-<span id="cb2-6"><a href="#cb2-6"></a>from shiny import App, render, ui</span>
-<span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a>app_ui = ui.page_fluid(</span>
-<span id="cb2-9"><a href="#cb2-9"></a>    ui.input_slider("n", "Number of bins", 0, 100, 20),</span>
-<span id="cb2-10"><a href="#cb2-10"></a>    ui.output_plot("plot"),</span>
-<span id="cb2-11"><a href="#cb2-11"></a>)</span>
-<span id="cb2-12"><a href="#cb2-12"></a></span>
-<span id="cb2-13"><a href="#cb2-13"></a></span>
-<span id="cb2-14"><a href="#cb2-14"></a>def server(input, output, session):</span>
-<span id="cb2-15"><a href="#cb2-15"></a>    @output</span>
-<span id="cb2-16"><a href="#cb2-16"></a>    @render.plot(alt="A histogram")</span>
-<span id="cb2-17"><a href="#cb2-17"></a>    def plot():</span>
-<span id="cb2-18"><a href="#cb2-18"></a>        np.random.seed(19680801)</span>
-<span id="cb2-19"><a href="#cb2-19"></a>        x = 100 + 15 * np.random.randn(437)</span>
-<span id="cb2-20"><a href="#cb2-20"></a></span>
-<span id="cb2-21"><a href="#cb2-21"></a>        fig, ax = plt.subplots()</span>
-<span id="cb2-22"><a href="#cb2-22"></a>        ax.hist(x, input.n(), density=True)</span>
-<span id="cb2-23"><a href="#cb2-23"></a>        return fig</span>
-<span id="cb2-24"><a href="#cb2-24"></a></span>
-<span id="cb2-25"><a href="#cb2-25"></a></span>
-<span id="cb2-26"><a href="#cb2-26"></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This page shows a problem when creating multiple shinylive directives each with a terminal. The result is that each terminal has its own standard input, however only the last terminal among all of them (the one at the bottom of the page) shows the standard output for all of them.</p>
+<div class="sourceCode" id="cb1" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>#| components: [editor, terminal]</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>print('This is the first code.')</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="#cb2-1"></a>#| components: [editor, terminal]</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>print('This is the second code.')</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href="#cb3-1"></a>#| components: [editor, terminal]</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>print('This is the last code.')</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 
@@ -653,7 +623,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">Foundations of Trustworthy AI was written by Miquel Perello Nieto by compiling multiple information from the TAILOR project.</div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/main/cha_sl/shinylive.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
+    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/main/cha_sl/shinylive-not-working-terminals.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
     <div class="nav-footer-right">This website was built with <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>
