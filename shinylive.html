@@ -78,9 +78,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <meta name="shinylive:serviceworker_dir" content=".">
-<script src="site_libs/quarto-contrib/shinylive-0.1.6/shinylive/load-shinylive-sw.js" type="module"></script>
-<script src="site_libs/quarto-contrib/shinylive-0.1.6/shinylive/run-python-blocks.js" type="module"></script>
-<link href="site_libs/quarto-contrib/shinylive-0.1.6/shinylive/shinylive.css" rel="stylesheet">
+<script src="site_libs/quarto-contrib/shinylive-0.2.1/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="site_libs/quarto-contrib/shinylive-0.2.1/shinylive/run-python-blocks.js" type="module"></script>
+<link href="site_libs/quarto-contrib/shinylive-0.2.1/shinylive/shinylive.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
@@ -180,9 +180,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cha_sl/shinylive-not-working.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Shinylive, Not working</span></a>
+ <span class="menu-text">Problem with a terminal and viewers</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+ <span class="menu-text">cha_sl/shinylive-not-working-terminals.qmd</span>
+  </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -249,65 +252,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p><strong>The current version only prints out on the last terminal (end of the page), while the rest of the terminals seems to be used only as a standard input.</strong></p>
-<div class="sourceCode" id="cb1" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>#| components: [editor, terminal]</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>print('Hello world!')</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb2" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="#cb2-1"></a>#| components: [editor, terminal]</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>l1 = list() </span>
-<span id="cb2-4"><a href="#cb2-4"></a>l2 = []</span>
-<span id="cb2-5"><a href="#cb2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6"></a>print(l1)</span>
-<span id="cb2-7"><a href="#cb2-7"></a>print(l2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb3" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href="#cb3-1"></a>#| components: [editor, terminal]</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>print(len(l1))</span>
-<span id="cb3-4"><a href="#cb3-4"></a>print(len(l2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb4" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href="#cb4-1"></a>#| components: [editor, terminal]</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a>l3 = [1, 2, 3]</span>
-<span id="cb4-4"><a href="#cb4-4"></a>print(l3)</span>
-<span id="cb4-5"><a href="#cb4-5"></a>print(len(l3))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb5" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href="#cb5-1"></a>#| components: [editor, terminal]</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>l1.append(1)</span>
-<span id="cb5-4"><a href="#cb5-4"></a>print(l1)</span>
-<span id="cb5-5"><a href="#cb5-5"></a>l1.append(10)</span>
-<span id="cb5-6"><a href="#cb5-6"></a>print(l1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb6" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a href="#cb6-1"></a>#| components: [editor, terminal]</span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a>l2.append(100)</span>
-<span id="cb6-4"><a href="#cb6-4"></a>print(l2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note that the <code>+</code> operator does not modify the lists inplace, rather it constructs a new list from the values of <code>l1</code> and <code>l2</code>.</p>
-<p>If inplace extension is required, the <code>.extend</code> member function should be used:</p>
-<div class="sourceCode" id="cb7" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href="#cb7-1"></a>#| components: [editor, terminal]</span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a>print(l1)</span>
-<span id="cb7-4"><a href="#cb7-4"></a>print(l2)</span>
-<span id="cb7-5"><a href="#cb7-5"></a>print(l1 + l2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb8" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href="#cb8-1"></a>#| components: [editor, terminal]</span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a>l1.extend(l2)</span>
-<span id="cb8-4"><a href="#cb8-4"></a>print(l1)</span>
-<span id="cb8-5"><a href="#cb8-5"></a>print(l2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Items can be removed from the lists too, with the <code>pop</code> function. When called, the pop function removes the last element of the list. If an argument is passed into the <code>pop</code> function, the element contained at that position in the list is removed, e.g.</p>
-<div class="sourceCode" id="cb9" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a href="#cb9-1"></a>#| components: [editor, terminal]</span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a>l2 = [0, 1, 2, 3, 4, 5, 6]</span>
-<span id="cb9-4"><a href="#cb9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5"></a>l2.pop(1)</span>
-<span id="cb9-6"><a href="#cb9-6"></a>print(l2)</span>
-<span id="cb9-7"><a href="#cb9-7"></a></span>
-<span id="cb9-8"><a href="#cb9-8"></a>l2.pop()</span>
-<span id="cb9-9"><a href="#cb9-9"></a>print(l2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb10" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a href="#cb10-1"></a>#| components: [editor, terminal]</span>
-<span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a>print(l1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Quarto offers a set of extensions maintained by the core Quarto team<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Among them, the shinylive extension<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> allows to embed Shinylive for Python code in the client web browser.</p>
+<p>Shinylive combines a version of Shiny for Python <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> with some common Python libraries, complied into WebAssembly which can be run in the client’s web browser (aka Pyodide<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>).</p>
+<p>To run code it is necessary to first install the Python package shinylive in the Python environment</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">pip</span> install shinylive <span class="at">--upgrade</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And add the extension in quarto</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">quarto</span> add quarto-ext/shinylive</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once installed, in the yaml header section of a quarto markdown file that includes shinylive code needs to have the following lines:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">filters</span><span class="kw">:</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="at">  </span><span class="kw">-</span><span class="at"> shinylive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>There are 3 possible components in a Shiny environment: the editor, which contains the code to be modified and/or executed; the terminal, which shows the inputs and outputs and can be interacted with; and a viewer, which is a special shiny class that renders text and figures as html. The following is and example of a code and a directive that shows the three components.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1"></a><span class="at">```{shinylive-python}</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#| standalone: true</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#| components: [editor, terminal, viewer]</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#| layout: vertical</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#| viewerHeight: 20</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="at">print('The standard output is printed in the terminal below')</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co"># Formated text can be shown in the user interface with the shiny library</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="at">from shiny import App, ui</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="at">app_ui = ui.page_fluid(ui.h2("This is an html header (level 2) example"))</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="at">app = App(app_ui, None)</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="at">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>which is rendered as follows</p>
+<div class="sourceCode" id="cb5" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href="#cb5-1"></a>#| standalone: true</span>
+<span id="cb5-2"><a href="#cb5-2"></a>#| components: [editor, terminal, viewer]</span>
+<span id="cb5-3"><a href="#cb5-3"></a>#| viewerHeight: 20</span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a>print('The standard output is printed in the terminal below')</span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a># Formated text can be shown in the user interface with the shiny library</span>
+<span id="cb5-8"><a href="#cb5-8"></a>from shiny import App, ui</span>
+<span id="cb5-9"><a href="#cb5-9"></a></span>
+<span id="cb5-10"><a href="#cb5-10"></a>app_ui = ui.page_fluid(ui.h2("This is an html header (level 2) example"))</span>
+<span id="cb5-11"><a href="#cb5-11"></a></span>
+<span id="cb5-12"><a href="#cb5-12"></a>app = App(app_ui, None)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The following subsections show multiple examples of the current functionalities and its limitations in the Quarto publishing system.</p>
 
 
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><a href="https://github.com/quarto-ext">https://github.com/quarto-ext</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a href="https://github.com/quarto-ext/shinylive">https://github.com/quarto-ext/shinylive</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><a href="https://shiny.posit.co/py/">https://shiny.posit.co/py/</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><a href="https://pyodide.org/en/stable/#">https://pyodide.org/en/stable/#</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
