@@ -1,0 +1,43 @@
+---
+title: Problem with multiple terminals
+author: 
+  - name:
+      given: Miquel
+      family: Perello Nieto
+    orcid: 0000-0001-8925-424X
+    email: miquel.perellonieto@bristol.ac.uk
+    affiliations:
+      - name: University of Bristol
+        city: Bristol
+        country: United Kingdom
+        postal-code: BS8 1QU
+    attributes:
+        equal-contributor: False
+format: html
+filters:
+  - shinylive
+---
+
+This page shows a problem when creating multiple shinylive directives each with
+a terminal. The result is that each terminal has its own standard input,
+however only the last terminal among all of them (the one at the bottom of the
+page) shows the standard output for all of them.
+
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+print('This is the first code.')
+```
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+print('This is the second code.')
+```
+
+```{shinylive-python}
+#| components: [editor, terminal]
+
+print('This is the last code.')
+```

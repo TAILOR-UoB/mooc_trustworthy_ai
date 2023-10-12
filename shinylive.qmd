@@ -46,6 +46,11 @@ And add the extension in quarto
 quarto add quarto-ext/shinylive
 ```
 
+The previous command will create a folder
+`https://tailor-network.eu/cef/how-it-works/` with the necessary files to use
+this extension. This folder needs to be added into the version control in order
+to be automatically rendered during the GitHub actions.
+
 Once installed, in the yaml header section of a quarto markdown file that
 includes shinylive code needs to have the following lines:
 
@@ -65,16 +70,15 @@ components.
 ```{shinylive-python}
 #| standalone: true
 #| components: [editor, terminal, viewer]
-#| layout: vertical
-#| viewerHeight: 20
 
 print('The standard output is printed in the terminal below')
 
-# Formated text can be shown in the user interface with the shiny library
-from shiny import App, ui
+# The User Interface (UI) provides multiple functions for the output
+from shiny import ui
+app_ui = ui.div("Hello world!")
 
-app_ui = ui.page_fluid(ui.h2("This is an html header (level 2) example"))
-
+# It is necessary to create an Application and provide the UI
+from shiny import App
 app = App(app_ui, None)
 ```
 ````
@@ -84,17 +88,17 @@ which is rendered as follows
 ```{shinylive-python}
 #| standalone: true
 #| components: [editor, terminal, viewer]
-#| viewerHeight: 20
 
 print('The standard output is printed in the terminal below')
 
-# Formated text can be shown in the user interface with the shiny library
-from shiny import App, ui
+# The User Interface (UI) provides multiple functions for the output
+from shiny import ui
+app_ui = ui.div("Hello world!")
 
-app_ui = ui.page_fluid(ui.h2("This is an html header (level 2) example"))
-
+# It is necessary to create an Application and provide the UI
+from shiny import App
 app = App(app_ui, None)
 ```
 
 The following subsections show multiple examples of the current functionalities
-and its limitations in the Quarto publishing system.
+and its limitations.
