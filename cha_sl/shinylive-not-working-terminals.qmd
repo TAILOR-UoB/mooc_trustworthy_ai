@@ -31,13 +31,15 @@ print('This is the first code.')
 ```
 
 ```{shinylive-python}
-#| components: [editor, terminal]
+#| standalone: true
+#| components: [editor, viewer, terminal]
 
 print('This is the second code.')
 ```
 
 ```{shinylive-python}
-#| components: [editor, terminal]
+#| standalone: true
+#| components: [editor, viewer, terminal]
 
 print('This is the last code.')
 ```

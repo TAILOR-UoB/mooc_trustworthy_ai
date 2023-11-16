@@ -21,8 +21,12 @@ filters:
 This page shows a problem when showing a terminal in a code block that does not
 allow the viewers to update their content in the subsequent code blocks.
 
+**TODO: I had to add `#| standalone: true` as the new version raises an error.
+This may affect the current version of the text.
+
 ```{shinylive-python}
-#| components: [editor, terminal]
+#| standalone: true
+#| components: [editor, viewer, terminal]
 
 print('First code will prevent the rest of the code blocks from showing their rendered output')
 ```

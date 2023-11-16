@@ -1,7 +1,7 @@
 matplotlib
 plotly
 jupyter
-pycalib
+pycalib==0.1.0.dev6
 tabulate
 pandas
 branca
