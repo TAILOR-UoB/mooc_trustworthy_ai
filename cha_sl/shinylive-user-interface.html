@@ -219,11 +219,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#slider-and-viewer" id="toc-slider-and-viewer" class="nav-link active" data-scroll-target="#slider-and-viewer">Slider and viewer</a></li>
+  <li><a href="#multiple-files" id="toc-multiple-files" class="nav-link" data-scroll-target="#multiple-files">Multiple files</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/main/cha_sl/shinylive-user-interface.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -281,6 +288,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-15"><a href="#cb2-15"></a>        return f"The value of N*2 is {input.n() * 2}"</span>
 <span id="cb2-16"><a href="#cb2-16"></a></span>
 <span id="cb2-17"><a href="#cb2-17"></a>app = App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="slider-and-viewer" class="level3">
+<h3 class="anchored" data-anchor-id="slider-and-viewer">Slider and viewer</h3>
 <p>If the source code is not important, the same application can be shown without the code by removing the <code>editor</code> from the list of components</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1"></a><span class="at">```{shinylive-python}</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="co">#| standalone: true</span></span>
@@ -332,6 +341,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-23"><a href="#cb5-23"></a>        return fig</span>
 <span id="cb5-24"><a href="#cb5-24"></a></span>
 <span id="cb5-25"><a href="#cb5-25"></a>app = App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="multiple-files" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-files">Multiple files</h3>
 <p>For more complex code it is possible to add multiple files. This is accomplished by separating the code block with statements like</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode numberSource yalm number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a href="#cb6-1"></a>```{shinylive-python}</span>
 <span id="cb6-2"><a href="#cb6-2"></a>#| standalone: true</span>
@@ -343,6 +355,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-8"><a href="#cb6-8"></a></span>
 <span id="cb6-9"><a href="#cb6-9"></a># Code for the utils.py file</span>
 <span id="cb6-10"><a href="#cb6-10"></a>```</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="example-reliability-diagram" class="level4">
+<h4 class="anchored" data-anchor-id="example-reliability-diagram">Example: Reliability diagram</h4>
 <p>The following is an example related to binary probability calibration.</p>
 <div class="sourceCode" id="cb7" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href="#cb7-1"></a>#| standalone: true</span>
 <span id="cb7-2"><a href="#cb7-2"></a>#| components: [editor, viewer]</span>
@@ -466,6 +480,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-120"><a href="#cb7-120"></a>    return fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
+</section>
 
 
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
@@ -828,7 +844,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">Foundations of Trustworthy AI was written by Miquel Perello Nieto by compiling multiple information from the TAILOR project.</div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/main/cha_sl/shinylive-user-interface.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
+    </div>
     <div class="nav-footer-right">This website was built with <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>
