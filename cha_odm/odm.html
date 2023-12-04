@@ -8,7 +8,7 @@
 
 <meta name="author" content="Miquel Perello Nieto">
 
-<title>Foundations of Trustworthy AI - Optimal Decision Making</title>
+<title>Foundations of Trustworthy AI - Introduction to Optimal Decision Making</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -77,6 +77,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<meta name="shinylive:serviceworker_dir" content="..">
+<script src="../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/run-python-blocks.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/shinylive.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -128,7 +133,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../explainable-ai-systems.html">Explainable AI systems</a></li><li class="breadcrumb-item"><a href="../cha_odm/odm.html">Optimal Decision Making</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../explainable-ai-systems.html">Explainable AI systems</a></li><li class="breadcrumb-item"><a href="../cha_odm/odm.html">Introduction to Optimal Decision Making</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -220,7 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cha_odm/odm.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Optimal Decision Making</span></a>
+ <span class="menu-text">Introduction to Optimal Decision Making</span></a>
   </div>
 </li>
       </ul>
@@ -235,17 +240,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#cost-sensitive-classification" id="toc-cost-sensitive-classification" class="nav-link active" data-scroll-target="#cost-sensitive-classification">Cost-sensitive Classification</a>
-  <ul class="collapse">
+  <li><a href="#what-is-optimal-decision-making" id="toc-what-is-optimal-decision-making" class="nav-link active" data-scroll-target="#what-is-optimal-decision-making">What is Optimal Decision Making</a></li>
   <li><a href="#binary-example" id="toc-binary-example" class="nav-link" data-scroll-target="#binary-example">Binary example</a></li>
   <li><a href="#cost-matrix-reasonableness-condition" id="toc-cost-matrix-reasonableness-condition" class="nav-link" data-scroll-target="#cost-matrix-reasonableness-condition">Cost Matrix “reasonableness” condition</a></li>
   <li><a href="#optimal-decision" id="toc-optimal-decision" class="nav-link" data-scroll-target="#optimal-decision">Optimal Decision</a></li>
   <li><a href="#different-costs-binary-example" id="toc-different-costs-binary-example" class="nav-link" data-scroll-target="#different-costs-binary-example">Different costs binary example</a></li>
+  <li><a href="#cost-invariances" id="toc-cost-invariances" class="nav-link" data-scroll-target="#cost-invariances">Cost invariances</a></li>
   <li><a href="#multiclass-setting" id="toc-multiclass-setting" class="nav-link" data-scroll-target="#multiclass-setting">Multiclass setting</a></li>
   <li><a href="#ternary-example" id="toc-ternary-example" class="nav-link" data-scroll-target="#ternary-example">Ternary example</a></li>
   <li><a href="#option-to-abstain" id="toc-option-to-abstain" class="nav-link" data-scroll-target="#option-to-abstain">Option to abstain</a></li>
   <li><a href="#option-to-abstain-different-costs" id="toc-option-to-abstain-different-costs" class="nav-link" data-scroll-target="#option-to-abstain-different-costs">Option to abstain different costs</a></li>
-  </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/main/cha_odm/odm.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -254,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Optimal Decision Making</h1>
+<h1 class="title">Introduction to Optimal Decision Making</h1>
 </div>
 
 
@@ -286,20 +290,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- Code to test Thebe -->
 <script src="https://unpkg.com/thebe@latest/lib/index.js"></script>
 <!-- Code to test Thebe -->
-<section id="cost-sensitive-classification" class="level2">
-<h2 class="anchored" data-anchor-id="cost-sensitive-classification">Cost-sensitive Classification</h2>
+<section id="what-is-optimal-decision-making" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-optimal-decision-making">What is Optimal Decision Making</h3>
 <ul>
-<li>In order to make a classification decision we need to know the cost of making a wrong prediction</li>
-<li>If in addition we have access to the probability of the different outcomes, we can make optimal decisions</li>
+<li>We can make optimal decisions with cost-sensitive classification</li>
+<li>In order to make a classification decision we need to know the cost of making a wrong prediction.</li>
+<li>If in addition we have access to the probability of the different outcomes, we can make optimal decisions.</li>
 <li>This is very important in critical applications: e.g.&nbsp;medical diagnosis.</li>
-<li>Even if we know a class prior change during deployment</li>
+<li>The prior distributions may be adjusted during deployment.</li>
+<li>Assume the costs are not instance dependent (only depend on the true class).</li>
 </ul>
+</section>
 <section id="binary-example" class="level3">
 <h3 class="anchored" data-anchor-id="binary-example">Binary example</h3>
 <ul>
-<li>The following is a typical example of a cost matrix for a binary problem</li>
+<li>The following is a typical example of a cost matrix <span class="math inline">c</span> for a binary problem.</li>
 </ul>
-<p>. . .</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -321,19 +327,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<ul>
-<li>Given the posterior probabilities <span class="math inline">P(C_i|\mathbf{x})</span> and the cost matrix we can calculate the expected cost of predicting class <span class="math inline">i</span></li>
-</ul>
-<p>. . .</p>
+<p>We will refer to <span class="math inline">c_{i|j}</span> the cost of predicting class <span class="math inline">C_i</span> given that the true class is <span class="math inline">C_j</span>.</p>
+<p>Given the posterior probabilities <span class="math inline">P(C_i|\mathbf{x})</span> and the cost matrix <span class="math inline">c</span> we can calculate the expected cost of predicting class <span class="math inline">C_i</span></p>
 <p><span class="math display">\begin{equation}
-  l(\mathbf{x},i) = \sum_{j = 1}^K P(C_j|\mathbf{x}) c_{i|j}.
+  \mathbb{E}_{j \sim P(\cdot|\mathbf{x})} (c_{i|j}) = \sum_{j = 1}^K P(C_j|\mathbf{x}) c_{i|j}.
 \end{equation}</span></p>
+<p>For example, lets assume that the posterior probability vector for a given instance is <span class="math inline">[0.4, 0.6]</span>, the expected costs will be</p>
 <ul>
 <li>Predicting <strong>Class 1</strong> will have an expected cost of <span class="math inline">0.4 \times 0 +  0.6 \times 1 = \color{darkred}{0.6}</span></li>
 <li>Predicting <strong>Class 2</strong> will have an expected cost of <span class="math inline">0.4 \times 1  + 0.6 \times 0 = \mathbf{\color{darkred}{0.4}}</span>.</li>
 </ul>
+<hr>
 <section id="expected-costs-figure" class="level4">
 <h4 class="anchored" data-anchor-id="expected-costs-figure">Expected costs figure</h4>
+<p>We can visualise the cost lines for each prediction with a line for each predicted class <span class="math inline">C_i</span> and its cost of missclassification and correct classification. For example, the following cost matrix</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -355,6 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p>will result in the following cost lines</p>
 <div class="cell" data-execution_count="1">
 <details>
 <summary>Show the code</summary>
@@ -380,18 +388,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="odm_files/figure-html/cell-2-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
+<p>where we have highlighted the minimum cost among the possible predictions. In this particular case the optimal prediction changes when the probability of the true class is higher or lower than <span class="math inline">0.5</span>, with the same expected cost for both classes at <span class="math inline">0.5</span>.</p>
 </section>
 </section>
 <section id="cost-matrix-reasonableness-condition" class="level3">
 <h3 class="anchored" data-anchor-id="cost-matrix-reasonableness-condition">Cost Matrix “reasonableness” condition</h3>
-<p>It is reasonable to expect cost matrices where:</p>
+<p>In general, it is reasonable to expect cost matrices where:</p>
 <ol type="1">
 <li>For a given class <span class="math inline">j</span> the correct prediction has always a lower cost than an incorrect prediction <span class="math inline">c_{j|j} &lt; c_{i|j}</span> with <span class="math inline">i \neq j</span>.</li>
 <li>And one class does not consistently have lower costs than other classes <span class="math inline">c_{i|j} \leq c_{k|j}</span> for all <span class="math inline">j</span> (class domination).</li>
 </ol>
+<p>We will make these reasonable assumptions in this introductory module.</p>
+<hr>
 <section id="cost-matrix-class-domination" class="level4">
 <h4 class="anchored" data-anchor-id="cost-matrix-class-domination">Cost Matrix Class Domination</h4>
-<p>The following is an example of class domination.</p>
+<p>The following is an example of class domination in which predicting class <span class="math inline">C_1</span> will always have a lower expected cost.</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -435,23 +446,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="optimal-decision" class="level3">
 <h3 class="anchored" data-anchor-id="optimal-decision">Optimal Decision</h3>
+<p>If we know the posterior probabilities, the optimal decision is to choose the class that minimizes the expected cost.</p>
 <p><span class="math display">\begin{equation}
   \hat{y}(\mathbf{x}) = \mathop{\mathrm{arg\,min}}_{i=\{1, \dots, K\}} L(\mathbf{x},i)
                    = \mathop{\mathrm{arg\,min}}_{i=\{1, \dots, K\}} \sum_{j=1}^K P(C_j|\mathbf{x}) c_{i|j}.
 \end{equation}</span></p>
-<p>In the binary classification setting we can also derive the optimal threshold to predict the second class <span class="math inline">C_2</span></p>
+<p>In the binary case we want to predict class <span class="math inline">C_1</span> if and only if predicting class <span class="math inline">C_1</span> has a lower expected cost than predicting class <span class="math inline">C_2</span></p>
+<p><span class="math display">\begin{align}
+    \sum_{j=1}^K P(C_j|\mathbf{x}) c_{1|j}             &amp;\le \sum_{j=1}^K P(C_j|\mathbf{x}) c_{2|j} \\
+    P(C_1|\mathbf{x}) c_{1|1} + P(C_2|\mathbf{x}) c_{1|2} &amp;\le P(C_1|\mathbf{x}) c_{2|1} + P(C_2|\mathbf{x}) c_{2|2} \\
+\end{align}</span></p>
+<p>with the equality having the same expected missclassification independent on the predicted class.</p>
 <p><span class="math display">\begin{equation}
-  t_2^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
-               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
-                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}.
+p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 \end{equation}</span></p>
+<p>where <span class="math inline">p = P(C_1|\mathbf{x})</span>.</p>
+<p>In the binary classification setting we can derive the optimal threshold of selecting class one if <span class="math inline">p \ge t^*</span>.</p>
+<p><span class="math display">\begin{align}
+    t^* c_{1|1} + (1 - t^*) c_{1|2}                 &amp;=   t^* c_{2|1} + (1 - t^*) c_{2|2} \\
+    (1 - t^*) c_{1|2}  - (1 - t^*) c_{2|2}          &amp;=   t^* c_{2|1} - t^* c_{1|1} \\
+    (1 - t^*) (c_{1|2}  - c_{2|2})                  &amp;=   t^* (c_{2|1} - c_{1|1}) \\
+    (c_{1|2}  - c_{2|2}) -t^*(c_{1|2}  - c_{2|2})   &amp;=   t^* (c_{2|1} - c_{1|1}) \\
+    (c_{1|2}  - c_{2|2})                            &amp;=   t^* (c_{2|1} - c_{1|1}) + t^*(c_{1|2}  - c_{2|2}) \\
+    (c_{1|2}  - c_{2|2})                            &amp;=   t^* (c_{2|1} - c_{1|1} + c_{1|2}  - c_{2|2}) \\
+    \frac{c_{1|2}  - c_{2|2}}{c_{2|1} - c_{1|1} + c_{1|2}  - c_{2|2}} &amp;=   t^*
+\end{align}</span></p>
 <p>Which for the previous cost matrix corresponds to</p>
 <p><span class="math display">\begin{equation}
-  t_2^* = \frac{1 - 0}{1 + 1 - 0 - 0} = 0.5
+  t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
+               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
+                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}
+  = \frac{1 - 0}{1 + 1 - 0 - 0} = 0.5
 \end{equation}</span></p>
 </section>
 <section id="different-costs-binary-example" class="level3">
 <h3 class="anchored" data-anchor-id="different-costs-binary-example">Different costs binary example</h3>
+<p>In general, the correct predictions have a cost of <span class="math inline">0</span>. However, this may be different in certain scenarios. The following is an example of a cost matrix with different <code>gains</code> on the main diagonal and missclassification costs.</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -473,31 +503,246 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p>which would result in the following cost lines.</p>
+<hr>
 <div class="cell" data-execution_count="3">
 <details>
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>C <span class="op">=</span> [[<span class="op">-</span><span class="dv">5</span>, <span class="dv">1</span>], [<span class="dv">10</span>, <span class="op">-</span><span class="dv">1</span>]]</span>
-<span id="cb3-4"><a href="#cb3-4"></a>threshold <span class="op">=</span> (C[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">-</span> C[<span class="dv">1</span>][<span class="dv">1</span>])<span class="op">/</span>(C[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">-</span> C[<span class="dv">1</span>][<span class="dv">1</span>] <span class="op">+</span> C[<span class="dv">1</span>][<span class="dv">0</span>] <span class="op">-</span> C[<span class="dv">0</span>][<span class="dv">0</span>])</span>
-<span id="cb3-5"><a href="#cb3-5"></a>cost_t <span class="op">=</span> threshold<span class="op">*</span>C[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> (<span class="dv">1</span><span class="op">-</span>threshold)<span class="op">*</span>C[<span class="dv">0</span>][<span class="dv">1</span>]</span>
-<span id="cb3-6"><a href="#cb3-6"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb3-7"><a href="#cb3-7"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">0</span>][<span class="dv">1</span>], C[<span class="dv">0</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_1$"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">1</span>][<span class="dv">1</span>], C[<span class="dv">1</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_2$"</span>)</span>
-<span id="cb3-9"><a href="#cb3-9"></a>plt.plot([threshold, <span class="dv">1</span>], [cost_t, C[<span class="dv">0</span>][<span class="dv">0</span>]], lw<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">'tab:blue'</span>, label<span class="op">=</span><span class="st">"Optimal $C_1$"</span>)</span>
-<span id="cb3-10"><a href="#cb3-10"></a>plt.plot([<span class="dv">0</span>, threshold], [C[<span class="dv">1</span>][<span class="dv">1</span>], cost_t], lw<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">'tab:orange'</span>, label<span class="op">=</span><span class="st">"Optimal $C_2$"</span>)</span>
-<span id="cb3-11"><a href="#cb3-11"></a>plt.xlabel(<span class="st">'$P(C_1|x)$'</span>)</span>
-<span id="cb3-12"><a href="#cb3-12"></a>plt.ylabel(<span class="st">'Expected cost'</span>)</span>
-<span id="cb3-13"><a href="#cb3-13"></a>plt.legend()</span>
-<span id="cb3-14"><a href="#cb3-14"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3"></a>C <span class="op">=</span> [[<span class="op">-</span><span class="dv">5</span>, <span class="dv">1</span>],  <span class="co"># TP, FN</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>     [<span class="dv">10</span>, <span class="op">-</span><span class="dv">1</span>]] <span class="co"># FP, TN</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>threshold <span class="op">=</span> (C[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">-</span> C[<span class="dv">1</span>][<span class="dv">1</span>])<span class="op">/</span>(C[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">-</span> C[<span class="dv">1</span>][<span class="dv">1</span>] <span class="op">+</span> C[<span class="dv">1</span>][<span class="dv">0</span>] <span class="op">-</span> C[<span class="dv">0</span>][<span class="dv">0</span>])</span>
+<span id="cb3-6"><a href="#cb3-6"></a>cost_t <span class="op">=</span> threshold<span class="op">*</span>C[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> (<span class="dv">1</span><span class="op">-</span>threshold)<span class="op">*</span>C[<span class="dv">0</span>][<span class="dv">1</span>]</span>
+<span id="cb3-7"><a href="#cb3-7"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb3-8"><a href="#cb3-8"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">0</span>][<span class="dv">1</span>], C[<span class="dv">0</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_1$"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">1</span>][<span class="dv">1</span>], C[<span class="dv">1</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_2$"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10"></a>plt.plot([threshold, <span class="dv">1</span>], [cost_t, C[<span class="dv">0</span>][<span class="dv">0</span>]], lw<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">'tab:blue'</span>, label<span class="op">=</span><span class="st">"Optimal $C_1$"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11"></a>plt.plot([<span class="dv">0</span>, threshold], [C[<span class="dv">1</span>][<span class="dv">1</span>], cost_t], lw<span class="op">=</span><span class="dv">5</span>, color<span class="op">=</span><span class="st">'tab:orange'</span>, label<span class="op">=</span><span class="st">"Optimal $C_2$"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12"></a>plt.xlabel(<span class="st">'$P(C_1|x)$'</span>)</span>
+<span id="cb3-13"><a href="#cb3-13"></a>plt.ylabel(<span class="st">'Expected cost'</span>)</span>
+<span id="cb3-14"><a href="#cb3-14"></a>plt.legend()</span>
+<span id="cb3-15"><a href="#cb3-15"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="odm_files/figure-html/cell-4-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
+<p>In this case, for a posterior probability vector <span class="math inline">[0.4, 0.6]</span> we would expect</p>
+<ul>
+<li>Predicting <strong>Class 1</strong> will have an expected gain of <span class="math inline">5 \times 0.4 - 1 \times 0.6 = \mathbf{\color{darkgreen}{1.4}}</span></li>
+<li>Predicting <strong>Class 2</strong> will have an expected gain of <span class="math inline">-10 \times 0.4 + 1 \times 0.6 = \color{darkred}{-3.4}</span></li>
+</ul>
+<hr>
+<div class="sourceCode" id="cb4" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href="#cb4-1"></a>#| standalone: true</span>
+<span id="cb4-2"><a href="#cb4-2"></a>#| components: viewer</span>
+<span id="cb4-3"><a href="#cb4-3"></a>#| viewerHeight: 500</span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a>import matplotlib.pyplot as plt</span>
+<span id="cb4-6"><a href="#cb4-6"></a>from shiny import App, render, ui</span>
+<span id="cb4-7"><a href="#cb4-7"></a>import pandas as pd</span>
+<span id="cb4-8"><a href="#cb4-8"></a></span>
+<span id="cb4-9"><a href="#cb4-9"></a>app_ui = ui.page_fluid(</span>
+<span id="cb4-10"><a href="#cb4-10"></a>    ui.layout_sidebar(</span>
+<span id="cb4-11"><a href="#cb4-11"></a>        ui.panel_sidebar(</span>
+<span id="cb4-12"><a href="#cb4-12"></a>    ui.input_slider("TP", "Cost True C1",  value=-5, min=-10, max=0),</span>
+<span id="cb4-13"><a href="#cb4-13"></a>    ui.input_slider("TN", "Cost True C2",  value=-1, min=-10, max=0),</span>
+<span id="cb4-14"><a href="#cb4-14"></a>    ui.input_slider("FN", "Cost False C2", value=10, min=1,   max=10),</span>
+<span id="cb4-15"><a href="#cb4-15"></a>    ui.input_slider("FP", "Cost False C1", value=1,  min=1,   max=10),</span>
+<span id="cb4-16"><a href="#cb4-16"></a>    ),</span>
+<span id="cb4-17"><a href="#cb4-17"></a>    ui.panel_main(</span>
+<span id="cb4-18"><a href="#cb4-18"></a>    ui.output_plot("plot")</span>
+<span id="cb4-19"><a href="#cb4-19"></a>    )</span>
+<span id="cb4-20"><a href="#cb4-20"></a>    ),</span>
+<span id="cb4-21"><a href="#cb4-21"></a>)</span>
+<span id="cb4-22"><a href="#cb4-22"></a></span>
+<span id="cb4-23"><a href="#cb4-23"></a>def server(input, output, session):</span>
+<span id="cb4-24"><a href="#cb4-24"></a>    @output</span>
+<span id="cb4-25"><a href="#cb4-25"></a>    @render.plot(alt="A histogram")</span>
+<span id="cb4-26"><a href="#cb4-26"></a>    def plot():</span>
+<span id="cb4-27"><a href="#cb4-27"></a>        TP = input.TP() # C_1|1</span>
+<span id="cb4-28"><a href="#cb4-28"></a>        FN = input.FN() # C_1|2</span>
+<span id="cb4-29"><a href="#cb4-29"></a>        FP = input.FP() # C_2|1</span>
+<span id="cb4-30"><a href="#cb4-30"></a>        TN = input.TN() # C_2|2</span>
+<span id="cb4-31"><a href="#cb4-31"></a>        fig = plt.figure()</span>
+<span id="cb4-32"><a href="#cb4-32"></a>        ax = fig.add_subplot()</span>
+<span id="cb4-33"><a href="#cb4-33"></a>        ax.grid(True)</span>
+<span id="cb4-34"><a href="#cb4-34"></a>        ax.plot([0, 1], [FP, TP], '--', label="Predict $C_1$")</span>
+<span id="cb4-35"><a href="#cb4-35"></a>        ax.plot([0, 1], [TN, FN], '--', label="Predict $C_2$")</span>
+<span id="cb4-36"><a href="#cb4-36"></a></span>
+<span id="cb4-37"><a href="#cb4-37"></a>        threshold = (FP - TN)/(FP - TN + FN - TP)</span>
+<span id="cb4-38"><a href="#cb4-38"></a>        cost_t = threshold*TP + (1-threshold)*FP</span>
+<span id="cb4-39"><a href="#cb4-39"></a>        ax.plot([threshold, 1], [cost_t, TP], lw=5, color='tab:blue', label="Optimal $C_1$")</span>
+<span id="cb4-40"><a href="#cb4-40"></a>        ax.plot([0, threshold], [TN, cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")</span>
+<span id="cb4-41"><a href="#cb4-41"></a></span>
+<span id="cb4-42"><a href="#cb4-42"></a>        C = [[TP, FP], [FN, TN]]</span>
+<span id="cb4-43"><a href="#cb4-43"></a>        bbox = dict(boxstyle="round", fc="white")</span>
+<span id="cb4-44"><a href="#cb4-44"></a>        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(2, -1),</span>
+<span id="cb4-45"><a href="#cb4-45"></a>                    textcoords='offset fontsize',</span>
+<span id="cb4-46"><a href="#cb4-46"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb4-47"><a href="#cb4-47"></a>                    bbox=bbox)</span>
+<span id="cb4-48"><a href="#cb4-48"></a>        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(2, 0),</span>
+<span id="cb4-49"><a href="#cb4-49"></a>                    textcoords='offset fontsize',</span>
+<span id="cb4-50"><a href="#cb4-50"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb4-51"><a href="#cb4-51"></a>                    bbox=bbox)</span>
+<span id="cb4-52"><a href="#cb4-52"></a>        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(0, 2),</span>
+<span id="cb4-53"><a href="#cb4-53"></a>                    textcoords='offset fontsize',</span>
+<span id="cb4-54"><a href="#cb4-54"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb4-55"><a href="#cb4-55"></a>                    bbox=bbox)</span>
+<span id="cb4-56"><a href="#cb4-56"></a>        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(2, 0),</span>
+<span id="cb4-57"><a href="#cb4-57"></a>                    textcoords='offset fontsize',</span>
+<span id="cb4-58"><a href="#cb4-58"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb4-59"><a href="#cb4-59"></a>                    bbox=bbox)</span>
+<span id="cb4-60"><a href="#cb4-60"></a></span>
+<span id="cb4-61"><a href="#cb4-61"></a>        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), </span>
+<span id="cb4-62"><a href="#cb4-62"></a>                    xytext=(0, --3),</span>
+<span id="cb4-63"><a href="#cb4-63"></a>                    textcoords='offset fontsize',</span>
+<span id="cb4-64"><a href="#cb4-64"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb4-65"><a href="#cb4-65"></a>                    bbox=bbox)</span>
+<span id="cb4-66"><a href="#cb4-66"></a></span>
+<span id="cb4-67"><a href="#cb4-67"></a>        ax.set_xlabel('$P(C_1|x)$')</span>
+<span id="cb4-68"><a href="#cb4-68"></a>        ax.set_ylabel('Expected cost')</span>
+<span id="cb4-69"><a href="#cb4-69"></a>        ax.legend()</span>
+<span id="cb4-70"><a href="#cb4-70"></a></span>
+<span id="cb4-71"><a href="#cb4-71"></a>        return fig</span>
+<span id="cb4-72"><a href="#cb4-72"></a></span>
+<span id="cb4-73"><a href="#cb4-73"></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="cost-invariances" class="level3">
+<h3 class="anchored" data-anchor-id="cost-invariances">Cost invariances</h3>
+<p>The optimal prediction does not change if the cost matrix is</p>
+<ul>
+<li>Multiplied by a positive constant value</li>
+<li>Shifted by a constant value</li>
+</ul>
+<div class="sourceCode" id="cb5" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href="#cb5-1"></a>#| standalone: true</span>
+<span id="cb5-2"><a href="#cb5-2"></a>#| components: viewer</span>
+<span id="cb5-3"><a href="#cb5-3"></a>#| viewerHeight: 500</span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a>import numpy as np</span>
+<span id="cb5-6"><a href="#cb5-6"></a>import matplotlib.pyplot as plt</span>
+<span id="cb5-7"><a href="#cb5-7"></a>from shiny import App, render, ui</span>
+<span id="cb5-8"><a href="#cb5-8"></a>import pandas as pd</span>
+<span id="cb5-9"><a href="#cb5-9"></a></span>
+<span id="cb5-10"><a href="#cb5-10"></a></span>
+<span id="cb5-11"><a href="#cb5-11"></a>def fraction_to_float(fraction):</span>
+<span id="cb5-12"><a href="#cb5-12"></a>    if '/' in fraction:</span>
+<span id="cb5-13"><a href="#cb5-13"></a>       numerator, denominator = fraction.split('/') </span>
+<span id="cb5-14"><a href="#cb5-14"></a>       result = float(numerator)/float(denominator)</span>
+<span id="cb5-15"><a href="#cb5-15"></a>    else:</span>
+<span id="cb5-16"><a href="#cb5-16"></a>       result = float(fraction)</span>
+<span id="cb5-17"><a href="#cb5-17"></a>    return result</span>
+<span id="cb5-18"><a href="#cb5-18"></a></span>
+<span id="cb5-19"><a href="#cb5-19"></a># X|Y means predict X given that the true label is Y</span>
+<span id="cb5-20"><a href="#cb5-20"></a># Because the indices in a matrix are first row and then column we need to</span>
+<span id="cb5-21"><a href="#cb5-21"></a># invert the order of X and Y by transposing the matrix. Then [0,1] is predict 0</span>
+<span id="cb5-22"><a href="#cb5-22"></a># when the true label is 1.</span>
+<span id="cb5-23"><a href="#cb5-23"></a># TODO: check indices</span>
+<span id="cb5-24"><a href="#cb5-24"></a>C_original = np.array([[-2,  3],     # 1|1, 2|1</span>
+<span id="cb5-25"><a href="#cb5-25"></a>                       [13, -7]]).T  # 1|2, 2|2</span>
+<span id="cb5-26"><a href="#cb5-26"></a></span>
+<span id="cb5-27"><a href="#cb5-27"></a>app_ui = ui.page_fluid(</span>
+<span id="cb5-28"><a href="#cb5-28"></a>    ui.layout_sidebar(</span>
+<span id="cb5-29"><a href="#cb5-29"></a>        ui.panel_sidebar(</span>
+<span id="cb5-30"><a href="#cb5-30"></a>            ui.input_slider("S", "Shift constant S", value=0,  min=-10,</span>
+<span id="cb5-31"><a href="#cb5-31"></a>                            max=10),</span>
+<span id="cb5-32"><a href="#cb5-32"></a>            ui.input_radio_buttons("M", "Multiplicative constant M",</span>
+<span id="cb5-33"><a href="#cb5-33"></a>                                   choices=['1/20', '1/10', '1/5', '1',</span>
+<span id="cb5-34"><a href="#cb5-34"></a>                                            '5', '10', '20'],</span>
+<span id="cb5-35"><a href="#cb5-35"></a>                                   selected = '1', inline=True, width='100%'),</span>
+<span id="cb5-36"><a href="#cb5-36"></a>            ui.output_table('cost_matrix'),</span>
+<span id="cb5-37"><a href="#cb5-37"></a>        ),</span>
+<span id="cb5-38"><a href="#cb5-38"></a>        ui.panel_main(</span>
+<span id="cb5-39"><a href="#cb5-39"></a>            ui.output_plot("plot")</span>
+<span id="cb5-40"><a href="#cb5-40"></a>        )</span>
+<span id="cb5-41"><a href="#cb5-41"></a>    ),</span>
+<span id="cb5-42"><a href="#cb5-42"></a>)</span>
+<span id="cb5-43"><a href="#cb5-43"></a></span>
+<span id="cb5-44"><a href="#cb5-44"></a>def server(input, output, session):</span>
+<span id="cb5-45"><a href="#cb5-45"></a>    @output</span>
+<span id="cb5-46"><a href="#cb5-46"></a>    @render.plot(alt="A histogram")</span>
+<span id="cb5-47"><a href="#cb5-47"></a>    def plot():</span>
+<span id="cb5-48"><a href="#cb5-48"></a>        fig = plt.figure()</span>
+<span id="cb5-49"><a href="#cb5-49"></a>        ax = fig.add_subplot()</span>
+<span id="cb5-50"><a href="#cb5-50"></a>        ax.grid(True)</span>
+<span id="cb5-51"><a href="#cb5-51"></a></span>
+<span id="cb5-52"><a href="#cb5-52"></a>        global C_original</span>
+<span id="cb5-53"><a href="#cb5-53"></a>        C = C_original + input.S()</span>
+<span id="cb5-54"><a href="#cb5-54"></a>        C = C*fraction_to_float(input.M())</span>
+<span id="cb5-55"><a href="#cb5-55"></a>        </span>
+<span id="cb5-56"><a href="#cb5-56"></a>        threshold = (C[0][1] - C[1][1])/(C[0][1] - C[1][1] + C[1][0] - C[0][0])</span>
+<span id="cb5-57"><a href="#cb5-57"></a>        cost_t = threshold*C[0][0] + (1-threshold)*C[0][1]</span>
+<span id="cb5-58"><a href="#cb5-58"></a></span>
+<span id="cb5-59"><a href="#cb5-59"></a>        ax.plot([0, 1], [C[0][1], C[0][0]], '--', label="Predict $C_1$")</span>
+<span id="cb5-60"><a href="#cb5-60"></a>        ax.plot([0, 1], [C[1][1], C[1][0]], '--', label="Predict $C_2$")</span>
+<span id="cb5-61"><a href="#cb5-61"></a>        ax.plot([threshold, 1], [cost_t, C[0][0]], lw=5, color='tab:blue', label="Optimal $C_1$")</span>
+<span id="cb5-62"><a href="#cb5-62"></a>        ax.plot([0, threshold], [C[1][1], cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")</span>
+<span id="cb5-63"><a href="#cb5-63"></a></span>
+<span id="cb5-64"><a href="#cb5-64"></a>        bbox = dict(boxstyle="round", fc="white")</span>
+<span id="cb5-65"><a href="#cb5-65"></a>        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(-0.2, C[1][1]),</span>
+<span id="cb5-66"><a href="#cb5-66"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb5-67"><a href="#cb5-67"></a>                    bbox=bbox)</span>
+<span id="cb5-68"><a href="#cb5-68"></a>        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(1.1, C[0][0]),</span>
+<span id="cb5-69"><a href="#cb5-69"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb5-70"><a href="#cb5-70"></a>                    bbox=bbox)</span>
+<span id="cb5-71"><a href="#cb5-71"></a>        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(-0.2, C[0][1]),</span>
+<span id="cb5-72"><a href="#cb5-72"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb5-73"><a href="#cb5-73"></a>                    bbox=bbox)</span>
+<span id="cb5-74"><a href="#cb5-74"></a>        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(1.1, C[1][0]),</span>
+<span id="cb5-75"><a href="#cb5-75"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb5-76"><a href="#cb5-76"></a>                    bbox=bbox)</span>
+<span id="cb5-77"><a href="#cb5-77"></a></span>
+<span id="cb5-78"><a href="#cb5-78"></a>        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), </span>
+<span id="cb5-79"><a href="#cb5-79"></a>                    xytext=(threshold + 0.2, cost_t),</span>
+<span id="cb5-80"><a href="#cb5-80"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb5-81"><a href="#cb5-81"></a>                    bbox=bbox)</span>
+<span id="cb5-82"><a href="#cb5-82"></a></span>
+<span id="cb5-83"><a href="#cb5-83"></a>        ax.set_xlabel('$P(C_1|x)$')</span>
+<span id="cb5-84"><a href="#cb5-84"></a>        ax.set_ylabel('Expected cost')</span>
+<span id="cb5-85"><a href="#cb5-85"></a>        ax.legend()</span>
+<span id="cb5-86"><a href="#cb5-86"></a></span>
+<span id="cb5-87"><a href="#cb5-87"></a>        return fig</span>
+<span id="cb5-88"><a href="#cb5-88"></a>    @output</span>
+<span id="cb5-89"><a href="#cb5-89"></a>    @render.table(index=True)</span>
+<span id="cb5-90"><a href="#cb5-90"></a>    def cost_matrix():</span>
+<span id="cb5-91"><a href="#cb5-91"></a>        global C_original</span>
+<span id="cb5-92"><a href="#cb5-92"></a>        C = C_original.T + input.S() # Need to transpose back to show print matrix</span>
+<span id="cb5-93"><a href="#cb5-93"></a>        C = C*fraction_to_float(input.M())</span>
+<span id="cb5-94"><a href="#cb5-94"></a></span>
+<span id="cb5-95"><a href="#cb5-95"></a>        return pd.DataFrame(C,</span>
+<span id="cb5-96"><a href="#cb5-96"></a>                            index=['True C1', 'True C2'],</span>
+<span id="cb5-97"><a href="#cb5-97"></a>                            columns=['Predicted C1', 'Predicted C2'])</span>
+<span id="cb5-98"><a href="#cb5-98"></a></span>
+<span id="cb5-99"><a href="#cb5-99"></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Because of these invariances, it is common in the binary case to modify the matrix <span class="math inline">c</span> in such a way that the missclassification cost for one of the classes is <span class="math inline">1</span> and a cost of <span class="math inline">0</span> for its correct prediction.</p>
+<p><span class="math display">\begin{equation}
+  t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
+               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
+                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}
+  = \frac{1}
+               {1 +
+                {\color{darkred}c_{2|1}^*} - {\color{darkgreen}c_{1|1}^*}}
+\end{equation}</span></p>
+<p>In the previous example the original cost matrix <span class="math inline">c</span></p>
+<p><span class="math display">\begin{equation}
+c = \begin{bmatrix}-2 &amp; 3 \\ 13 &amp; -7\end{bmatrix}^\intercal
+\end{equation}</span></p>
+<p>if shiffted by <span class="math inline">+7</span> and scaled by <span class="math inline">1/20</span> results in</p>
+<p><span class="math display">\begin{equation}
+c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/20\end{bmatrix}^\intercal
+= \begin{bmatrix}0.25 &amp; 0.5 \\ 1 &amp; 0\end{bmatrix}^\intercal
+\end{equation}</span></p>
+<p>with an optimal threshold</p>
+<p><span class="math display">\begin{equation}
+  t^*
+  = \frac{1} {1 + {\color{darkred}c_{2|1}}' - {\color{darkgreen}c_{1|1}'}}
+  = \frac{1} {1 + {\color{darkred}0.5} - {\color{darkgreen}0.25}}
+  = 0.8
+\end{equation}</span></p>
 </section>
 <section id="multiclass-setting" class="level3">
 <h3 class="anchored" data-anchor-id="multiclass-setting">Multiclass setting</h3>
+<p>The binary cost matrix can be extended to multiclass by extending the rows with additional true classes and columns with predicted classes.</p>
 <table class="table">
 <colgroup>
 <col style="width: 12%">
@@ -546,9 +791,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p>However, with more than 2 classes the threshold is not a single value but a decision boundary in the probability simplex.</p>
 </section>
 <section id="ternary-example" class="level3">
 <h3 class="anchored" data-anchor-id="ternary-example">Ternary example</h3>
+<p>In order to exemplify the process of making an optimal decision in more with more than two classes we can look at the ternary case, which naturally extends to more classes. Given the following cost matrix</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -579,108 +826,119 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p>and a true posterior probability vector for all the classes <span class="math inline">[0.5, 0.1, 0.4</span>, we can estimate the expected cost of making each class prediction</p>
+<p><span class="math display">\begin{equation}
+  l(\mathbf{x},i) = \sum_{j = 1}^K P(C_j|\mathbf{x}) c_{i|j}.
+\end{equation}</span></p>
+<p>which results in the following expected costs:</p>
 <ul>
 <li>Predicting <strong>Class 1</strong> will have a gain of <span class="math inline">10 \times 0.5 - 40 \times 0.1 -70 \times 0.4 = \color{darkred}{-27}</span></li>
 <li>Predicting <strong>Class 2</strong> will have a gain of <span class="math inline">-20 \times 0.5 + 50 \times 0.1 -80 \times 0.4 = \color{darkred}{-37}</span></li>
 <li>Predicting <strong>Class 3</strong> will have a gain of <span class="math inline">-30 \times 0.5 - 60 \times 0.1 90 \times 0.4 = \mathbf{\color{darkgreen}{15}}</span></li>
 </ul>
+<hr>
 <section id="ternary-hyperplanes-per-decision" class="level4">
 <h4 class="anchored" data-anchor-id="ternary-hyperplanes-per-decision">Ternary hyperplanes per decision</h4>
 <div class="cell" data-execution_count="4">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="im">from</span> pycalib.visualisations.barycentric <span class="im">import</span> draw_func_contours</span>
-<span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a>C <span class="op">=</span> [[<span class="op">-</span><span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">70</span>], [<span class="dv">20</span>, <span class="op">-</span><span class="dv">50</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">60</span>, <span class="op">-</span><span class="dv">90</span>]]</span>
-<span id="cb4-5"><a href="#cb4-5"></a></span>
-<span id="cb4-6"><a href="#cb4-6"></a>cmaps <span class="op">=</span> [<span class="st">'Blues_r'</span>, <span class="st">'Oranges_r'</span>, <span class="st">'Greens_r'</span>]</span>
-<span id="cb4-7"><a href="#cb4-7"></a>labels <span class="op">=</span> [<span class="ss">f"$P(C_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">|x) = 1$"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C))]</span>
-<span id="cb4-8"><a href="#cb4-8"></a></span>
-<span id="cb4-9"><a href="#cb4-9"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C)):</span>
-<span id="cb4-11"><a href="#cb4-11"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>, <span class="bu">len</span>(C), i<span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb4-12"><a href="#cb4-12"></a></span>
-<span id="cb4-13"><a href="#cb4-13"></a>    <span class="kw">def</span> cost_func(prob):</span>
-<span id="cb4-14"><a href="#cb4-14"></a>        <span class="cf">return</span> <span class="bu">sum</span>(prob<span class="op">*</span>C[i])</span>
-<span id="cb4-15"><a href="#cb4-15"></a></span>
-<span id="cb4-16"><a href="#cb4-16"></a>    ax.set_title(<span class="ss">f"Expected cost of predicting $C_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">$</span><span class="ch">\n</span><span class="ss">"</span>)</span>
-<span id="cb4-17"><a href="#cb4-17"></a>    draw_func_contours(cost_func, labels<span class="op">=</span>labels, nlevels<span class="op">=</span><span class="dv">20</span>, subdiv<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb4-18"><a href="#cb4-18"></a>                       cmap<span class="op">=</span>cmaps[i], fig<span class="op">=</span>fig, ax<span class="op">=</span>ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="im">from</span> pycalib.visualisations.barycentric <span class="im">import</span> draw_func_contours</span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a>C <span class="op">=</span> [[<span class="op">-</span><span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">70</span>], [<span class="dv">20</span>, <span class="op">-</span><span class="dv">50</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">60</span>, <span class="op">-</span><span class="dv">90</span>]]</span>
+<span id="cb6-5"><a href="#cb6-5"></a></span>
+<span id="cb6-6"><a href="#cb6-6"></a>cmaps <span class="op">=</span> [<span class="st">'Blues_r'</span>, <span class="st">'Oranges_r'</span>, <span class="st">'Greens_r'</span>]</span>
+<span id="cb6-7"><a href="#cb6-7"></a>labels <span class="op">=</span> [<span class="ss">f"$P(C_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">|x) = 1$"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C))]</span>
+<span id="cb6-8"><a href="#cb6-8"></a></span>
+<span id="cb6-9"><a href="#cb6-9"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C)):</span>
+<span id="cb6-11"><a href="#cb6-11"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>, <span class="bu">len</span>(C), i<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb6-12"><a href="#cb6-12"></a></span>
+<span id="cb6-13"><a href="#cb6-13"></a>    <span class="kw">def</span> cost_func(prob):</span>
+<span id="cb6-14"><a href="#cb6-14"></a>        <span class="cf">return</span> <span class="bu">sum</span>(prob<span class="op">*</span>C[i])</span>
+<span id="cb6-15"><a href="#cb6-15"></a></span>
+<span id="cb6-16"><a href="#cb6-16"></a>    ax.set_title(<span class="ss">f"Expected cost of predicting $C_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">$</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17"></a>    draw_func_contours(cost_func, labels<span class="op">=</span>labels, nlevels<span class="op">=</span><span class="dv">10</span>, subdiv<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb6-18"><a href="#cb6-18"></a>                       cmap<span class="op">=</span>cmaps[i], fig<span class="op">=</span>fig, ax<span class="op">=</span>ax)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="odm_files/figure-html/cell-5-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
-</section>
-<section id="ternary-hyperplanes-optimal-decision" class="level4">
-<h4 class="anchored" data-anchor-id="ternary-hyperplanes-optimal-decision">Ternary hyperplanes optimal decision</h4>
-<div class="cell" data-execution_count="5">
-<details>
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> matplotlib</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="im">from</span> pycalib.visualisations.barycentric <span class="im">import</span> draw_func_contours</span>
-<span id="cb5-5"><a href="#cb5-5"></a></span>
-<span id="cb5-6"><a href="#cb5-6"></a>C <span class="op">=</span> [[<span class="op">-</span><span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">70</span>], [<span class="dv">20</span>, <span class="op">-</span><span class="dv">50</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">60</span>, <span class="op">-</span><span class="dv">90</span>]]</span>
-<span id="cb5-7"><a href="#cb5-7"></a></span>
-<span id="cb5-8"><a href="#cb5-8"></a>cmaps <span class="op">=</span> [<span class="st">'Blues_r'</span>, <span class="st">'Oranges_r'</span>, <span class="st">'Greens_r'</span>]</span>
-<span id="cb5-9"><a href="#cb5-9"></a>labels <span class="op">=</span> [<span class="ss">f"$P(C_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">|x) = 1$"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C))]</span>
-<span id="cb5-10"><a href="#cb5-10"></a></span>
-<span id="cb5-11"><a href="#cb5-11"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">4</span>))</span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C)):</span>
-<span id="cb5-13"><a href="#cb5-13"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">1</span>, <span class="bu">len</span>(C), i<span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb5-14"><a href="#cb5-14"></a></span>
-<span id="cb5-15"><a href="#cb5-15"></a>    <span class="kw">def</span> cost_func(prob):</span>
-<span id="cb5-16"><a href="#cb5-16"></a>        expected_costs <span class="op">=</span> np.inner(prob, C)</span>
-<span id="cb5-17"><a href="#cb5-17"></a>        min_p_id <span class="op">=</span> np.argmin(expected_costs)</span>
-<span id="cb5-18"><a href="#cb5-18"></a>        <span class="cf">if</span> min_p_id <span class="op">==</span> i:</span>
-<span id="cb5-19"><a href="#cb5-19"></a>            <span class="cf">return</span> expected_costs[i]</span>
-<span id="cb5-20"><a href="#cb5-20"></a>        <span class="cf">return</span> np.nan</span>
-<span id="cb5-21"><a href="#cb5-21"></a></span>
-<span id="cb5-22"><a href="#cb5-22"></a>    ax.set_title(<span class="ss">f"Expected cost of predicting $C_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">$</span><span class="ch">\n</span><span class="ss">"</span>)</span>
-<span id="cb5-23"><a href="#cb5-23"></a>    draw_func_contours(cost_func, labels<span class="op">=</span>labels, nlevels<span class="op">=</span><span class="dv">10</span>, subdiv<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb5-24"><a href="#cb5-24"></a>                       cmap<span class="op">=</span>cmaps[i],    fig<span class="op">=</span>fig, ax<span class="op">=</span>ax)</span>
-<span id="cb5-25"><a href="#cb5-25"></a></span>
-<span id="cb5-26"><a href="#cb5-26"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<p><img src="odm_files/figure-html/cell-6-output-1.svg" class="img-fluid"></p>
-</div>
-</div>
+<hr>
+<pre><code>Commented section
+
+### Ternary hyperplanes optimal decision
+
+::: {.cell execution_count=5}
+``` {.python .cell-code code-fold="true" code-summary="Show the code"}
+import matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+from pycalib.visualisations.barycentric import draw_func_contours
+
+C = [[-10, 40, 70], [20, -50, 80], [30, 60, -90]]
+
+cmaps = ['Blues_r', 'Oranges_r', 'Greens_r']
+labels = [f"$P(C_{i+1}|x) = 1$" for i in range(len(C))]
+
+fig = plt.figure(figsize=(10, 4))
+for i in range(len(C)):
+    ax = fig.add_subplot(1, len(C), i+1)
+
+    def cost_func(prob):
+        expected_costs = np.inner(prob, C)
+        min_p_id = np.argmin(expected_costs)
+        if min_p_id == i:
+            return expected_costs[i]
+        return np.nan
+
+    ax.set_title(f"Expected cost of predicting $C_{i+1}$\n")
+    draw_func_contours(cost_func, labels=labels, nlevels=10, subdiv=3,
+                       cmap=cmaps[i],    fig=fig, ax=ax)
+
+plt.show()
+```
+
+::: {.cell-output .cell-output-display}
+![](odm_files/figure-html/cell-6-output-1.svg){}
+:::
+:::
+
+</code></pre>
+<hr>
 </section>
 <section id="ternary-hyperplanes-optimal-decision-combined" class="level4">
 <h4 class="anchored" data-anchor-id="ternary-hyperplanes-optimal-decision-combined">Ternary hyperplanes optimal decision combined</h4>
 <div class="cell" data-execution_count="6">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> matplotlib</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="im">from</span> pycalib.visualisations.barycentric <span class="im">import</span> draw_func_contours</span>
-<span id="cb6-5"><a href="#cb6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6"></a>C <span class="op">=</span> [[<span class="op">-</span><span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">70</span>], [<span class="dv">20</span>, <span class="op">-</span><span class="dv">50</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">60</span>, <span class="op">-</span><span class="dv">90</span>]]</span>
-<span id="cb6-7"><a href="#cb6-7"></a></span>
-<span id="cb6-8"><a href="#cb6-8"></a>cmaps <span class="op">=</span> [<span class="st">'Blues_r'</span>, <span class="st">'Oranges_r'</span>, <span class="st">'Greens_r'</span>]</span>
-<span id="cb6-9"><a href="#cb6-9"></a>labels <span class="op">=</span> [<span class="ss">f"$P(C_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">|x) = 1$"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C))]</span>
-<span id="cb6-10"><a href="#cb6-10"></a></span>
-<span id="cb6-11"><a href="#cb6-11"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb6-12"><a href="#cb6-12"></a>ax <span class="op">=</span> fig.add_subplot()</span>
-<span id="cb6-13"><a href="#cb6-13"></a>ax.set_title(<span class="ss">f"Expected cost of predicting </span><span class="ch">\n</span><span class="ss">the optimal class"</span>)</span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C)):</span>
-<span id="cb6-15"><a href="#cb6-15"></a>    <span class="kw">def</span> cost_func(prob):</span>
-<span id="cb6-16"><a href="#cb6-16"></a>        expected_costs <span class="op">=</span> np.inner(prob, C)</span>
-<span id="cb6-17"><a href="#cb6-17"></a>        min_p_id <span class="op">=</span> np.argmin(expected_costs)</span>
-<span id="cb6-18"><a href="#cb6-18"></a>        <span class="cf">if</span> min_p_id <span class="op">==</span> i:</span>
-<span id="cb6-19"><a href="#cb6-19"></a>            <span class="cf">return</span> expected_costs[i]</span>
-<span id="cb6-20"><a href="#cb6-20"></a>        <span class="cf">return</span> np.nan</span>
-<span id="cb6-21"><a href="#cb6-21"></a></span>
-<span id="cb6-22"><a href="#cb6-22"></a>    draw_func_contours(cost_func, labels<span class="op">=</span>labels, nlevels<span class="op">=</span><span class="dv">10</span>, subdiv<span class="op">=</span><span class="dv">5</span>,</span>
-<span id="cb6-23"><a href="#cb6-23"></a>                       cmap<span class="op">=</span>cmaps[i], cb_orientation<span class="op">=</span><span class="st">'vertical'</span>, fig<span class="op">=</span>fig, ax<span class="op">=</span>ax)</span>
-<span id="cb6-24"><a href="#cb6-24"></a></span>
-<span id="cb6-25"><a href="#cb6-25"></a></span>
-<span id="cb6-26"><a href="#cb6-26"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">import</span> matplotlib</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="im">from</span> pycalib.visualisations.barycentric <span class="im">import</span> draw_func_contours</span>
+<span id="cb8-5"><a href="#cb8-5"></a></span>
+<span id="cb8-6"><a href="#cb8-6"></a>C <span class="op">=</span> [[<span class="op">-</span><span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">70</span>], [<span class="dv">20</span>, <span class="op">-</span><span class="dv">50</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">60</span>, <span class="op">-</span><span class="dv">90</span>]]</span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a>cmaps <span class="op">=</span> [<span class="st">'Blues_r'</span>, <span class="st">'Oranges_r'</span>, <span class="st">'Greens_r'</span>]</span>
+<span id="cb8-9"><a href="#cb8-9"></a>labels <span class="op">=</span> [<span class="ss">f"$P(C_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">|x) = 1$"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C))]</span>
+<span id="cb8-10"><a href="#cb8-10"></a></span>
+<span id="cb8-11"><a href="#cb8-11"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb8-12"><a href="#cb8-12"></a>ax <span class="op">=</span> fig.add_subplot()</span>
+<span id="cb8-13"><a href="#cb8-13"></a>fig.suptitle(<span class="ss">f"Expected cost optimal prediction"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C)):</span>
+<span id="cb8-15"><a href="#cb8-15"></a>    <span class="kw">def</span> cost_func(prob):</span>
+<span id="cb8-16"><a href="#cb8-16"></a>        expected_costs <span class="op">=</span> np.inner(prob, C)</span>
+<span id="cb8-17"><a href="#cb8-17"></a>        min_p_id <span class="op">=</span> np.argmin(expected_costs)</span>
+<span id="cb8-18"><a href="#cb8-18"></a>        <span class="cf">if</span> min_p_id <span class="op">==</span> i:</span>
+<span id="cb8-19"><a href="#cb8-19"></a>            <span class="cf">return</span> expected_costs[i]</span>
+<span id="cb8-20"><a href="#cb8-20"></a>        <span class="cf">return</span> np.nan</span>
+<span id="cb8-21"><a href="#cb8-21"></a></span>
+<span id="cb8-22"><a href="#cb8-22"></a>    draw_func_contours(cost_func, labels<span class="op">=</span>labels, nlevels<span class="op">=</span><span class="dv">10</span>, subdiv<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb8-23"><a href="#cb8-23"></a>                       cmap<span class="op">=</span>cmaps[i], cb_orientation<span class="op">=</span><span class="st">'vertical'</span>, fig<span class="op">=</span>fig, ax<span class="op">=</span>ax)</span>
+<span id="cb8-24"><a href="#cb8-24"></a></span>
+<span id="cb8-25"><a href="#cb8-25"></a></span>
+<span id="cb8-26"><a href="#cb8-26"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/pycalib/visualisations/barycentric.py:140: UserWarning:
@@ -725,28 +983,29 @@ The following kwargs were not used by contour: 'cb_orientation'
 <li>Predicting <strong>Class 2</strong> has an expected gain of <span class="math inline">-10 \times 0.3 + 3 \times 0.7 = \color{darkred}{-0.9}</span></li>
 <li><strong>Abstaining</strong> has an expected gain of <span class="math inline">-2 \times 0.3 + 1 \times 0.7 = \mathbf{\color{darkgreen}{0.1}}</span></li>
 </ul>
+<hr>
 <section id="option-to-abstain-optimal-costs" class="level4">
 <h4 class="anchored" data-anchor-id="option-to-abstain-optimal-costs">Option to abstain optimal costs</h4>
 <div class="cell" data-execution_count="7">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb8-3"><a href="#cb8-3"></a></span>
-<span id="cb8-4"><a href="#cb8-4"></a>C <span class="op">=</span> [[<span class="dv">0</span>, <span class="dv">9</span>], [<span class="dv">10</span>, <span class="op">-</span><span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">2</span>]]</span>
-<span id="cb8-5"><a href="#cb8-5"></a>p <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
-<span id="cb8-6"><a href="#cb8-6"></a>p <span class="op">=</span> np.vstack([<span class="dv">1</span> <span class="op">-</span> p, p]).T</span>
-<span id="cb8-7"><a href="#cb8-7"></a>opt_cost <span class="op">=</span> [<span class="bu">min</span>(np.inner(C, p[i])) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(p.shape[<span class="dv">0</span>])]</span>
-<span id="cb8-8"><a href="#cb8-8"></a>plt.plot(p[:,<span class="dv">0</span>], opt_cost, lw<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">'Optimal'</span>)</span>
-<span id="cb8-9"><a href="#cb8-9"></a></span>
-<span id="cb8-10"><a href="#cb8-10"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb8-11"><a href="#cb8-11"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">0</span>][<span class="dv">1</span>], C[<span class="dv">0</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_1$"</span>)</span>
-<span id="cb8-12"><a href="#cb8-12"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">1</span>][<span class="dv">1</span>], C[<span class="dv">1</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_2$"</span>)</span>
-<span id="cb8-13"><a href="#cb8-13"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">2</span>][<span class="dv">1</span>], C[<span class="dv">2</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, c<span class="op">=</span><span class="st">'tab:red'</span>, label<span class="op">=</span><span class="st">"Abstain"</span>)</span>
-<span id="cb8-14"><a href="#cb8-14"></a>plt.xlabel(<span class="st">'$P(C_1|x)$'</span>)</span>
-<span id="cb8-15"><a href="#cb8-15"></a>plt.ylabel(<span class="st">'Expected cost'</span>)</span>
-<span id="cb8-16"><a href="#cb8-16"></a>plt.legend()</span>
-<span id="cb8-17"><a href="#cb8-17"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a>C <span class="op">=</span> [[<span class="dv">0</span>, <span class="dv">9</span>], [<span class="dv">10</span>, <span class="op">-</span><span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">2</span>]]</span>
+<span id="cb10-5"><a href="#cb10-5"></a>p <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb10-6"><a href="#cb10-6"></a>p <span class="op">=</span> np.vstack([<span class="dv">1</span> <span class="op">-</span> p, p]).T</span>
+<span id="cb10-7"><a href="#cb10-7"></a>opt_cost <span class="op">=</span> [<span class="bu">min</span>(np.inner(C, p[i])) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(p.shape[<span class="dv">0</span>])]</span>
+<span id="cb10-8"><a href="#cb10-8"></a>plt.plot(p[:,<span class="dv">0</span>], opt_cost, lw<span class="op">=</span><span class="dv">5</span>, label<span class="op">=</span><span class="st">'Optimal'</span>)</span>
+<span id="cb10-9"><a href="#cb10-9"></a></span>
+<span id="cb10-10"><a href="#cb10-10"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb10-11"><a href="#cb10-11"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">0</span>][<span class="dv">1</span>], C[<span class="dv">0</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_1$"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">1</span>][<span class="dv">1</span>], C[<span class="dv">1</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_2$"</span>)</span>
+<span id="cb10-13"><a href="#cb10-13"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">2</span>][<span class="dv">1</span>], C[<span class="dv">2</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, c<span class="op">=</span><span class="st">'tab:red'</span>, label<span class="op">=</span><span class="st">"Abstain"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14"></a>plt.xlabel(<span class="st">'$P(C_1|x)$'</span>)</span>
+<span id="cb10-15"><a href="#cb10-15"></a>plt.ylabel(<span class="st">'Expected cost'</span>)</span>
+<span id="cb10-16"><a href="#cb10-16"></a>plt.legend()</span>
+<span id="cb10-17"><a href="#cb10-17"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="odm_files/figure-html/cell-8-output-1.svg" class="img-fluid"></p>
@@ -783,23 +1042,23 @@ The following kwargs were not used by contour: 'cb_orientation'
 <div class="cell" data-execution_count="8">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb9-3"><a href="#cb9-3"></a></span>
-<span id="cb9-4"><a href="#cb9-4"></a>C <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">9</span>], [<span class="dv">10</span>, <span class="op">-</span><span class="dv">3</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
-<span id="cb9-5"><a href="#cb9-5"></a>p <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
-<span id="cb9-6"><a href="#cb9-6"></a>p <span class="op">=</span> np.vstack([<span class="dv">1</span> <span class="op">-</span> p, p]).T</span>
-<span id="cb9-7"><a href="#cb9-7"></a>opt_cost <span class="op">=</span> [<span class="bu">min</span>(np.inner(C, p[i])) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(p.shape[<span class="dv">0</span>])]</span>
-<span id="cb9-8"><a href="#cb9-8"></a>plt.plot(p[:,<span class="dv">0</span>], opt_cost, lw<span class="op">=</span><span class="dv">3</span>, label<span class="op">=</span><span class="st">'Optimal'</span>)</span>
-<span id="cb9-9"><a href="#cb9-9"></a></span>
-<span id="cb9-10"><a href="#cb9-10"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb9-11"><a href="#cb9-11"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">0</span>][<span class="dv">1</span>], C[<span class="dv">0</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_1$"</span>)</span>
-<span id="cb9-12"><a href="#cb9-12"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">1</span>][<span class="dv">1</span>], C[<span class="dv">1</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_2$"</span>)</span>
-<span id="cb9-13"><a href="#cb9-13"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">2</span>][<span class="dv">1</span>], C[<span class="dv">2</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, c<span class="op">=</span><span class="st">'tab:red'</span>, label<span class="op">=</span><span class="st">"Abstain"</span>)</span>
-<span id="cb9-14"><a href="#cb9-14"></a>plt.xlabel(<span class="st">'$P(C_1|x)$'</span>)</span>
-<span id="cb9-15"><a href="#cb9-15"></a>plt.ylabel(<span class="st">'Expected cost'</span>)</span>
-<span id="cb9-16"><a href="#cb9-16"></a>plt.legend()</span>
-<span id="cb9-17"><a href="#cb9-17"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a>C <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">9</span>], [<span class="dv">10</span>, <span class="op">-</span><span class="dv">3</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb11-5"><a href="#cb11-5"></a>p <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb11-6"><a href="#cb11-6"></a>p <span class="op">=</span> np.vstack([<span class="dv">1</span> <span class="op">-</span> p, p]).T</span>
+<span id="cb11-7"><a href="#cb11-7"></a>opt_cost <span class="op">=</span> [<span class="bu">min</span>(np.inner(C, p[i])) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(p.shape[<span class="dv">0</span>])]</span>
+<span id="cb11-8"><a href="#cb11-8"></a>plt.plot(p[:,<span class="dv">0</span>], opt_cost, lw<span class="op">=</span><span class="dv">5</span>, label<span class="op">=</span><span class="st">'Optimal'</span>)</span>
+<span id="cb11-9"><a href="#cb11-9"></a></span>
+<span id="cb11-10"><a href="#cb11-10"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb11-11"><a href="#cb11-11"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">0</span>][<span class="dv">1</span>], C[<span class="dv">0</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_1$"</span>)</span>
+<span id="cb11-12"><a href="#cb11-12"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">1</span>][<span class="dv">1</span>], C[<span class="dv">1</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_2$"</span>)</span>
+<span id="cb11-13"><a href="#cb11-13"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">2</span>][<span class="dv">1</span>], C[<span class="dv">2</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, c<span class="op">=</span><span class="st">'tab:red'</span>, label<span class="op">=</span><span class="st">"Abstain"</span>)</span>
+<span id="cb11-14"><a href="#cb11-14"></a>plt.xlabel(<span class="st">'$P(C_1|x)$'</span>)</span>
+<span id="cb11-15"><a href="#cb11-15"></a>plt.ylabel(<span class="st">'Expected cost'</span>)</span>
+<span id="cb11-16"><a href="#cb11-16"></a>plt.legend()</span>
+<span id="cb11-17"><a href="#cb11-17"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="odm_files/figure-html/cell-9-output-1.svg" class="img-fluid"></p>
@@ -807,7 +1066,6 @@ The following kwargs were not used by contour: 'cb_orientation'
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
