@@ -1,5 +1,5 @@
 ---
-title: Optimal Decision Making
+title: Introduction to Optimal Decision Making
 author: 
   - name:
       given: Miquel
@@ -15,6 +15,8 @@ author:
         equal-contributor: False
 includes:
   in_header: "definitions.tex"
+filters:
+  - shinylive
 ---
 
 ::: {.content-visible when-format="html"}
@@ -32,46 +34,57 @@ src="https://img.shields.io/badge/slides-decision-yellow"></a>
 
 {{< include commands.tex >}}
 
-# Cost-sensitive Classification
+## What is Optimal Decision Making
 
+- We can make optimal decisions with cost-sensitive classification
 - In order to make a classification decision we need to know the cost of making
-  a wrong prediction
+  a wrong prediction.
 - If in addition we have access to the probability of the different outcomes,
-  we can make optimal decisions
+  we can make optimal decisions.
 - This is very important in critical applications: e.g. medical diagnosis.
-- Even if we know a class prior change during deployment
+- The prior distributions may be adjusted during deployment.
+- Assume the costs are not instance dependent (only depend on the true class).
 
 ## Binary example
 
-- The following is a typical example of a cost matrix for a binary problem
-
-. . .
+- The following is a typical example of a cost matrix $c$ for a binary problem.
 
 |          | Predicted $C_1$               | Predicted $C_2$ |
 |-|-|-|
 |True $C_1$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$ |
 |True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
 
-- Given the posterior probabilities $P(C_i|\vec{x})$ and the cost matrix we can
-  calculate the expected cost of predicting class $i$
+We will refer to $c_{i|j}$ the cost of predicting class $C_i$ given that the true class is $C_j$.
 
-. . .
+Given the posterior probabilities $P(C_i|\vec{x})$ and the cost matrix $c$ we
+can calculate the expected cost of predicting class $C_i$
 
 \begin{equation}
-  l(\vec{x},i) = \sum_{j = 1}^K P(C_j|\vec{x}) c_{i|j}.
+  \mathbb{E}_{j \sim P(\cdot|\vec{x})} (c_{i|j}) = \sum_{j = 1}^K P(C_j|\vec{x}) c_{i|j}.
 \end{equation}
+
+For example, lets assume that the posterior probability vector for a given
+instance is $[0.4, 0.6]$, the expected costs will be
 
 - Predicting **Class 1** will have an expected cost of $0.4 \times 0 +
     0.6 \times 1 = \color{darkred}{0.6}$
 - Predicting **Class 2** will have an expected cost of $0.4 \times 1
     + 0.6 \times 0 = \mathbf{\color{darkred}{0.4}}$.
 
+---
+
 ### Expected costs figure
+
+We can visualise the cost lines for each prediction with a line for each
+predicted class $C_i$ and its cost of missclassification and correct
+classification. For example, the following cost matrix
 
 |          | Predicted $C_1$               | Predicted $C_2$ |
 |-|-|-|
 |True $C_1$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$ |
 |True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
+
+will result in the following cost lines
 
 ```{python}
 #| code-fold: true
@@ -94,18 +107,29 @@ plt.annotate("Cost = 0.4", (0.6, 0.38), xytext=(0.5, 0.2),
 plt.scatter(0.6, 0.4, s=100, facecolors='none', edgecolors='tab:red', zorder=10)
 plt.show()
 ```
+
+where we have highlighted the minimum cost among the possible predictions.  In
+this particular case the optimal prediction changes when the probability of the
+true class is higher or lower than $0.5$, with the same expected cost for both
+classes at $0.5$.
+
 ## Cost Matrix "reasonableness" condition
 
-It is reasonable to expect cost matrices where:
+In general, it is reasonable to expect cost matrices where:
 
 1. For a given class $j$ the correct prediction has always a lower cost than an
 incorrect prediction $c_{j|j} < c_{i|j}$ with $i \neq j$.
 2. And one class does not consistently have lower costs than other classes
 $c_{i|j} \leq c_{k|j}$ for all $j$ (class domination).
 
+We will make these reasonable assumptions in this introductory module.
+
+---
+
 ### Cost Matrix Class Domination
 
-The following is an example of class domination.
+The following is an example of class domination in which predicting class $C_1$
+will always have a lower expected cost.
 
 |               | Predicted $C_1$       | Predicted $C_2$      |
 |---------------|---------------------------|--------------------------|
@@ -129,46 +153,75 @@ plt.show()
 
 ## Optimal Decision
 
+If we know the posterior probabilities, the optimal decision is to choose the
+class that minimizes the expected cost.
+
 \begin{equation}
   \hat{y}(\vec{x}) = \argmin_{i=\{1, \dots, K\}} L(\vec{x},i)
                    = \argmin_{i=\{1, \dots, K\}} \sum_{j=1}^K P(C_j|\vec{x}) c_{i|j}.
 \end{equation}
 
-In the binary classification setting we can also derive the optimal threshold to
-predict the second class $C_2$
+In the binary case we want to predict class $C_1$ if and only if predicting
+class $C_1$ has a lower expected cost than predicting class $C_2$
+
+\begin{align}
+    \sum_{j=1}^K P(C_j|\vec{x}) c_{1|j}             &\le \sum_{j=1}^K P(C_j|\vec{x}) c_{2|j} \\
+    P(C_1|\vec{x}) c_{1|1} + P(C_2|\vec{x}) c_{1|2} &\le P(C_1|\vec{x}) c_{2|1} + P(C_2|\vec{x}) c_{2|2} \\
+\end{align}
+
+with the equality having the same expected missclassification independent on
+the predicted class.
 
 \begin{equation}
-  t_2^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
-               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
-                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}.
+p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 \end{equation}
+
+where $p = P(C_1|\vec{x})$.
+
+In the binary classification setting we can derive the optimal threshold of
+selecting class one if $p \ge t^*$.
+
+\begin{align}
+    t^* c_{1|1} + (1 - t^*) c_{1|2}                 &=   t^* c_{2|1} + (1 - t^*) c_{2|2} \\
+    (1 - t^*) c_{1|2}  - (1 - t^*) c_{2|2}          &=   t^* c_{2|1} - t^* c_{1|1} \\
+    (1 - t^*) (c_{1|2}  - c_{2|2})                  &=   t^* (c_{2|1} - c_{1|1}) \\
+    (c_{1|2}  - c_{2|2}) -t^*(c_{1|2}  - c_{2|2})   &=   t^* (c_{2|1} - c_{1|1}) \\
+    (c_{1|2}  - c_{2|2})                            &=   t^* (c_{2|1} - c_{1|1}) + t^*(c_{1|2}  - c_{2|2}) \\
+    (c_{1|2}  - c_{2|2})                            &=   t^* (c_{2|1} - c_{1|1} + c_{1|2}  - c_{2|2}) \\
+    \frac{c_{1|2}  - c_{2|2}}{c_{2|1} - c_{1|1} + c_{1|2}  - c_{2|2}} &=   t^*
+\end{align}
 
 Which for the previous cost matrix corresponds to
 
 \begin{equation}
-  t_2^* = \frac{1 - 0}{1 + 1 - 0 - 0} = 0.5
+  t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
+               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
+                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}
+  = \frac{1 - 0}{1 + 1 - 0 - 0} = 0.5
 \end{equation}
 
 ## Different costs binary example
+
+In general, the correct predictions have a cost of $0$. However, this may be
+different in certain scenarios. The following is an example of a cost matrix
+with different `gains` on the main diagonal and missclassification costs.
 
 |               | Predicted $C_1$       | Predicted $C_2$      |
 |---------------|---------------------------|--------------------------|
 |True $C_1$ | $\color{darkgreen}{-5}$    | $\color{darkred}{10}$   |
 |True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{-1}$ |
 
-\begin{itemize}
-  \item Predicting **Class 1** will have an expected gain of $5 \times 0.4 - 1 \times
-    0.6 = \mathbf{\color{darkgreen}{1.4}}$
-  \item Predicting **Class 2** will have an expected gain of $-10 \times 0.4 + 1 \times
-    0.6 = \color{darkred}{-3.4}$
-\end{itemize}
+which would result in the following cost lines.
+
+---
 
 ```{python}
 #| code-fold: true
 #| code-summary: "Show the code"
 import matplotlib.pyplot as plt
 
-C = [[-5, 1], [10, -1]]
+C = [[-5, 1],  # TP, FN
+     [10, -1]] # FP, TN
 threshold = (C[0][1] - C[1][1])/(C[0][1] - C[1][1] + C[1][0] - C[0][0])
 cost_t = threshold*C[0][0] + (1-threshold)*C[0][1]
 plt.grid(True)
@@ -182,7 +235,239 @@ plt.legend()
 plt.show()
 ```
 
+In this case, for a posterior probability vector $[0.4, 0.6]$ we would expect
+
+- Predicting **Class 1** will have an expected gain of $5 \times 0.4 - 1 \times
+0.6 = \mathbf{\color{darkgreen}{1.4}}$
+- Predicting **Class 2** will have an expected gain of $-10 \times 0.4 + 1 \times
+0.6 = \color{darkred}{-3.4}$
+
+---
+
+```{shinylive-python}
+#| standalone: true
+#| components: viewer
+#| viewerHeight: 500
+
+import matplotlib.pyplot as plt
+from shiny import App, render, ui
+import pandas as pd
+
+app_ui = ui.page_fluid(
+    ui.layout_sidebar(
+        ui.panel_sidebar(
+    ui.input_slider("TP", "Cost True C1",  value=-5, min=-10, max=0),
+    ui.input_slider("TN", "Cost True C2",  value=-1, min=-10, max=0),
+    ui.input_slider("FN", "Cost False C2", value=10, min=1,   max=10),
+    ui.input_slider("FP", "Cost False C1", value=1,  min=1,   max=10),
+    ),
+    ui.panel_main(
+    ui.output_plot("plot")
+    )
+    ),
+)
+
+def server(input, output, session):
+    @output
+    @render.plot(alt="A histogram")
+    def plot():
+        TP = input.TP() # C_1|1
+        FN = input.FN() # C_1|2
+        FP = input.FP() # C_2|1
+        TN = input.TN() # C_2|2
+        fig = plt.figure()
+        ax = fig.add_subplot()
+        ax.grid(True)
+        ax.plot([0, 1], [FP, TP], '--', label="Predict $C_1$")
+        ax.plot([0, 1], [TN, FN], '--', label="Predict $C_2$")
+
+        threshold = (FP - TN)/(FP - TN + FN - TP)
+        cost_t = threshold*TP + (1-threshold)*FP
+        ax.plot([threshold, 1], [cost_t, TP], lw=5, color='tab:blue', label="Optimal $C_1$")
+        ax.plot([0, threshold], [TN, cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")
+
+        C = [[TP, FP], [FN, TN]]
+        bbox = dict(boxstyle="round", fc="white")
+        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(2, -1),
+                    textcoords='offset fontsize',
+                    arrowprops=dict(arrowstyle='->', facecolor='black'),
+                    bbox=bbox)
+        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(2, 0),
+                    textcoords='offset fontsize',
+                    arrowprops=dict(arrowstyle='->', facecolor='black'),
+                    bbox=bbox)
+        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(0, 2),
+                    textcoords='offset fontsize',
+                    arrowprops=dict(arrowstyle='->', facecolor='black'),
+                    bbox=bbox)
+        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(2, 0),
+                    textcoords='offset fontsize',
+                    arrowprops=dict(arrowstyle='->', facecolor='black'),
+                    bbox=bbox)
+
+        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), 
+                    xytext=(0, --3),
+                    textcoords='offset fontsize',
+                    arrowprops=dict(arrowstyle='->', facecolor='black'),
+                    bbox=bbox)
+
+        ax.set_xlabel('$P(C_1|x)$')
+        ax.set_ylabel('Expected cost')
+        ax.legend()
+
+        return fig
+
+app = App(app_ui, server, debug=True)
+```
+
+## Cost invariances
+
+The optimal prediction does not change if the cost matrix is
+
+- Multiplied by a positive constant value
+- Shifted by a constant value
+
+```{shinylive-python}
+#| standalone: true
+#| components: viewer
+#| viewerHeight: 500
+
+import numpy as np
+import matplotlib.pyplot as plt
+from shiny import App, render, ui
+import pandas as pd
+
+
+def fraction_to_float(fraction):
+    if '/' in fraction:
+       numerator, denominator = fraction.split('/') 
+       result = float(numerator)/float(denominator)
+    else:
+       result = float(fraction)
+    return result
+
+# X|Y means predict X given that the true label is Y
+# Because the indices in a matrix are first row and then column we need to
+# invert the order of X and Y by transposing the matrix. Then [0,1] is predict 0
+# when the true label is 1.
+# TODO: check indices
+C_original = np.array([[-2,  3],     # 1|1, 2|1
+                       [13, -7]]).T  # 1|2, 2|2
+
+app_ui = ui.page_fluid(
+    ui.layout_sidebar(
+        ui.panel_sidebar(
+            ui.input_slider("S", "Shift constant S", value=0,  min=-10,
+                            max=10),
+            ui.input_radio_buttons("M", "Multiplicative constant M",
+                                   choices=['1/20', '1/10', '1/5', '1',
+                                            '5', '10', '20'],
+                                   selected = '1', inline=True, width='100%'),
+            ui.output_table('cost_matrix'),
+        ),
+        ui.panel_main(
+            ui.output_plot("plot")
+        )
+    ),
+)
+
+def server(input, output, session):
+    @output
+    @render.plot(alt="A histogram")
+    def plot():
+        fig = plt.figure()
+        ax = fig.add_subplot()
+        ax.grid(True)
+
+        global C_original
+        C = C_original + input.S()
+        C = C*fraction_to_float(input.M())
+        
+        threshold = (C[0][1] - C[1][1])/(C[0][1] - C[1][1] + C[1][0] - C[0][0])
+        cost_t = threshold*C[0][0] + (1-threshold)*C[0][1]
+
+        ax.plot([0, 1], [C[0][1], C[0][0]], '--', label="Predict $C_1$")
+        ax.plot([0, 1], [C[1][1], C[1][0]], '--', label="Predict $C_2$")
+        ax.plot([threshold, 1], [cost_t, C[0][0]], lw=5, color='tab:blue', label="Optimal $C_1$")
+        ax.plot([0, threshold], [C[1][1], cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")
+
+        bbox = dict(boxstyle="round", fc="white")
+        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(-0.2, C[1][1]),
+                    arrowprops=dict(arrowstyle='->', facecolor='black'),
+                    bbox=bbox)
+        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(1.1, C[0][0]),
+                    arrowprops=dict(arrowstyle='->', facecolor='black'),
+                    bbox=bbox)
+        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(-0.2, C[0][1]),
+                    arrowprops=dict(arrowstyle='->', facecolor='black'),
+                    bbox=bbox)
+        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(1.1, C[1][0]),
+                    arrowprops=dict(arrowstyle='->', facecolor='black'),
+                    bbox=bbox)
+
+        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), 
+                    xytext=(threshold + 0.2, cost_t),
+                    arrowprops=dict(arrowstyle='->', facecolor='black'),
+                    bbox=bbox)
+
+        ax.set_xlabel('$P(C_1|x)$')
+        ax.set_ylabel('Expected cost')
+        ax.legend()
+
+        return fig
+    @output
+    @render.table(index=True)
+    def cost_matrix():
+        global C_original
+        C = C_original.T + input.S() # Need to transpose back to show print matrix
+        C = C*fraction_to_float(input.M())
+
+        return pd.DataFrame(C,
+                            index=['True C1', 'True C2'],
+                            columns=['Predicted C1', 'Predicted C2'])
+
+app = App(app_ui, server, debug=True)
+```
+
+Because of these invariances, it is common in the binary case to modify the
+matrix $c$ in such a way that the missclassification cost for one of the
+classes is $1$ and a cost of $0$ for its correct prediction.
+
+\begin{equation}
+  t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
+               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
+                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}
+  = \frac{1}
+               {1 +
+                {\color{darkred}c_{2|1}^*} - {\color{darkgreen}c_{1|1}^*}}
+\end{equation}
+
+In the previous example the original cost matrix $c$
+
+\begin{equation}
+c = \begin{bmatrix}-2 & 3 \\ 13 & -7\end{bmatrix}^\intercal
+\end{equation}
+
+if shiffted by $+7$ and scaled by $1/20$ results in 
+
+\begin{equation}
+c' = \begin{bmatrix} (-2 + 7)/20 & (3 + 7)/20 \\ (13 + 7)/20 & (-7 + 7)/20\end{bmatrix}^\intercal
+= \begin{bmatrix}0.25 & 0.5 \\ 1 & 0\end{bmatrix}^\intercal
+\end{equation}
+
+with an optimal threshold
+
+\begin{equation}
+  t^*
+  = \frac{1} {1 + {\color{darkred}c_{2|1}}' - {\color{darkgreen}c_{1|1}'}}
+  = \frac{1} {1 + {\color{darkred}0.5} - {\color{darkgreen}0.25}}
+  = 0.8
+\end{equation}
+
 ## Multiclass setting
+
+The binary cost matrix can be extended to multiclass by extending the rows with
+additional true classes and columns with predicted classes.
 
 |              | Predicted $C_1$              | Predicted $C_2$              | $\cdots$ | Predicted $C_K$                |
 |--------------|------------------------------|------------------------------|----------|--------------------------------|
@@ -191,8 +476,15 @@ plt.show()
 | $\vdots$     | $\vdots$ 			   	 	  | $\vdots$                     | $\ddots$ | $\vdots$                       |
 | True $C_K$   | $\color{darkred}{c_{K|1}}$   | $\color{darkred}{c_{K|2}}$   | $\cdots$ | $\color{darkgreen}{c_{K|K}}$   |
 
+However, with more than 2 classes the threshold is not a single value but a
+decision boundary in the probability simplex.
+
 
 ## Ternary example
+
+In order to exemplify the process of making an optimal decision in more with
+more than two classes we can look at the ternary case, which naturally extends
+to more classes. Given the following cost matrix
 
 |              | Predicted $C_1$ | Predicted $C_2$ | Predicted $C_3$   |
 |--------------|-----------------|-----------------|-------------------|
@@ -200,6 +492,14 @@ plt.show()
 | True $C_2$   |  40 | -50 |  60   |
 | True $C_3$   |  70 |  80 | -90   |
 
+and a true posterior probability vector for all the classes $[0.5, 0.1, 0.4$,
+we can estimate the expected cost of making each class prediction
+
+\begin{equation}
+  l(\vec{x},i) = \sum_{j = 1}^K P(C_j|\vec{x}) c_{i|j}.
+\end{equation}
+
+which results in the following expected costs:
 
 - Predicting **Class 1** will have a gain of 
 $10 \times 0.5 - 40 \times 0.1 -70 \times 0.4 = \color{darkred}{-27}$
@@ -207,6 +507,8 @@ $10 \times 0.5 - 40 \times 0.1 -70 \times 0.4 = \color{darkred}{-27}$
 $-20 \times 0.5 + 50 \times 0.1 -80 \times 0.4 = \color{darkred}{-37}$
 - Predicting **Class 3** will have a gain of 
 $-30 \times 0.5 - 60 \times 0.1  90 \times 0.4 = \mathbf{\color{darkgreen}{15}}$
+
+---
 
 ### Ternary hyperplanes per decision
 
@@ -229,9 +531,14 @@ for i in range(len(C)):
         return sum(prob*C[i])
 
     ax.set_title(f"Expected cost of predicting $C_{i+1}$\n")
-    draw_func_contours(cost_func, labels=labels, nlevels=20, subdiv=3,
+    draw_func_contours(cost_func, labels=labels, nlevels=10, subdiv=4,
                        cmap=cmaps[i], fig=fig, ax=ax)
 ```
+
+---
+
+````
+Commented section
 
 ### Ternary hyperplanes optimal decision
 
@@ -265,6 +572,9 @@ for i in range(len(C)):
 
 plt.show()
 ```
+````
+
+---
 
 ### Ternary hyperplanes optimal decision combined
 
@@ -283,7 +593,7 @@ labels = [f"$P(C_{i+1}|x) = 1$" for i in range(len(C))]
 
 fig = plt.figure(figsize=(5, 5))
 ax = fig.add_subplot()
-ax.set_title(f"Expected cost of predicting \nthe optimal class")
+fig.suptitle(f"Expected cost optimal prediction")
 for i in range(len(C)):
     def cost_func(prob):
         expected_costs = np.inner(prob, C)
@@ -292,7 +602,7 @@ for i in range(len(C)):
             return expected_costs[i]
         return np.nan
 
-    draw_func_contours(cost_func, labels=labels, nlevels=10, subdiv=5,
+    draw_func_contours(cost_func, labels=labels, nlevels=10, subdiv=4,
                        cmap=cmaps[i], cb_orientation='vertical', fig=fig, ax=ax)
 
 
@@ -315,6 +625,8 @@ $-10 \times 0.3 + 3 \times 0.7 = \color{darkred}{-0.9}$
 - **Abstaining** has an expected gain of
 $-2 \times 0.3 + 1 \times 0.7 = \mathbf{\color{darkgreen}{0.1}}$
 
+---
+
 ### Option to abstain optimal costs
 
 ```{python}
@@ -327,7 +639,7 @@ C = [[0, 9], [10, -3], [2, 2]]
 p = np.linspace(0, 1, 100)
 p = np.vstack([1 - p, p]).T
 opt_cost = [min(np.inner(C, p[i])) for i in range(p.shape[0])]
-plt.plot(p[:,0], opt_cost, lw=3, label='Optimal')
+plt.plot(p[:,0], opt_cost, lw=5, label='Optimal')
 
 plt.grid(True)
 plt.plot([0, 1], [C[0][1], C[0][0]], '--', label="Predict $C_1$")
@@ -357,7 +669,7 @@ C = np.array([[0, 9], [10, -3], [2, -1]])
 p = np.linspace(0, 1, 100)
 p = np.vstack([1 - p, p]).T
 opt_cost = [min(np.inner(C, p[i])) for i in range(p.shape[0])]
-plt.plot(p[:,0], opt_cost, lw=3, label='Optimal')
+plt.plot(p[:,0], opt_cost, lw=5, label='Optimal')
 
 plt.grid(True)
 plt.plot([0, 1], [C[0][1], C[0][0]], '--', label="Predict $C_1$")

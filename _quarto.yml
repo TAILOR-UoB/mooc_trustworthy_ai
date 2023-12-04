@@ -56,7 +56,7 @@ format:
     toc: true
     page-layout: full
     grid:
-      sidebar-width: 500px
+      sidebar-width: 350px
     html-math-method: katex
     number-depth: 2
     author-meta: "Miquel Perello Nieto"
