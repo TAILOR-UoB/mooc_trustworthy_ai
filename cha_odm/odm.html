@@ -55,7 +55,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -240,7 +259,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-optimal-decision-making" id="toc-what-is-optimal-decision-making" class="nav-link active" data-scroll-target="#what-is-optimal-decision-making">What is Optimal Decision Making</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#why-optimal-decision-making" id="toc-why-optimal-decision-making" class="nav-link" data-scroll-target="#why-optimal-decision-making">Why Optimal Decision Making</a></li>
+  <li><a href="#optimal-decisions-with-different-types-of-model" id="toc-optimal-decisions-with-different-types-of-model" class="nav-link" data-scroll-target="#optimal-decisions-with-different-types-of-model">Optimal decisions with different types of model</a></li>
+  </ul></li>
+  <li><a href="#cost-sensitive-classification" id="toc-cost-sensitive-classification" class="nav-link" data-scroll-target="#cost-sensitive-classification">Cost-sensitive classification</a>
+  <ul class="collapse">
   <li><a href="#binary-example" id="toc-binary-example" class="nav-link" data-scroll-target="#binary-example">Binary example</a></li>
   <li><a href="#cost-matrix-reasonableness-condition" id="toc-cost-matrix-reasonableness-condition" class="nav-link" data-scroll-target="#cost-matrix-reasonableness-condition">Cost Matrix “reasonableness” condition</a></li>
   <li><a href="#optimal-decision" id="toc-optimal-decision" class="nav-link" data-scroll-target="#optimal-decision">Optimal Decision</a></li>
@@ -250,8 +275,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#ternary-example" id="toc-ternary-example" class="nav-link" data-scroll-target="#ternary-example">Ternary example</a></li>
   <li><a href="#option-to-abstain" id="toc-option-to-abstain" class="nav-link" data-scroll-target="#option-to-abstain">Option to abstain</a></li>
   <li><a href="#option-to-abstain-different-costs" id="toc-option-to-abstain-different-costs" class="nav-link" data-scroll-target="#option-to-abstain-different-costs">Option to abstain different costs</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/main/cha_odm/odm.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/edit/main/cha_odm/odm.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new" class="toc-action">Report an issue</a></p></div></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="odm.html"><i class="bi bi-file-slides"></i>RevealJS</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content column-body" id="quarto-document-content">
@@ -259,6 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Introduction to Optimal Decision Making</h1>
+<p class="subtitle lead"><a href="../slides/cha_odm/odm.html" target="_blank"><img src="https://img.shields.io/badge/slides-revealjs-yellow"></a></p>
 </div>
 
 
@@ -286,26 +314,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p><a href="../slides/cha_odm/odm.html" target="_blank"><img src="https://img.shields.io/badge/slides-decision-yellow"></a></p>
-<!-- Code to test Thebe -->
-<script src="https://unpkg.com/thebe@latest/lib/index.js"></script>
-<!-- Code to test Thebe -->
-<section id="what-is-optimal-decision-making" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-optimal-decision-making">What is Optimal Decision Making</h3>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<div class="hidden">
+<p>$$</p>
+<p>$$</p>
+</div>
+<section id="why-optimal-decision-making" class="level3 smaller">
+<h3 class="smaller anchored" data-anchor-id="why-optimal-decision-making">Why Optimal Decision Making</h3>
 <ul>
-<li>We can make optimal decisions with cost-sensitive classification</li>
-<li>In order to make a classification decision we need to know the cost of making a wrong prediction.</li>
-<li>If in addition we have access to the probability of the different outcomes, we can make optimal decisions.</li>
-<li>This is very important in critical applications: e.g.&nbsp;medical diagnosis.</li>
-<li>The prior distributions may be adjusted during deployment.</li>
-<li>Assume the costs are not instance dependent (only depend on the true class).</li>
+<li>The objective is to classify a new instance into one of the possible classes in an optimal manner.</li>
+<li>This may be important in critical applications: e.g.&nbsp;medical diagnosis <span class="citation" data-cites="begoli2019 yang2019">(<a href="#ref-begoli2019" role="doc-biblioref">Begoli, Bhattacharya, and Kusnezov 2019</a>; <a href="#ref-yang2019" role="doc-biblioref">Yang, Steinfeld, and Zimmerman 2019</a>)</span>, self-driving cars <span class="citation" data-cites="qayyum2020 mullins2018">(<a href="#ref-qayyum2020" role="doc-biblioref">Qayyum et al. 2020</a>; <a href="#ref-mullins2018" role="doc-biblioref">Mullins et al. 2018</a>)</span>, extreme weather prediction, finances <span class="citation" data-cites="nti2020">(<a href="#ref-nti2020" role="doc-biblioref">Nti, Adekoya, and Weyori 2020</a>)</span>. <img src="images/case_examples.svg" class="img-fluid" alt="Example of critical applications"></li>
+<li>It is necessary to know what are the consequences of making each prediction (costs or gains).</li>
+<li>One way to make optimal decisions is with cost-sensitive classification.</li>
+<li>Can we make optimal decisions with any type of classifier?</li>
 </ul>
 </section>
+<section id="optimal-decisions-with-different-types-of-model" class="level3 smaller">
+<h3 class="smaller anchored" data-anchor-id="optimal-decisions-with-different-types-of-model">Optimal decisions with different types of model</h3>
+<ul>
+<li><strong>Class estimation</strong>: Outputs a class prediction.</li>
+<li><strong>Class estimation with option of abstaining</strong>: Outputs a class prediction or abstains <span class="citation" data-cites="coenen2020">(<a href="#ref-coenen2020" role="doc-biblioref">Coenen, Abdullah, and Guns 2020</a>)</span>.</li>
+<li><strong>Rankings estimation</strong>: Outputs a ranked list of possible classes <span class="citation" data-cites="brinker2020">(<a href="#ref-brinker2020" role="doc-biblioref">Brinker and Hüllermeier 2020</a>)</span>.</li>
+<li><strong>Score surrogates</strong>: Outputs a continuous score which is commonly surrogates for the task of classification (e.g.&nbsp;Support Vector Machines).</li>
+<li><strong>Probability estimation</strong>: Outputs class posterior probability estimates (e.g.&nbsp;Logistic Regression, naive Bayes, Artificial Neural Networks), or provides class counts which can be interpreted as proportions (e.g.&nbsp;decision trees, random forests, k-nearest neightbour).</li>
+<li><strong>Others</strong>: For example methods that use possibility theory <span class="citation" data-cites="dubois2001">(<a href="#ref-dubois2001" role="doc-biblioref">Dubois and Prade 2001</a>)</span>, credal sets <span class="citation" data-cites="levi1980">(<a href="#ref-levi1980" role="doc-biblioref">Levi 1980</a>)</span> or conformal predictions <span class="citation" data-cites="vovk2005">(<a href="#ref-vovk2005" role="doc-biblioref">Vovk, Gammerman, and Shafer 2005</a>)</span>.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/classifiers.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Classifiers as a black box</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="cost-sensitive-classification" class="level2">
+<h2 class="anchored" data-anchor-id="cost-sensitive-classification">Cost-sensitive classification</h2>
+<ul>
+<li>Cost-sensitive classification <span class="citation" data-cites="elkan2001">(<a href="#ref-elkan2001" role="doc-biblioref">Elkan 2001</a>)</span> provides a framework to make optimal decisions (with some restrictions).</li>
+<li>Assumes the costs are not instance dependent (only depend on the predicted and true class).</li>
+<li>Class priors and costs can be changed during deployment (if known or estimated).</li>
+<li>If in addition we have access to the probability of the different outcomes, we can make optimal decisions.</li>
+</ul>
 <section id="binary-example" class="level3">
 <h3 class="anchored" data-anchor-id="binary-example">Binary example</h3>
-<ul>
-<li>The following is a typical example of a cost matrix <span class="math inline">c</span> for a binary problem.</li>
-</ul>
+<div class="fragment" data-fragment-index="1">
+<p>The following is a typical example of a cost matrix <span class="math inline">c</span> for a binary problem.</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -328,10 +382,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>We will refer to <span class="math inline">c_{i|j}</span> the cost of predicting class <span class="math inline">C_i</span> given that the true class is <span class="math inline">C_j</span>.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>Given the posterior probabilities <span class="math inline">P(C_i|\mathbf{x})</span> and the cost matrix <span class="math inline">c</span> we can calculate the expected cost of predicting class <span class="math inline">C_i</span></p>
 <p><span class="math display">\begin{equation}
   \mathbb{E}_{j \sim P(\cdot|\mathbf{x})} (c_{i|j}) = \sum_{j = 1}^K P(C_j|\mathbf{x}) c_{i|j}.
 \end{equation}</span></p>
+</div>
+<hr>
 <p>For example, lets assume that the posterior probability vector for a given instance is <span class="math inline">[0.4, 0.6]</span>, the expected costs will be</p>
 <ul>
 <li>Predicting <strong>Class 1</strong> will have an expected cost of <span class="math inline">0.4 \times 0 +  0.6 \times 1 = \color{darkred}{0.6}</span></li>
@@ -340,7 +398,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 <section id="expected-costs-figure" class="level4">
 <h4 class="anchored" data-anchor-id="expected-costs-figure">Expected costs figure</h4>
-<p>We can visualise the cost lines for each prediction with a line for each predicted class <span class="math inline">C_i</span> and its cost of missclassification and correct classification. For example, the following cost matrix</p>
+<div class="fragment" data-fragment-index="1">
+<p>We can visualise the cost lines for each prediction with a line for each predicted class <span class="math inline">C_i</span> and its missclassification costs and correct predictions <span class="citation" data-cites="drummond2006">(<a href="#ref-drummond2006" role="doc-biblioref">Drummond and Holte 2006</a>)</span>. For example, the following cost matrix</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -362,7 +421,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>will result in the following cost lines</p>
+</div>
+<hr>
 <div class="cell" data-execution_count="1">
 <details>
 <summary>Show the code</summary>
@@ -379,9 +442,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11"></a>plt.xlabel(<span class="st">'$P(C_1|x)$'</span>)</span>
 <span id="cb1-12"><a href="#cb1-12"></a>plt.ylabel(<span class="st">'Expected cost'</span>)</span>
 <span id="cb1-13"><a href="#cb1-13"></a>plt.legend()</span>
-<span id="cb1-14"><a href="#cb1-14"></a>plt.annotate(<span class="st">"Cost = 0.4"</span>, (<span class="fl">0.6</span>, <span class="fl">0.38</span>), xytext<span class="op">=</span>(<span class="fl">0.5</span>, <span class="fl">0.2</span>),</span>
+<span id="cb1-14"><a href="#cb1-14"></a>plt.annotate(<span class="st">"Cost = 0.5"</span>, (<span class="fl">0.5</span>, <span class="fl">0.48</span>), xytext<span class="op">=</span>(<span class="fl">0.5</span>, <span class="fl">0.2</span>),</span>
 <span id="cb1-15"><a href="#cb1-15"></a>             arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">'-&gt;'</span>, facecolor<span class="op">=</span><span class="st">'black'</span>))</span>
-<span id="cb1-16"><a href="#cb1-16"></a>plt.scatter(<span class="fl">0.6</span>, <span class="fl">0.4</span>, s<span class="op">=</span><span class="dv">100</span>, facecolors<span class="op">=</span><span class="st">'none'</span>, edgecolors<span class="op">=</span><span class="st">'tab:red'</span>, zorder<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb1-16"><a href="#cb1-16"></a>plt.scatter(<span class="fl">0.5</span>, <span class="fl">0.5</span>, s<span class="op">=</span><span class="dv">100</span>, facecolors<span class="op">=</span><span class="st">'none'</span>, edgecolors<span class="op">=</span><span class="st">'tab:red'</span>, zorder<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb1-17"><a href="#cb1-17"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
@@ -393,15 +456,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="cost-matrix-reasonableness-condition" class="level3">
 <h3 class="anchored" data-anchor-id="cost-matrix-reasonableness-condition">Cost Matrix “reasonableness” condition</h3>
+<div class="fragment" data-fragment-index="1">
 <p>In general, it is reasonable to expect cost matrices where:</p>
+</div>
+<div class="nonincremental">
+<div class="fragment" data-fragment-index="2">
 <ol type="1">
 <li>For a given class <span class="math inline">j</span> the correct prediction has always a lower cost than an incorrect prediction <span class="math inline">c_{j|j} &lt; c_{i|j}</span> with <span class="math inline">i \neq j</span>.</li>
-<li>And one class does not consistently have lower costs than other classes <span class="math inline">c_{i|j} \leq c_{k|j}</span> for all <span class="math inline">j</span> (class domination).</li>
+<li><strong>Class comination</strong>: One class does not consistently have lower costs than other classes <span class="math inline">c_{i|j} \leq c_{k|j}</span> for all <span class="math inline">j</span>.</li>
 </ol>
+</div>
+</div>
+<div class="fragment" data-fragment-index="3">
 <p>We will make these reasonable assumptions in this introductory module.</p>
+</div>
 <hr>
-<section id="cost-matrix-class-domination" class="level4">
-<h4 class="anchored" data-anchor-id="cost-matrix-class-domination">Cost Matrix Class Domination</h4>
+<section id="class-domination" class="level4">
+<h4 class="anchored" data-anchor-id="class-domination">Class Domination</h4>
+<div class="fragment" data-fragment-index="1">
 <p>The following is an example of class domination in which predicting class <span class="math inline">C_1</span> will always have a lower expected cost.</p>
 <table class="table">
 <thead>
@@ -424,6 +496,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+</div>
+<div class="fragment" data-fragment-index="2">
 <div class="cell" data-execution_count="2">
 <details>
 <summary>Show the code</summary>
@@ -442,26 +516,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="odm_files/figure-html/cell-3-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
+</div>
 </section>
 </section>
-<section id="optimal-decision" class="level3">
-<h3 class="anchored" data-anchor-id="optimal-decision">Optimal Decision</h3>
-<p>If we know the posterior probabilities, the optimal decision is to choose the class that minimizes the expected cost.</p>
+<section id="optimal-decision" class="level3 smaller">
+<h3 class="smaller anchored" data-anchor-id="optimal-decision">Optimal Decision</h3>
+<div class="fragment" data-fragment-index="1">
+<p>If we know the posterior probabilities, the optimal decision is to choose the class that minimizes the expected cost which can be obtained by marginalising the predicted class over all possible true classes.</p>
 <p><span class="math display">\begin{equation}
   \hat{y}(\mathbf{x}) = \mathop{\mathrm{arg\,min}}_{i=\{1, \dots, K\}} L(\mathbf{x},i)
                    = \mathop{\mathrm{arg\,min}}_{i=\{1, \dots, K\}} \sum_{j=1}^K P(C_j|\mathbf{x}) c_{i|j}.
 \end{equation}</span></p>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>In the binary case we want to predict class <span class="math inline">C_1</span> if and only if predicting class <span class="math inline">C_1</span> has a lower expected cost than predicting class <span class="math inline">C_2</span></p>
 <p><span class="math display">\begin{align}
     \sum_{j=1}^K P(C_j|\mathbf{x}) c_{1|j}             &amp;\le \sum_{j=1}^K P(C_j|\mathbf{x}) c_{2|j} \\
     P(C_1|\mathbf{x}) c_{1|1} + P(C_2|\mathbf{x}) c_{1|2} &amp;\le P(C_1|\mathbf{x}) c_{2|1} + P(C_2|\mathbf{x}) c_{2|2} \\
 \end{align}</span></p>
-<p>with the equality having the same expected missclassification independent on the predicted class.</p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p>with the equality having the same expected cost independent on the predicted class.</p>
 <p><span class="math display">\begin{equation}
 p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 \end{equation}</span></p>
 <p>where <span class="math inline">p = P(C_1|\mathbf{x})</span>.</p>
-<p>In the binary classification setting we can derive the optimal threshold of selecting class one if <span class="math inline">p \ge t^*</span>.</p>
+</div>
+<hr>
+<p>In the binary classification setting we can derive the optimal threshold <span class="math inline">t^*</span> of selecting class one if <span class="math inline">p \ge t^*</span>.</p>
 <p><span class="math display">\begin{align}
     t^* c_{1|1} + (1 - t^*) c_{1|2}                 &amp;=   t^* c_{2|1} + (1 - t^*) c_{2|2} \\
     (1 - t^*) c_{1|2}  - (1 - t^*) c_{2|2}          &amp;=   t^* c_{2|1} - t^* c_{1|1} \\
@@ -471,7 +553,30 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
     (c_{1|2}  - c_{2|2})                            &amp;=   t^* (c_{2|1} - c_{1|1} + c_{1|2}  - c_{2|2}) \\
     \frac{c_{1|2}  - c_{2|2}}{c_{2|1} - c_{1|1} + c_{1|2}  - c_{2|2}} &amp;=   t^*
 \end{align}</span></p>
-<p>Which for the previous cost matrix corresponds to</p>
+<hr>
+<p>For the previous cost matrix</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicted <span class="math inline">C_1</span></th>
+<th>Predicted <span class="math inline">C_2</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>True <span class="math inline">C_1</span></td>
+<td><span class="math inline">\color{darkgreen}{0}</span></td>
+<td><span class="math inline">\color{darkred}{1}</span></td>
+</tr>
+<tr class="even">
+<td>True <span class="math inline">C_2</span></td>
+<td><span class="math inline">\color{darkred}{1}</span></td>
+<td><span class="math inline">\color{darkgreen}{0}</span></td>
+</tr>
+</tbody>
+</table>
+<p>the optimal threshold corresponds to</p>
 <p><span class="math display">\begin{equation}
   t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
                {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
@@ -534,6 +639,8 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <li>Predicting <strong>Class 2</strong> will have an expected gain of <span class="math inline">-10 \times 0.4 + 1 \times 0.6 = \color{darkred}{-3.4}</span></li>
 </ul>
 <hr>
+<section id="other-binary-examples" class="level4">
+<h4 class="anchored" data-anchor-id="other-binary-examples">Other binary examples</h4>
 <div class="sourceCode" id="cb4" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href="#cb4-1"></a>#| standalone: true</span>
 <span id="cb4-2"><a href="#cb4-2"></a>#| components: viewer</span>
 <span id="cb4-3"><a href="#cb4-3"></a>#| viewerHeight: 500</span>
@@ -607,6 +714,7 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <span id="cb4-71"><a href="#cb4-71"></a>        return fig</span>
 <span id="cb4-72"><a href="#cb4-72"></a></span>
 <span id="cb4-73"><a href="#cb4-73"></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 </section>
 <section id="cost-invariances" class="level3">
 <h3 class="anchored" data-anchor-id="cost-invariances">Cost invariances</h3>
@@ -764,16 +872,16 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
 <td><span class="math inline">\color{darkgreen}{c_{1|1}}</span></td>
-<td><span class="math inline">\color{darkred}{c_{1|2}}</span></td>
+<td><span class="math inline">\color{darkred}{c_{2|1}}</span></td>
 <td><span class="math inline">\cdots</span></td>
-<td><span class="math inline">\color{darkred}{c_{1|K}}</span></td>
+<td><span class="math inline">\color{darkred}{c_{K|1}}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td><span class="math inline">\color{darkred}{c_{2|1}}</span></td>
+<td><span class="math inline">\color{darkred}{c_{1|2}}</span></td>
 <td><span class="math inline">\color{darkgreen}{c_{2|2}}</span></td>
 <td><span class="math inline">\cdots</span></td>
-<td><span class="math inline">\color{darkred}{c_{2|K}}</span></td>
+<td><span class="math inline">\color{darkred}{c_{2|2}}</span></td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\vdots</span></td>
@@ -784,8 +892,8 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_K</span></td>
-<td><span class="math inline">\color{darkred}{c_{K|1}}</span></td>
-<td><span class="math inline">\color{darkred}{c_{K|2}}</span></td>
+<td><span class="math inline">\color{darkred}{c_{1|K}}</span></td>
+<td><span class="math inline">\color{darkred}{c_{2|K}}</span></td>
 <td><span class="math inline">\cdots</span></td>
 <td><span class="math inline">\color{darkgreen}{c_{K|K}}</span></td>
 </tr>
@@ -1064,11 +1172,53 @@ The following kwargs were not used by contour: 'cb_orientation'
 <p><img src="odm_files/figure-html/cell-9-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
+</section>
+</section>
+<section id="references" class="level2">
+
+
 
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-begoli2019" class="csl-entry" role="listitem">
+Begoli, Edmon, Tanmoy Bhattacharya, and Dimitri Kusnezov. 2019. <span>“The Need for Uncertainty Quantification in Machine-Assisted Medical Decision Making.”</span> <em>Nature Machine Intelligence</em> 1 (1): 20–23.
+</div>
+<div id="ref-brinker2020" class="csl-entry" role="listitem">
+Brinker, Klaus, and Eyke Hüllermeier. 2020. <span>“A Reduction of Label Ranking to Multiclass Classification.”</span> In <em>Machine Learning and Knowledge Discovery in Databases: European Conference, ECML PKDD 2019, w<span>ü</span>rzburg, Germany, September 16–20, 2019, Proceedings, Part III</em>, 204–19. Springer.
+</div>
+<div id="ref-coenen2020" class="csl-entry" role="listitem">
+Coenen, Lize, Ahmed KA Abdullah, and Tias Guns. 2020. <span>“Probability of Default Estimation, with a Reject Option.”</span> In <em>2020 IEEE 7th International Conference on Data Science and Advanced Analytics (DSAA)</em>, 439–48. IEEE.
+</div>
+<div id="ref-drummond2006" class="csl-entry" role="listitem">
+Drummond, Chris, and Robert C. Holte. 2006. <span>“<span class="nocase">Cost curves: An improved method for visualizing classifier performance</span>.”</span> <em>Machine Learning</em> 65 (1): 95–130.
+</div>
+<div id="ref-dubois2001" class="csl-entry" role="listitem">
+Dubois, Didier, and Henri Prade. 2001. <span>“Possibility Theory, Probability Theory and Multiple-Valued Logics: A Clarification.”</span> <em>Annals of Mathematics and Artificial Intelligence</em> 32: 35–66.
+</div>
+<div id="ref-elkan2001" class="csl-entry" role="listitem">
+Elkan, Charles. 2001. <span>“<span class="nocase">The Foundations of Cost-Sensitive Learning The Foundations of Cost-Sensitive Learning</span>.”</span> In <em>17th International Conference on Artificial Intelligence (IJCAI’01)</em>, edited by Morgan Kaufmann, 973—–978. May 2001.
+</div>
+<div id="ref-levi1980" class="csl-entry" role="listitem">
+Levi, Isaac. 1980. <em>The Enterprise of Knowledge: An Essay on Knowledge, Credal Probability, and Chance</em>. MIT press.
+</div>
+<div id="ref-mullins2018" class="csl-entry" role="listitem">
+Mullins, Galen E, Paul G Stankiewicz, R Chad Hawthorne, and Satyandra K Gupta. 2018. <span>“Adaptive Generation of Challenging Scenarios for Testing and Evaluation of Autonomous Vehicles.”</span> <em>Journal of Systems and Software</em> 137: 197–215.
+</div>
+<div id="ref-nti2020" class="csl-entry" role="listitem">
+Nti, Isaac Kofi, Adebayo Felix Adekoya, and Benjamin Asubam Weyori. 2020. <span>“A Systematic Review of Fundamental and Technical Analysis of Stock Market Predictions.”</span> <em>Artificial Intelligence Review</em> 53 (4): 3007–57.
+</div>
+<div id="ref-qayyum2020" class="csl-entry" role="listitem">
+Qayyum, Adnan, Muhammad Usama, Junaid Qadir, and Ala Al-Fuqaha. 2020. <span>“Securing Connected &amp; Autonomous Vehicles: Challenges Posed by Adversarial Machine Learning and the Way Forward.”</span> <em>IEEE Communications Surveys &amp; Tutorials</em> 22 (2): 998–1026.
+</div>
+<div id="ref-vovk2005" class="csl-entry" role="listitem">
+Vovk, Vladimir, Alexander Gammerman, and Glenn Shafer. 2005. <em>Algorithmic Learning in a Random World</em>. Vol. 29. Springer.
+</div>
+<div id="ref-yang2019" class="csl-entry" role="listitem">
+Yang, Qian, Aaron Steinfeld, and John Zimmerman. 2019. <span>“Unremarkable AI: Fitting Intelligent Decision Support into Critical, Clinical Decision-Making Processes.”</span> In <em>Proceedings of the 2019 CHI Conference on Human Factors in Computing Systems</em>, 1–11.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
