@@ -1102,7 +1102,7 @@ frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 
 - **Parametric** calibration involves modelling the score distributions within each class. \\
   - **Platt scaling** = Logistic calibration can be derived by assuming that the scores within both classes are normally distributed with the same variance [@platt2000].
-  - **Beta calibration** employs Beta distributions instead, to deal with scores already on a $[0,1]$ scale [@kull2017}].
+  - **Beta calibration** employs Beta distributions instead, to deal with scores already on a $[0,1]$ scale [@kull2017].
   - **Dirichlet calibration** for more than two classes [@kull2019].
 - **Non-parametric** calibration often ignores scores and employs ranks instead. \\
   - E.g., **isotonic regression** = pool adjacent violators = ROC convex hull [@zadrozny2001] [@fawcett2007].

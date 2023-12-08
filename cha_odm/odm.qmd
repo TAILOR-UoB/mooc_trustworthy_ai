@@ -1,5 +1,6 @@
 ---
 title: Introduction to Optimal Decision Making
+subtitle: <a href="/slides/cha_odm/odm.html" target="_blank"><img src="https://img.shields.io/badge/slides-revealjs-yellow"></a>
 author: 
   - name:
       given: Miquel
@@ -13,41 +14,69 @@ author:
         postal-code: BS8 1QU
     attributes:
         equal-contributor: False
-includes:
-  in_header: "definitions.tex"
 filters:
   - shinylive
+format:
+  revealjs:
+    logo: "../images/logos/tailor_and_uob.svg"
+    css: logo.css
+bibliography: references.bib
 ---
 
-::: {.content-visible when-format="html"}
+# Introduction
 
-<a
-href="/slides/cha_odm/odm.html"
-target="_blank"><img
-src="https://img.shields.io/badge/slides-decision-yellow"></a>
-
-<!-- Code to test Thebe -->
-<script src="https://unpkg.com/thebe@latest/lib/index.js"></script>
-<!-- Code to test Thebe -->
-
+::: {.hidden}
+$$
+{{< include definitions.tex >}}
+{{< include commands.tex >}}
+$$
 :::
 
-{{< include commands.tex >}}
+## Why Optimal Decision Making {.smaller}
 
-## What is Optimal Decision Making
+- The objective is to classify a new instance into one of the possible classes
+  in an optimal manner.
+- This may be important in critical applications: e.g. medical diagnosis [@begoli2019;@yang2019],
+  self-driving cars [@qayyum2020;@mullins2018], extreme weather prediction, finances [@nti2020].
+![Example of critical applications](images/case_examples.svg)
+- It is necessary to know what are the consequences of making each prediction
+(costs or gains).
+- One way to make optimal decisions is with cost-sensitive classification.
+- Can we make optimal decisions with any type of classifier?
 
-- We can make optimal decisions with cost-sensitive classification
-- In order to make a classification decision we need to know the cost of making
-  a wrong prediction.
+
+## Optimal decisions with different types of model {.smaller}
+
+- **Class estimation**: Outputs a class prediction.
+- **Class estimation with option of abstaining**: Outputs a class prediction or abstains [@coenen2020].
+- **Rankings estimation**: Outputs a ranked list of possible
+  classes [@brinker2020].
+- **Score surrogates**: Outputs a continuous score which is commonly surrogates
+  for the task of classification (e.g. Support Vector Machines).
+- **Probability estimation**: Outputs class posterior probability
+  estimates (e.g. Logistic Regression, naive Bayes, Artificial
+  Neural Networks), or provides class counts which can be interpreted as
+  proportions (e.g. decision trees, random forests, k-nearest neightbour).
+- **Others**: For example methods that use possibility theory [@dubois2001],
+  credal sets [@levi1980] or conformal predictions [@vovk2005].
+
+![Classifiers as a black box](images/classifiers.svg)
+
+# Cost-sensitive classification
+
+- Cost-sensitive classification [@elkan2001] provides a framework to make
+  optimal decisions (with some restrictions).
+- Assumes the costs are not instance dependent (only depend on the predicted
+  and true class).
+- Class priors and costs can be changed during deployment (if known or estimated).
 - If in addition we have access to the probability of the different outcomes,
   we can make optimal decisions.
-- This is very important in critical applications: e.g. medical diagnosis.
-- The prior distributions may be adjusted during deployment.
-- Assume the costs are not instance dependent (only depend on the true class).
+
 
 ## Binary example
 
-- The following is a typical example of a cost matrix $c$ for a binary problem.
+::: {.fragment fragment-index=1}
+The following is a typical example of a cost matrix $c$ for a binary problem.
 
 |          | Predicted $C_1$               | Predicted $C_2$ |
 |-|-|-|
@@ -55,13 +84,18 @@ src="https://img.shields.io/badge/slides-decision-yellow"></a>
 |True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
 
 We will refer to $c_{i|j}$ the cost of predicting class $C_i$ given that the true class is $C_j$.
+:::
 
+::: {.fragment fragment-index=2}
 Given the posterior probabilities $P(C_i|\vec{x})$ and the cost matrix $c$ we
 can calculate the expected cost of predicting class $C_i$
 
 \begin{equation}
   \mathbb{E}_{j \sim P(\cdot|\vec{x})} (c_{i|j}) = \sum_{j = 1}^K P(C_j|\vec{x}) c_{i|j}.
 \end{equation}
+:::
+
+---
 
 For example, lets assume that the posterior probability vector for a given
 instance is $[0.4, 0.6]$, the expected costs will be
@@ -75,16 +109,23 @@ instance is $[0.4, 0.6]$, the expected costs will be
 
 ### Expected costs figure
 
+::: {.fragment fragment-index=1}
 We can visualise the cost lines for each prediction with a line for each
-predicted class $C_i$ and its cost of missclassification and correct
-classification. For example, the following cost matrix
+predicted class $C_i$ and its missclassification costs and correct
+predictions [@drummond2006]. For example, the following cost matrix 
+
 
 |          | Predicted $C_1$               | Predicted $C_2$ |
 |-|-|-|
 |True $C_1$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$ |
 |True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
+:::
 
+::: {.fragment fragment-index=2}
 will result in the following cost lines
+:::
+
+---
 
 ```{python}
 #| code-fold: true
@@ -102,9 +143,9 @@ plt.plot([0, threshold], [C[1][1], cost_t], lw=5, color='tab:orange', label="Opt
 plt.xlabel('$P(C_1|x)$')
 plt.ylabel('Expected cost')
 plt.legend()
-plt.annotate("Cost = 0.4", (0.6, 0.38), xytext=(0.5, 0.2),
+plt.annotate("Cost = 0.5", (0.5, 0.48), xytext=(0.5, 0.2),
              arrowprops=dict(arrowstyle='->', facecolor='black'))
-plt.scatter(0.6, 0.4, s=100, facecolors='none', edgecolors='tab:red', zorder=10)
+plt.scatter(0.5, 0.5, s=100, facecolors='none', edgecolors='tab:red', zorder=10)
 plt.show()
 ```
 
@@ -115,19 +156,29 @@ classes at $0.5$.
 
 ## Cost Matrix "reasonableness" condition
 
-In general, it is reasonable to expect cost matrices where:
 
+::: {.fragment fragment-index=1}
+In general, it is reasonable to expect cost matrices where:
+:::
+
+::: {.nonincremental}
+::: {.fragment fragment-index=2}
 1. For a given class $j$ the correct prediction has always a lower cost than an
 incorrect prediction $c_{j|j} < c_{i|j}$ with $i \neq j$.
-2. And one class does not consistently have lower costs than other classes
-$c_{i|j} \leq c_{k|j}$ for all $j$ (class domination).
+2. **Class comination**: One class does not consistently have lower costs than other classes
+$c_{i|j} \leq c_{k|j}$ for all $j$.
+:::
+:::
 
+::: {.fragment fragment-index=3}
 We will make these reasonable assumptions in this introductory module.
+:::
 
 ---
 
-### Cost Matrix Class Domination
+### Class Domination
 
+::: {.fragment fragment-index=1}
 The following is an example of class domination in which predicting class $C_1$
 will always have a lower expected cost.
 
@@ -135,7 +186,9 @@ will always have a lower expected cost.
 |---------------|---------------------------|--------------------------|
 |True $C_1$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$   |
 |True $C_2$ | $\color{darkred}{0.4}$      | $\color{darkgreen}{0.5}$ |
+:::
 
+::: {.fragment fragment-index=2}
 ```{python}
 #| code-fold: true
 #| code-summary: "Show the code"
@@ -150,17 +203,22 @@ plt.ylabel('Expected cost')
 plt.legend()
 plt.show()
 ```
+:::
 
-## Optimal Decision
+## Optimal Decision {.smaller}
 
+::: {.fragment fragment-index=1}
 If we know the posterior probabilities, the optimal decision is to choose the
-class that minimizes the expected cost.
+class that minimizes the expected cost which can be obtained by marginalising
+the predicted class over all possible true classes.
 
 \begin{equation}
   \hat{y}(\vec{x}) = \argmin_{i=\{1, \dots, K\}} L(\vec{x},i)
                    = \argmin_{i=\{1, \dots, K\}} \sum_{j=1}^K P(C_j|\vec{x}) c_{i|j}.
 \end{equation}
+:::
 
+::: {.fragment fragment-index=2}
 In the binary case we want to predict class $C_1$ if and only if predicting
 class $C_1$ has a lower expected cost than predicting class $C_2$
 
@@ -168,18 +226,23 @@ class $C_1$ has a lower expected cost than predicting class $C_2$
     \sum_{j=1}^K P(C_j|\vec{x}) c_{1|j}             &\le \sum_{j=1}^K P(C_j|\vec{x}) c_{2|j} \\
     P(C_1|\vec{x}) c_{1|1} + P(C_2|\vec{x}) c_{1|2} &\le P(C_1|\vec{x}) c_{2|1} + P(C_2|\vec{x}) c_{2|2} \\
 \end{align}
+:::
 
-with the equality having the same expected missclassification independent on
-the predicted class.
+::: {.fragment fragment-index=3}
+with the equality having the same expected cost independent on the predicted
+class.
 
 \begin{equation}
 p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 \end{equation}
 
 where $p = P(C_1|\vec{x})$.
+:::
 
-In the binary classification setting we can derive the optimal threshold of
-selecting class one if $p \ge t^*$.
+---
+
+In the binary classification setting we can derive the optimal threshold $t^*$
+of selecting class one if $p \ge t^*$.
 
 \begin{align}
     t^* c_{1|1} + (1 - t^*) c_{1|2}                 &=   t^* c_{2|1} + (1 - t^*) c_{2|2} \\
@@ -191,7 +254,16 @@ selecting class one if $p \ge t^*$.
     \frac{c_{1|2}  - c_{2|2}}{c_{2|1} - c_{1|1} + c_{1|2}  - c_{2|2}} &=   t^*
 \end{align}
 
-Which for the previous cost matrix corresponds to
+---
+
+For the previous cost matrix
+
+|          | Predicted $C_1$               | Predicted $C_2$ |
+|-|-|-|
+|True $C_1$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$ |
+|True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
+
+the optimal threshold corresponds to
 
 \begin{equation}
   t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
@@ -243,6 +315,8 @@ In this case, for a posterior probability vector $[0.4, 0.6]$ we would expect
 0.6 = \color{darkred}{-3.4}$
 
 ---
+
+### Other binary examples
 
 ```{shinylive-python}
 #| standalone: true
@@ -471,10 +545,10 @@ additional true classes and columns with predicted classes.
 
 |              | Predicted $C_1$              | Predicted $C_2$              | $\cdots$ | Predicted $C_K$                |
 |--------------|------------------------------|------------------------------|----------|--------------------------------|
-| True $C_1$   | $\color{darkgreen}{c_{1|1}}$ | $\color{darkred}{c_{1|2}}$   | $\cdots$ | $\color{darkred}{c_{1|K}}$     |
-| True $C_2$   | $\color{darkred}{c_{2|1}}$   | $\color{darkgreen}{c_{2|2}}$ | $\cdots$ | $\color{darkred}{c_{2|K}}$     |
+| True $C_1$   | $\color{darkgreen}{c_{1|1}}$ | $\color{darkred}{c_{2|1}}$   | $\cdots$ | $\color{darkred}{c_{K|1}}$     |
+| True $C_2$   | $\color{darkred}{c_{1|2}}$   | $\color{darkgreen}{c_{2|2}}$ | $\cdots$ | $\color{darkred}{c_{2|2}}$     |
 | $\vdots$     | $\vdots$ 			   	 	  | $\vdots$                     | $\ddots$ | $\vdots$                       |
-| True $C_K$   | $\color{darkred}{c_{K|1}}$   | $\color{darkred}{c_{K|2}}$   | $\cdots$ | $\color{darkgreen}{c_{K|K}}$   |
+| True $C_K$   | $\color{darkred}{c_{1|K}}$   | $\color{darkred}{c_{2|K}}$   | $\cdots$ | $\color{darkgreen}{c_{K|K}}$   |
 
 However, with more than 2 classes the threshold is not a single value but a
 decision boundary in the probability simplex.
@@ -680,3 +754,5 @@ plt.ylabel('Expected cost')
 plt.legend()
 plt.show()
 ```
+
+# References
