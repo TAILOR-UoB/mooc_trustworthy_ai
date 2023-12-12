@@ -76,6 +76,7 @@ format:
     incremental: true
     smaller: false
     auto-stretch: false
+    chalkboard: true
 
 contrastcolor: "#37BEED"
 link-color: "#37BEED"

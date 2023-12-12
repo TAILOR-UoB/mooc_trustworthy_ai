@@ -23,7 +23,11 @@ format:
 bibliography: references.bib
 ---
 
-# Introduction
+# Motivation
+
+::: {.content-visible when-format="html"}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3k3h1eYJ214?si=5ObtIepxosgMjrB1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+:::
 
 ::: {.hidden}
 $$
@@ -32,48 +36,144 @@ $$
 $$
 :::
 
-## Why Optimal Decision Making {.smaller}
+::: {.content-visible when-format="revealjs"}
+::: {.notes}
+Welcome to this module.
+
+In this module I will provide an Introduction to Optimal Decision Making in the
+context of multiclass classification.
+
+My name is Miquel Perello Nieto and I am a research associate at University of
+Bristol.
+
+We will start with a motivation and a brief overview on common multiclass
+classifiers.
+:::
+:::
+
+## Optimal Decision Making. Why and how?
+
+<!-- {.smaller} -->
 
 - The objective is to classify a new instance into one of the possible classes
   in an optimal manner.
 - This may be important in critical applications: e.g. medical diagnosis [@begoli2019;@yang2019],
   self-driving cars [@qayyum2020;@mullins2018], extreme weather prediction, finances [@nti2020].
-![Example of critical applications](images/case_examples.svg)
+![Example of critical applications](images/case_examples.svg){fig-align="center"}
 - It is necessary to know what are the consequences of making each prediction
 (costs or gains).
 - One way to make optimal decisions is with cost-sensitive classification.
 - Can we make optimal decisions with any type of classifier?
 
+::: {.content-visible when-format="revealjs"}
+::: {.notes}
+Why do we need Optimal Decisions and how do we get them?
+
+In the context of multiclass classification the objective of a classifier is to
+predict a class for a new instance among all the possible classes.
+
+Ideally in an optimal manner.
+
+Is this always important?
+
+There are certain scenarios in which making optimal predictions is crucial.
+
+For example, during a medical diagnosis making a wrong prediction could have
+terrible consequences. 
+
+Similarly, a self-driving class may need to detect pedestrians, objects in the
+road, animals or other vehicles, and it may need to decide to accelerate,
+break, turn or give control to the human driver.
+
+In extreme weather predictions it may be important to detect a hurricane, an
+earthquake, or even a storm if crossing an ocean.
+
+In multiple financial scenarios in which the cost may be easy to quantify
+economically, stock market forecasting or portfolio optimization.
+
+In all those scenarios, it is necessary to know what are the consequences of
+making each prediction. A wrong prediction will probably incur into some costs
+while a right prediction may have gains. But this is problem specific.
+
+One way to make optimal predictions is with the use of cost-sensitive
+classification, which will be the focus of this introductory module.
+
+But before we start, we will look at different types of multi class
+classification models.
+:::
+:::
 
 ## Optimal decisions with different types of model {.smaller}
 
 - **Class estimation**: Outputs a class prediction.
-- **Class estimation with option of abstaining**: Outputs a class prediction or abstains [@coenen2020].
+- **Class estimation with option of abstaining**: Outputs a class prediction or abstains [@coenen2020;@mozannar2020b]
 - **Rankings estimation**: Outputs a ranked list of possible
   classes [@brinker2020].
-- **Score surrogates**: Outputs a continuous score which is commonly surrogates
-  for the task of classification (e.g. Support Vector Machines).
+- **Score surrogates**: Outputs a continuous score which is commonly a
+surrogate for classification (e.g. Support Vector Machines).
 - **Probability estimation**: Outputs class posterior probability
   estimates (e.g. Logistic Regression, naive Bayes, Artificial
   Neural Networks), or provides class counts which can be interpreted as
-  proportions (e.g. decision trees, random forests, k-nearest neightbour).
-- **Others**: For example methods that use possibility theory [@dubois2001],
-  credal sets [@levi1980] or conformal predictions [@vovk2005].
+  proportions (e.g. decision trees, random forests, k-nearest neightbour) [@zadrozny2001].
+- **Other types of outputs**: Some examples are possibility theory
+[@dubois2001], credal sets [@levi1980], conformal predictions [@vovk2005],
+multi-label [@Alotaibi2021].
 
-![Classifiers as a black box](images/classifiers.svg)
+:::: {.columns}
+
+::: {.column width="50%"}
+![Classifier as a black box](images/classifiers.svg){fig-align="center"}
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="40%"}
+![Training vs Deployment](images/deployment.svg){fig-align="center"}
+:::
+::::
+
+::: {.content-visible when-format="revealjs"}
+::: {.notes}
+There is a huge variety of multiclass classification models which provide
+different types of output predictions. But at the end, the objective is to
+predict one of the possible classes.
+
+But can we make optimal decisions with any of those models?
+
+Here we will discuss some examples:
+
+A model that directly outputs the estimated class. This may be because the
+model is not provided but only the final class prediction, or because the model
+has been trained to make such prediction with no other reliable information.
+
+These models can provide optimal decisions if the training and the deployment
+context are the same, and the costs were considered during the training.
+Then if we can trust the model we may be making the optimal decisions.
+However, if we are aware about context changes between the training and
+deployment on the class priors or misclassification costs, we can not easily
+adapt those models. There are certain extreme cases in which the model could be
+improved but this is usually not realistic (e.g. a model that is worst than
+random).
+:::
+:::
 
 # Cost-sensitive classification
 
+::: {.content-visible when-format="html"}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/i3xKA8mQLrE?si=UewW3D3rRHU6jqP6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+:::
+
 - Cost-sensitive classification [@elkan2001] provides a framework to make
-  optimal decisions (with some restrictions).
+  optimal decisions (with certain assumptions).
+- We require the true posterior probabilities of each outcome in order to make
+  optimal decisions, but we can use estimates.
 - Assumes the costs are not instance dependent (only depend on the predicted
   and true class).
 - Class priors and costs can be changed during deployment (if known or estimated).
-- If in addition we have access to the probability of the different outcomes,
-  we can make optimal decisions.
 
 
-## Binary example
+## Cost matrices: Binary example
 
 ::: {.fragment fragment-index=1}
 The following is a typical example of a cost matrix $c$ for a binary problem.
@@ -87,8 +187,8 @@ We will refer to $c_{i|j}$ the cost of predicting class $C_i$ given that the tru
 :::
 
 ::: {.fragment fragment-index=2}
-Given the posterior probabilities $P(C_i|\vec{x})$ and the cost matrix $c$ we
-can calculate the expected cost of predicting class $C_i$
+Given the posterior probabilities $P(C_j|\vec{x})$ where $j \in \{1, K\}$ and the
+cost matrix $c$ we can calculate the expected cost of predicting class $C_i$
 
 \begin{equation}
   \mathbb{E}_{j \sim P(\cdot|\vec{x})} (c_{i|j}) = \sum_{j = 1}^K P(C_j|\vec{x}) c_{i|j}.
@@ -121,11 +221,9 @@ predictions [@drummond2006]. For example, the following cost matrix
 |True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
 :::
 
-::: {.fragment fragment-index=2}
-will result in the following cost lines
-:::
-
 ---
+
+will result in the following cost lines
 
 ```{python}
 #| code-fold: true
@@ -143,7 +241,7 @@ plt.plot([0, threshold], [C[1][1], cost_t], lw=5, color='tab:orange', label="Opt
 plt.xlabel('$P(C_1|x)$')
 plt.ylabel('Expected cost')
 plt.legend()
-plt.annotate("Cost = 0.5", (0.5, 0.48), xytext=(0.5, 0.2),
+plt.annotate("Optimal threshold = 0.5", (0.5, 0.48), xytext=(0.4, 0.2),
              arrowprops=dict(arrowstyle='->', facecolor='black'))
 plt.scatter(0.5, 0.5, s=100, facecolors='none', edgecolors='tab:red', zorder=10)
 plt.show()
@@ -161,16 +259,16 @@ classes at $0.5$.
 In general, it is reasonable to expect cost matrices where:
 :::
 
-::: {.nonincremental}
+:::: {.nonincremental}
 ::: {.fragment fragment-index=2}
 1. For a given class $j$ the correct prediction has always a lower cost than an
 incorrect prediction $c_{j|j} < c_{i|j}$ with $i \neq j$.
-2. **Class comination**: One class does not consistently have lower costs than other classes
+2. **Class domination**: One class does not consistently have lower costs than other classes
 $c_{i|j} \leq c_{k|j}$ for all $j$.
 :::
-:::
+::::
 
-::: {.fragment fragment-index=3}
+::: {.fragment fragment-index=4}
 We will make these reasonable assumptions in this introductory module.
 :::
 
@@ -205,15 +303,20 @@ plt.show()
 ```
 :::
 
-## Optimal Decision {.smaller}
+## Optimal threshold for the binary case {.smaller}
+
+::: {.content-visible when-format="html"}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/RIa29zaQu20?si=8TUvg9Sau3GQBybA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+:::
 
 ::: {.fragment fragment-index=1}
-If we know the posterior probabilities, the optimal decision is to choose the
-class that minimizes the expected cost which can be obtained by marginalising
-the predicted class over all possible true classes.
+If we know the true posterior probabilities, the optimal decision is to choose
+the class that minimizes the expected cost which can be obtained by
+marginalising the predicted class over all possible true classes
+[@deirdre2008].
 
 \begin{equation}
-  \hat{y}(\vec{x}) = \argmin_{i=\{1, \dots, K\}} L(\vec{x},i)
+  \hat{y}(\vec{x}) = \argmin_{i=\{1, \dots, K\}} \mathbb{E}_{j \sim P(\cdot|\vec{x})} (c_{i|j})
                    = \argmin_{i=\{1, \dots, K\}} \sum_{j=1}^K P(C_j|\vec{x}) c_{i|j}.
 \end{equation}
 :::
@@ -309,19 +412,21 @@ plt.show()
 
 In this case, for a posterior probability vector $[0.4, 0.6]$ we would expect
 
-- Predicting **Class 1** will have an expected gain of $5 \times 0.4 - 1 \times
-0.6 = \mathbf{\color{darkgreen}{1.4}}$
-- Predicting **Class 2** will have an expected gain of $-10 \times 0.4 + 1 \times
-0.6 = \color{darkred}{-3.4}$
+- Predicting **Class 1** will have an expected cost of $-5 \times 0.4 + 1 \times
+0.6 = \mathbf{\color{darkgreen}{-1.4}}$
+- Predicting **Class 2** will have an expected cost of $10 \times 0.4 - 1 \times
+0.6 = \color{darkred}{3.4}$
 
 ---
 
 ### Other binary examples
 
+See how the beginning and end of the cost lines change with the costs.
+
 ```{shinylive-python}
 #| standalone: true
 #| components: viewer
-#| viewerHeight: 500
+#| viewerHeight: 480
 
 import matplotlib.pyplot as plt
 from shiny import App, render, ui
@@ -404,7 +509,7 @@ The optimal prediction does not change if the cost matrix is
 ```{shinylive-python}
 #| standalone: true
 #| components: viewer
-#| viewerHeight: 500
+#| viewerHeight: 480
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -503,10 +608,18 @@ def server(input, output, session):
 app = App(app_ui, server, debug=True)
 ```
 
+---
+
+### Simplification example
+
+:::: {style="font-size: 70%;"}
+
 Because of these invariances, it is common in the binary case to modify the
 matrix $c$ in such a way that the missclassification cost for one of the
-classes is $1$ and a cost of $0$ for its correct prediction.
+classes is $1$ and a cost of $0$ for its correct prediction. For example, if
+$c_{1|2}^*=1$ and $c_{2|2}^*=0$ we get
 
+::: {.fragment fragment-index=1}
 \begin{equation}
   t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
                {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
@@ -515,14 +628,18 @@ classes is $1$ and a cost of $0$ for its correct prediction.
                {1 +
                 {\color{darkred}c_{2|1}^*} - {\color{darkgreen}c_{1|1}^*}}
 \end{equation}
+:::
 
+::: {.fragment fragment-index=2}
 In the previous example the original cost matrix $c$
 
 \begin{equation}
 c = \begin{bmatrix}-2 & 3 \\ 13 & -7\end{bmatrix}^\intercal
 \end{equation}
+:::
 
-if shiffted by $+7$ and scaled by $1/20$ results in 
+::: {.fragment fragment-index=3}
+if shifted by $+7$ and scaled by $1/20$ results in 
 
 \begin{equation}
 c' = \begin{bmatrix} (-2 + 7)/20 & (3 + 7)/20 \\ (13 + 7)/20 & (-7 + 7)/20\end{bmatrix}^\intercal
@@ -537,9 +654,17 @@ with an optimal threshold
   = \frac{1} {1 + {\color{darkred}0.5} - {\color{darkgreen}0.25}}
   = 0.8
 \end{equation}
+:::
+
+::::
 
 ## Multiclass setting
 
+::: {.content-visible when-format="html"}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0zbLJ-qRof8?si=XOCf0VjJ89MCltTm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+:::
+
+::: {.fragment fragment-index=1}
 The binary cost matrix can be extended to multiclass by extending the rows with
 additional true classes and columns with predicted classes.
 
@@ -549,42 +674,61 @@ additional true classes and columns with predicted classes.
 | True $C_2$   | $\color{darkred}{c_{1|2}}$   | $\color{darkgreen}{c_{2|2}}$ | $\cdots$ | $\color{darkred}{c_{2|2}}$     |
 | $\vdots$     | $\vdots$ 			   	 	  | $\vdots$                     | $\ddots$ | $\vdots$                       |
 | True $C_K$   | $\color{darkred}{c_{1|K}}$   | $\color{darkred}{c_{2|K}}$   | $\cdots$ | $\color{darkgreen}{c_{K|K}}$   |
+:::
 
-However, with more than 2 classes the threshold is not a single value but a
-decision boundary in the probability simplex.
+::: {.fragment fragment-index=2}
+However, with more than 2 classes the threshold is not a single value but
+multiple decision boundaries in the probability simplex.
+:::
 
 
-## Ternary example
+## Ternary example {.smaller}
 
+::: {.fragment fragment-index=1}
 In order to exemplify the process of making an optimal decision in more with
 more than two classes we can look at the ternary case, which naturally extends
 to more classes. Given the following cost matrix
 
 |              | Predicted $C_1$ | Predicted $C_2$ | Predicted $C_3$   |
 |--------------|-----------------|-----------------|-------------------|
-| True $C_1$   | -10 |  20 |  30   |
-| True $C_2$   |  40 | -50 |  60   |
-| True $C_3$   |  70 |  80 | -90   |
+| True $C_1$   | $\color{darkgreen}{-10}$ |  $\color{darkred}{20}$ |  $\color{darkred}{30}$  |
+| True $C_2$   |  $\color{darkred}{40}$ | $\color{darkgreen}{-50}$ |  $\color{darkred}{60}$   |
+| True $C_3$   |  $\color{darkred}{70}$ |  $\color{darkred}{80}$ |  $\color{darkgreen}{-90}$   |
+:::
 
-and a true posterior probability vector for all the classes $[0.5, 0.1, 0.4$,
+::: {.fragment fragment-index=2}
+and a true posterior probability vector for all the classes $[0.5, 0.1, 0.4]$,
 we can estimate the expected cost of making each class prediction
 
 \begin{equation}
-  l(\vec{x},i) = \sum_{j = 1}^K P(C_j|\vec{x}) c_{i|j}.
+  \mathbb{E}_{j \sim P(\cdot|\vec{x})} (c_{i|j}) = \sum_{j = 1}^K P(C_j|\vec{x}) c_{i|j}.
 \end{equation}
+:::
 
+::: {.fragment fragment-index=3}
 which results in the following expected costs:
 
-- Predicting **Class 1** will have a gain of 
-$10 \times 0.5 - 40 \times 0.1 -70 \times 0.4 = \color{darkred}{-27}$
-- Predicting **Class 2** will have a gain of 
-$-20 \times 0.5 + 50 \times 0.1 -80 \times 0.4 = \color{darkred}{-37}$
-- Predicting **Class 3** will have a gain of 
-$-30 \times 0.5 - 60 \times 0.1  90 \times 0.4 = \mathbf{\color{darkgreen}{15}}$
+- Predicting **Class 1** will have a cost of 
+$-10 \times 0.5 + 40 \times 0.1 +70 \times 0.4 = \color{darkred}{27}$
+- Predicting **Class 2** will have a cost of 
+$20 \times 0.5 - 50 \times 0.1 +80 \times 0.4 = \color{darkred}{37}$
+- Predicting **Class 3** will have a cost of 
+$30 \times 0.5 + 60 \times 0.1 -90 \times 0.4 = \mathbf{\color{darkgreen}{-15}}$
+:::
 
 ---
 
-### Ternary hyperplanes per decision
+### Ternary expected cost isolines per decision
+
+::: {.content-visible when-format="revealjs"}
+|              | Predicted $C_1$ | Predicted $C_2$ | Predicted $C_3$   |
+|--------------|-----------------|-----------------|-------------------|
+| True $C_1$   | $\color{darkgreen}{-10}$ |  $\color{darkred}{20}$ |  $\color{darkred}{30}$  |
+| True $C_2$   |  $\color{darkred}{40}$ | $\color{darkgreen}{-50}$ |  $\color{darkred}{60}$   |
+| True $C_3$   |  $\color{darkred}{70}$ |  $\color{darkred}{80}$ |  $\color{darkgreen}{-90}$   |
+:::
+
+::: {.center data-latex=""}
 
 ```{python}
 #| code-fold: true
@@ -608,13 +752,15 @@ for i in range(len(C)):
     draw_func_contours(cost_func, labels=labels, nlevels=10, subdiv=4,
                        cmap=cmaps[i], fig=fig, ax=ax)
 ```
+:::
 
+<!--
 ---
 
 ````
 Commented section
 
-### Ternary hyperplanes optimal decision
+### Ternary thresholds and optimal decisions
 
 ```{python}
 #| code-fold: true
@@ -648,10 +794,21 @@ plt.show()
 ```
 ````
 
+-->
+
 ---
 
 ### Ternary hyperplanes optimal decision combined
 
+::: {.content-visible when-format="revealjs"}
+|              | Predicted $C_1$ | Predicted $C_2$ | Predicted $C_3$   |
+|--------------|-----------------|-----------------|-------------------|
+| True $C_1$   | $\color{darkgreen}{-10}$ |  $\color{darkred}{20}$ |  $\color{darkred}{30}$  |
+| True $C_2$   |  $\color{darkred}{40}$ | $\color{darkgreen}{-50}$ |  $\color{darkred}{60}$   |
+| True $C_3$   |  $\color{darkred}{70}$ |  $\color{darkred}{80}$ |  $\color{darkgreen}{-90}$   |
+:::
+
+::: {.center data-latex=""}
 ```{python}
 #| code-fold: true
 #| code-summary: "Show the code"
@@ -682,26 +839,38 @@ for i in range(len(C)):
 
 plt.show()
 ```
+:::
 
 ## Option to abstain
 
+It is possible to add the costs of abstaining on making a prediction by adding
+a column into the original cost matrix [@charoenphakdee2021]. The following is
+an example which illustrates this in a binary classification problem.
+
 |              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
 |--------------|-----------------|-----------------|---------|
-| True $C_1$   | 0 | 10 | 2 |
-| True $C_2$   | 9 | -3 | 2 |
+| True $C_1$   | $\color{darkgreen}{0}$ | $\color{darkred}{10}$ | $\color{darkred}{2}$ |
+| True $C_2$   | $\color{darkred}{9}$ | $\color{darkgreen}{-3}$ | $\color{darkred}{2}$ |
 
 
-
-- Predicting **Class 1** has an expected gain of
-$0 \times 0.3 - 9 \times 0.7 = \color{darkred}{-6.3}$
-- Predicting **Class 2** has an expected gain of
-$-10 \times 0.3 + 3 \times 0.7 = \color{darkred}{-0.9}$
-- **Abstaining** has an expected gain of
-$-2 \times 0.3 + 1 \times 0.7 = \mathbf{\color{darkgreen}{0.1}}$
+- Predicting **Class 1** has an expected cost of
+$0 \times 0.3 + 9 \times 0.7 = \color{darkred}{6.3}$
+- Predicting **Class 2** has an expected cost of
+$10 \times 0.3 - 3 \times 0.7 = \mathbf{\color{darkred}{0.9}}$
+- **Abstaining** has an expected cost of
+$2 \times 0.3 + 2 \times 0.7 = \color{darkred}{2}$
 
 ---
 
-### Option to abstain optimal costs
+### Option to abstain cost lines
+
+::: {.content-visible when-format="revealjs"}
+|              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
+|--------------|-----------------|-----------------|---------|
+| True $C_1$   | $\color{darkgreen}{0}$ | $\color{darkred}{10}$ | $\color{darkred}{2}$ |
+| True $C_2$   | $\color{darkred}{9}$ | $\color{darkgreen}{-3}$ | $\color{darkred}{2}$ |
+:::
+
 
 ```{python}
 #| code-fold: true
@@ -725,12 +894,17 @@ plt.legend()
 plt.show()
 ```
 
-## Option to abstain different costs
+---
+
+### Option to abstain different costs
+
+The following is another example in which abstaining from making a prediction
+if the true class was $C_2$ would incur into a `gain`.
 
 |              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
 |--------------|-----------------|-----------------|---------|
-| True $C_1$   | 0 | 10 |  2 |
-| True $C_2$   | 9 | -3 | -1 |
+| True $C_1$   | $\color{darkgreen}{0}$ | $\color{darkred}{10}$ | $\color{darkred}{2}$ |
+| True $C_2$   | $\color{darkred}{9}$ | $\color{darkgreen}{-3}$ | $\color{darkgreen}{-1}$ |
 
 
 ```{python}
