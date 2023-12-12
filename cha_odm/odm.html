@@ -259,22 +259,21 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a>
   <ul class="collapse">
-  <li><a href="#why-optimal-decision-making" id="toc-why-optimal-decision-making" class="nav-link" data-scroll-target="#why-optimal-decision-making">Why Optimal Decision Making</a></li>
+  <li><a href="#optimal-decision-making.-why-and-how" id="toc-optimal-decision-making.-why-and-how" class="nav-link" data-scroll-target="#optimal-decision-making.-why-and-how">Optimal Decision Making. Why and how?</a></li>
   <li><a href="#optimal-decisions-with-different-types-of-model" id="toc-optimal-decisions-with-different-types-of-model" class="nav-link" data-scroll-target="#optimal-decisions-with-different-types-of-model">Optimal decisions with different types of model</a></li>
   </ul></li>
   <li><a href="#cost-sensitive-classification" id="toc-cost-sensitive-classification" class="nav-link" data-scroll-target="#cost-sensitive-classification">Cost-sensitive classification</a>
   <ul class="collapse">
-  <li><a href="#binary-example" id="toc-binary-example" class="nav-link" data-scroll-target="#binary-example">Binary example</a></li>
+  <li><a href="#cost-matrices-binary-example" id="toc-cost-matrices-binary-example" class="nav-link" data-scroll-target="#cost-matrices-binary-example">Cost matrices: Binary example</a></li>
   <li><a href="#cost-matrix-reasonableness-condition" id="toc-cost-matrix-reasonableness-condition" class="nav-link" data-scroll-target="#cost-matrix-reasonableness-condition">Cost Matrix “reasonableness” condition</a></li>
-  <li><a href="#optimal-decision" id="toc-optimal-decision" class="nav-link" data-scroll-target="#optimal-decision">Optimal Decision</a></li>
+  <li><a href="#optimal-threshold-for-the-binary-case" id="toc-optimal-threshold-for-the-binary-case" class="nav-link" data-scroll-target="#optimal-threshold-for-the-binary-case">Optimal threshold for the binary case</a></li>
   <li><a href="#different-costs-binary-example" id="toc-different-costs-binary-example" class="nav-link" data-scroll-target="#different-costs-binary-example">Different costs binary example</a></li>
   <li><a href="#cost-invariances" id="toc-cost-invariances" class="nav-link" data-scroll-target="#cost-invariances">Cost invariances</a></li>
   <li><a href="#multiclass-setting" id="toc-multiclass-setting" class="nav-link" data-scroll-target="#multiclass-setting">Multiclass setting</a></li>
   <li><a href="#ternary-example" id="toc-ternary-example" class="nav-link" data-scroll-target="#ternary-example">Ternary example</a></li>
   <li><a href="#option-to-abstain" id="toc-option-to-abstain" class="nav-link" data-scroll-target="#option-to-abstain">Option to abstain</a></li>
-  <li><a href="#option-to-abstain-different-costs" id="toc-option-to-abstain-different-costs" class="nav-link" data-scroll-target="#option-to-abstain-different-costs">Option to abstain different costs</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -314,17 +313,20 @@ div.csl-indent {
 
 </header>
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3k3h1eYJ214?si=5ObtIepxosgMjrB1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
+</iframe>
 <div class="hidden">
 <p>$$</p>
 <p>$$</p>
 </div>
-<section id="why-optimal-decision-making" class="level3 smaller">
-<h3 class="smaller anchored" data-anchor-id="why-optimal-decision-making">Why Optimal Decision Making</h3>
+<section id="optimal-decision-making.-why-and-how" class="level3">
+<h3 class="anchored" data-anchor-id="optimal-decision-making.-why-and-how">Optimal Decision Making. Why and how?</h3>
+<!-- {.smaller} -->
 <ul>
 <li>The objective is to classify a new instance into one of the possible classes in an optimal manner.</li>
-<li>This may be important in critical applications: e.g.&nbsp;medical diagnosis <span class="citation" data-cites="begoli2019 yang2019">(<a href="#ref-begoli2019" role="doc-biblioref">Begoli, Bhattacharya, and Kusnezov 2019</a>; <a href="#ref-yang2019" role="doc-biblioref">Yang, Steinfeld, and Zimmerman 2019</a>)</span>, self-driving cars <span class="citation" data-cites="qayyum2020 mullins2018">(<a href="#ref-qayyum2020" role="doc-biblioref">Qayyum et al. 2020</a>; <a href="#ref-mullins2018" role="doc-biblioref">Mullins et al. 2018</a>)</span>, extreme weather prediction, finances <span class="citation" data-cites="nti2020">(<a href="#ref-nti2020" role="doc-biblioref">Nti, Adekoya, and Weyori 2020</a>)</span>. <img src="images/case_examples.svg" class="img-fluid" alt="Example of critical applications"></li>
+<li>This may be important in critical applications: e.g.&nbsp;medical diagnosis <span class="citation" data-cites="begoli2019 yang2019">(<a href="#ref-begoli2019" role="doc-biblioref">Begoli, Bhattacharya, and Kusnezov 2019</a>; <a href="#ref-yang2019" role="doc-biblioref">Yang, Steinfeld, and Zimmerman 2019</a>)</span>, self-driving cars <span class="citation" data-cites="qayyum2020 mullins2018">(<a href="#ref-qayyum2020" role="doc-biblioref">Qayyum et al. 2020</a>; <a href="#ref-mullins2018" role="doc-biblioref">Mullins et al. 2018</a>)</span>, extreme weather prediction, finances <span class="citation" data-cites="nti2020">(<a href="#ref-nti2020" role="doc-biblioref">Nti, Adekoya, and Weyori 2020</a>)</span>. <img src="images/case_examples.svg" class="img-fluid" data-fig-align="center" alt="Example of critical applications"></li>
 <li>It is necessary to know what are the consequences of making each prediction (costs or gains).</li>
 <li>One way to make optimal decisions is with cost-sensitive classification.</li>
 <li>Can we make optimal decisions with any type of classifier?</li>
@@ -334,30 +336,45 @@ div.csl-indent {
 <h3 class="smaller anchored" data-anchor-id="optimal-decisions-with-different-types-of-model">Optimal decisions with different types of model</h3>
 <ul>
 <li><strong>Class estimation</strong>: Outputs a class prediction.</li>
-<li><strong>Class estimation with option of abstaining</strong>: Outputs a class prediction or abstains <span class="citation" data-cites="coenen2020">(<a href="#ref-coenen2020" role="doc-biblioref">Coenen, Abdullah, and Guns 2020</a>)</span>.</li>
+<li><strong>Class estimation with option of abstaining</strong>: Outputs a class prediction or abstains <span class="citation" data-cites="coenen2020 mozannar2020b">(<a href="#ref-coenen2020" role="doc-biblioref">Coenen, Abdullah, and Guns 2020</a>; <a href="#ref-mozannar2020b" role="doc-biblioref">Mozannar and Sontag 2020</a>)</span></li>
 <li><strong>Rankings estimation</strong>: Outputs a ranked list of possible classes <span class="citation" data-cites="brinker2020">(<a href="#ref-brinker2020" role="doc-biblioref">Brinker and Hüllermeier 2020</a>)</span>.</li>
-<li><strong>Score surrogates</strong>: Outputs a continuous score which is commonly surrogates for the task of classification (e.g.&nbsp;Support Vector Machines).</li>
-<li><strong>Probability estimation</strong>: Outputs class posterior probability estimates (e.g.&nbsp;Logistic Regression, naive Bayes, Artificial Neural Networks), or provides class counts which can be interpreted as proportions (e.g.&nbsp;decision trees, random forests, k-nearest neightbour).</li>
-<li><strong>Others</strong>: For example methods that use possibility theory <span class="citation" data-cites="dubois2001">(<a href="#ref-dubois2001" role="doc-biblioref">Dubois and Prade 2001</a>)</span>, credal sets <span class="citation" data-cites="levi1980">(<a href="#ref-levi1980" role="doc-biblioref">Levi 1980</a>)</span> or conformal predictions <span class="citation" data-cites="vovk2005">(<a href="#ref-vovk2005" role="doc-biblioref">Vovk, Gammerman, and Shafer 2005</a>)</span>.</li>
+<li><strong>Score surrogates</strong>: Outputs a continuous score which is commonly a surrogate for classification (e.g.&nbsp;Support Vector Machines).</li>
+<li><strong>Probability estimation</strong>: Outputs class posterior probability estimates (e.g.&nbsp;Logistic Regression, naive Bayes, Artificial Neural Networks), or provides class counts which can be interpreted as proportions (e.g.&nbsp;decision trees, random forests, k-nearest neightbour) <span class="citation" data-cites="zadrozny2001">(<a href="#ref-zadrozny2001" role="doc-biblioref">Zadrozny and Elkan 2001</a>)</span>.</li>
+<li><strong>Other types of outputs</strong>: Some examples are possibility theory <span class="citation" data-cites="dubois2001">(<a href="#ref-dubois2001" role="doc-biblioref">Dubois and Prade 2001</a>)</span>, credal sets <span class="citation" data-cites="levi1980">(<a href="#ref-levi1980" role="doc-biblioref">Levi 1980</a>)</span>, conformal predictions <span class="citation" data-cites="vovk2005">(<a href="#ref-vovk2005" role="doc-biblioref">Vovk, Gammerman, and Shafer 2005</a>)</span>, multi-label <span class="citation" data-cites="Alotaibi2021">(<a href="#ref-Alotaibi2021" role="doc-biblioref">Alotaibi and Flach 2021</a>)</span>.</li>
 </ul>
+<div class="columns">
+<div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/classifiers.svg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Classifiers as a black box</figcaption>
+<figcaption class="figure-caption">Classifier as a black box</figcaption>
 </figure>
+</div>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/deployment.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Training vs Deployment</figcaption>
+</figure>
+</div>
+</div>
 </div>
 </section>
 </section>
 <section id="cost-sensitive-classification" class="level2">
 <h2 class="anchored" data-anchor-id="cost-sensitive-classification">Cost-sensitive classification</h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/i3xKA8mQLrE?si=UewW3D3rRHU6jqP6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
+</iframe>
 <ul>
-<li>Cost-sensitive classification <span class="citation" data-cites="elkan2001">(<a href="#ref-elkan2001" role="doc-biblioref">Elkan 2001</a>)</span> provides a framework to make optimal decisions (with some restrictions).</li>
+<li>Cost-sensitive classification <span class="citation" data-cites="elkan2001">(<a href="#ref-elkan2001" role="doc-biblioref">Elkan 2001</a>)</span> provides a framework to make optimal decisions (with certain assumptions).</li>
+<li>We require the true posterior probabilities of each outcome in order to make optimal decisions, but we can use estimates.</li>
 <li>Assumes the costs are not instance dependent (only depend on the predicted and true class).</li>
 <li>Class priors and costs can be changed during deployment (if known or estimated).</li>
-<li>If in addition we have access to the probability of the different outcomes, we can make optimal decisions.</li>
 </ul>
-<section id="binary-example" class="level3">
-<h3 class="anchored" data-anchor-id="binary-example">Binary example</h3>
+<section id="cost-matrices-binary-example" class="level3">
+<h3 class="anchored" data-anchor-id="cost-matrices-binary-example">Cost matrices: Binary example</h3>
 <div class="fragment" data-fragment-index="1">
 <p>The following is a typical example of a cost matrix <span class="math inline">c</span> for a binary problem.</p>
 <table class="table">
@@ -384,7 +401,7 @@ div.csl-indent {
 <p>We will refer to <span class="math inline">c_{i|j}</span> the cost of predicting class <span class="math inline">C_i</span> given that the true class is <span class="math inline">C_j</span>.</p>
 </div>
 <div class="fragment" data-fragment-index="2">
-<p>Given the posterior probabilities <span class="math inline">P(C_i|\mathbf{x})</span> and the cost matrix <span class="math inline">c</span> we can calculate the expected cost of predicting class <span class="math inline">C_i</span></p>
+<p>Given the posterior probabilities <span class="math inline">P(C_j|\mathbf{x})</span> where <span class="math inline">j \in \{1, K\}</span> and the cost matrix <span class="math inline">c</span> we can calculate the expected cost of predicting class <span class="math inline">C_i</span></p>
 <p><span class="math display">\begin{equation}
   \mathbb{E}_{j \sim P(\cdot|\mathbf{x})} (c_{i|j}) = \sum_{j = 1}^K P(C_j|\mathbf{x}) c_{i|j}.
 \end{equation}</span></p>
@@ -422,10 +439,8 @@ div.csl-indent {
 </tbody>
 </table>
 </div>
-<div class="fragment" data-fragment-index="2">
-<p>will result in the following cost lines</p>
-</div>
 <hr>
+<p>will result in the following cost lines</p>
 <div class="cell" data-execution_count="1">
 <details>
 <summary>Show the code</summary>
@@ -442,7 +457,7 @@ div.csl-indent {
 <span id="cb1-11"><a href="#cb1-11"></a>plt.xlabel(<span class="st">'$P(C_1|x)$'</span>)</span>
 <span id="cb1-12"><a href="#cb1-12"></a>plt.ylabel(<span class="st">'Expected cost'</span>)</span>
 <span id="cb1-13"><a href="#cb1-13"></a>plt.legend()</span>
-<span id="cb1-14"><a href="#cb1-14"></a>plt.annotate(<span class="st">"Cost = 0.5"</span>, (<span class="fl">0.5</span>, <span class="fl">0.48</span>), xytext<span class="op">=</span>(<span class="fl">0.5</span>, <span class="fl">0.2</span>),</span>
+<span id="cb1-14"><a href="#cb1-14"></a>plt.annotate(<span class="st">"Optimal threshold = 0.5"</span>, (<span class="fl">0.5</span>, <span class="fl">0.48</span>), xytext<span class="op">=</span>(<span class="fl">0.4</span>, <span class="fl">0.2</span>),</span>
 <span id="cb1-15"><a href="#cb1-15"></a>             arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">'-&gt;'</span>, facecolor<span class="op">=</span><span class="st">'black'</span>))</span>
 <span id="cb1-16"><a href="#cb1-16"></a>plt.scatter(<span class="fl">0.5</span>, <span class="fl">0.5</span>, s<span class="op">=</span><span class="dv">100</span>, facecolors<span class="op">=</span><span class="st">'none'</span>, edgecolors<span class="op">=</span><span class="st">'tab:red'</span>, zorder<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb1-17"><a href="#cb1-17"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -463,11 +478,11 @@ div.csl-indent {
 <div class="fragment" data-fragment-index="2">
 <ol type="1">
 <li>For a given class <span class="math inline">j</span> the correct prediction has always a lower cost than an incorrect prediction <span class="math inline">c_{j|j} &lt; c_{i|j}</span> with <span class="math inline">i \neq j</span>.</li>
-<li><strong>Class comination</strong>: One class does not consistently have lower costs than other classes <span class="math inline">c_{i|j} \leq c_{k|j}</span> for all <span class="math inline">j</span>.</li>
+<li><strong>Class domination</strong>: One class does not consistently have lower costs than other classes <span class="math inline">c_{i|j} \leq c_{k|j}</span> for all <span class="math inline">j</span>.</li>
 </ol>
 </div>
 </div>
-<div class="fragment" data-fragment-index="3">
+<div class="fragment" data-fragment-index="4">
 <p>We will make these reasonable assumptions in this introductory module.</p>
 </div>
 <hr>
@@ -519,12 +534,14 @@ div.csl-indent {
 </div>
 </section>
 </section>
-<section id="optimal-decision" class="level3 smaller">
-<h3 class="smaller anchored" data-anchor-id="optimal-decision">Optimal Decision</h3>
+<section id="optimal-threshold-for-the-binary-case" class="level3 smaller">
+<h3 class="smaller anchored" data-anchor-id="optimal-threshold-for-the-binary-case">Optimal threshold for the binary case</h3>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/RIa29zaQu20?si=8TUvg9Sau3GQBybA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
+</iframe>
 <div class="fragment" data-fragment-index="1">
-<p>If we know the posterior probabilities, the optimal decision is to choose the class that minimizes the expected cost which can be obtained by marginalising the predicted class over all possible true classes.</p>
+<p>If we know the true posterior probabilities, the optimal decision is to choose the class that minimizes the expected cost which can be obtained by marginalising the predicted class over all possible true classes <span class="citation" data-cites="deirdre2008">(<a href="#ref-deirdre2008" role="doc-biblioref">O’Brien, Gupta, and Gray 2008</a>)</span>.</p>
 <p><span class="math display">\begin{equation}
-  \hat{y}(\mathbf{x}) = \mathop{\mathrm{arg\,min}}_{i=\{1, \dots, K\}} L(\mathbf{x},i)
+  \hat{y}(\mathbf{x}) = \mathop{\mathrm{arg\,min}}_{i=\{1, \dots, K\}} \mathbb{E}_{j \sim P(\cdot|\mathbf{x})} (c_{i|j})
                    = \mathop{\mathrm{arg\,min}}_{i=\{1, \dots, K\}} \sum_{j=1}^K P(C_j|\mathbf{x}) c_{i|j}.
 \end{equation}</span></p>
 </div>
@@ -635,15 +652,16 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 </div>
 <p>In this case, for a posterior probability vector <span class="math inline">[0.4, 0.6]</span> we would expect</p>
 <ul>
-<li>Predicting <strong>Class 1</strong> will have an expected gain of <span class="math inline">5 \times 0.4 - 1 \times 0.6 = \mathbf{\color{darkgreen}{1.4}}</span></li>
-<li>Predicting <strong>Class 2</strong> will have an expected gain of <span class="math inline">-10 \times 0.4 + 1 \times 0.6 = \color{darkred}{-3.4}</span></li>
+<li>Predicting <strong>Class 1</strong> will have an expected cost of <span class="math inline">-5 \times 0.4 + 1 \times 0.6 = \mathbf{\color{darkgreen}{-1.4}}</span></li>
+<li>Predicting <strong>Class 2</strong> will have an expected cost of <span class="math inline">10 \times 0.4 - 1 \times 0.6 = \color{darkred}{3.4}</span></li>
 </ul>
 <hr>
 <section id="other-binary-examples" class="level4">
 <h4 class="anchored" data-anchor-id="other-binary-examples">Other binary examples</h4>
+<p>See how the beginning and end of the cost lines change with the costs.</p>
 <div class="sourceCode" id="cb4" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href="#cb4-1"></a>#| standalone: true</span>
 <span id="cb4-2"><a href="#cb4-2"></a>#| components: viewer</span>
-<span id="cb4-3"><a href="#cb4-3"></a>#| viewerHeight: 500</span>
+<span id="cb4-3"><a href="#cb4-3"></a>#| viewerHeight: 480</span>
 <span id="cb4-4"><a href="#cb4-4"></a></span>
 <span id="cb4-5"><a href="#cb4-5"></a>import matplotlib.pyplot as plt</span>
 <span id="cb4-6"><a href="#cb4-6"></a>from shiny import App, render, ui</span>
@@ -725,7 +743,7 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 </ul>
 <div class="sourceCode" id="cb5" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href="#cb5-1"></a>#| standalone: true</span>
 <span id="cb5-2"><a href="#cb5-2"></a>#| components: viewer</span>
-<span id="cb5-3"><a href="#cb5-3"></a>#| viewerHeight: 500</span>
+<span id="cb5-3"><a href="#cb5-3"></a>#| viewerHeight: 480</span>
 <span id="cb5-4"><a href="#cb5-4"></a></span>
 <span id="cb5-5"><a href="#cb5-5"></a>import numpy as np</span>
 <span id="cb5-6"><a href="#cb5-6"></a>import matplotlib.pyplot as plt</span>
@@ -822,7 +840,12 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <span id="cb5-97"><a href="#cb5-97"></a>                            columns=['Predicted C1', 'Predicted C2'])</span>
 <span id="cb5-98"><a href="#cb5-98"></a></span>
 <span id="cb5-99"><a href="#cb5-99"></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Because of these invariances, it is common in the binary case to modify the matrix <span class="math inline">c</span> in such a way that the missclassification cost for one of the classes is <span class="math inline">1</span> and a cost of <span class="math inline">0</span> for its correct prediction.</p>
+<hr>
+<section id="simplification-example" class="level4">
+<h4 class="anchored" data-anchor-id="simplification-example">Simplification example</h4>
+<div style="font-size: 70%;">
+<p>Because of these invariances, it is common in the binary case to modify the matrix <span class="math inline">c</span> in such a way that the missclassification cost for one of the classes is <span class="math inline">1</span> and a cost of <span class="math inline">0</span> for its correct prediction. For example, if <span class="math inline">c_{1|2}^*=1</span> and <span class="math inline">c_{2|2}^*=0</span> we get</p>
+<div class="fragment" data-fragment-index="1">
 <p><span class="math display">\begin{equation}
   t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
                {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
@@ -831,11 +854,15 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
                {1 +
                 {\color{darkred}c_{2|1}^*} - {\color{darkgreen}c_{1|1}^*}}
 \end{equation}</span></p>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>In the previous example the original cost matrix <span class="math inline">c</span></p>
 <p><span class="math display">\begin{equation}
 c = \begin{bmatrix}-2 &amp; 3 \\ 13 &amp; -7\end{bmatrix}^\intercal
 \end{equation}</span></p>
-<p>if shiffted by <span class="math inline">+7</span> and scaled by <span class="math inline">1/20</span> results in</p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p>if shifted by <span class="math inline">+7</span> and scaled by <span class="math inline">1/20</span> results in</p>
 <p><span class="math display">\begin{equation}
 c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/20\end{bmatrix}^\intercal
 = \begin{bmatrix}0.25 &amp; 0.5 \\ 1 &amp; 0\end{bmatrix}^\intercal
@@ -847,9 +874,15 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
   = \frac{1} {1 + {\color{darkred}0.5} - {\color{darkgreen}0.25}}
   = 0.8
 \end{equation}</span></p>
+</div>
+</div>
+</section>
 </section>
 <section id="multiclass-setting" class="level3">
 <h3 class="anchored" data-anchor-id="multiclass-setting">Multiclass setting</h3>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0zbLJ-qRof8?si=XOCf0VjJ89MCltTm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
+</iframe>
+<div class="fragment" data-fragment-index="1">
 <p>The binary cost matrix can be extended to multiclass by extending the rows with additional true classes and columns with predicted classes.</p>
 <table class="table">
 <colgroup>
@@ -899,12 +932,22 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 </tr>
 </tbody>
 </table>
-<p>However, with more than 2 classes the threshold is not a single value but a decision boundary in the probability simplex.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>However, with more than 2 classes the threshold is not a single value but multiple decision boundaries in the probability simplex.</p>
+</div>
 </section>
-<section id="ternary-example" class="level3">
-<h3 class="anchored" data-anchor-id="ternary-example">Ternary example</h3>
+<section id="ternary-example" class="level3 smaller">
+<h3 class="smaller anchored" data-anchor-id="ternary-example">Ternary example</h3>
+<div class="fragment" data-fragment-index="1">
 <p>In order to exemplify the process of making an optimal decision in more with more than two classes we can look at the ternary case, which naturally extends to more classes. Given the following cost matrix</p>
 <table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 28%">
+</colgroup>
 <thead>
 <tr class="header">
 <th></th>
@@ -916,37 +959,43 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
-<td>-10</td>
-<td>20</td>
-<td>30</td>
+<td><span class="math inline">\color{darkgreen}{-10}</span></td>
+<td><span class="math inline">\color{darkred}{20}</span></td>
+<td><span class="math inline">\color{darkred}{30}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td>40</td>
-<td>-50</td>
-<td>60</td>
+<td><span class="math inline">\color{darkred}{40}</span></td>
+<td><span class="math inline">\color{darkgreen}{-50}</span></td>
+<td><span class="math inline">\color{darkred}{60}</span></td>
 </tr>
 <tr class="odd">
 <td>True <span class="math inline">C_3</span></td>
-<td>70</td>
-<td>80</td>
-<td>-90</td>
+<td><span class="math inline">\color{darkred}{70}</span></td>
+<td><span class="math inline">\color{darkred}{80}</span></td>
+<td><span class="math inline">\color{darkgreen}{-90}</span></td>
 </tr>
 </tbody>
 </table>
-<p>and a true posterior probability vector for all the classes <span class="math inline">[0.5, 0.1, 0.4</span>, we can estimate the expected cost of making each class prediction</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>and a true posterior probability vector for all the classes <span class="math inline">[0.5, 0.1, 0.4]</span>, we can estimate the expected cost of making each class prediction</p>
 <p><span class="math display">\begin{equation}
-  l(\mathbf{x},i) = \sum_{j = 1}^K P(C_j|\mathbf{x}) c_{i|j}.
+  \mathbb{E}_{j \sim P(\cdot|\mathbf{x})} (c_{i|j}) = \sum_{j = 1}^K P(C_j|\mathbf{x}) c_{i|j}.
 \end{equation}</span></p>
+</div>
+<div class="fragment" data-fragment-index="3">
 <p>which results in the following expected costs:</p>
 <ul>
-<li>Predicting <strong>Class 1</strong> will have a gain of <span class="math inline">10 \times 0.5 - 40 \times 0.1 -70 \times 0.4 = \color{darkred}{-27}</span></li>
-<li>Predicting <strong>Class 2</strong> will have a gain of <span class="math inline">-20 \times 0.5 + 50 \times 0.1 -80 \times 0.4 = \color{darkred}{-37}</span></li>
-<li>Predicting <strong>Class 3</strong> will have a gain of <span class="math inline">-30 \times 0.5 - 60 \times 0.1 90 \times 0.4 = \mathbf{\color{darkgreen}{15}}</span></li>
+<li>Predicting <strong>Class 1</strong> will have a cost of <span class="math inline">-10 \times 0.5 + 40 \times 0.1 +70 \times 0.4 = \color{darkred}{27}</span></li>
+<li>Predicting <strong>Class 2</strong> will have a cost of <span class="math inline">20 \times 0.5 - 50 \times 0.1 +80 \times 0.4 = \color{darkred}{37}</span></li>
+<li>Predicting <strong>Class 3</strong> will have a cost of <span class="math inline">30 \times 0.5 + 60 \times 0.1 -90 \times 0.4 = \mathbf{\color{darkgreen}{-15}}</span></li>
 </ul>
+</div>
 <hr>
-<section id="ternary-hyperplanes-per-decision" class="level4">
-<h4 class="anchored" data-anchor-id="ternary-hyperplanes-per-decision">Ternary hyperplanes per decision</h4>
+<section id="ternary-expected-cost-isolines-per-decision" class="level4">
+<h4 class="anchored" data-anchor-id="ternary-expected-cost-isolines-per-decision">Ternary expected cost isolines per decision</h4>
+<div class="center">
 <div class="cell" data-execution_count="4">
 <details>
 <summary>Show the code</summary>
@@ -973,10 +1022,15 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <p><img src="odm_files/figure-html/cell-5-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
-<hr>
-<pre><code>Commented section
+</div>
+<!--
 
-### Ternary hyperplanes optimal decision
+---
+
+````
+Commented section
+
+### Ternary thresholds and optimal decisions
 
 ::: {.cell execution_count=5}
 ``` {.python .cell-code code-fold="true" code-summary="Show the code"}
@@ -1013,40 +1067,44 @@ plt.show()
 :::
 :::
 
-</code></pre>
+
+````
+
+-->
 <hr>
 </section>
 <section id="ternary-hyperplanes-optimal-decision-combined" class="level4">
 <h4 class="anchored" data-anchor-id="ternary-hyperplanes-optimal-decision-combined">Ternary hyperplanes optimal decision combined</h4>
+<div class="center">
 <div class="cell" data-execution_count="6">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">import</span> matplotlib</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="im">from</span> pycalib.visualisations.barycentric <span class="im">import</span> draw_func_contours</span>
-<span id="cb8-5"><a href="#cb8-5"></a></span>
-<span id="cb8-6"><a href="#cb8-6"></a>C <span class="op">=</span> [[<span class="op">-</span><span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">70</span>], [<span class="dv">20</span>, <span class="op">-</span><span class="dv">50</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">60</span>, <span class="op">-</span><span class="dv">90</span>]]</span>
-<span id="cb8-7"><a href="#cb8-7"></a></span>
-<span id="cb8-8"><a href="#cb8-8"></a>cmaps <span class="op">=</span> [<span class="st">'Blues_r'</span>, <span class="st">'Oranges_r'</span>, <span class="st">'Greens_r'</span>]</span>
-<span id="cb8-9"><a href="#cb8-9"></a>labels <span class="op">=</span> [<span class="ss">f"$P(C_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">|x) = 1$"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C))]</span>
-<span id="cb8-10"><a href="#cb8-10"></a></span>
-<span id="cb8-11"><a href="#cb8-11"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb8-12"><a href="#cb8-12"></a>ax <span class="op">=</span> fig.add_subplot()</span>
-<span id="cb8-13"><a href="#cb8-13"></a>fig.suptitle(<span class="ss">f"Expected cost optimal prediction"</span>)</span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C)):</span>
-<span id="cb8-15"><a href="#cb8-15"></a>    <span class="kw">def</span> cost_func(prob):</span>
-<span id="cb8-16"><a href="#cb8-16"></a>        expected_costs <span class="op">=</span> np.inner(prob, C)</span>
-<span id="cb8-17"><a href="#cb8-17"></a>        min_p_id <span class="op">=</span> np.argmin(expected_costs)</span>
-<span id="cb8-18"><a href="#cb8-18"></a>        <span class="cf">if</span> min_p_id <span class="op">==</span> i:</span>
-<span id="cb8-19"><a href="#cb8-19"></a>            <span class="cf">return</span> expected_costs[i]</span>
-<span id="cb8-20"><a href="#cb8-20"></a>        <span class="cf">return</span> np.nan</span>
-<span id="cb8-21"><a href="#cb8-21"></a></span>
-<span id="cb8-22"><a href="#cb8-22"></a>    draw_func_contours(cost_func, labels<span class="op">=</span>labels, nlevels<span class="op">=</span><span class="dv">10</span>, subdiv<span class="op">=</span><span class="dv">4</span>,</span>
-<span id="cb8-23"><a href="#cb8-23"></a>                       cmap<span class="op">=</span>cmaps[i], cb_orientation<span class="op">=</span><span class="st">'vertical'</span>, fig<span class="op">=</span>fig, ax<span class="op">=</span>ax)</span>
-<span id="cb8-24"><a href="#cb8-24"></a></span>
-<span id="cb8-25"><a href="#cb8-25"></a></span>
-<span id="cb8-26"><a href="#cb8-26"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> matplotlib</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="im">from</span> pycalib.visualisations.barycentric <span class="im">import</span> draw_func_contours</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a>C <span class="op">=</span> [[<span class="op">-</span><span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">70</span>], [<span class="dv">20</span>, <span class="op">-</span><span class="dv">50</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">60</span>, <span class="op">-</span><span class="dv">90</span>]]</span>
+<span id="cb7-7"><a href="#cb7-7"></a></span>
+<span id="cb7-8"><a href="#cb7-8"></a>cmaps <span class="op">=</span> [<span class="st">'Blues_r'</span>, <span class="st">'Oranges_r'</span>, <span class="st">'Greens_r'</span>]</span>
+<span id="cb7-9"><a href="#cb7-9"></a>labels <span class="op">=</span> [<span class="ss">f"$P(C_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">|x) = 1$"</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C))]</span>
+<span id="cb7-10"><a href="#cb7-10"></a></span>
+<span id="cb7-11"><a href="#cb7-11"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb7-12"><a href="#cb7-12"></a>ax <span class="op">=</span> fig.add_subplot()</span>
+<span id="cb7-13"><a href="#cb7-13"></a>fig.suptitle(<span class="ss">f"Expected cost optimal prediction"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(C)):</span>
+<span id="cb7-15"><a href="#cb7-15"></a>    <span class="kw">def</span> cost_func(prob):</span>
+<span id="cb7-16"><a href="#cb7-16"></a>        expected_costs <span class="op">=</span> np.inner(prob, C)</span>
+<span id="cb7-17"><a href="#cb7-17"></a>        min_p_id <span class="op">=</span> np.argmin(expected_costs)</span>
+<span id="cb7-18"><a href="#cb7-18"></a>        <span class="cf">if</span> min_p_id <span class="op">==</span> i:</span>
+<span id="cb7-19"><a href="#cb7-19"></a>            <span class="cf">return</span> expected_costs[i]</span>
+<span id="cb7-20"><a href="#cb7-20"></a>        <span class="cf">return</span> np.nan</span>
+<span id="cb7-21"><a href="#cb7-21"></a></span>
+<span id="cb7-22"><a href="#cb7-22"></a>    draw_func_contours(cost_func, labels<span class="op">=</span>labels, nlevels<span class="op">=</span><span class="dv">10</span>, subdiv<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb7-23"><a href="#cb7-23"></a>                       cmap<span class="op">=</span>cmaps[i], cb_orientation<span class="op">=</span><span class="st">'vertical'</span>, fig<span class="op">=</span>fig, ax<span class="op">=</span>ax)</span>
+<span id="cb7-24"><a href="#cb7-24"></a></span>
+<span id="cb7-25"><a href="#cb7-25"></a></span>
+<span id="cb7-26"><a href="#cb7-26"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/pycalib/visualisations/barycentric.py:140: UserWarning:
@@ -1058,11 +1116,19 @@ The following kwargs were not used by contour: 'cb_orientation'
 <p><img src="odm_files/figure-html/cell-7-output-2.svg" class="img-fluid"></p>
 </div>
 </div>
+</div>
 </section>
 </section>
 <section id="option-to-abstain" class="level3">
 <h3 class="anchored" data-anchor-id="option-to-abstain">Option to abstain</h3>
+<p>It is possible to add the costs of abstaining on making a prediction by adding a column into the original cost matrix <span class="citation" data-cites="charoenphakdee2021">(<a href="#ref-charoenphakdee2021" role="doc-biblioref">Charoenphakdee et al. 2021</a>)</span>. The following is an example which illustrates this in a binary classification problem.</p>
 <table class="table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 29%">
+<col style="width: 29%">
+<col style="width: 15%">
+</colgroup>
 <thead>
 <tr class="header">
 <th></th>
@@ -1074,33 +1140,93 @@ The following kwargs were not used by contour: 'cb_orientation'
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
-<td>0</td>
-<td>10</td>
-<td>2</td>
+<td><span class="math inline">\color{darkgreen}{0}</span></td>
+<td><span class="math inline">\color{darkred}{10}</span></td>
+<td><span class="math inline">\color{darkred}{2}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td>9</td>
-<td>-3</td>
-<td>2</td>
+<td><span class="math inline">\color{darkred}{9}</span></td>
+<td><span class="math inline">\color{darkgreen}{-3}</span></td>
+<td><span class="math inline">\color{darkred}{2}</span></td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li>Predicting <strong>Class 1</strong> has an expected gain of <span class="math inline">0 \times 0.3 - 9 \times 0.7 = \color{darkred}{-6.3}</span></li>
-<li>Predicting <strong>Class 2</strong> has an expected gain of <span class="math inline">-10 \times 0.3 + 3 \times 0.7 = \color{darkred}{-0.9}</span></li>
-<li><strong>Abstaining</strong> has an expected gain of <span class="math inline">-2 \times 0.3 + 1 \times 0.7 = \mathbf{\color{darkgreen}{0.1}}</span></li>
+<li>Predicting <strong>Class 1</strong> has an expected cost of <span class="math inline">0 \times 0.3 + 9 \times 0.7 = \color{darkred}{6.3}</span></li>
+<li>Predicting <strong>Class 2</strong> has an expected cost of <span class="math inline">10 \times 0.3 - 3 \times 0.7 = \mathbf{\color{darkred}{0.9}}</span></li>
+<li><strong>Abstaining</strong> has an expected cost of <span class="math inline">2 \times 0.3 + 2 \times 0.7 = \color{darkred}{2}</span></li>
 </ul>
 <hr>
-<section id="option-to-abstain-optimal-costs" class="level4">
-<h4 class="anchored" data-anchor-id="option-to-abstain-optimal-costs">Option to abstain optimal costs</h4>
+<section id="option-to-abstain-cost-lines" class="level4">
+<h4 class="anchored" data-anchor-id="option-to-abstain-cost-lines">Option to abstain cost lines</h4>
 <div class="cell" data-execution_count="7">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a>C <span class="op">=</span> [[<span class="dv">0</span>, <span class="dv">9</span>], [<span class="dv">10</span>, <span class="op">-</span><span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">2</span>]]</span>
+<span id="cb9-5"><a href="#cb9-5"></a>p <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb9-6"><a href="#cb9-6"></a>p <span class="op">=</span> np.vstack([<span class="dv">1</span> <span class="op">-</span> p, p]).T</span>
+<span id="cb9-7"><a href="#cb9-7"></a>opt_cost <span class="op">=</span> [<span class="bu">min</span>(np.inner(C, p[i])) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(p.shape[<span class="dv">0</span>])]</span>
+<span id="cb9-8"><a href="#cb9-8"></a>plt.plot(p[:,<span class="dv">0</span>], opt_cost, lw<span class="op">=</span><span class="dv">5</span>, label<span class="op">=</span><span class="st">'Optimal'</span>)</span>
+<span id="cb9-9"><a href="#cb9-9"></a></span>
+<span id="cb9-10"><a href="#cb9-10"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb9-11"><a href="#cb9-11"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">0</span>][<span class="dv">1</span>], C[<span class="dv">0</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_1$"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">1</span>][<span class="dv">1</span>], C[<span class="dv">1</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_2$"</span>)</span>
+<span id="cb9-13"><a href="#cb9-13"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">2</span>][<span class="dv">1</span>], C[<span class="dv">2</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, c<span class="op">=</span><span class="st">'tab:red'</span>, label<span class="op">=</span><span class="st">"Abstain"</span>)</span>
+<span id="cb9-14"><a href="#cb9-14"></a>plt.xlabel(<span class="st">'$P(C_1|x)$'</span>)</span>
+<span id="cb9-15"><a href="#cb9-15"></a>plt.ylabel(<span class="st">'Expected cost'</span>)</span>
+<span id="cb9-16"><a href="#cb9-16"></a>plt.legend()</span>
+<span id="cb9-17"><a href="#cb9-17"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="odm_files/figure-html/cell-8-output-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<hr>
+</section>
+<section id="option-to-abstain-different-costs" class="level4">
+<h4 class="anchored" data-anchor-id="option-to-abstain-different-costs">Option to abstain different costs</h4>
+<p>The following is another example in which abstaining from making a prediction if the true class was <span class="math inline">C_2</span> would incur into a <code>gain</code>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 29%">
+<col style="width: 29%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Predicted <span class="math inline">C_1</span></th>
+<th>Predicted <span class="math inline">C_2</span></th>
+<th>Abstain</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>True <span class="math inline">C_1</span></td>
+<td><span class="math inline">\color{darkgreen}{0}</span></td>
+<td><span class="math inline">\color{darkred}{10}</span></td>
+<td><span class="math inline">\color{darkred}{2}</span></td>
+</tr>
+<tr class="even">
+<td>True <span class="math inline">C_2</span></td>
+<td><span class="math inline">\color{darkred}{9}</span></td>
+<td><span class="math inline">\color{darkgreen}{-3}</span></td>
+<td><span class="math inline">\color{darkgreen}{-1}</span></td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-execution_count="8">
 <details>
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>
-<span id="cb10-4"><a href="#cb10-4"></a>C <span class="op">=</span> [[<span class="dv">0</span>, <span class="dv">9</span>], [<span class="dv">10</span>, <span class="op">-</span><span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">2</span>]]</span>
+<span id="cb10-4"><a href="#cb10-4"></a>C <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">9</span>], [<span class="dv">10</span>, <span class="op">-</span><span class="dv">3</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
 <span id="cb10-5"><a href="#cb10-5"></a>p <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
 <span id="cb10-6"><a href="#cb10-6"></a>p <span class="op">=</span> np.vstack([<span class="dv">1</span> <span class="op">-</span> p, p]).T</span>
 <span id="cb10-7"><a href="#cb10-7"></a>opt_cost <span class="op">=</span> [<span class="bu">min</span>(np.inner(C, p[i])) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(p.shape[<span class="dv">0</span>])]</span>
@@ -1116,62 +1242,10 @@ The following kwargs were not used by contour: 'cb_orientation'
 <span id="cb10-17"><a href="#cb10-17"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="odm_files/figure-html/cell-8-output-1.svg" class="img-fluid"></p>
-</div>
-</div>
-</section>
-</section>
-<section id="option-to-abstain-different-costs" class="level3">
-<h3 class="anchored" data-anchor-id="option-to-abstain-different-costs">Option to abstain different costs</h3>
-<table class="table">
-<thead>
-<tr class="header">
-<th></th>
-<th>Predicted <span class="math inline">C_1</span></th>
-<th>Predicted <span class="math inline">C_2</span></th>
-<th>Abstain</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>True <span class="math inline">C_1</span></td>
-<td>0</td>
-<td>10</td>
-<td>2</td>
-</tr>
-<tr class="even">
-<td>True <span class="math inline">C_2</span></td>
-<td>9</td>
-<td>-3</td>
-<td>-1</td>
-</tr>
-</tbody>
-</table>
-<div class="cell" data-execution_count="8">
-<details>
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb11-3"><a href="#cb11-3"></a></span>
-<span id="cb11-4"><a href="#cb11-4"></a>C <span class="op">=</span> np.array([[<span class="dv">0</span>, <span class="dv">9</span>], [<span class="dv">10</span>, <span class="op">-</span><span class="dv">3</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
-<span id="cb11-5"><a href="#cb11-5"></a>p <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
-<span id="cb11-6"><a href="#cb11-6"></a>p <span class="op">=</span> np.vstack([<span class="dv">1</span> <span class="op">-</span> p, p]).T</span>
-<span id="cb11-7"><a href="#cb11-7"></a>opt_cost <span class="op">=</span> [<span class="bu">min</span>(np.inner(C, p[i])) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(p.shape[<span class="dv">0</span>])]</span>
-<span id="cb11-8"><a href="#cb11-8"></a>plt.plot(p[:,<span class="dv">0</span>], opt_cost, lw<span class="op">=</span><span class="dv">5</span>, label<span class="op">=</span><span class="st">'Optimal'</span>)</span>
-<span id="cb11-9"><a href="#cb11-9"></a></span>
-<span id="cb11-10"><a href="#cb11-10"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb11-11"><a href="#cb11-11"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">0</span>][<span class="dv">1</span>], C[<span class="dv">0</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_1$"</span>)</span>
-<span id="cb11-12"><a href="#cb11-12"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">1</span>][<span class="dv">1</span>], C[<span class="dv">1</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, label<span class="op">=</span><span class="st">"Predict $C_2$"</span>)</span>
-<span id="cb11-13"><a href="#cb11-13"></a>plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [C[<span class="dv">2</span>][<span class="dv">1</span>], C[<span class="dv">2</span>][<span class="dv">0</span>]], <span class="st">'--'</span>, c<span class="op">=</span><span class="st">'tab:red'</span>, label<span class="op">=</span><span class="st">"Abstain"</span>)</span>
-<span id="cb11-14"><a href="#cb11-14"></a>plt.xlabel(<span class="st">'$P(C_1|x)$'</span>)</span>
-<span id="cb11-15"><a href="#cb11-15"></a>plt.ylabel(<span class="st">'Expected cost'</span>)</span>
-<span id="cb11-16"><a href="#cb11-16"></a>plt.legend()</span>
-<span id="cb11-17"><a href="#cb11-17"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
 <p><img src="odm_files/figure-html/cell-9-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
+</section>
 </section>
 </section>
 <section id="references" class="level2">
@@ -1182,11 +1256,17 @@ The following kwargs were not used by contour: 'cb_orientation'
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Alotaibi2021" class="csl-entry" role="listitem">
+Alotaibi, Reem, and Peter Flach. 2021. <span>“Multi-Label Thresholding for Cost-Sensitive Classification.”</span> <em>Neurocomputing</em> 436 (May): 232–47. <a href="https://doi.org/10.1016/J.NEUCOM.2020.12.004">https://doi.org/10.1016/J.NEUCOM.2020.12.004</a>.
+</div>
 <div id="ref-begoli2019" class="csl-entry" role="listitem">
 Begoli, Edmon, Tanmoy Bhattacharya, and Dimitri Kusnezov. 2019. <span>“The Need for Uncertainty Quantification in Machine-Assisted Medical Decision Making.”</span> <em>Nature Machine Intelligence</em> 1 (1): 20–23.
 </div>
 <div id="ref-brinker2020" class="csl-entry" role="listitem">
 Brinker, Klaus, and Eyke Hüllermeier. 2020. <span>“A Reduction of Label Ranking to Multiclass Classification.”</span> In <em>Machine Learning and Knowledge Discovery in Databases: European Conference, ECML PKDD 2019, w<span>ü</span>rzburg, Germany, September 16–20, 2019, Proceedings, Part III</em>, 204–19. Springer.
+</div>
+<div id="ref-charoenphakdee2021" class="csl-entry" role="listitem">
+Charoenphakdee, Nontawat, Zhenghang Cui, Yivan Zhang, and Masashi Sugiyama. 2021. <span>“Classification with Rejection Based on Cost-Sensitive Classification.”</span> In <em>Proceedings of the 38th International Conference on Machine Learning</em>, edited by Marina Meila and Tong Zhang, 139:1507–17. PMLR. <a href="https://proceedings.mlr.press/v139/charoenphakdee21a.html http://arxiv.org/abs/2010.11748">https://proceedings.mlr.press/v139/charoenphakdee21a.html http://arxiv.org/abs/2010.11748</a>.
 </div>
 <div id="ref-coenen2020" class="csl-entry" role="listitem">
 Coenen, Lize, Ahmed KA Abdullah, and Tias Guns. 2020. <span>“Probability of Default Estimation, with a Reject Option.”</span> In <em>2020 IEEE 7th International Conference on Data Science and Advanced Analytics (DSAA)</em>, 439–48. IEEE.
@@ -1203,11 +1283,17 @@ Elkan, Charles. 2001. <span>“<span class="nocase">The Foundations of Cost-Sens
 <div id="ref-levi1980" class="csl-entry" role="listitem">
 Levi, Isaac. 1980. <em>The Enterprise of Knowledge: An Essay on Knowledge, Credal Probability, and Chance</em>. MIT press.
 </div>
+<div id="ref-mozannar2020b" class="csl-entry" role="listitem">
+Mozannar, Hussein, and David Sontag. 2020. <span>“Consistent Estimators for Learning to Defer to an Expert.”</span> In <em>37th International Conference on Machine Learning, ICML 2020</em>, edited by Hal Daumé III and Aarti Singh, PartF16814:7033–44. PMLR. <a href="https://proceedings.mlr.press/v119/mozannar20b.html">https://proceedings.mlr.press/v119/mozannar20b.html</a>.
+</div>
 <div id="ref-mullins2018" class="csl-entry" role="listitem">
 Mullins, Galen E, Paul G Stankiewicz, R Chad Hawthorne, and Satyandra K Gupta. 2018. <span>“Adaptive Generation of Challenging Scenarios for Testing and Evaluation of Autonomous Vehicles.”</span> <em>Journal of Systems and Software</em> 137: 197–215.
 </div>
 <div id="ref-nti2020" class="csl-entry" role="listitem">
 Nti, Isaac Kofi, Adebayo Felix Adekoya, and Benjamin Asubam Weyori. 2020. <span>“A Systematic Review of Fundamental and Technical Analysis of Stock Market Predictions.”</span> <em>Artificial Intelligence Review</em> 53 (4): 3007–57.
+</div>
+<div id="ref-deirdre2008" class="csl-entry" role="listitem">
+O’Brien, Deirdre B, Maya R Gupta, and Robert M Gray. 2008. <span>“Cost-Sensitive Multi-Class Classification from Probability Estimates.”</span> In <em>Proceedings of the 25th International Conference on Machine Learning</em>, 712–19. Association for Computing Machinery. <a href="https://doi.org/10.1145/1390156.1390246">https://doi.org/10.1145/1390156.1390246</a>.
 </div>
 <div id="ref-qayyum2020" class="csl-entry" role="listitem">
 Qayyum, Adnan, Muhammad Usama, Junaid Qadir, and Ala Al-Fuqaha. 2020. <span>“Securing Connected &amp; Autonomous Vehicles: Challenges Posed by Adversarial Machine Learning and the Way Forward.”</span> <em>IEEE Communications Surveys &amp; Tutorials</em> 22 (2): 998–1026.
@@ -1217,6 +1303,9 @@ Vovk, Vladimir, Alexander Gammerman, and Glenn Shafer. 2005. <em>Algorithmic Lea
 </div>
 <div id="ref-yang2019" class="csl-entry" role="listitem">
 Yang, Qian, Aaron Steinfeld, and John Zimmerman. 2019. <span>“Unremarkable AI: Fitting Intelligent Decision Support into Critical, Clinical Decision-Making Processes.”</span> In <em>Proceedings of the 2019 CHI Conference on Human Factors in Computing Systems</em>, 1–11.
+</div>
+<div id="ref-zadrozny2001" class="csl-entry" role="listitem">
+Zadrozny, Bianca, and Charles Elkan. 2001. <span>“Obtaining Calibrated Probability Estimates from Decision Trees and Naive Bayesian Classifiers.”</span> In <em>18th International Conference on Machine Learning (ICML’01)</em>, 609–16. <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.3039&amp;rep=rep1&amp;type=pdf">http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.29.3039&amp;rep=rep1&amp;type=pdf</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
