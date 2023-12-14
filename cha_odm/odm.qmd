@@ -25,8 +25,8 @@ bibliography: references.bib
 
 # Motivation
 
-::: {.content-visible when-format="html"}
-<iframe width="560" height="315" src="https://www.youtube.com/embed/3k3h1eYJ214?si=5ObtIepxosgMjrB1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+::: {.content-visible when-format="html" unless-format="revealjs"}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IymQ6f87CtA?si=WHzlG4CfINqIqQ0G" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 :::
 
 ::: {.hidden}
@@ -36,20 +36,6 @@ $$
 $$
 :::
 
-::: {.content-visible when-format="revealjs"}
-::: {.notes}
-Welcome to this module.
-
-In this module I will provide an Introduction to Optimal Decision Making in the
-context of multiclass classification.
-
-My name is Miquel Perello Nieto and I am a research associate at University of
-Bristol.
-
-We will start with a motivation and a brief overview on common multiclass
-classifiers.
-:::
-:::
 
 ## Optimal Decision Making. Why and how?
 
@@ -65,43 +51,6 @@ classifiers.
 - One way to make optimal decisions is with cost-sensitive classification.
 - Can we make optimal decisions with any type of classifier?
 
-::: {.content-visible when-format="revealjs"}
-::: {.notes}
-Why do we need Optimal Decisions and how do we get them?
-
-In the context of multiclass classification the objective of a classifier is to
-predict a class for a new instance among all the possible classes.
-
-Ideally in an optimal manner.
-
-Is this always important?
-
-There are certain scenarios in which making optimal predictions is crucial.
-
-For example, during a medical diagnosis making a wrong prediction could have
-terrible consequences. 
-
-Similarly, a self-driving class may need to detect pedestrians, objects in the
-road, animals or other vehicles, and it may need to decide to accelerate,
-break, turn or give control to the human driver.
-
-In extreme weather predictions it may be important to detect a hurricane, an
-earthquake, or even a storm if crossing an ocean.
-
-In multiple financial scenarios in which the cost may be easy to quantify
-economically, stock market forecasting or portfolio optimization.
-
-In all those scenarios, it is necessary to know what are the consequences of
-making each prediction. A wrong prediction will probably incur into some costs
-while a right prediction may have gains. But this is problem specific.
-
-One way to make optimal predictions is with the use of cost-sensitive
-classification, which will be the focus of this introductory module.
-
-But before we start, we will look at different types of multi class
-classification models.
-:::
-:::
 
 ## Optimal decisions with different types of model {.smaller}
 
@@ -133,36 +82,13 @@ multi-label [@Alotaibi2021].
 :::
 ::::
 
-::: {.content-visible when-format="revealjs"}
-::: {.notes}
-There is a huge variety of multiclass classification models which provide
-different types of output predictions. But at the end, the objective is to
-predict one of the possible classes.
-
-But can we make optimal decisions with any of those models?
-
-Here we will discuss some examples:
-
-A model that directly outputs the estimated class. This may be because the
-model is not provided but only the final class prediction, or because the model
-has been trained to make such prediction with no other reliable information.
-
-These models can provide optimal decisions if the training and the deployment
-context are the same, and the costs were considered during the training.
-Then if we can trust the model we may be making the optimal decisions.
-However, if we are aware about context changes between the training and
-deployment on the class priors or misclassification costs, we can not easily
-adapt those models. There are certain extreme cases in which the model could be
-improved but this is usually not realistic (e.g. a model that is worst than
-random).
-:::
-:::
 
 # Cost-sensitive classification
 
-::: {.content-visible when-format="html"}
-<iframe width="560" height="315" src="https://www.youtube.com/embed/i3xKA8mQLrE?si=UewW3D3rRHU6jqP6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+::: {.content-visible when-format="html" unless-format="revealjs"}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-EhbHciKfJM?si=v82U931tWHUC4HxU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 :::
+
 
 - Cost-sensitive classification [@elkan2001] provides a framework to make
   optimal decisions (with certain assumptions).
@@ -305,9 +231,10 @@ plt.show()
 
 ## Optimal threshold for the binary case {.smaller}
 
-::: {.content-visible when-format="html"}
-<iframe width="560" height="315" src="https://www.youtube.com/embed/RIa29zaQu20?si=8TUvg9Sau3GQBybA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+::: {.content-visible when-format="html" unless-format="revealjs"}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/I-QP3Olbw4A?si=LZ0cGgOKv-qEF5mD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 :::
+
 
 ::: {.fragment fragment-index=1}
 If we know the true posterior probabilities, the optimal decision is to choose
@@ -610,9 +537,7 @@ app = App(app_ui, server, debug=True)
 
 ---
 
-### Simplification example
-
-:::: {style="font-size: 70%;"}
+### Simplification example {.smaller}
 
 Because of these invariances, it is common in the binary case to modify the
 matrix $c$ in such a way that the missclassification cost for one of the
@@ -656,13 +581,12 @@ with an optimal threshold
 \end{equation}
 :::
 
-::::
-
 ## Multiclass setting
 
-::: {.content-visible when-format="html"}
-<iframe width="560" height="315" src="https://www.youtube.com/embed/0zbLJ-qRof8?si=XOCf0VjJ89MCltTm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+::: {.content-visible when-format="html" unless-format="revealjs"}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qO-tAjqHkw8?si=XHXNJfcuBoRY5aej" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 :::
+
 
 ::: {.fragment fragment-index=1}
 The binary cost matrix can be extended to multiclass by extending the rows with
