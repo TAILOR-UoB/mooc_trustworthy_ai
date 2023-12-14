@@ -19,7 +19,8 @@ filters:
 format:
   revealjs:
     logo: "../images/logos/tailor_and_uob.svg"
-    css: logo.css
+  html:
+    css: odm_style.css
 bibliography: references.bib
 ---
 
