@@ -1,5 +1,6 @@
 ---
 title: Classifier Calibration
+subtitle: <a href="slides-cla-cal.html" target="_blank"><img src="https://img.shields.io/badge/slides-revealjs-yellow"></a>
 author: 
   - name: Peter Flach
     orcid: 0000-0001-6857-5810
@@ -21,21 +22,21 @@ author:
         postal-code: BS8 1QU
     attributes:
         equal-contributor: False
+format:
+  html: default
+  revealjs:
+    logo: "../images/logos/tailor_and_uob.svg"
+    output-file: slides-cla_cal.html
 bibliography: references.bib
 ---
 
-::: {.content-visible when-format="html"}
-
-<a
-href="/slides/cha_wahcc/wahcc.html"
-target="_blank"><img
-src="https://img.shields.io/badge/slides-calibration-yellow"></a>
-
-:::
-
-{{< include definitions.tex >}}
-
 # Taking inspiration from forecasting
+
+::: {.hidden}
+$$
+{{< include definitions.tex >}}
+$$
+:::
 
 <iframe allowfullscreen
 src="https://media.upv.es/player/embed.html?id=003597b0-bf29-11ed-83a4-bf04f88f22c5"
