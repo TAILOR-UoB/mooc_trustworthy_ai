@@ -42,225 +42,225 @@
     "text": "Calibrating multi-class classifiers\n\n\n\nWhat’s so special about multi-class calibration?\nSimilar to classification, some methods are inherently multi-class but most are not.\nThis leads to (at least) three different ways of defining what it means to be fully multiclass-calibrated. - Many recent papers use the (weak) notion of confidence calibration.\nEvaluating multi-class calibration is in its full generality still an open problem.\n\n\nDefinitions of calibration for more than two classes\nThe following definitions of calibration are equivalent for binary classification but increasingly stronger for more than two classes:\n\nConfidence calibration: only consider the highest predicted probability.\nClass-wise calibration: only consider marginal probabilities.\nMulti-class calibration: consider the entire vector of predicted probabilities.\n\n\n\nConfidence calibration\nThis was proposed by Guo et al. (2017), requiring that among all instances where the probability of the most likely class is predicted to be c, the expected accuracy is c. (We call this `confidence calibration’ to distinguish it from the stronger notions of calibration.)\nFormally, a probabilistic classifier \\mathbf{\\hat{p}}:\\mathcal{X}\\to\\Delta_{k} is confidence-calibrated, if for any confidence level c\\in[0,1], the actual proportion of the predicted class, among all possible instances \\mathbf{x} being predicted this class with confidence c, is equal to c:\n\\begin{align*}\nP(Y=i \\: | \\: \\hat{p}_i(\\mathbf{x})=c)=c\\qquad\\text{where }\\ i=\\mathop{\\mathrm{argmax}}_j \\hat{p}_j(\\mathbf{x}).\n%P\\Big(Y=\\argmax\\big(\\vph(X)\\big) \\: \\Big| \\: \\max\\big(\\vph(X)\\big)=c\\Big)=c.\n\\end{align*}\n\n\nClass-wise calibration\nOriginally proposed by Zadrozny and Elkan (2002), this requires that all one-vs-rest probability estimators obtained from the original multiclass model are calibrated.\nFormally, a probabilistic classifier \\mathbf{\\hat{p}}:\\mathcal{X}\\to\\Delta_{k} is classwise-calibrated, if for any class i and any predicted probability q_i for this class, the actual proportion of class i, among all possible instances \\mathbf{x} getting the same prediction \\hat{p}_i(\\mathbf{x})=q_i, is equal to q_i:\n\\begin{align*}\nP(Y=i\\mid \\hat{p}_i(\\mathbf{x})=q_i)=q_i\\qquad\\text{for }\\ i=1,\\dots,k.\n\\end{align*}\n\n\nMulti-class calibration\nThis is the strongest form of calibration for multiple classes, subsuming the previous two definitions.\nA probabilistic classifier \\mathbf{\\hat{p}}:\\mathcal{X}\\to\\Delta_{k} is multiclass-calibrated if for any prediction vector \\mathbf{q}=(q_1,\\dots,q_k)\\in\\Delta_{k}, the proportions of classes among all possible instances \\mathbf{x} getting the same prediction \\mathbf{\\hat{p}}(\\mathbf{x})=\\mathbf{q} are equal to the prediction vector \\mathbf{q}:\n\\begin{align*} %\\label{eq:calib}\nP(Y=i\\mid \\mathbf{\\hat{p}}(\\mathbf{x})=\\mathbf{q})=q_i\\qquad\\text{for }\\ i=1,\\dots,k.\n\\end{align*}\n\n\nReminder: binning needed\nFor practical purposes, the conditions in these definitions need to be relaxed. This is where binning comes in.\nOnce we have the bins, we can draw a reliability diagram as in the two-class case. For class-wise calibration, we can show per-class reliability diagrams or a single averaged one.\nThe degree of calibration is assessed using the gaps in the reliability diagram. All of this will be elaborated in the next part of the tutorial.\n\n\nImportant points to remember\n\nOnly well-calibrated probability estimates are worthy to be called probabilities: otherwise they are just scores that happen to be in the [0,1] range.\nBinning will be required in some form: instance-based probability evaluation metrics such as Brier score or log-loss always measure calibration plus something else.\nIn multi-class settings, think carefully about which form of calibration you need: e.g., confidence-calibration is too weak in a cost-sensitive setting.\n\n\n\nQuestions and answers\n\n\n\n\n\n\nCan we interpret the output of any model that produces values between zero and\n\n\n\none as probabilities?\n\n\n\n\n\n\n\n\nAnswer: Yes.\n\n\n\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\n\n\n\nAnswer: No.\n\n\n\n\n\nCorrect. Some models have been trained to generate values in any arbitrary range, but this does not mean that the model is predicting actual probabilities.\n\n\n\n\n\n\n\n\n\nQuestion\n\n\n\nIs there only one way to measure calibration for multiclass probability scores.\n\n\n\n\n\n\n\n\nAnswer: Yes.\n\n\n\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\n\n\n\nAnswer: No.\n\n\n\n\n\nCorrect. There are multiple measures of calibration.\n\n\n\n\n\n\n\n\n\nQuestion\n\n\n\nCan we perform optimal decisions in a multiclass setting by knowing the highest probability among the classes and the misclassification costs?\n\n\n\n\n\n\n\n\nAnswer: Yes.\n\n\n\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\n\n\n\nAnswer: No.\n\n\n\n\n\nCorrect. We need the probabilities of every class in order to make an optimal decision.\n\n\n\n\n\n\n\n\n\nQuestion\n\n\n\nIf the data distribution, operating conditions and the missclassification costs do not change from training to test set, and a model makes optimal predictions in the training set. Do we need the exact probabilities in the test set to make optimal decisions?\n\n\n\n\n\n\n\n\nAnswer: Yes.\n\n\n\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\n\n\n\nAnswer: No.\n\n\n\n\n\nCorrect."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#weather-forecasters",
-    "href": "cha_wahcc/slides-cla_cal.html#weather-forecasters",
+    "objectID": "cha_wahcc/slides-cla-cal.html#weather-forecasters",
+    "href": "cha_wahcc/slides-cla-cal.html#weather-forecasters",
     "title": "Classifier Calibration",
     "section": "Weather forecasters",
     "text": "Weather forecasters\n\nWeather forecasters started thinking about calibration a long time ago (Brier 1950).\n\nA forecast 70% chance of rain should be followed by rain 70% of the time.\n\nThis is immediately applicable to binary classification:\n\nA prediction 70% chance of spam should be spam 70% of the time.\n\nand to multi-class classification:\n\nA prediction 70% chance of setosa, 10% chance of versicolor and 20% chance of virginica should be setosa/versicolor/virginica 70/10/20% of the time.\n\nIn general:\n\nA predicted probability (vector) should match empirical (observed) probabilities.\n\n\n\n\n\n\n\n\nQ: What does X% of the time mean?\n\n\nIt means that we expect the occurrence of an event to happen “X%” of the time."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#forecasting-example",
-    "href": "cha_wahcc/slides-cla_cal.html#forecasting-example",
+    "objectID": "cha_wahcc/slides-cla-cal.html#forecasting-example",
+    "href": "cha_wahcc/slides-cla-cal.html#forecasting-example",
     "title": "Classifier Calibration",
     "section": "Forecasting example",
     "text": "Forecasting example\nLet’s consider a small toy example:\n\nTwo predictions of 10% chance of rain were both followed by no rain.\nTwo predictions of 40% chance of rain were once followed by no rain, and once by rain.\nThree predictions of 70% chance of rain were once followed by no rain, and twice by rain.\nOne prediction of 90% chance of rain was followed by rain.\n\n\n\n\n\n\n\nQ: Is this forecaster well-calibrated?\n\n\nThe evaluation of calibration requires a large number of samples to make a statement. However, in this toy example we can assume that a \\(10\\%\\) discrepancy is acceptable, and that the number of samples is sufficient."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#over--and-under-estimates",
-    "href": "cha_wahcc/slides-cla_cal.html#over--and-under-estimates",
+    "objectID": "cha_wahcc/slides-cla-cal.html#over--and-under-estimates",
+    "href": "cha_wahcc/slides-cla-cal.html#over--and-under-estimates",
     "title": "Classifier Calibration",
     "section": "Over- and under-estimates",
     "text": "Over- and under-estimates\n\n\n\n\n\n\n\n\n\n\n\n\\(\\hat{p}\\)\n\\(y\\)\n\n\n\n\n0\n1\n0.1\n0.1\n0\n0\n\n\n2\n3\n0.4\n0.4\n0\n1\n\n\n4\n5\n6\n0.7\n0.7\n0.7\n0\n1\n1\n\n\n7\n0.9\n1\n\n\n\n\n\n\nThis forecaster is doing a pretty decent job:\n\n10% chance of rain was a slight over-estimate\n(\\(\\bar{y} = 0/2 = 0\\%\\));\n40% chance of rain was a slight under-estimate\n(\\(\\bar{y} = 1/2 = 50\\%\\));\n70% chance of rain was a slight over-estimate\n(\\(\\bar{y} = 2/3 = 67\\%\\));\n90% chance of rain was a slight under-estimate\n(\\(\\bar{y} = 1/1 = 100\\%\\))."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#visualising-forecasts-the-reliability-diagram",
-    "href": "cha_wahcc/slides-cla_cal.html#visualising-forecasts-the-reliability-diagram",
+    "objectID": "cha_wahcc/slides-cla-cal.html#visualising-forecasts-the-reliability-diagram",
+    "href": "cha_wahcc/slides-cla-cal.html#visualising-forecasts-the-reliability-diagram",
     "title": "Classifier Calibration",
     "section": "Visualising forecasts: the reliability diagram",
     "text": "Visualising forecasts: the reliability diagram\n\n\n\n\n\n\n\n\n\n\n\n\\(\\hat{p}\\)\n\\(y\\)\n\n\n\n\n0\n1\n0.1\n0.1\n0\n0\n\n\n2\n3\n0.4\n0.4\n0\n1\n\n\n4\n5\n6\n0.7\n0.7\n0.7\n0\n1\n1\n\n\n7\n0.9\n1"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#changing-the-numbers-slightly",
-    "href": "cha_wahcc/slides-cla_cal.html#changing-the-numbers-slightly",
+    "objectID": "cha_wahcc/slides-cla-cal.html#changing-the-numbers-slightly",
+    "href": "cha_wahcc/slides-cla-cal.html#changing-the-numbers-slightly",
     "title": "Classifier Calibration",
     "section": "Changing the numbers slightly",
     "text": "Changing the numbers slightly\n\n\n\n\n\n\n\n\n\n\n\n\\(\\hat{p}\\)\n\\(y\\)\n\n\n\n\n0\n1\n0.1\n0.2\n0\n0\n\n\n2\n3\n0.3\n0.4\n0\n1\n\n\n4\n5\n6\n0.6\n0.7\n0.8\n0\n1\n1\n\n\n7\n0.9\n1"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#or-should-we-group-the-forecasts-differently",
-    "href": "cha_wahcc/slides-cla_cal.html#or-should-we-group-the-forecasts-differently",
+    "objectID": "cha_wahcc/slides-cla-cal.html#or-should-we-group-the-forecasts-differently",
+    "href": "cha_wahcc/slides-cla-cal.html#or-should-we-group-the-forecasts-differently",
     "title": "Classifier Calibration",
     "section": "Or should we group the forecasts differently?",
     "text": "Or should we group the forecasts differently?\n\n\n\n\n\n\n\n\n\n\n\n\\(\\hat{p}\\)\n\\(y\\)\n\n\n\n\n0\n1\n2\n3\n0.1\n0.2\n0.3\n0.4\n0\n0\n0\n1\n\n\n4\n5\n6\n7\n0.6\n0.7\n0.8\n0.9\n0\n1\n1\n1"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#or-not-at-all",
-    "href": "cha_wahcc/slides-cla_cal.html#or-not-at-all",
+    "objectID": "cha_wahcc/slides-cla-cal.html#or-not-at-all",
+    "href": "cha_wahcc/slides-cla-cal.html#or-not-at-all",
     "title": "Classifier Calibration",
     "section": "Or not at all?",
     "text": "Or not at all?\n\n\n\n\n\n\n\n\n\n\n\n\\(\\hat{p}\\)\n\\(y\\)\n\n\n\n\n0\n0.1\n0\n\n\n1\n0.2\n0\n\n\n2\n0.3\n0\n\n\n3\n0.4\n1\n\n\n4\n0.6\n0\n\n\n5\n0.7\n1\n\n\n6\n0.8\n1\n\n\n7\n0.9\n1"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#binning-or-pooling-predictions-is-a-fundamental-notion",
-    "href": "cha_wahcc/slides-cla_cal.html#binning-or-pooling-predictions-is-a-fundamental-notion",
+    "objectID": "cha_wahcc/slides-cla-cal.html#binning-or-pooling-predictions-is-a-fundamental-notion",
+    "href": "cha_wahcc/slides-cla-cal.html#binning-or-pooling-predictions-is-a-fundamental-notion",
     "title": "Classifier Calibration",
     "section": "Binning or pooling predictions is a fundamental notion",
     "text": "Binning or pooling predictions is a fundamental notion\nWe need bins to evaluate the degree of calibration:\n\nIn order to decide whether a weather forecaster is well-calibrated, we need to look at a good number of forecasts, say over one year.\nWe also need to make sure that there are a reasonable number of forecasts for separate probability values, so we can obtain reliable empirical estimates.\n\nTrade-off: large bins give better empirical estimates, small bins allows a more fine-grained assessment of calibration.}\n\n\nBut adjusting forecasts in groups also gives rise to practical calibration methods:\n\nempirical binning\nisotonic regression (aka ROC convex hull)"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#questions-and-answers",
-    "href": "cha_wahcc/slides-cla_cal.html#questions-and-answers",
+    "objectID": "cha_wahcc/slides-cla-cal.html#questions-and-answers",
+    "href": "cha_wahcc/slides-cla-cal.html#questions-and-answers",
     "title": "Classifier Calibration",
     "section": "Questions and answers",
     "text": "Questions and answers\nQ&A 1\n\n\n\n\n\n\n\n\nQuestion 1\n\n\nA binary classifier for weather predictions produces a score of 0.1 for rain two times but it does not rain, two times 0.4 and it rains only once, five times 0.6 and it rains 80% of the times and one time 0.9 and it rains. Does the following reliability diagram show that information?\n\n\n\n\n\n\nAnswer: Yes\n\n\nCorrect. You can see that there is one bin per predicted score \\(0.1, 0.4, 0.6\\) and \\(0.9\\). Each bin contains the number of scores indicated in the smaller histogram below with 2, 2, 5 and 1 samples respectively. Finally, the height of each bin corresponds to the fraction of rains indicated in the question 0%, 50%, 80% and 100%.\n\n\n\n\n\n\nAnswer: No\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\n\n\n\n\n\nQ&A 2\n\n\n\n\n\n\n\n\nQuestion 2\n\n\nA binary classifier for weather predictions produces a score of 0.1 for rain two times and it rains once, three times 0.4 and it rains two times, four times 0.6 and it rains once and one time 0.9 and it rains. Does the following reliability diagram show that information?\n\n\n\n\n\n\nAnswer: Yes\n\n\nCorrect. You can see that there is one bin per predicted score \\(0.1, 0.4, 0.6\\) and 0.9. Each bin contains the number of scores indicated in the smaller histogram below with 2, 3, 4 and 1 samples respectively. Finally, the height of each bin corresponds to the fraction of rains indicated in the question 50%, 66.6%, 25% and 100%.\n\n\n\n\n\n\nAnswer: No\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\n\n\n\n\n\nQ&A 3\n\n\n\n\n\n\nQuestion 3\n\n\nDo we need multiple instances in each bin in order to visualise a reliability diagram?\n\n\n\n\n\n\nAnswer: Yes\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: No\n\n\nCorrect. It is not necessary to have multiple instances in each bin for visualisation purposes. However, the lack of information does not allow us to know if the model is calibrated for those scores.\n\n\n\nQ&A 4\n\n\n\n\n\n\n\n\nQuestion 4\n\n\nThe following figure shows the reliability diagram of a binary classifier on enough samples to be statistically significant. Is the model calibrated, producing under-estimates or over-estimates?\n\n\n\n\n\n\nAnswer: Over-estimates\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: Under-estimates\n\n\nCorrect. For each predicted score the actual fraction of positives is higher.\n\n\n\n\n\n\n\n\n\n\n\nQ&A 5\n\n\n\n\n\n\n\n\nQuestion 5\n\n\nThe following figure shows the reliability diagram of a binary classifier on enough samples to be statistically significant. Is the model calibrated, producing under-estimates or over-estimates?\n\n\n\n\n\n\nAnswer: Over-estimates\n\n\nCorrect. For each predicted score the actual fraction of positives is lower.\n\n\n\n\n\n\nAnswer: Under-estimates\n\n\nIncorrect. Try another answer."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#why-are-we-interested-in-calibration-1",
-    "href": "cha_wahcc/slides-cla_cal.html#why-are-we-interested-in-calibration-1",
+    "objectID": "cha_wahcc/slides-cla-cal.html#why-are-we-interested-in-calibration-1",
+    "href": "cha_wahcc/slides-cla-cal.html#why-are-we-interested-in-calibration-1",
     "title": "Classifier Calibration",
     "section": "Why are we interested in calibration?",
     "text": "Why are we interested in calibration?\nTo calibrate means to employ a known scale with known properties.\n\nE.g., additive scale with a well-defined zero, so that ratios are meaningful.\n\nFor classifiers we want to use the probability scale, so that we can\n\njustifiably use default decision rules (e.g., maximum posterior probability);\nadjust these decision rules in a straightforward way to account for different class priors or misclassification costs;\ncombine probability estimates in a well-founded way.\n\n\n\n\n\n\n\nQ: Is the probability scale additive?\n\n\nIn some situations we may want to sum probabilities, for example if we have a set of mutually exclusive events, the probability of at least one of them happening can be computed by their sum. In other situations the product of probabilities is used, e.g. the probability of two independent events happening at the same time.\n\n\n\n\n\n\n\n\n\nQ: How would you combine probability estimates from several well-calibrated models?\n\n\nCheck some online information e.g. When pooling forecasts, use the geometric mean of odds\nAnd the following code shows some examples.\n\n\n\n\n\n\n\nTable 1: Example of probability means\n\n\nProbabilities\nArithmetic mean\nGeometric mean\nHarmonic mean\n\n\n\n\n[0.1 0.1]\n0.1\n0.1\n0.1\n\n\n[0.5 0.5]\n0.5\n0.5\n0.5\n\n\n[0.1 0.9]\n0.5\n0.5\n0.18\n\n\n[0.1 0.1 0.9]\n0.37\n0.32\n0.14\n\n\n[0.1 0.1 0.99]\n0.4\n0.52\n0.14\n\n\n[0.1 0.1 0.999]\n0.4\n0.7\n0.14"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#optimal-decisions-i",
-    "href": "cha_wahcc/slides-cla_cal.html#optimal-decisions-i",
+    "objectID": "cha_wahcc/slides-cla-cal.html#optimal-decisions-i",
+    "href": "cha_wahcc/slides-cla-cal.html#optimal-decisions-i",
     "title": "Classifier Calibration",
     "section": "Optimal decisions I",
     "text": "Optimal decisions I\nDenote the cost of predicting class \\(j\\) for an instance of true class \\(i\\) as \\(C(\\hat{Y}=j|Y=i)\\). The expected cost of predicting class \\(j\\) for instance \\(x\\) is\n\\[\nC(\\hat{Y}=j|X=x) = \\sum_i P(Y=i|X=x)C(\\hat{Y}=j|Y=i)\n\\]\nwhere \\(P(Y=i|X=x)\\) is the probability of instance \\(x\\) having true class \\(i\\) (as would be given by the Bayes-optimal classifier).\nThe optimal decision is then to predict the class with lowest expected cost:\n\\[\n\\hat{Y}^* = \\mathop{\\mathrm{argmin}}_j C(\\hat{Y}=j|X=x) = \\mathop{\\mathrm{argmin}}_j \\sum_i P(Y=i|X=x)C(\\hat{Y}=j|Y=i)\n\\]"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#optimal-decisions-ii",
-    "href": "cha_wahcc/slides-cla_cal.html#optimal-decisions-ii",
+    "objectID": "cha_wahcc/slides-cla-cal.html#optimal-decisions-ii",
+    "href": "cha_wahcc/slides-cla-cal.html#optimal-decisions-ii",
     "title": "Classifier Calibration",
     "section": "Optimal decisions II",
     "text": "Optimal decisions II\nIn binary classification we have:\n\\[\\begin{align*}\nC(\\hat{Y}=+|X=x) &= P(+|x)C(+|+) + \\big(1-P(+|x)\\big)C(+|-) \\\\\nC(\\hat{Y}=-|X=x) &= P(+|x)C(-|+) + \\big(1-P(+|x)\\big)C(-|-)\n\\end{align*}\\]\nOn the optimal decision boundary these two expected costs are equal, which gives\n\\[\\begin{align*}%\\label{eq::cost-threshold}\nP(+|x)  = \\frac{\\textcolor{blue}{C(+|-)-C(-|-)}}{\\textcolor{blue}{C(+|-)-C(-|-)}+\\textcolor{red}{C(-|+)-C(+|+)}} \\triangleq c\n\\end{align*}\\]\nThis gives the optimal threshold on the hypothetical Bayes-optimal probabilities.\nIt is also the best thing to do in practice – as long as the probabilities are well-calibrated!"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#optimal-decisions-iii",
-    "href": "cha_wahcc/slides-cla_cal.html#optimal-decisions-iii",
+    "objectID": "cha_wahcc/slides-cla-cal.html#optimal-decisions-iii",
+    "href": "cha_wahcc/slides-cla-cal.html#optimal-decisions-iii",
     "title": "Classifier Calibration",
     "section": "Optimal decisions III",
     "text": "Optimal decisions III\nWithout loss of generality we can set the cost of true positives and true negatives to zero; \\(c = \\frac{c_{\\text{FP}}}{c_{\\text{FP}} + c_{\\text{FN}}}\\) is then the cost of a false positive in proportion to the combined cost of one false positive and one false negative.\n\nE.g., if false positives are 4 times as costly as false negatives then we set the decision threshold to \\(4/(4+1)=0.8\\) in order to only make positive predictions if we’re pretty certain.\n\nSimilar reasoning applies to changes in class priors:\n\nif we trained on balanced classes but want to deploy with 4 times as many positives compared to negatives, we lower the decision threshold to \\(0.2\\);\nmore generally, if we trained for class ratio \\(r\\) and deploy for class ratio \\(r'\\) we set the decision threshold to \\(r/(r+r')\\).\n\nCost and class prior changes can be combined in the obvious way."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#questions-and-answers-1",
-    "href": "cha_wahcc/slides-cla_cal.html#questions-and-answers-1",
+    "objectID": "cha_wahcc/slides-cla-cal.html#questions-and-answers-1",
+    "href": "cha_wahcc/slides-cla-cal.html#questions-and-answers-1",
     "title": "Classifier Calibration",
     "section": "Questions and answers",
     "text": "Questions and answers\nQ&A 1\n\n\n\n\n\n\nQuestion 1\n\n\nIs it possible to compute optimal risks given a cost matrix and a probabilistic classifier that is not calibrated?\n\n\n\n\n\n\nAnswer: Yes\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: No\n\n\nCorrect.\n\n\n\nQ&A 2\n\n\n\n\n\n\nQuestion\n\n\nGiven a calibrated probabilistic classifier, is it optimal to select the class with the highest predicted probability?\n\n\n\n\n\n\nAnswer: Yes\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: No\n\n\nCorrect.\n\n\n\n\n\n\n\n\n\nQuestion\n\n\nIf we have the following cost matrix, and a model outputs 0.6 probability for class 1. What would be the expected cost of predicting class 2?\n\n\n\n\n\n\n\nTable 2: Example of a cost matrix\n\n\n\nPredicted Class 1\nPredicted Class 2\n\n\n\n\nTrue Class 1\n-1\n4\n\n\nTrue Class 2\n2\n-2\n\n\n\n\n\n\n\n\n\nAnswer: 0.4\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: -0.4\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: 1.6\n\n\nCorrect. \\(4*0.6 - 2*0.4\\)\n\n\n\n\n\n\n\n\n\nQuestion\n\n\nWhat would be the expected cost of predicting class 1?\n\n\n\n\n\n\nAnswer: 0.4\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: -0.4\n\n\nCorrect. \\(-1*0.6 + 2*0.4\\)\n\n\n\n\n\n\nAnswer: 1.6\n\n\nIncorrect. Try another answer."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#common-sources-of-miscalibration-1",
-    "href": "cha_wahcc/slides-cla_cal.html#common-sources-of-miscalibration-1",
+    "objectID": "cha_wahcc/slides-cla-cal.html#common-sources-of-miscalibration-1",
+    "href": "cha_wahcc/slides-cla-cal.html#common-sources-of-miscalibration-1",
     "title": "Classifier Calibration",
     "section": "Common sources of miscalibration",
     "text": "Common sources of miscalibration\n\nUnderconfidence:\n\na classifier thinks it’s worse at separating classes than it actually is.\n\nHence we need to pull predicted probabilities away from the centre.\n\n\nOverconfidence:\n\na classifier thinks it’s better at separating classes than it actually is.\n\nHence we need to push predicted probabilities toward the centre.\n\n\n\nA classifier can be overconfident for one class and underconfident for the other, in which case all predicted probabilities need to be increased or decreased."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#underconfidence-example",
-    "href": "cha_wahcc/slides-cla_cal.html#underconfidence-example",
+    "objectID": "cha_wahcc/slides-cla-cal.html#underconfidence-example",
+    "href": "cha_wahcc/slides-cla-cal.html#underconfidence-example",
     "title": "Classifier Calibration",
     "section": "Underconfidence example",
     "text": "Underconfidence example\n\n\n\nUnderconfidence typically gives distortions.\nTo calibrate these means to .\n\n\n\nSource: (Niculescu-Mizil and Caruana 2005)"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#overconfidence-example",
-    "href": "cha_wahcc/slides-cla_cal.html#overconfidence-example",
+    "objectID": "cha_wahcc/slides-cla-cal.html#overconfidence-example",
+    "href": "cha_wahcc/slides-cla-cal.html#overconfidence-example",
     "title": "Classifier Calibration",
     "section": "Overconfidence example",
     "text": "Overconfidence example\n\n\n\nOverconfidence is very common, and usually a consequence of over-counting evidence. %\\(e.g. naive Bayes, some forms of boosting).\nHere, distortions are \nCalibrating these means to .\n\n\n\nSource: (Niculescu-Mizil and Caruana 2005)"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#why-fitting-the-distortions-helps-with-calibration",
-    "href": "cha_wahcc/slides-cla_cal.html#why-fitting-the-distortions-helps-with-calibration",
+    "objectID": "cha_wahcc/slides-cla-cal.html#why-fitting-the-distortions-helps-with-calibration",
+    "href": "cha_wahcc/slides-cla-cal.html#why-fitting-the-distortions-helps-with-calibration",
     "title": "Classifier Calibration",
     "section": "Why fitting the distortions helps with calibration",
     "text": "Why fitting the distortions helps with calibration\n\n\nIn clockwise direction, the dotted arrows show:\n\nusing a point’s uncalibrated score on the \\(x\\)-axis as input to the calibration map,\nmapping the resulting output back to the diagonal, and\ncombine with the empirical probability of the point we started from.\n\nThe closer the original point is to the fitted calibration map, the closer the calibrated point (in red) will be to the diagonal."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#questions-and-answers-2",
-    "href": "cha_wahcc/slides-cla_cal.html#questions-and-answers-2",
+    "objectID": "cha_wahcc/slides-cla-cal.html#questions-and-answers-2",
+    "href": "cha_wahcc/slides-cla-cal.html#questions-and-answers-2",
     "title": "Classifier Calibration",
     "section": "Questions and answers",
     "text": "Questions and answers\nQ&A 1\n\n\n\n\n\n\n\n\nQuestion\n\n\nThe following figures show the reliability diagram of several binary classifiers. Assuming that there are enough samples on each bin, indicate if the model seems calibrated, over-confident or under-confident.\n\n\n\n\n\n\nAnswer: Calibrated.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: Over-confident.\n\n\nCorrect.\n\n\n\n\n\n\nAnswer: Under-confident.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\n\n\n\n\n\nQ&A 2\n\n\n\n\n\nAnswer: Calibrated.\n\n\nCorrect.\n\n\n\n\n\n\nAnswer: Over-confident.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: Under-confident.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\n\n\n\n\n\nQ&A 3\n\n\n\n\n\nAnswer: Calibrated.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: Over-confident.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: Under-confident.\n\n\nCorrect.\n\n\n\n\n\n\n\n\n\n\n\nQ&A 4\n\n\n\n\n\n\nQuestion\n\n\nCan a binary classifier show a calibrated reliability diagram with a number of equally distributed bins, and a non-calibrated one with a higher number of equally distributed bins?\n\n\n\n\n\n\nAnswer: Yes.\n\n\nCorrect.\n\n\n\n\n\n\nAnswer: No.\n\n\nIncorrect. Try another answer."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#a-first-look-at-some-calibration-techniques-1",
-    "href": "cha_wahcc/slides-cla_cal.html#a-first-look-at-some-calibration-techniques-1",
+    "objectID": "cha_wahcc/slides-cla-cal.html#a-first-look-at-some-calibration-techniques-1",
+    "href": "cha_wahcc/slides-cla-cal.html#a-first-look-at-some-calibration-techniques-1",
     "title": "Classifier Calibration",
     "section": "A first look at some calibration techniques",
     "text": "A first look at some calibration techniques\n\nParametric calibration involves modelling the score distributions within each class. \\\n\nPlatt scaling = Logistic calibration can be derived by assuming that the scores within both classes are normally distributed with the same variance (Platt 2000).\nBeta calibration employs Beta distributions instead, to deal with scores already on a \\([0,1]\\) scale (Kull, Silva Filho, and Flach 2017).\nDirichlet calibration for more than two classes (Kull et al. 2019).\n\nNon-parametric calibration often ignores scores and employs ranks instead. \\\n\nE.g., isotonic regression = pool adjacent violators = ROC convex hull (Zadrozny and Elkan 2001) (Fawcett and Niculescu-Mizil 2007)."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#platt-scaling",
-    "href": "cha_wahcc/slides-cla_cal.html#platt-scaling",
+    "objectID": "cha_wahcc/slides-cla-cal.html#platt-scaling",
+    "href": "cha_wahcc/slides-cla-cal.html#platt-scaling",
     "title": "Classifier Calibration",
     "section": "Platt scaling",
     "text": "Platt scaling\n\n\\[\\begin{align*}\n    p(s; w, m) &= \\frac{1}{1+\\exp(-w(s-m))}\\\\\n    w &= (\\mu_{\\textit{pos}}-\\mu_{\\textit{neg}})/\\sigma^2,\n    m = (\\mu_{\\textit{pos}}+\\mu_{\\textit{neg}})/2\n\\end{align*}\\]"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#beta-calibration",
-    "href": "cha_wahcc/slides-cla_cal.html#beta-calibration",
+    "objectID": "cha_wahcc/slides-cla-cal.html#beta-calibration",
+    "href": "cha_wahcc/slides-cla-cal.html#beta-calibration",
     "title": "Classifier Calibration",
     "section": "Beta calibration",
     "text": "Beta calibration\n\n\\[\\begin{align*}\n  p(s; a, b, c) &= \\frac{1}{1+\\exp(-a \\ln s - b \\ln (1-s) - c)} \\\\\n  a &= \\alpha_{\\textit{pos}}-\\alpha_{\\textit{neg}},\n  b = \\beta_{\\textit{neg}}-\\beta_{\\textit{pos}}\n\\end{align*}\\]"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#isotonic-regression",
-    "href": "cha_wahcc/slides-cla_cal.html#isotonic-regression",
+    "objectID": "cha_wahcc/slides-cla-cal.html#isotonic-regression",
+    "href": "cha_wahcc/slides-cla-cal.html#isotonic-regression",
     "title": "Classifier Calibration",
     "section": "Isotonic regression",
     "text": "Isotonic regression\n\n\n\n\n\n\n\nSource: Flach (2016)"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#questions-and-answers-3",
-    "href": "cha_wahcc/slides-cla_cal.html#questions-and-answers-3",
+    "objectID": "cha_wahcc/slides-cla-cal.html#questions-and-answers-3",
+    "href": "cha_wahcc/slides-cla-cal.html#questions-and-answers-3",
     "title": "Classifier Calibration",
     "section": "Questions and answers",
     "text": "Questions and answers\n\n\n\n\n\n\nQuestion\n\n\nCan a binary classifier show a calibrated reliability diagram with a number of equally distributed bins, and a non-calibrated one with a higher number of equally distributed bins?\n\n\n\n\n\n\nAnswer: What is a calibration map?\n\n\nIt is a mapping between the scores to be calibrated and the objective probabilities.\n\n\n\n\n\n\n\n\n\nCan Platt scaling calibrate models that are overconfident?\n\n\n\n\n\n\n\n\n\nAnswer: Yes.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: No.\n\n\nCorrect. Platt scaling can only generate S shaped calibration maps, which can only calibrate under-confident scores.\n\n\n\n\n\n\n\n\n\nIs isotonic regression a parametric method?\n\n\n\n\n\n\n\n\n\nAnswer: Yes.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: No.\n\n\nCorrect.\n\n\n\n\n\n\n\n\n\nCan Platt scaling learn an identity function if the model is already calibrated?\n\n\n\n\n\n\n\n\n\nAnswer: Yes.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: No.\n\n\nCorrect. Platt scaling can only learn S shaped functions, and the identity function requires a straight line."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#whats-so-special-about-multi-class-calibration",
-    "href": "cha_wahcc/slides-cla_cal.html#whats-so-special-about-multi-class-calibration",
+    "objectID": "cha_wahcc/slides-cla-cal.html#whats-so-special-about-multi-class-calibration",
+    "href": "cha_wahcc/slides-cla-cal.html#whats-so-special-about-multi-class-calibration",
     "title": "Classifier Calibration",
     "section": "What’s so special about multi-class calibration?",
     "text": "What’s so special about multi-class calibration?\nSimilar to classification, some methods are inherently multi-class but most are not.\nThis leads to (at least) three different ways of defining what it means to be fully multiclass-calibrated. - Many recent papers use the (weak) notion of confidence calibration.\nEvaluating multi-class calibration is in its full generality still an open problem."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#definitions-of-calibration-for-more-than-two-classes",
-    "href": "cha_wahcc/slides-cla_cal.html#definitions-of-calibration-for-more-than-two-classes",
+    "objectID": "cha_wahcc/slides-cla-cal.html#definitions-of-calibration-for-more-than-two-classes",
+    "href": "cha_wahcc/slides-cla-cal.html#definitions-of-calibration-for-more-than-two-classes",
     "title": "Classifier Calibration",
     "section": "Definitions of calibration for more than two classes",
     "text": "Definitions of calibration for more than two classes\nThe following definitions of calibration are equivalent for binary classification but increasingly stronger for more than two classes:\n\nConfidence calibration: only consider the highest predicted probability.\nClass-wise calibration: only consider marginal probabilities.\nMulti-class calibration: consider the entire vector of predicted probabilities."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#confidence-calibration",
-    "href": "cha_wahcc/slides-cla_cal.html#confidence-calibration",
+    "objectID": "cha_wahcc/slides-cla-cal.html#confidence-calibration",
+    "href": "cha_wahcc/slides-cla-cal.html#confidence-calibration",
     "title": "Classifier Calibration",
     "section": "Confidence calibration",
     "text": "Confidence calibration\nThis was proposed by Guo et al. (2017), requiring that among all instances where the probability of the most likely class is predicted to be \\(c\\), the expected accuracy is \\(c\\). (We call this `confidence calibration’ to distinguish it from the stronger notions of calibration.)\nFormally, a probabilistic classifier \\(\\mathbf{\\hat{p}}:\\mathcal{X}\\to\\Delta_{k}\\) is confidence-calibrated, if for any confidence level \\(c\\in[0,1]\\), the actual proportion of the predicted class, among all possible instances \\(\\mathbf{x}\\) being predicted this class with confidence \\(c\\), is equal to \\(c\\):\n\\[\\begin{align*}\nP(Y=i \\: | \\: \\hat{p}_i(\\mathbf{x})=c)=c\\qquad\\text{where }\\ i=\\mathop{\\mathrm{argmax}}_j \\hat{p}_j(\\mathbf{x}).\n%P\\Big(Y=\\argmax\\big(\\vph(X)\\big) \\: \\Big| \\: \\max\\big(\\vph(X)\\big)=c\\Big)=c.\n\\end{align*}\\]"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#class-wise-calibration",
-    "href": "cha_wahcc/slides-cla_cal.html#class-wise-calibration",
+    "objectID": "cha_wahcc/slides-cla-cal.html#class-wise-calibration",
+    "href": "cha_wahcc/slides-cla-cal.html#class-wise-calibration",
     "title": "Classifier Calibration",
     "section": "Class-wise calibration",
     "text": "Class-wise calibration\nOriginally proposed by Zadrozny and Elkan (2002), this requires that all one-vs-rest probability estimators obtained from the original multiclass model are calibrated.\nFormally, a probabilistic classifier \\(\\mathbf{\\hat{p}}:\\mathcal{X}\\to\\Delta_{k}\\) is classwise-calibrated, if for any class \\(i\\) and any predicted probability \\(q_i\\) for this class, the actual proportion of class \\(i\\), among all possible instances \\(\\mathbf{x}\\) getting the same prediction \\(\\hat{p}_i(\\mathbf{x})=q_i\\), is equal to \\(q_i\\):\n\\[\\begin{align*}\nP(Y=i\\mid \\hat{p}_i(\\mathbf{x})=q_i)=q_i\\qquad\\text{for }\\ i=1,\\dots,k.\n\\end{align*}\\]"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#multi-class-calibration",
-    "href": "cha_wahcc/slides-cla_cal.html#multi-class-calibration",
+    "objectID": "cha_wahcc/slides-cla-cal.html#multi-class-calibration",
+    "href": "cha_wahcc/slides-cla-cal.html#multi-class-calibration",
     "title": "Classifier Calibration",
     "section": "Multi-class calibration",
     "text": "Multi-class calibration\nThis is the strongest form of calibration for multiple classes, subsuming the previous two definitions.\nA probabilistic classifier \\(\\mathbf{\\hat{p}}:\\mathcal{X}\\to\\Delta_{k}\\) is multiclass-calibrated if for any prediction vector \\(\\mathbf{q}=(q_1,\\dots,q_k)\\in\\Delta_{k}\\), the proportions of classes among all possible instances \\(\\mathbf{x}\\) getting the same prediction \\(\\mathbf{\\hat{p}}(\\mathbf{x})=\\mathbf{q}\\) are equal to the prediction vector \\(\\mathbf{q}\\):\n\\[\\begin{align*} %\\label{eq:calib}\nP(Y=i\\mid \\mathbf{\\hat{p}}(\\mathbf{x})=\\mathbf{q})=q_i\\qquad\\text{for }\\ i=1,\\dots,k.\n\\end{align*}\\]"
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#reminder-binning-needed",
-    "href": "cha_wahcc/slides-cla_cal.html#reminder-binning-needed",
+    "objectID": "cha_wahcc/slides-cla-cal.html#reminder-binning-needed",
+    "href": "cha_wahcc/slides-cla-cal.html#reminder-binning-needed",
     "title": "Classifier Calibration",
     "section": "Reminder: binning needed",
     "text": "Reminder: binning needed\nFor practical purposes, the conditions in these definitions need to be relaxed. This is where binning comes in.\nOnce we have the bins, we can draw a reliability diagram as in the two-class case. For class-wise calibration, we can show per-class reliability diagrams or a single averaged one.\nThe degree of calibration is assessed using the gaps in the reliability diagram. All of this will be elaborated in the next part of the tutorial."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#important-points-to-remember",
-    "href": "cha_wahcc/slides-cla_cal.html#important-points-to-remember",
+    "objectID": "cha_wahcc/slides-cla-cal.html#important-points-to-remember",
+    "href": "cha_wahcc/slides-cla-cal.html#important-points-to-remember",
     "title": "Classifier Calibration",
     "section": "Important points to remember",
     "text": "Important points to remember\n\nOnly well-calibrated probability estimates are worthy to be called probabilities: otherwise they are just scores that happen to be in the \\([0,1]\\) range.\nBinning will be required in some form: instance-based probability evaluation metrics such as Brier score or log-loss always measure calibration plus something else.\nIn multi-class settings, think carefully about which form of calibration you need: e.g., confidence-calibration is too weak in a cost-sensitive setting."
   },
   {
-    "objectID": "cha_wahcc/slides-cla_cal.html#questions-and-answers-4",
-    "href": "cha_wahcc/slides-cla_cal.html#questions-and-answers-4",
+    "objectID": "cha_wahcc/slides-cla-cal.html#questions-and-answers-4",
+    "href": "cha_wahcc/slides-cla-cal.html#questions-and-answers-4",
     "title": "Classifier Calibration",
     "section": "Questions and answers",
     "text": "Questions and answers\n\n\n\n\n\n\nCan we interpret the output of any model that produces values between zero and\n\n\none as probabilities?\n\n\n\n\n\n\nAnswer: Yes.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: No.\n\n\nCorrect. Some models have been trained to generate values in any arbitrary range, but this does not mean that the model is predicting actual probabilities.\n\n\n\n\n\n\n\n\n\nQuestion\n\n\nIs there only one way to measure calibration for multiclass probability scores.\n\n\n\n\n\n\nAnswer: Yes.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: No.\n\n\nCorrect. There are multiple measures of calibration.\n\n\n\n\n\n\n\n\n\nQuestion\n\n\nCan we perform optimal decisions in a multiclass setting by knowing the highest probability among the classes and the misclassification costs?\n\n\n\n\n\n\nAnswer: Yes.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: No.\n\n\nCorrect. We need the probabilities of every class in order to make an optimal decision.\n\n\n\n\n\n\n\n\n\nQuestion\n\n\nIf the data distribution, operating conditions and the missclassification costs do not change from training to test set, and a model makes optimal predictions in the training set. Do we need the exact probabilities in the test set to make optimal decisions?\n\n\n\n\n\n\nAnswer: Yes.\n\n\nIncorrect. Try another answer.\n\n\n\n\n\n\nAnswer: No.\n\n\nCorrect."
