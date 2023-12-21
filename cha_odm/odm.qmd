@@ -1,6 +1,6 @@
 ---
 title: Introduction to Optimal Decision Making
-subtitle: <a href="/slides/cha_odm/odm.html" target="_blank"><img src="https://img.shields.io/badge/slides-revealjs-yellow"></a>
+subtitle: <a href="slides-intro-to-opt-dec-mak.html" target="_blank"><img src="https://img.shields.io/badge/slides-revealjs-yellow"></a>
 author: 
   - name:
       given: Miquel
@@ -19,6 +19,7 @@ filters:
 format:
   revealjs:
     logo: "../images/logos/tailor_and_uob.svg"
+    output-file: slides-intro-to-opt-dec-mak.html
   html:
     css: odm_style.css
 bibliography: references.bib
