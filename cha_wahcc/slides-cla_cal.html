@@ -1,0 +1,2342 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../cropped-tailor-logo-symbol-32x32.png" rel="icon" type="image/png">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.3.450">
+
+  <meta name="author" content="Peter Flach">
+  <title>Foundations of Trustworthy AI - Classifier Calibration</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Classifier Calibration</h1>
+  <p class="subtitle"><a href="slides-cla-cal.html" target="_blank"><img src="https://img.shields.io/badge/slides-revealjs-yellow"></a></p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Peter Flach <a href="https://orcid.org/0000-0001-6857-5810" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:peter.flach@bristol.ac.uk">peter.flach@bristol.ac.uk</a>
+</div>
+        <p class="quarto-title-affiliation">
+            University of Bristol
+          </p>
+    </div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:miquel.perellonieto@bristol.ac.uk">miquel.perellonieto@bristol.ac.uk</a>
+</div>
+        <p class="quarto-title-affiliation">
+            University of Bristol
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="taking-inspiration-from-forecasting" class="title-slide slide level1 center">
+<h1>Taking inspiration from forecasting</h1>
+<div class="hidden">
+$$
+<p>$$</p>
+</div>
+<iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=003597b0-bf29-11ed-83a4-bf04f88f22c5" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
+</section>
+<section id="weather-forecasters" class="slide level2">
+<h2>Weather forecasters</h2>
+<ul>
+<li class="fragment">Weather forecasters started thinking about calibration a long time ago <span class="citation" data-cites="brier1950">(<a href="#/references" role="doc-biblioref" onclick="">Brier 1950</a>)</span>.
+<ul>
+<li class="fragment">A forecast <code>70% chance of rain</code> should be followed by rain 70% of the time.</li>
+</ul></li>
+<li class="fragment">This is immediately applicable to binary classification:
+<ul>
+<li class="fragment">A prediction <code>70% chance of spam</code> should be spam 70% of the time.</li>
+</ul></li>
+<li class="fragment">and to multi-class classification:
+<ul>
+<li class="fragment">A prediction <code>70% chance of setosa, 10% chance of versicolor and 20% chance of virginica</code> should be setosa/versicolor/virginica 70/10/20% of the time.</li>
+</ul></li>
+<li class="fragment">In general:
+<ul>
+<li class="fragment">A predicted probability (vector) should match empirical (observed) probabilities.</li>
+</ul></li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><strong>Q:</strong> What does <code>X% of the time</code> mean?</strong></p>
+</div>
+<div class="callout-content">
+<p>It means that we expect the occurrence of an event to happen “X%” of the time.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="forecasting-example" class="slide level2">
+<h2>Forecasting example</h2>
+<p>Let’s consider a small toy example:</p>
+<ul>
+<li class="fragment">Two predictions of <code>10% chance of rain</code> were both followed by <code>no rain</code>.</li>
+<li class="fragment">Two predictions of <code>40% chance of rain</code> were once followed by <code>no rain</code>, and once by <code>rain</code>.</li>
+<li class="fragment">Three predictions of <code>70% chance of rain</code> were once followed by <code>no rain</code>, and twice by <code>rain</code>.</li>
+<li class="fragment">One prediction of <code>90% chance of rain</code> was followed by <code>rain</code>.</li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><strong>Q:</strong> Is this forecaster well-calibrated?</strong></p>
+</div>
+<div class="callout-content">
+<p>The evaluation of calibration requires a large number of samples to make a statement. However, in this toy example we can assume that a <span class="math inline">\(10\%\)</span> discrepancy is acceptable, and that the number of samples is sufficient.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="over--and-under-estimates" class="slide level2">
+<h2>Over- and under-estimates</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:20%;">
+<table style="width:33%;">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 16%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(\hat{p}\)</span></th>
+<th><span class="math inline">\(y\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0<br>
+1</td>
+<td>0.1<br>
+0.1</td>
+<td>0<br>
+0</td>
+</tr>
+<tr class="even">
+<td>2<br>
+3</td>
+<td>0.4<br>
+0.4</td>
+<td>0<br>
+1</td>
+</tr>
+<tr class="odd">
+<td>4<br>
+5<br>
+6</td>
+<td>0.7<br>
+0.7<br>
+0.7</td>
+<td>0<br>
+1<br>
+1</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>0.9</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column v-center-container" style="width:70%;">
+<p>This forecaster is doing a pretty decent job:</p>
+<ul>
+<li class="fragment"><code>10% chance of rain</code> was a slight over-estimate<br>
+(<span class="math inline">\(\bar{y} = 0/2 = 0\%\)</span>);</li>
+<li class="fragment"><code>40% chance of rain</code> was a slight under-estimate<br>
+(<span class="math inline">\(\bar{y} = 1/2 = 50\%\)</span>);</li>
+<li class="fragment"><code>70% chance of rain</code> was a slight over-estimate<br>
+(<span class="math inline">\(\bar{y} = 2/3 = 67\%\)</span>);</li>
+<li class="fragment"><code>90% chance of rain</code> was a slight under-estimate<br>
+(<span class="math inline">\(\bar{y} = 1/1 = 100\%\)</span>).</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="visualising-forecasts-the-reliability-diagram" class="slide level2">
+<h2>Visualising forecasts: the reliability diagram</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:20%;">
+<table style="width:33%;">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 16%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(\hat{p}\)</span></th>
+<th><span class="math inline">\(y\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0<br>
+1</td>
+<td>0.1<br>
+0.1</td>
+<td>0<br>
+0</td>
+</tr>
+<tr class="even">
+<td>2<br>
+3</td>
+<td>0.4<br>
+0.4</td>
+<td>0<br>
+1</td>
+</tr>
+<tr class="odd">
+<td>4<br>
+5<br>
+6</td>
+<td>0.7<br>
+0.7<br>
+0.7</td>
+<td>0<br>
+1<br>
+1</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>0.9</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column v-center-container" style="width:70%;">
+<div class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<p><img data-src="wahcc_files/figure-revealjs/cell-2-output-1.png" width="428" height="293"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="changing-the-numbers-slightly" class="slide level2">
+<h2>Changing the numbers slightly</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:20%;">
+<table style="width:33%;">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 16%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(\hat{p}\)</span></th>
+<th><span class="math inline">\(y\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0<br>
+1</td>
+<td>0.1<br>
+0.2</td>
+<td>0<br>
+0</td>
+</tr>
+<tr class="even">
+<td>2<br>
+3</td>
+<td>0.3<br>
+0.4</td>
+<td>0<br>
+1</td>
+</tr>
+<tr class="odd">
+<td>4<br>
+5<br>
+6</td>
+<td>0.6<br>
+0.7<br>
+0.8</td>
+<td>0<br>
+1<br>
+1</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>0.9</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:70%;">
+<div class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<p><img data-src="wahcc_files/figure-revealjs/cell-3-output-1.png" width="428" height="293"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="or-should-we-group-the-forecasts-differently" class="slide level2">
+<h2>Or should we group the forecasts differently?</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:20%;">
+<table style="width:33%;">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 16%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(\hat{p}\)</span></th>
+<th><span class="math inline">\(y\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0<br>
+1<br>
+2<br>
+3</td>
+<td>0.1<br>
+0.2<br>
+0.3<br>
+0.4</td>
+<td>0<br>
+0<br>
+0<br>
+1</td>
+</tr>
+<tr class="even">
+<td>4<br>
+5<br>
+6<br>
+7</td>
+<td>0.6<br>
+0.7<br>
+0.8<br>
+0.9</td>
+<td>0<br>
+1<br>
+1<br>
+1</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:70%;">
+<div class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<p><img data-src="wahcc_files/figure-revealjs/cell-4-output-1.png" width="428" height="293"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="or-not-at-all" class="slide level2">
+<h2>Or not at all?</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:20%;">
+<table style="width:33%;">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 16%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(\hat{p}\)</span></th>
+<th><span class="math inline">\(y\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0.2</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>0.3</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>0.4</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>0.6</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>0.7</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>0.8</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>0.9</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:70%;">
+<div class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<p><img data-src="wahcc_files/figure-revealjs/cell-5-output-1.png" width="428" height="293"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="binning-or-pooling-predictions-is-a-fundamental-notion" class="slide level2">
+<h2>Binning or pooling predictions is a fundamental notion</h2>
+<p>We need bins to <strong>evaluate</strong> the degree of calibration:</p>
+<ul>
+<li class="fragment">In order to decide whether a weather forecaster is well-calibrated, we need to look at a good number of forecasts, say over one year.</li>
+<li class="fragment">We also need to make sure that there are a reasonable number of forecasts for separate probability values, so we can obtain reliable empirical estimates.
+<ul>
+<li class="fragment">Trade-off: large bins give better empirical estimates, small bins allows a more fine-grained assessment of calibration.}</li>
+</ul></li>
+</ul>
+<p>But adjusting forecasts in groups also gives rise to practical calibration <strong>methods</strong>:</p>
+<ul>
+<li class="fragment">empirical binning</li>
+<li class="fragment">isotonic regression (aka ROC convex hull)</li>
+</ul>
+</section>
+<section id="questions-and-answers" class="slide level2">
+<h2>Questions and answers</h2>
+<h3 id="qa-1">Q&amp;A 1</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question 1</strong></p>
+</div>
+<div class="callout-content">
+<p>A binary classifier for weather predictions produces a score of 0.1 for rain two times but it does not rain, two times 0.4 and it rains only once, five times 0.6 and it rains 80% of the times and one time 0.9 and it rains. Does the following reliability diagram show that information?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. You can see that there is one bin per predicted score <span class="math inline">\(0.1, 0.4, 0.6\)</span> and <span class="math inline">\(0.9\)</span>. Each bin contains the number of scores indicated in the smaller histogram below with 2, 2, 5 and 1 samples respectively. Finally, the height of each bin corresponds to the fraction of rains indicated in the question 0%, 50%, 80% and 100%.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-execution_count="5">
+<div class="cell-output cell-output-display">
+<p><img data-src="wahcc_files/figure-revealjs/cell-6-output-1.png" width="428" height="233"></p>
+</div>
+</div>
+</div>
+</div>
+<h3 id="qa-2">Q&amp;A 2</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question 2</strong></p>
+</div>
+<div class="callout-content">
+<p>A binary classifier for weather predictions produces a score of 0.1 for rain two times and it rains once, three times 0.4 and it rains two times, four times 0.6 and it rains once and one time 0.9 and it rains. Does the following reliability diagram show that information?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. You can see that there is one bin per predicted score <span class="math inline">\(0.1, 0.4, 0.6\)</span> and 0.9. Each bin contains the number of scores indicated in the smaller histogram below with 2, 3, 4 and 1 samples respectively. Finally, the height of each bin corresponds to the fraction of rains indicated in the question 50%, 66.6%, 25% and 100%.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<p><img data-src="wahcc_files/figure-revealjs/cell-7-output-1.png" width="428" height="233"></p>
+</div>
+</div>
+</div>
+</div>
+<h3 id="qa-3">Q&amp;A 3</h3>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question 3</strong></p>
+</div>
+<div class="callout-content">
+<p>Do we need multiple instances in each bin in order to visualise a reliability diagram?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. It is not necessary to have multiple instances in each bin for visualisation purposes. However, the lack of information does not allow us to know if the model is calibrated for those scores.</p>
+</div>
+</div>
+</div>
+<h3 id="qa-4">Q&amp;A 4</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question 4</strong></p>
+</div>
+<div class="callout-content">
+<p>The following figure shows the reliability diagram of a binary classifier on enough samples to be statistically significant. Is the model calibrated, producing under-estimates or over-estimates?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Over-estimates</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Under-estimates</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. For each predicted score the actual fraction of positives is higher.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<p><img data-src="wahcc_files/figure-revealjs/cell-8-output-1.png" width="439" height="361"></p>
+</div>
+</div>
+</div>
+</div>
+<h3 id="qa-5">Q&amp;A 5</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question 5</strong></p>
+</div>
+<div class="callout-content">
+<p>The following figure shows the reliability diagram of a binary classifier on enough samples to be statistically significant. Is the model calibrated, producing under-estimates or over-estimates?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Over-estimates</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. For each predicted score the actual fraction of positives is lower.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Under-estimates</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<p><img data-src="wahcc_files/figure-revealjs/cell-9-output-1.png" width="439" height="361"></p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="why-are-we-interested-in-calibration" class="title-slide slide level1 center">
+<h1>Why are we interested in calibration?</h1>
+<iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=2a1113c0-bf29-11ed-83a4-bf04f88f22c5" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
+</section>
+<section id="why-are-we-interested-in-calibration-1" class="slide level2">
+<h2>Why are we interested in calibration?</h2>
+<p>To calibrate means <strong>to employ a known scale with known properties</strong>.</p>
+<ul>
+<li class="fragment">E.g., additive scale with a well-defined zero, so that ratios are meaningful.</li>
+</ul>
+<p>For classifiers we want to use the probability scale, so that we can</p>
+<ul>
+<li class="fragment">justifiably use default decision rules (e.g., maximum posterior probability);</li>
+<li class="fragment">adjust these decision rules in a straightforward way to account for different class priors or misclassification costs;</li>
+<li class="fragment">combine probability estimates in a well-founded way.</li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Q: Is the probability scale additive?</strong></p>
+</div>
+<div class="callout-content">
+<p>In some situations we may want to sum probabilities, for example if we have a set of mutually exclusive events, the probability of at least one of them happening can be computed by their sum. In other situations the product of probabilities is used, e.g.&nbsp;the probability of two independent events happening at the same time.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><strong>Q:</strong> How would you combine probability estimates from several well-calibrated models?</strong></p>
+</div>
+<div class="callout-content">
+<p>Check some online information e.g. <a href="https://forum.effectivealtruism.org/posts/sMjcjnnpoAQCcedL2/when-pooling-forecasts-use-the-geometric-mean-of-odds#:~:text=Whereas%20the%20arithmetic%20mean%20adds,(1%E2%88%92p).%5B">When pooling forecasts, use the geometric mean of odds</a></p>
+<p>And the following code shows some examples.</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div id="tbl-prob-mean">
+<table>
+<caption>Table&nbsp;1: Example of probability means</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Probabilities</th>
+<th style="text-align: right;">Arithmetic mean</th>
+<th style="text-align: right;">Geometric mean</th>
+<th style="text-align: right;">Harmonic mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">[0.1 0.1]</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[0.5 0.5]</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[0.1 0.9]</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[0.1 0.1 0.9]</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">[0.1 0.1 0.99]</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">[0.1 0.1 0.999]</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="optimal-decisions-i" class="slide level2">
+<h2>Optimal decisions I</h2>
+<p>Denote the cost of predicting class <span class="math inline">\(j\)</span> for an instance of true class <span class="math inline">\(i\)</span> as <span class="math inline">\(C(\hat{Y}=j|Y=i)\)</span>. The expected cost of predicting class <span class="math inline">\(j\)</span> for instance <span class="math inline">\(x\)</span> is</p>
+<p><span class="math display">\[
+C(\hat{Y}=j|X=x) = \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
+\]</span></p>
+<p>where <span class="math inline">\(P(Y=i|X=x)\)</span> is the probability of instance <span class="math inline">\(x\)</span> having true class <span class="math inline">\(i\)</span> (as would be given by the Bayes-optimal classifier).</p>
+<p>The optimal decision is then to predict the class with lowest expected cost:</p>
+<p><span class="math display">\[
+\hat{Y}^* = \mathop{\mathrm{argmin}}_j C(\hat{Y}=j|X=x) = \mathop{\mathrm{argmin}}_j \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
+\]</span></p>
+</section>
+<section id="optimal-decisions-ii" class="slide level2">
+<h2>Optimal decisions II</h2>
+<p>In binary classification we have:</p>
+<p><span class="math display">\[\begin{align*}
+C(\hat{Y}=+|X=x) &amp;= P(+|x)C(+|+) + \big(1-P(+|x)\big)C(+|-) \\
+C(\hat{Y}=-|X=x) &amp;= P(+|x)C(-|+) + \big(1-P(+|x)\big)C(-|-)
+\end{align*}\]</span></p>
+<p>On the optimal decision boundary these two expected costs are equal, which gives</p>
+<p><span class="math display">\[\begin{align*}%\label{eq::cost-threshold}
+P(+|x)  = \frac{\textcolor{blue}{C(+|-)-C(-|-)}}{\textcolor{blue}{C(+|-)-C(-|-)}+\textcolor{red}{C(-|+)-C(+|+)}} \triangleq c
+\end{align*}\]</span></p>
+<p>This gives the optimal threshold on the hypothetical Bayes-optimal probabilities.</p>
+<p>It is also the best thing to do in practice – as long as the probabilities are well-calibrated!</p>
+</section>
+<section id="optimal-decisions-iii" class="slide level2">
+<h2>Optimal decisions III</h2>
+<p>Without loss of generality we can set the cost of true positives and true negatives to zero; <span class="math inline">\(c = \frac{c_{\text{FP}}}{c_{\text{FP}} + c_{\text{FN}}}\)</span> is then the cost of a false positive in proportion to the combined cost of one false positive and one false negative.</p>
+<ul>
+<li class="fragment">E.g., if false positives are 4 times as costly as false negatives then we set the decision threshold to <span class="math inline">\(4/(4+1)=0.8\)</span> in order to only make positive predictions if we’re pretty certain.</li>
+</ul>
+<p>Similar reasoning applies to changes in class priors:</p>
+<ul>
+<li class="fragment">if we trained on balanced classes but want to deploy with 4 times as many positives compared to negatives, we lower the decision threshold to <span class="math inline">\(0.2\)</span>;</li>
+<li class="fragment">more generally, if we trained for class ratio <span class="math inline">\(r\)</span> and deploy for class ratio <span class="math inline">\(r'\)</span> we set the decision threshold to <span class="math inline">\(r/(r+r')\)</span>.</li>
+</ul>
+<p>Cost and class prior changes can be combined in the obvious way.</p>
+</section>
+<section id="questions-and-answers-1" class="slide level2">
+<h2>Questions and answers</h2>
+<h3 id="qa-1-1">Q&amp;A 1</h3>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question 1</strong></p>
+</div>
+<div class="callout-content">
+<p>Is it possible to compute optimal risks given a cost matrix and a probabilistic classifier that is not calibrated?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<h3 id="qa-2-1">Q&amp;A 2</h3>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question</strong></p>
+</div>
+<div class="callout-content">
+<p>Given a calibrated probabilistic classifier, is it optimal to select the class with the highest predicted probability?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question</strong></p>
+</div>
+<div class="callout-content">
+<p>If we have the following cost matrix, and a model outputs 0.6 probability for class 1. What would be the expected cost of predicting class 2?</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div id="tbl-q-cm">
+<table>
+<caption>Table&nbsp;2: Example of a cost matrix</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">Predicted Class 1</th>
+<th style="text-align: right;">Predicted Class 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>True Class 1</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>True Class 2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: 0.4</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: -0.4</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: 1.6</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. <span class="math inline">\(4*0.6 - 2*0.4\)</span></p>
+</div>
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question</strong></p>
+</div>
+<div class="callout-content">
+<p>What would be the expected cost of predicting class 1?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: 0.4</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: -0.4</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. <span class="math inline">\(-1*0.6 + 2*0.4\)</span></p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: 1.6</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="common-sources-of-miscalibration" class="title-slide slide level1 center">
+<h1>Common sources of miscalibration</h1>
+<iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=543b2f90-bf2a-11ed-b716-77ee466eb043" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
+</section>
+<section id="common-sources-of-miscalibration-1" class="slide level2">
+<h2>Common sources of miscalibration</h2>
+<dl>
+<dt class="fragment">Underconfidence:</dt>
+<dd class="fragment">
+<p>a classifier thinks it’s <strong>worse</strong> at separating classes than it actually is.</p>
+<ul>
+<li class="fragment">Hence we need to <em>pull predicted probabilities away from the centre</em>.</li>
+</ul>
+</dd>
+<dt class="fragment">Overconfidence:</dt>
+<dd class="fragment">
+<p>a classifier thinks it’s <strong>better</strong> at separating classes than it actually is.</p>
+<ul>
+<li class="fragment">Hence we need to <em>push predicted probabilities toward the centre</em>.</li>
+</ul>
+</dd>
+</dl>
+<p>A classifier can be overconfident for one class and underconfident for the other, in which case all predicted probabilities need to be increased or decreased.</p>
+</section>
+<section id="underconfidence-example" class="slide level2">
+<h2>Underconfidence example</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:70%;">
+<ul>
+<li class="fragment">Underconfidence typically gives distortions.</li>
+<li class="fragment">To calibrate these means to .</li>
+</ul>
+</div><div class="column" style="width:30%;">
+<p><img data-src="images/Underconfidence.png"></p>
+<p>Source: <span class="citation" data-cites="niculescu-mizil2005">(<a href="#/references" role="doc-biblioref" onclick="">Niculescu-Mizil and Caruana 2005</a>)</span></p>
+</div>
+</div>
+</section>
+<section id="overconfidence-example" class="slide level2">
+<h2>Overconfidence example</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:70%;">
+<ul>
+<li class="fragment">Overconfidence is very common, and usually a consequence of over-counting evidence. %\(e.g.&nbsp;naive Bayes, some forms of boosting).</li>
+<li class="fragment">Here, distortions are </li>
+<li class="fragment">Calibrating these means to .</li>
+</ul>
+</div><div class="column" style="width:30%;">
+<p><img data-src="images/Overconfidence.png"></p>
+<p>Source: <span class="citation" data-cites="niculescu-mizil2005">(<a href="#/references" role="doc-biblioref" onclick="">Niculescu-Mizil and Caruana 2005</a>)</span></p>
+</div>
+</div>
+</section>
+<section id="why-fitting-the-distortions-helps-with-calibration" class="slide level2">
+<h2>Why fitting the distortions helps with calibration</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:50%;">
+<p>In clockwise direction, the dotted arrows show:</p>
+<ol type="1">
+<li class="fragment">using a point’s uncalibrated score on the <span class="math inline">\(x\)</span>-axis as input to the calibration map,</li>
+<li class="fragment">mapping the resulting output back to the diagonal, and</li>
+<li class="fragment">combine with the empirical probability of the point we started from.</li>
+</ol>
+<p>The closer the original point is to the fitted calibration map, the closer the calibrated point (in red) will be to the diagonal.</p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/caruana_fig_3.png"></p>
+</div>
+</div>
+</section>
+<section id="questions-and-answers-2" class="slide level2">
+<h2>Questions and answers</h2>
+<h3 id="qa-1-2">Q&amp;A 1</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:50%;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question</strong></p>
+</div>
+<div class="callout-content">
+<p>The following figures show the reliability diagram of several binary classifiers. Assuming that there are enough samples on each bin, indicate if the model seems calibrated, over-confident or under-confident.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Calibrated.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Over-confident.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Under-confident.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<p><img data-src="wahcc_files/figure-revealjs/cell-12-output-1.png" width="439" height="361"></p>
+</div>
+</div>
+</div>
+</div>
+<h3 id="qa-2-2">Q&amp;A 2</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:50%;">
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Calibrated.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Over-confident.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Under-confident.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<p><img data-src="wahcc_files/figure-revealjs/cell-13-output-1.png" width="439" height="361"></p>
+</div>
+</div>
+</div>
+</div>
+<h3 id="qa-3-1">Q&amp;A 3</h3>
+<div class="columns v-center-container">
+<div class="column" style="width:50%;">
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Calibrated.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Over-confident.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Under-confident.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<p><img data-src="wahcc_files/figure-revealjs/cell-14-output-1.png" width="439" height="361"></p>
+</div>
+</div>
+</div>
+</div>
+<h3 id="qa-4-1">Q&amp;A 4</h3>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question</strong></p>
+</div>
+<div class="callout-content">
+<p>Can a binary classifier show a calibrated reliability diagram with a number of equally distributed bins, and a non-calibrated one with a higher number of equally distributed bins?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="a-first-look-at-some-calibration-techniques" class="title-slide slide level1 center">
+<h1>A first look at some calibration techniques</h1>
+<iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=6f5e0e00-bf2a-11ed-b716-77ee466eb043" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
+</section>
+<section id="a-first-look-at-some-calibration-techniques-1" class="slide level2">
+<h2>A first look at some calibration techniques</h2>
+<ul>
+<li class="fragment"><strong>Parametric</strong> calibration involves modelling the score distributions within each class. \
+<ul>
+<li class="fragment"><strong>Platt scaling</strong> = Logistic calibration can be derived by assuming that the scores within both classes are normally distributed with the same variance <span class="citation" data-cites="platt2000">(<a href="#/references" role="doc-biblioref" onclick="">Platt 2000</a>)</span>.</li>
+<li class="fragment"><strong>Beta calibration</strong> employs Beta distributions instead, to deal with scores already on a <span class="math inline">\([0,1]\)</span> scale <span class="citation" data-cites="kull2017">(<a href="#/references" role="doc-biblioref" onclick="">Kull, Silva Filho, and Flach 2017</a>)</span>.</li>
+<li class="fragment"><strong>Dirichlet calibration</strong> for more than two classes <span class="citation" data-cites="kull2019">(<a href="#/references" role="doc-biblioref" onclick="">Kull et al. 2019</a>)</span>.</li>
+</ul></li>
+<li class="fragment"><strong>Non-parametric</strong> calibration often ignores scores and employs ranks instead. \
+<ul>
+<li class="fragment">E.g., <strong>isotonic regression</strong> = pool adjacent violators = ROC convex hull <span class="citation" data-cites="zadrozny2001">(<a href="#/references" role="doc-biblioref" onclick="">Zadrozny and Elkan 2001</a>)</span> <span class="citation" data-cites="fawcett2007">(<a href="#/references" role="doc-biblioref" onclick="">Fawcett and Niculescu-Mizil 2007</a>)</span>.</li>
+</ul></li>
+</ul>
+</section>
+<section id="platt-scaling" class="slide level2">
+<h2>Platt scaling</h2>
+<p><img data-src="images/Logistic.png"></p>
+<p><span class="math display">\[\begin{align*}
+    p(s; w, m) &amp;= \frac{1}{1+\exp(-w(s-m))}\\
+    w &amp;= (\mu_{\textit{pos}}-\mu_{\textit{neg}})/\sigma^2,
+    m = (\mu_{\textit{pos}}+\mu_{\textit{neg}})/2
+\end{align*}\]</span></p>
+</section>
+<section id="beta-calibration" class="slide level2">
+<h2>Beta calibration</h2>
+<p><img data-src="images/Beta.png"></p>
+<p><span class="math display">\[\begin{align*}
+  p(s; a, b, c) &amp;= \frac{1}{1+\exp(-a \ln s - b \ln (1-s) - c)} \\
+  a &amp;= \alpha_{\textit{pos}}-\alpha_{\textit{neg}},
+  b = \beta_{\textit{neg}}-\beta_{\textit{pos}}
+\end{align*}\]</span></p>
+</section>
+<section id="isotonic-regression" class="slide level2">
+<h2>Isotonic regression</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:40%;">
+<p><img data-src="images/ROCCH.png"></p>
+</div><div class="column" style="width:10%;">
+
+</div><div class="column" style="width:47%;">
+<p><img data-src="images/ROCcal2.png"></p>
+<p>Source: <span class="citation" data-cites="flach2016roc">Flach (<a href="#/references" role="doc-biblioref" onclick="">2016</a>)</span></p>
+</div>
+</div>
+</section>
+<section id="questions-and-answers-3" class="slide level2">
+<h2>Questions and answers</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question</strong></p>
+</div>
+<div class="callout-content">
+<p>Can a binary classifier show a calibrated reliability diagram with a number of equally distributed bins, and a non-calibrated one with a higher number of equally distributed bins?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: What is a calibration map?</strong></p>
+</div>
+<div class="callout-content">
+<p>It is a mapping between the scores to be calibrated and the objective probabilities.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Can Platt scaling calibrate models that are overconfident?</strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. Platt scaling can only generate S shaped calibration maps, which can only calibrate under-confident scores.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Is isotonic regression a parametric method?</strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Can Platt scaling learn an identity function if the model is already calibrated?</strong></p>
+</div>
+<div class="callout-content">
+
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. Platt scaling can only learn S shaped functions, and the identity function requires a straight line.</p>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="calibrating-multi-class-classifiers" class="title-slide slide level1 center">
+<h1>Calibrating multi-class classifiers</h1>
+<iframe allowfullscreen="" src="https://media.upv.es/player/embed.html?id=8f343b50-bf2a-11ed-83a4-bf04f88f22c5" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
+</iframe>
+</section>
+<section id="whats-so-special-about-multi-class-calibration" class="slide level2">
+<h2>What’s so special about multi-class calibration?</h2>
+<p>Similar to classification, some methods are inherently multi-class but most are not.</p>
+<p>This leads to (at least) three different ways of <strong>defining</strong> what it means to be fully multiclass-calibrated. - Many recent papers use the (weak) notion of confidence calibration.</p>
+<p><strong>Evaluating</strong> multi-class calibration is in its full generality still an open problem.</p>
+</section>
+<section id="definitions-of-calibration-for-more-than-two-classes" class="slide level2">
+<h2>Definitions of calibration for more than two classes</h2>
+<p>The following definitions of calibration are equivalent for binary classification but increasingly stronger for more than two classes:</p>
+<ul>
+<li class="fragment"><strong>Confidence calibration:</strong> only consider the highest predicted probability.</li>
+<li class="fragment"><strong>Class-wise calibration:</strong> only consider marginal probabilities.</li>
+<li class="fragment"><strong>Multi-class calibration:</strong> consider the entire vector of predicted probabilities.</li>
+</ul>
+</section>
+<section id="confidence-calibration" class="slide level2">
+<h2>Confidence calibration</h2>
+<p>This was proposed by <span class="citation" data-cites="guo2017">Guo et al. (<a href="#/references" role="doc-biblioref" onclick="">2017</a>)</span>, requiring that among all instances where the probability of <strong>the most likely class</strong> is predicted to be <span class="math inline">\(c\)</span>, the expected accuracy is <span class="math inline">\(c\)</span>. (We call this `confidence calibration’ to distinguish it from the stronger notions of calibration.)</p>
+<p>Formally, a probabilistic classifier <span class="math inline">\(\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>confidence-calibrated</strong>, if for any confidence level <span class="math inline">\(c\in[0,1]\)</span>, the actual proportion of the predicted class, among all possible instances <span class="math inline">\(\mathbf{x}\)</span> being predicted this class with confidence <span class="math inline">\(c\)</span>, is equal to <span class="math inline">\(c\)</span>:</p>
+<p><span class="math display">\[\begin{align*}
+P(Y=i \: | \: \hat{p}_i(\mathbf{x})=c)=c\qquad\text{where }\ i=\mathop{\mathrm{argmax}}_j \hat{p}_j(\mathbf{x}).
+%P\Big(Y=\argmax\big(\vph(X)\big) \: \Big| \: \max\big(\vph(X)\big)=c\Big)=c.
+\end{align*}\]</span></p>
+</section>
+<section id="class-wise-calibration" class="slide level2">
+<h2>Class-wise calibration</h2>
+<p>Originally proposed by <span class="citation" data-cites="zadrozny2002">Zadrozny and Elkan (<a href="#/references" role="doc-biblioref" onclick="">2002</a>)</span>, this requires that all <strong>one-vs-rest</strong> probability estimators obtained from the original multiclass model are calibrated.</p>
+<p>Formally, a probabilistic classifier <span class="math inline">\(\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>classwise-calibrated</strong>, if for any class <span class="math inline">\(i\)</span> and any predicted probability <span class="math inline">\(q_i\)</span> for this class, the actual proportion of class <span class="math inline">\(i\)</span>, among all possible instances <span class="math inline">\(\mathbf{x}\)</span> getting the same prediction <span class="math inline">\(\hat{p}_i(\mathbf{x})=q_i\)</span>, is equal to <span class="math inline">\(q_i\)</span>:</p>
+<p><span class="math display">\[\begin{align*}
+P(Y=i\mid \hat{p}_i(\mathbf{x})=q_i)=q_i\qquad\text{for }\ i=1,\dots,k.
+\end{align*}\]</span></p>
+</section>
+<section id="multi-class-calibration" class="slide level2">
+<h2>Multi-class calibration</h2>
+<p>This is the <strong>strongest form of calibration</strong> for multiple classes, subsuming the previous two definitions.</p>
+<p>A probabilistic classifier <span class="math inline">\(\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>multiclass-calibrated</strong> if for any prediction vector <span class="math inline">\(\mathbf{q}=(q_1,\dots,q_k)\in\Delta_{k}\)</span>, the proportions of classes among all possible instances <span class="math inline">\(\mathbf{x}\)</span> getting the same prediction <span class="math inline">\(\mathbf{\hat{p}}(\mathbf{x})=\mathbf{q}\)</span> are equal to the prediction vector <span class="math inline">\(\mathbf{q}\)</span>:<br>
+<span class="math display">\[\begin{align*} %\label{eq:calib}
+P(Y=i\mid \mathbf{\hat{p}}(\mathbf{x})=\mathbf{q})=q_i\qquad\text{for }\ i=1,\dots,k.
+\end{align*}\]</span></p>
+</section>
+<section id="reminder-binning-needed" class="slide level2">
+<h2>Reminder: binning needed</h2>
+<p>For practical purposes, the conditions in these definitions need to be relaxed. This is where <strong>binning</strong> comes in.</p>
+<p>Once we have the bins, we can draw a <strong>reliability diagram</strong> as in the two-class case. For class-wise calibration, we can show per-class reliability diagrams or a single averaged one.</p>
+<p>The degree of calibration is assessed using the <strong>gaps</strong> in the reliability diagram. All of this will be elaborated in the next part of the tutorial.</p>
+</section>
+<section id="important-points-to-remember" class="slide level2">
+<h2>Important points to remember</h2>
+<ul>
+<li class="fragment"><strong>Only well-calibrated probability estimates are worthy to be called probabilities:</strong> otherwise they are just scores that happen to be in the <span class="math inline">\([0,1]\)</span> range.</li>
+<li class="fragment"><strong>Binning will be required in some form:</strong> instance-based probability evaluation metrics such as Brier score or log-loss always measure calibration <strong>plus something else</strong>.</li>
+<li class="fragment"><strong>In multi-class settings, think carefully about which form of calibration you need:</strong> e.g., confidence-calibration is too weak in a cost-sensitive setting.</li>
+</ul>
+</section>
+<section id="questions-and-answers-4" class="slide level2">
+<h2>Questions and answers</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Can we interpret the output of any model that produces values between zero and</strong></p>
+</div>
+<div class="callout-content">
+<p>one as probabilities?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. Some models have been trained to generate values in any arbitrary range, but this does not mean that the model is predicting actual probabilities.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question</strong></p>
+</div>
+<div class="callout-content">
+<p>Is there only one way to measure calibration for multiclass probability scores.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. There are multiple measures of calibration.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question</strong></p>
+</div>
+<div class="callout-content">
+<p>Can we perform optimal decisions in a multiclass setting by knowing the highest probability among the classes and the misclassification costs?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>. We need the probabilities of every class in order to make an optimal decision.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Question</strong></p>
+</div>
+<div class="callout-content">
+<p>If the data distribution, operating conditions and the missclassification costs do not change from training to test set, and a model makes optimal predictions in the training set. Do we need the exact probabilities in the test set to make optimal decisions?</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: Yes.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Incorrect</strong>. Try another answer.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-caution no-icon callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<p><strong>Answer: No.</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Correct</strong>.</p>
+</div>
+</div>
+</div>
+</section></section>
+<section id="references" class="title-slide slide level1 smaller scrollable">
+<h1>References</h1>
+
+<p><img src="../images/logos/tailor_and_uob.svg" class="slide-logo"></p>
+<div class="footer footer-default">
+
+</div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-brier1950" class="csl-entry" role="listitem">
+Brier, Glenn W. 1950. <span>“<span class="nocase">Verification of forecasts expressed in terms of probabilities</span>.”</span> <em>Monthly Weather Review</em> 78 (1): 1–3.
+</div>
+<div id="ref-fawcett2007" class="csl-entry" role="listitem">
+Fawcett, Tom, and Alexandru Niculescu-Mizil. 2007. <span>“<span class="nocase">PAV and the ROC convex hull</span>.”</span> <em>Machine Learning</em> 68 (1): 97–106.
+</div>
+<div id="ref-flach2016roc" class="csl-entry" role="listitem">
+Flach, Peter A. 2016. <span>“<span>ROC</span> Analysis.”</span> In <em>Encyclopedia of Machine Learning and Data Mining</em>. Springer.
+</div>
+<div id="ref-guo2017" class="csl-entry" role="listitem">
+Guo, Chuan, Geoff Pleiss, Yu Sun, and Kilian Q Weinberger. 2017. <span>“<span class="nocase">On Calibration of Modern Neural Networks</span>.”</span> In <em>34th International Conference on Machine Learning</em>, 1321–30.
+</div>
+<div id="ref-kull2019" class="csl-entry" role="listitem">
+Kull, Meelis, Miquel Perello-Nieto, Markus Kängsepp, Telmo Silva Filho, Hao Song, and Peter Flach. 2019. <span>“<span class="nocase">Beyond temperature scaling: Obtaining well-calibrated multiclass probabilities with Dirichlet calibration</span>.”</span> In <em>Advances in Neural Information Processing Systems (NIPS’19)</em>, 12316–26.
+</div>
+<div id="ref-kull2017" class="csl-entry" role="listitem">
+Kull, Meelis, Telmo M. Silva Filho, and Peter Flach. 2017. <span>“<span class="nocase">Beyond Sigmoids: How to obtain well-calibrated probabilities from binary classifiers with beta calibration</span>.”</span> <em>Electronic Journal of Statistics</em> 11 (2): 5052–80.
+</div>
+<div id="ref-niculescu-mizil2005" class="csl-entry" role="listitem">
+Niculescu-Mizil, Alexandru, and Rich Caruana. 2005. <span>“<span class="nocase">Predicting good probabilities with supervised learning</span>.”</span> In <em>22nd International Conference on Machine Learning (ICML’05)</em>, 625–32. ACM Press.
+</div>
+<div id="ref-platt2000" class="csl-entry" role="listitem">
+Platt, JC. 2000. <span>“<span class="nocase">Probabilities for SV Machines</span>.”</span> In <em>Advances in Large-Margin Classifiers</em>, edited by Alexander J. Smola, Peter Bartlett, Bernhard Schölkopf, and Dale Schuurmans, 61—–74. MIT Press.
+</div>
+<div id="ref-zadrozny2001" class="csl-entry" role="listitem">
+Zadrozny, Bianca, and Charles Elkan. 2001. <span>“<span class="nocase">Obtaining calibrated probability estimates from decision trees and naive Bayesian classifiers</span>.”</span> In <em>18th International Conference on Machine Learning (ICML’01)</em>, 609—–616.
+</div>
+<div id="ref-zadrozny2002" class="csl-entry" role="listitem">
+———. 2002. <span>“<span class="nocase">Transforming Classifier Scores into Accurate Multiclass Probability Estimates</span>.”</span> In <em>8th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining - KDD ’02</em>, 694—–699. ACM Press.
+</div>
+</div>
+</section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: '100%',
+
+        height: '100%',
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
