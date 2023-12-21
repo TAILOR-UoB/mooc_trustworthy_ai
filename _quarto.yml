@@ -69,14 +69,6 @@ format:
     callout-appearance: simple
     header-includes: |
       <link rel="stylesheet" media="screen" href="/fonts/Myriad Pro Regular.ttf" type="text/css"/>
-  revealjs:
-    slide-number: true
-    width: 100%
-    height: 100%
-    incremental: true
-    smaller: false
-    auto-stretch: false
-    chalkboard: true
 
 contrastcolor: "#37BEED"
 link-color: "#37BEED"
