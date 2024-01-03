@@ -14,8 +14,9 @@
 <script src="../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/run-python-blocks.js" type="module"></script>
 <link href="../site_libs/quarto-contrib/shinylive-0.2.3/shinylive/shinylive.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+  <meta name="generator" content="quarto-1.4.533">
 
+  <meta name="author" content="Miquel Perello Nieto">
   <title>Foundations of Trustworthy AI - Introduction to Optimal Decision Making</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -36,7 +37,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -103,6 +104,7 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
+      margin-bottom: 0em;
     }
     .hanging-indent div.csl-entry {
       margin-left:2em;
@@ -247,7 +249,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -447,7 +450,7 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 <!-- {.smaller} -->
 <ul>
 <li class="fragment">The objective is to classify a new instance into one of the possible classes in an optimal manner.</li>
-<li class="fragment">This may be important in critical applications: e.g.&nbsp;medical diagnosis <span class="citation" data-cites="begoli2019 yang2019">(<a href="#/references" role="doc-biblioref" onclick="">Begoli, Bhattacharya, and Kusnezov 2019</a>; <a href="#/references" role="doc-biblioref" onclick="">Yang, Steinfeld, and Zimmerman 2019</a>)</span>, self-driving cars <span class="citation" data-cites="qayyum2020 mullins2018">(<a href="#/references" role="doc-biblioref" onclick="">Qayyum et al. 2020</a>; <a href="#/references" role="doc-biblioref" onclick="">Mullins et al. 2018</a>)</span>, extreme weather prediction, finances <span class="citation" data-cites="nti2020">(<a href="#/references" role="doc-biblioref" onclick="">Nti, Adekoya, and Weyori 2020</a>)</span>. <img data-src="images/case_examples.svg" data-fig-align="center" alt="Example of critical applications"></li>
+<li class="fragment">This may be important in critical applications: e.g.&nbsp;medical diagnosis <span class="citation" data-cites="begoli2019 yang2019">(<a href="#/references" role="doc-biblioref" onclick="">Begoli, Bhattacharya, and Kusnezov 2019</a>; <a href="#/references" role="doc-biblioref" onclick="">Yang, Steinfeld, and Zimmerman 2019</a>)</span>, self-driving cars <span class="citation" data-cites="qayyum2020 mullins2018">(<a href="#/references" role="doc-biblioref" onclick="">Qayyum et al. 2020</a>; <a href="#/references" role="doc-biblioref" onclick="">Mullins et al. 2018</a>)</span>, extreme weather prediction, finances <span class="citation" data-cites="nti2020">(<a href="#/references" role="doc-biblioref" onclick="">Nti, Adekoya, and Weyori 2020</a>)</span>. <img data-src="images/case_examples.svg" class="quarto-figure quarto-figure-center" alt="Example of critical applications"></li>
 <li class="fragment">It is necessary to know what are the consequences of making each prediction (costs or gains).</li>
 <li class="fragment">One way to make optimal decisions is with cost-sensitive classification.</li>
 <li class="fragment">Can we make optimal decisions with any type of classifier?</li>
@@ -467,7 +470,7 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/classifiers.svg"></p>
+<p><img data-src="images/classifiers.svg" class="quarto-figure quarto-figure-center"></p>
 <figcaption>Classifier as a black box</figcaption>
 </figure>
 </div>
@@ -476,7 +479,7 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 </div><div class="column" style="width:40%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/deployment.svg"></p>
+<p><img data-src="images/deployment.svg" class="quarto-figure quarto-figure-center"></p>
 <figcaption>Training vs Deployment</figcaption>
 </figure>
 </div>
@@ -531,8 +534,10 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 
 <p>For example, lets assume that the posterior probability vector for a given instance is <span class="math inline">\([0.4, 0.6]\)</span>, the expected costs will be</p>
 <ul>
-<li class="fragment">Predicting <strong>Class 1</strong> will have an expected cost of <span class="math inline">\(0.4 \times 0 +  0.6 \times 1 = \color{darkred}{0.6}\)</span></li>
-<li class="fragment">Predicting <strong>Class 2</strong> will have an expected cost of <span class="math inline">\(0.4 \times 1  + 0.6 \times 0 = \mathbf{\color{darkred}{0.4}}\)</span>.</li>
+<li class="fragment">Predicting <strong>Class 1</strong> will have an expected cost of <span class="math inline">\(0.4 \times 0 +
+  0.6 \times 1 = \color{darkred}{0.6}\)</span></li>
+<li class="fragment">Predicting <strong>Class 2</strong> will have an expected cost of <span class="math inline">\(0.4 \times 1
+  + 0.6 \times 0 = \mathbf{\color{darkred}{0.4}}\)</span>.</li>
 </ul>
 </section>
 <section class="slide level2">
@@ -566,9 +571,13 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 <section class="slide level2">
 
 <p>will result in the following cost lines</p>
-<div class="cell" data-execution_count="1">
+<div id="2f319c38" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
+<div>
+<figure>
 <p><img data-src="odm_files/figure-revealjs/cell-2-output-1.png" width="812" height="432"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>where we have highlighted the minimum cost among the possible predictions. In this particular case the optimal prediction changes when the probability of the true class is higher or lower than <span class="math inline">\(0.5\)</span>, with the same expected cost for both classes at <span class="math inline">\(0.5\)</span>.</p>
@@ -618,9 +627,13 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 </table>
 </div>
 <div class="fragment" data-fragment-index="2">
-<div class="cell" data-execution_count="2">
+<div id="6d11b835" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
+<div>
+<figure>
 <p><img data-src="odm_files/figure-revealjs/cell-3-output-1.png" width="812" height="432"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -722,94 +735,100 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 </section>
 <section class="slide level2">
 
-<div class="cell" data-execution_count="3">
+<div id="2cd684b5" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
+<div>
+<figure>
 <p><img data-src="odm_files/figure-revealjs/cell-4-output-1.png" width="810" height="432"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>In this case, for a posterior probability vector <span class="math inline">\([0.4, 0.6]\)</span> we would expect</p>
 <ul>
-<li class="fragment">Predicting <strong>Class 1</strong> will have an expected cost of <span class="math inline">\(-5 \times 0.4 + 1 \times 0.6 = \mathbf{\color{darkgreen}{-1.4}}\)</span></li>
-<li class="fragment">Predicting <strong>Class 2</strong> will have an expected cost of <span class="math inline">\(10 \times 0.4 - 1 \times 0.6 = \color{darkred}{3.4}\)</span></li>
+<li class="fragment">Predicting <strong>Class 1</strong> will have an expected cost of <span class="math inline">\(-5 \times 0.4 + 1 \times
+0.6 = \mathbf{\color{darkgreen}{-1.4}}\)</span></li>
+<li class="fragment">Predicting <strong>Class 2</strong> will have an expected cost of <span class="math inline">\(10 \times 0.4 - 1 \times
+0.6 = \color{darkred}{3.4}\)</span></li>
 </ul>
 </section>
 <section class="slide level2">
 
 <h3 id="other-binary-examples">Other binary examples</h3>
 <p>See how the beginning and end of the cost lines change with the costs.</p>
-<div class="sourceCode" id="cb1" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href="#cb1-1"></a>#| standalone: true</span>
-<span id="cb1-2"><a href="#cb1-2"></a>#| components: viewer</span>
-<span id="cb1-3"><a href="#cb1-3"></a>#| viewerHeight: 480</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>import matplotlib.pyplot as plt</span>
-<span id="cb1-6"><a href="#cb1-6"></a>from shiny import App, render, ui</span>
-<span id="cb1-7"><a href="#cb1-7"></a>import pandas as pd</span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a>app_ui = ui.page_fluid(</span>
-<span id="cb1-10"><a href="#cb1-10"></a>    ui.layout_sidebar(</span>
-<span id="cb1-11"><a href="#cb1-11"></a>        ui.panel_sidebar(</span>
-<span id="cb1-12"><a href="#cb1-12"></a>    ui.input_slider("TP", "Cost True C1",  value=-5, min=-10, max=0),</span>
-<span id="cb1-13"><a href="#cb1-13"></a>    ui.input_slider("TN", "Cost True C2",  value=-1, min=-10, max=0),</span>
-<span id="cb1-14"><a href="#cb1-14"></a>    ui.input_slider("FN", "Cost False C2", value=10, min=1,   max=10),</span>
-<span id="cb1-15"><a href="#cb1-15"></a>    ui.input_slider("FP", "Cost False C1", value=1,  min=1,   max=10),</span>
-<span id="cb1-16"><a href="#cb1-16"></a>    ),</span>
-<span id="cb1-17"><a href="#cb1-17"></a>    ui.panel_main(</span>
-<span id="cb1-18"><a href="#cb1-18"></a>    ui.output_plot("plot")</span>
-<span id="cb1-19"><a href="#cb1-19"></a>    )</span>
-<span id="cb1-20"><a href="#cb1-20"></a>    ),</span>
-<span id="cb1-21"><a href="#cb1-21"></a>)</span>
-<span id="cb1-22"><a href="#cb1-22"></a></span>
-<span id="cb1-23"><a href="#cb1-23"></a>def server(input, output, session):</span>
-<span id="cb1-24"><a href="#cb1-24"></a>    @output</span>
-<span id="cb1-25"><a href="#cb1-25"></a>    @render.plot(alt="A histogram")</span>
-<span id="cb1-26"><a href="#cb1-26"></a>    def plot():</span>
-<span id="cb1-27"><a href="#cb1-27"></a>        TP = input.TP() # C_1|1</span>
-<span id="cb1-28"><a href="#cb1-28"></a>        FN = input.FN() # C_1|2</span>
-<span id="cb1-29"><a href="#cb1-29"></a>        FP = input.FP() # C_2|1</span>
-<span id="cb1-30"><a href="#cb1-30"></a>        TN = input.TN() # C_2|2</span>
-<span id="cb1-31"><a href="#cb1-31"></a>        fig = plt.figure()</span>
-<span id="cb1-32"><a href="#cb1-32"></a>        ax = fig.add_subplot()</span>
-<span id="cb1-33"><a href="#cb1-33"></a>        ax.grid(True)</span>
-<span id="cb1-34"><a href="#cb1-34"></a>        ax.plot([0, 1], [FP, TP], '--', label="Predict $C_1$")</span>
-<span id="cb1-35"><a href="#cb1-35"></a>        ax.plot([0, 1], [TN, FN], '--', label="Predict $C_2$")</span>
-<span id="cb1-36"><a href="#cb1-36"></a></span>
-<span id="cb1-37"><a href="#cb1-37"></a>        threshold = (FP - TN)/(FP - TN + FN - TP)</span>
-<span id="cb1-38"><a href="#cb1-38"></a>        cost_t = threshold*TP + (1-threshold)*FP</span>
-<span id="cb1-39"><a href="#cb1-39"></a>        ax.plot([threshold, 1], [cost_t, TP], lw=5, color='tab:blue', label="Optimal $C_1$")</span>
-<span id="cb1-40"><a href="#cb1-40"></a>        ax.plot([0, threshold], [TN, cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")</span>
-<span id="cb1-41"><a href="#cb1-41"></a></span>
-<span id="cb1-42"><a href="#cb1-42"></a>        C = [[TP, FP], [FN, TN]]</span>
-<span id="cb1-43"><a href="#cb1-43"></a>        bbox = dict(boxstyle="round", fc="white")</span>
-<span id="cb1-44"><a href="#cb1-44"></a>        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(2, -1),</span>
-<span id="cb1-45"><a href="#cb1-45"></a>                    textcoords='offset fontsize',</span>
-<span id="cb1-46"><a href="#cb1-46"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb1-47"><a href="#cb1-47"></a>                    bbox=bbox)</span>
-<span id="cb1-48"><a href="#cb1-48"></a>        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(2, 0),</span>
-<span id="cb1-49"><a href="#cb1-49"></a>                    textcoords='offset fontsize',</span>
-<span id="cb1-50"><a href="#cb1-50"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb1-51"><a href="#cb1-51"></a>                    bbox=bbox)</span>
-<span id="cb1-52"><a href="#cb1-52"></a>        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(0, 2),</span>
-<span id="cb1-53"><a href="#cb1-53"></a>                    textcoords='offset fontsize',</span>
-<span id="cb1-54"><a href="#cb1-54"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb1-55"><a href="#cb1-55"></a>                    bbox=bbox)</span>
-<span id="cb1-56"><a href="#cb1-56"></a>        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(2, 0),</span>
-<span id="cb1-57"><a href="#cb1-57"></a>                    textcoords='offset fontsize',</span>
-<span id="cb1-58"><a href="#cb1-58"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb1-59"><a href="#cb1-59"></a>                    bbox=bbox)</span>
-<span id="cb1-60"><a href="#cb1-60"></a></span>
-<span id="cb1-61"><a href="#cb1-61"></a>        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), </span>
-<span id="cb1-62"><a href="#cb1-62"></a>                    xytext=(0, --3),</span>
-<span id="cb1-63"><a href="#cb1-63"></a>                    textcoords='offset fontsize',</span>
-<span id="cb1-64"><a href="#cb1-64"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb1-65"><a href="#cb1-65"></a>                    bbox=bbox)</span>
-<span id="cb1-66"><a href="#cb1-66"></a></span>
-<span id="cb1-67"><a href="#cb1-67"></a>        ax.set_xlabel('$P(C_1|x)$')</span>
-<span id="cb1-68"><a href="#cb1-68"></a>        ax.set_ylabel('Expected cost')</span>
-<span id="cb1-69"><a href="#cb1-69"></a>        ax.legend()</span>
-<span id="cb1-70"><a href="#cb1-70"></a></span>
-<span id="cb1-71"><a href="#cb1-71"></a>        return fig</span>
-<span id="cb1-72"><a href="#cb1-72"></a></span>
-<span id="cb1-73"><a href="#cb1-73"></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a></a>#| standalone: true</span>
+<span id="cb1-2"><a></a>#| components: viewer</span>
+<span id="cb1-3"><a></a>#| viewerHeight: 480</span>
+<span id="cb1-4"><a></a></span>
+<span id="cb1-5"><a></a>import matplotlib.pyplot as plt</span>
+<span id="cb1-6"><a></a>from shiny import App, render, ui</span>
+<span id="cb1-7"><a></a>import pandas as pd</span>
+<span id="cb1-8"><a></a></span>
+<span id="cb1-9"><a></a>app_ui = ui.page_fluid(</span>
+<span id="cb1-10"><a></a>    ui.layout_sidebar(</span>
+<span id="cb1-11"><a></a>        ui.panel_sidebar(</span>
+<span id="cb1-12"><a></a>    ui.input_slider("TP", "Cost True C1",  value=-5, min=-10, max=0),</span>
+<span id="cb1-13"><a></a>    ui.input_slider("TN", "Cost True C2",  value=-1, min=-10, max=0),</span>
+<span id="cb1-14"><a></a>    ui.input_slider("FN", "Cost False C2", value=10, min=1,   max=10),</span>
+<span id="cb1-15"><a></a>    ui.input_slider("FP", "Cost False C1", value=1,  min=1,   max=10),</span>
+<span id="cb1-16"><a></a>    ),</span>
+<span id="cb1-17"><a></a>    ui.panel_main(</span>
+<span id="cb1-18"><a></a>    ui.output_plot("plot")</span>
+<span id="cb1-19"><a></a>    )</span>
+<span id="cb1-20"><a></a>    ),</span>
+<span id="cb1-21"><a></a>)</span>
+<span id="cb1-22"><a></a></span>
+<span id="cb1-23"><a></a>def server(input, output, session):</span>
+<span id="cb1-24"><a></a>    @output</span>
+<span id="cb1-25"><a></a>    @render.plot(alt="A histogram")</span>
+<span id="cb1-26"><a></a>    def plot():</span>
+<span id="cb1-27"><a></a>        TP = input.TP() # C_1|1</span>
+<span id="cb1-28"><a></a>        FN = input.FN() # C_1|2</span>
+<span id="cb1-29"><a></a>        FP = input.FP() # C_2|1</span>
+<span id="cb1-30"><a></a>        TN = input.TN() # C_2|2</span>
+<span id="cb1-31"><a></a>        fig = plt.figure()</span>
+<span id="cb1-32"><a></a>        ax = fig.add_subplot()</span>
+<span id="cb1-33"><a></a>        ax.grid(True)</span>
+<span id="cb1-34"><a></a>        ax.plot([0, 1], [FP, TP], '--', label="Predict $C_1$")</span>
+<span id="cb1-35"><a></a>        ax.plot([0, 1], [TN, FN], '--', label="Predict $C_2$")</span>
+<span id="cb1-36"><a></a></span>
+<span id="cb1-37"><a></a>        threshold = (FP - TN)/(FP - TN + FN - TP)</span>
+<span id="cb1-38"><a></a>        cost_t = threshold*TP + (1-threshold)*FP</span>
+<span id="cb1-39"><a></a>        ax.plot([threshold, 1], [cost_t, TP], lw=5, color='tab:blue', label="Optimal $C_1$")</span>
+<span id="cb1-40"><a></a>        ax.plot([0, threshold], [TN, cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")</span>
+<span id="cb1-41"><a></a></span>
+<span id="cb1-42"><a></a>        C = [[TP, FP], [FN, TN]]</span>
+<span id="cb1-43"><a></a>        bbox = dict(boxstyle="round", fc="white")</span>
+<span id="cb1-44"><a></a>        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(2, -1),</span>
+<span id="cb1-45"><a></a>                    textcoords='offset fontsize',</span>
+<span id="cb1-46"><a></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb1-47"><a></a>                    bbox=bbox)</span>
+<span id="cb1-48"><a></a>        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(2, 0),</span>
+<span id="cb1-49"><a></a>                    textcoords='offset fontsize',</span>
+<span id="cb1-50"><a></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb1-51"><a></a>                    bbox=bbox)</span>
+<span id="cb1-52"><a></a>        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(0, 2),</span>
+<span id="cb1-53"><a></a>                    textcoords='offset fontsize',</span>
+<span id="cb1-54"><a></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb1-55"><a></a>                    bbox=bbox)</span>
+<span id="cb1-56"><a></a>        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(2, 0),</span>
+<span id="cb1-57"><a></a>                    textcoords='offset fontsize',</span>
+<span id="cb1-58"><a></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb1-59"><a></a>                    bbox=bbox)</span>
+<span id="cb1-60"><a></a></span>
+<span id="cb1-61"><a></a>        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), </span>
+<span id="cb1-62"><a></a>                    xytext=(0, --3),</span>
+<span id="cb1-63"><a></a>                    textcoords='offset fontsize',</span>
+<span id="cb1-64"><a></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb1-65"><a></a>                    bbox=bbox)</span>
+<span id="cb1-66"><a></a></span>
+<span id="cb1-67"><a></a>        ax.set_xlabel('$P(C_1|x)$')</span>
+<span id="cb1-68"><a></a>        ax.set_ylabel('Expected cost')</span>
+<span id="cb1-69"><a></a>        ax.legend()</span>
+<span id="cb1-70"><a></a></span>
+<span id="cb1-71"><a></a>        return fig</span>
+<span id="cb1-72"><a></a></span>
+<span id="cb1-73"><a></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="cost-invariances" class="slide level2">
 <h2>Cost invariances</h2>
@@ -818,105 +837,105 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <li class="fragment">Multiplied by a positive constant value</li>
 <li class="fragment">Shifted by a constant value</li>
 </ul>
-<div class="sourceCode" id="cb2" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href="#cb2-1"></a>#| standalone: true</span>
-<span id="cb2-2"><a href="#cb2-2"></a>#| components: viewer</span>
-<span id="cb2-3"><a href="#cb2-3"></a>#| viewerHeight: 480</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>import numpy as np</span>
-<span id="cb2-6"><a href="#cb2-6"></a>import matplotlib.pyplot as plt</span>
-<span id="cb2-7"><a href="#cb2-7"></a>from shiny import App, render, ui</span>
-<span id="cb2-8"><a href="#cb2-8"></a>import pandas as pd</span>
-<span id="cb2-9"><a href="#cb2-9"></a></span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a>def fraction_to_float(fraction):</span>
-<span id="cb2-12"><a href="#cb2-12"></a>    if '/' in fraction:</span>
-<span id="cb2-13"><a href="#cb2-13"></a>       numerator, denominator = fraction.split('/') </span>
-<span id="cb2-14"><a href="#cb2-14"></a>       result = float(numerator)/float(denominator)</span>
-<span id="cb2-15"><a href="#cb2-15"></a>    else:</span>
-<span id="cb2-16"><a href="#cb2-16"></a>       result = float(fraction)</span>
-<span id="cb2-17"><a href="#cb2-17"></a>    return result</span>
-<span id="cb2-18"><a href="#cb2-18"></a></span>
-<span id="cb2-19"><a href="#cb2-19"></a># X|Y means predict X given that the true label is Y</span>
-<span id="cb2-20"><a href="#cb2-20"></a># Because the indices in a matrix are first row and then column we need to</span>
-<span id="cb2-21"><a href="#cb2-21"></a># invert the order of X and Y by transposing the matrix. Then [0,1] is predict 0</span>
-<span id="cb2-22"><a href="#cb2-22"></a># when the true label is 1.</span>
-<span id="cb2-23"><a href="#cb2-23"></a># TODO: check indices</span>
-<span id="cb2-24"><a href="#cb2-24"></a>C_original = np.array([[-2,  3],     # 1|1, 2|1</span>
-<span id="cb2-25"><a href="#cb2-25"></a>                       [13, -7]]).T  # 1|2, 2|2</span>
-<span id="cb2-26"><a href="#cb2-26"></a></span>
-<span id="cb2-27"><a href="#cb2-27"></a>app_ui = ui.page_fluid(</span>
-<span id="cb2-28"><a href="#cb2-28"></a>    ui.layout_sidebar(</span>
-<span id="cb2-29"><a href="#cb2-29"></a>        ui.panel_sidebar(</span>
-<span id="cb2-30"><a href="#cb2-30"></a>            ui.input_slider("S", "Shift constant S", value=0,  min=-10,</span>
-<span id="cb2-31"><a href="#cb2-31"></a>                            max=10),</span>
-<span id="cb2-32"><a href="#cb2-32"></a>            ui.input_radio_buttons("M", "Multiplicative constant M",</span>
-<span id="cb2-33"><a href="#cb2-33"></a>                                   choices=['1/20', '1/10', '1/5', '1',</span>
-<span id="cb2-34"><a href="#cb2-34"></a>                                            '5', '10', '20'],</span>
-<span id="cb2-35"><a href="#cb2-35"></a>                                   selected = '1', inline=True, width='100%'),</span>
-<span id="cb2-36"><a href="#cb2-36"></a>            ui.output_table('cost_matrix'),</span>
-<span id="cb2-37"><a href="#cb2-37"></a>        ),</span>
-<span id="cb2-38"><a href="#cb2-38"></a>        ui.panel_main(</span>
-<span id="cb2-39"><a href="#cb2-39"></a>            ui.output_plot("plot")</span>
-<span id="cb2-40"><a href="#cb2-40"></a>        )</span>
-<span id="cb2-41"><a href="#cb2-41"></a>    ),</span>
-<span id="cb2-42"><a href="#cb2-42"></a>)</span>
-<span id="cb2-43"><a href="#cb2-43"></a></span>
-<span id="cb2-44"><a href="#cb2-44"></a>def server(input, output, session):</span>
-<span id="cb2-45"><a href="#cb2-45"></a>    @output</span>
-<span id="cb2-46"><a href="#cb2-46"></a>    @render.plot(alt="A histogram")</span>
-<span id="cb2-47"><a href="#cb2-47"></a>    def plot():</span>
-<span id="cb2-48"><a href="#cb2-48"></a>        fig = plt.figure()</span>
-<span id="cb2-49"><a href="#cb2-49"></a>        ax = fig.add_subplot()</span>
-<span id="cb2-50"><a href="#cb2-50"></a>        ax.grid(True)</span>
-<span id="cb2-51"><a href="#cb2-51"></a></span>
-<span id="cb2-52"><a href="#cb2-52"></a>        global C_original</span>
-<span id="cb2-53"><a href="#cb2-53"></a>        C = C_original + input.S()</span>
-<span id="cb2-54"><a href="#cb2-54"></a>        C = C*fraction_to_float(input.M())</span>
-<span id="cb2-55"><a href="#cb2-55"></a>        </span>
-<span id="cb2-56"><a href="#cb2-56"></a>        threshold = (C[0][1] - C[1][1])/(C[0][1] - C[1][1] + C[1][0] - C[0][0])</span>
-<span id="cb2-57"><a href="#cb2-57"></a>        cost_t = threshold*C[0][0] + (1-threshold)*C[0][1]</span>
-<span id="cb2-58"><a href="#cb2-58"></a></span>
-<span id="cb2-59"><a href="#cb2-59"></a>        ax.plot([0, 1], [C[0][1], C[0][0]], '--', label="Predict $C_1$")</span>
-<span id="cb2-60"><a href="#cb2-60"></a>        ax.plot([0, 1], [C[1][1], C[1][0]], '--', label="Predict $C_2$")</span>
-<span id="cb2-61"><a href="#cb2-61"></a>        ax.plot([threshold, 1], [cost_t, C[0][0]], lw=5, color='tab:blue', label="Optimal $C_1$")</span>
-<span id="cb2-62"><a href="#cb2-62"></a>        ax.plot([0, threshold], [C[1][1], cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")</span>
-<span id="cb2-63"><a href="#cb2-63"></a></span>
-<span id="cb2-64"><a href="#cb2-64"></a>        bbox = dict(boxstyle="round", fc="white")</span>
-<span id="cb2-65"><a href="#cb2-65"></a>        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(-0.2, C[1][1]),</span>
-<span id="cb2-66"><a href="#cb2-66"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb2-67"><a href="#cb2-67"></a>                    bbox=bbox)</span>
-<span id="cb2-68"><a href="#cb2-68"></a>        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(1.1, C[0][0]),</span>
-<span id="cb2-69"><a href="#cb2-69"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb2-70"><a href="#cb2-70"></a>                    bbox=bbox)</span>
-<span id="cb2-71"><a href="#cb2-71"></a>        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(-0.2, C[0][1]),</span>
-<span id="cb2-72"><a href="#cb2-72"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb2-73"><a href="#cb2-73"></a>                    bbox=bbox)</span>
-<span id="cb2-74"><a href="#cb2-74"></a>        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(1.1, C[1][0]),</span>
-<span id="cb2-75"><a href="#cb2-75"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb2-76"><a href="#cb2-76"></a>                    bbox=bbox)</span>
-<span id="cb2-77"><a href="#cb2-77"></a></span>
-<span id="cb2-78"><a href="#cb2-78"></a>        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), </span>
-<span id="cb2-79"><a href="#cb2-79"></a>                    xytext=(threshold + 0.2, cost_t),</span>
-<span id="cb2-80"><a href="#cb2-80"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb2-81"><a href="#cb2-81"></a>                    bbox=bbox)</span>
-<span id="cb2-82"><a href="#cb2-82"></a></span>
-<span id="cb2-83"><a href="#cb2-83"></a>        ax.set_xlabel('$P(C_1|x)$')</span>
-<span id="cb2-84"><a href="#cb2-84"></a>        ax.set_ylabel('Expected cost')</span>
-<span id="cb2-85"><a href="#cb2-85"></a>        ax.legend()</span>
-<span id="cb2-86"><a href="#cb2-86"></a></span>
-<span id="cb2-87"><a href="#cb2-87"></a>        return fig</span>
-<span id="cb2-88"><a href="#cb2-88"></a>    @output</span>
-<span id="cb2-89"><a href="#cb2-89"></a>    @render.table(index=True)</span>
-<span id="cb2-90"><a href="#cb2-90"></a>    def cost_matrix():</span>
-<span id="cb2-91"><a href="#cb2-91"></a>        global C_original</span>
-<span id="cb2-92"><a href="#cb2-92"></a>        C = C_original.T + input.S() # Need to transpose back to show print matrix</span>
-<span id="cb2-93"><a href="#cb2-93"></a>        C = C*fraction_to_float(input.M())</span>
-<span id="cb2-94"><a href="#cb2-94"></a></span>
-<span id="cb2-95"><a href="#cb2-95"></a>        return pd.DataFrame(C,</span>
-<span id="cb2-96"><a href="#cb2-96"></a>                            index=['True C1', 'True C2'],</span>
-<span id="cb2-97"><a href="#cb2-97"></a>                            columns=['Predicted C1', 'Predicted C2'])</span>
-<span id="cb2-98"><a href="#cb2-98"></a></span>
-<span id="cb2-99"><a href="#cb2-99"></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2" data-engine="python"><pre class="sourceCode numberSource shinylive-python number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a></a>#| standalone: true</span>
+<span id="cb2-2"><a></a>#| components: viewer</span>
+<span id="cb2-3"><a></a>#| viewerHeight: 480</span>
+<span id="cb2-4"><a></a></span>
+<span id="cb2-5"><a></a>import numpy as np</span>
+<span id="cb2-6"><a></a>import matplotlib.pyplot as plt</span>
+<span id="cb2-7"><a></a>from shiny import App, render, ui</span>
+<span id="cb2-8"><a></a>import pandas as pd</span>
+<span id="cb2-9"><a></a></span>
+<span id="cb2-10"><a></a></span>
+<span id="cb2-11"><a></a>def fraction_to_float(fraction):</span>
+<span id="cb2-12"><a></a>    if '/' in fraction:</span>
+<span id="cb2-13"><a></a>       numerator, denominator = fraction.split('/') </span>
+<span id="cb2-14"><a></a>       result = float(numerator)/float(denominator)</span>
+<span id="cb2-15"><a></a>    else:</span>
+<span id="cb2-16"><a></a>       result = float(fraction)</span>
+<span id="cb2-17"><a></a>    return result</span>
+<span id="cb2-18"><a></a></span>
+<span id="cb2-19"><a></a># X|Y means predict X given that the true label is Y</span>
+<span id="cb2-20"><a></a># Because the indices in a matrix are first row and then column we need to</span>
+<span id="cb2-21"><a></a># invert the order of X and Y by transposing the matrix. Then [0,1] is predict 0</span>
+<span id="cb2-22"><a></a># when the true label is 1.</span>
+<span id="cb2-23"><a></a># TODO: check indices</span>
+<span id="cb2-24"><a></a>C_original = np.array([[-2,  3],     # 1|1, 2|1</span>
+<span id="cb2-25"><a></a>                       [13, -7]]).T  # 1|2, 2|2</span>
+<span id="cb2-26"><a></a></span>
+<span id="cb2-27"><a></a>app_ui = ui.page_fluid(</span>
+<span id="cb2-28"><a></a>    ui.layout_sidebar(</span>
+<span id="cb2-29"><a></a>        ui.panel_sidebar(</span>
+<span id="cb2-30"><a></a>            ui.input_slider("S", "Shift constant S", value=0,  min=-10,</span>
+<span id="cb2-31"><a></a>                            max=10),</span>
+<span id="cb2-32"><a></a>            ui.input_radio_buttons("M", "Multiplicative constant M",</span>
+<span id="cb2-33"><a></a>                                   choices=['1/20', '1/10', '1/5', '1',</span>
+<span id="cb2-34"><a></a>                                            '5', '10', '20'],</span>
+<span id="cb2-35"><a></a>                                   selected = '1', inline=True, width='100%'),</span>
+<span id="cb2-36"><a></a>            ui.output_table('cost_matrix'),</span>
+<span id="cb2-37"><a></a>        ),</span>
+<span id="cb2-38"><a></a>        ui.panel_main(</span>
+<span id="cb2-39"><a></a>            ui.output_plot("plot")</span>
+<span id="cb2-40"><a></a>        )</span>
+<span id="cb2-41"><a></a>    ),</span>
+<span id="cb2-42"><a></a>)</span>
+<span id="cb2-43"><a></a></span>
+<span id="cb2-44"><a></a>def server(input, output, session):</span>
+<span id="cb2-45"><a></a>    @output</span>
+<span id="cb2-46"><a></a>    @render.plot(alt="A histogram")</span>
+<span id="cb2-47"><a></a>    def plot():</span>
+<span id="cb2-48"><a></a>        fig = plt.figure()</span>
+<span id="cb2-49"><a></a>        ax = fig.add_subplot()</span>
+<span id="cb2-50"><a></a>        ax.grid(True)</span>
+<span id="cb2-51"><a></a></span>
+<span id="cb2-52"><a></a>        global C_original</span>
+<span id="cb2-53"><a></a>        C = C_original + input.S()</span>
+<span id="cb2-54"><a></a>        C = C*fraction_to_float(input.M())</span>
+<span id="cb2-55"><a></a>        </span>
+<span id="cb2-56"><a></a>        threshold = (C[0][1] - C[1][1])/(C[0][1] - C[1][1] + C[1][0] - C[0][0])</span>
+<span id="cb2-57"><a></a>        cost_t = threshold*C[0][0] + (1-threshold)*C[0][1]</span>
+<span id="cb2-58"><a></a></span>
+<span id="cb2-59"><a></a>        ax.plot([0, 1], [C[0][1], C[0][0]], '--', label="Predict $C_1$")</span>
+<span id="cb2-60"><a></a>        ax.plot([0, 1], [C[1][1], C[1][0]], '--', label="Predict $C_2$")</span>
+<span id="cb2-61"><a></a>        ax.plot([threshold, 1], [cost_t, C[0][0]], lw=5, color='tab:blue', label="Optimal $C_1$")</span>
+<span id="cb2-62"><a></a>        ax.plot([0, threshold], [C[1][1], cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")</span>
+<span id="cb2-63"><a></a></span>
+<span id="cb2-64"><a></a>        bbox = dict(boxstyle="round", fc="white")</span>
+<span id="cb2-65"><a></a>        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(-0.2, C[1][1]),</span>
+<span id="cb2-66"><a></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb2-67"><a></a>                    bbox=bbox)</span>
+<span id="cb2-68"><a></a>        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(1.1, C[0][0]),</span>
+<span id="cb2-69"><a></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb2-70"><a></a>                    bbox=bbox)</span>
+<span id="cb2-71"><a></a>        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(-0.2, C[0][1]),</span>
+<span id="cb2-72"><a></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb2-73"><a></a>                    bbox=bbox)</span>
+<span id="cb2-74"><a></a>        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(1.1, C[1][0]),</span>
+<span id="cb2-75"><a></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb2-76"><a></a>                    bbox=bbox)</span>
+<span id="cb2-77"><a></a></span>
+<span id="cb2-78"><a></a>        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), </span>
+<span id="cb2-79"><a></a>                    xytext=(threshold + 0.2, cost_t),</span>
+<span id="cb2-80"><a></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb2-81"><a></a>                    bbox=bbox)</span>
+<span id="cb2-82"><a></a></span>
+<span id="cb2-83"><a></a>        ax.set_xlabel('$P(C_1|x)$')</span>
+<span id="cb2-84"><a></a>        ax.set_ylabel('Expected cost')</span>
+<span id="cb2-85"><a></a>        ax.legend()</span>
+<span id="cb2-86"><a></a></span>
+<span id="cb2-87"><a></a>        return fig</span>
+<span id="cb2-88"><a></a>    @output</span>
+<span id="cb2-89"><a></a>    @render.table(index=True)</span>
+<span id="cb2-90"><a></a>    def cost_matrix():</span>
+<span id="cb2-91"><a></a>        global C_original</span>
+<span id="cb2-92"><a></a>        C = C_original.T + input.S() # Need to transpose back to show print matrix</span>
+<span id="cb2-93"><a></a>        C = C*fraction_to_float(input.M())</span>
+<span id="cb2-94"><a></a></span>
+<span id="cb2-95"><a></a>        return pd.DataFrame(C,</span>
+<span id="cb2-96"><a></a>                            index=['True C1', 'True C2'],</span>
+<span id="cb2-97"><a></a>                            columns=['Predicted C1', 'Predicted C2'])</span>
+<span id="cb2-98"><a></a></span>
+<span id="cb2-99"><a></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section class="slide level2">
 
@@ -1106,9 +1125,13 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 </tbody>
 </table>
 <div class="center">
-<div class="cell" data-execution_count="4">
+<div id="48bfe721" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
+<div>
+<figure>
 <p><img data-src="odm_files/figure-revealjs/cell-5-output-1.png" width="856" height="326"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -1121,7 +1144,7 @@ Commented section
 
 ### Ternary thresholds and optimal decisions
 
-::: {.cell execution_count=5}
+::: {#a05383b8 .cell execution_count=5}
 
 ::: {.cell-output .cell-output-display}
 ![](odm_files/figure-revealjs/cell-6-output-1.png){width=856 height=326}
@@ -1173,9 +1196,13 @@ Commented section
 </tbody>
 </table>
 <div class="center">
-<div class="cell" data-execution_count="6">
+<div id="04c1515e" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
+<div>
+<figure>
 <p><img data-src="odm_files/figure-revealjs/cell-7-output-1.png" width="405" height="441"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
@@ -1252,9 +1279,13 @@ Commented section
 </tr>
 </tbody>
 </table>
-<div class="cell" data-execution_count="7">
+<div id="25bfdc3d" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
+<div>
+<figure>
 <p><img data-src="odm_files/figure-revealjs/cell-8-output-1.png" width="810" height="432"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1292,20 +1323,21 @@ Commented section
 </tr>
 </tbody>
 </table>
-<div class="cell" data-execution_count="8">
+<div id="4faedcbc" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
+<div>
+<figure>
 <p><img data-src="odm_files/figure-revealjs/cell-9-output-1.png" width="810" height="432"></p>
+</figure>
+</div>
 </div>
 </div>
 </section></section>
 <section id="references" class="title-slide slide level1 smaller scrollable">
 <h1>References</h1>
 
-<p><img src="../images/logos/tailor_and_uob.svg" class="slide-logo"></p>
-<div class="footer footer-default">
 
-</div>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-Alotaibi2021" class="csl-entry" role="listitem">
 Alotaibi, Reem, and Peter Flach. 2021. <span>“Multi-Label Thresholding for Cost-Sensitive Classification.”</span> <em>Neurocomputing</em> 436 (May): 232–47. <a href="https://doi.org/10.1016/J.NEUCOM.2020.12.004">https://doi.org/10.1016/J.NEUCOM.2020.12.004</a>.
 </div>
@@ -1359,7 +1391,12 @@ Zadrozny, Bianca, and Charles Elkan. 2001. <span>“Obtaining Calibrated Probabi
 </div>
 </div>
 </section>
-    </div>
+    <div class="quarto-auto-generated-content">
+<p><img src="../images/logos/tailor_and_uob.svg" class="slide-logo"></p>
+<div class="footer footer-default">
+
+</div>
+</div></div>
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
@@ -1386,7 +1423,6 @@ Zadrozny, Bianca, and Charles Elkan. 2001. <span>“Obtaining Calibrated Probabi
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1648,10 +1684,9 @@ Zadrozny, Bianca, and Charles Elkan. 2001. <span>“Obtaining Calibrated Probabi
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -1661,8 +1696,17 @@ Zadrozny, Bianca, and Charles Elkan. 2001. <span>“Obtaining Calibrated Probabi
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 
