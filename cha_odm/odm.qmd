@@ -1,5 +1,6 @@
 ---
 title: Introduction to Optimal Decision Making
+code-links: binder
 subtitle: <a href="slides-intro-to-opt-dec-mak.html" target="_blank"><img src="https://img.shields.io/badge/slides-revealjs-yellow"></a>
 author: 
   - name:
