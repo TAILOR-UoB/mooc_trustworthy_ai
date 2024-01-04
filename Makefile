@@ -3,8 +3,8 @@ install:
 	pip install -r requirements.txt
 	quarto add quarto-ext/shinylive
 
-build:
-	quarto render ./ --to html 
+render:
+	quarto render
 
 serve:
 	python -m http.server 8999 -d _site/

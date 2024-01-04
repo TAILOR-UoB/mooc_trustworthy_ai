@@ -6,3 +6,4 @@
 *.ipynb_checkpoints
 docs/*
 _site
+*.js
