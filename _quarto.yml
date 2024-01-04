@@ -18,7 +18,7 @@ website:
   sidebar:
     style: "docked"
     search: true
-    logo: "TAILOR logo small - full-color rgb.svg"
+    logo: "./images/TAILOR-MOOC-tai.svg"
     collapse-level: 1
     contents:
       - index.qmd
