@@ -23,7 +23,8 @@ author:
     attributes:
         equal-contributor: False
 format:
-  html: default
+  html:
+    css: wahcc_style.css
   revealjs:
     logo: "../images/logos/tailor_and_uob.svg"
     output-file: slides-cla-cal.html
@@ -45,11 +46,13 @@ $$
 $$
 :::
 
+::: {.content-visible when-format="html" unless-format="revealjs"}
 <iframe allowfullscreen
 src="https://media.upv.es/player/embed.html?id=003597b0-bf29-11ed-83a4-bf04f88f22c5"
 style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
 frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
+:::
 
 ## Weather forecasters
 
@@ -582,11 +585,13 @@ fig = plot_reliability_diagram_precomputed(avg_true=empirical, avg_pred=scores,
 
 # Why are we interested in calibration?
 
+::: {.content-visible when-format="html" unless-format="revealjs"}
 <iframe allowfullscreen
 src="https://media.upv.es/player/embed.html?id=2a1113c0-bf29-11ed-83a4-bf04f88f22c5"
 style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
 frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
+:::
 
 ## Why are we interested in calibration?
 
@@ -840,11 +845,13 @@ What would be the expected cost of predicting class 1?
 
 # Common sources of miscalibration
 
+::: {.content-visible when-format="html" unless-format="revealjs"}
 <iframe allowfullscreen
 src="https://media.upv.es/player/embed.html?id=543b2f90-bf2a-11ed-b716-77ee466eb043"
 style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
 frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
+:::
 
 ## Common sources of miscalibration
 
@@ -1100,11 +1107,13 @@ equally distributed bins?
 
 # A first look at some calibration techniques
 
+::: {.content-visible when-format="html" unless-format="revealjs"}
 <iframe allowfullscreen
 src="https://media.upv.es/player/embed.html?id=6f5e0e00-bf2a-11ed-b716-77ee466eb043"
 style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
 frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
+:::
 
 ## A first look at some calibration techniques
 
@@ -1227,11 +1236,13 @@ function requires a straight line.
 # Calibrating multi-class classifiers
 
 
+::: {.content-visible when-format="html" unless-format="revealjs"}
 <iframe allowfullscreen
 src="https://media.upv.es/player/embed.html?id=8f343b50-bf2a-11ed-83a4-bf04f88f22c5"
 style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no"
 frameborder="0" marginheight="0px" marginwidth="0px" width="640" height="360">
 </iframe>
+:::
 
 
 ## What's so special about multi-class calibration?

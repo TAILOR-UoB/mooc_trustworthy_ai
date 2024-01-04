@@ -1,0 +1,20 @@
+.reveal .slide-logo {
+  display: block;
+  position: fixed;
+  bottom: 20px;
+  right: 450px !important;
+  top: unset !important;
+  left: unset !important;
+  height: unset !important;
+  width: unset !important;
+  max-height: 6rem !important;
+  max-width: unset !important;
+}
+
+
+iframe[src*=youtube] {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  padding-bottom: 10px;
+}
