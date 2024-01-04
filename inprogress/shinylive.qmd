@@ -1,0 +1,104 @@
+---
+title: Shinylive Introduction
+author: 
+  - name:
+      given: Miquel
+      family: Perello Nieto
+    orcid: 0000-0001-8925-424X
+    email: miquel.perellonieto@bristol.ac.uk
+    affiliations:
+      - name: University of Bristol
+        city: Bristol
+        country: United Kingdom
+        postal-code: BS8 1QU
+    attributes:
+        equal-contributor: False
+format: html
+filters:
+  - shinylive
+---
+
+Quarto offers a set of extensions maintained by the core Quarto team[^1].
+Among them, the shinylive extension[^2] allows to embed Shinylive for Python
+code in the client web browser. 
+
+[^1]: [https://github.com/quarto-ext](https://github.com/quarto-ext)
+[^2]: [https://github.com/quarto-ext/shinylive](https://github.com/quarto-ext/shinylive)
+
+
+Shinylive combines a version of Shiny for Python [^3] with some common Python
+libraries, complied into WebAssembly which can be run in the client's web
+browser (aka Pyodide[^4]).
+
+[^3]: [https://shiny.posit.co/py/](https://shiny.posit.co/py/)
+[^4]: [https://pyodide.org/en/stable/#](https://pyodide.org/en/stable/#)
+
+To run code it is necessary to first install the Python package shinylive in
+the Python environment 
+
+```bash
+pip install shinylive --upgrade
+```
+
+And add the extension in quarto
+
+```bash
+quarto add quarto-ext/shinylive
+```
+
+The previous command will create a folder
+`https://tailor-network.eu/cef/how-it-works/` with the necessary files to use
+this extension. This folder needs to be added into the version control in order
+to be automatically rendered during the GitHub actions.
+
+Once installed, in the yaml header section of a quarto markdown file that
+includes shinylive code needs to have the following lines:
+
+```yaml
+filters:
+  - shinylive
+```
+
+There are 3 possible components in a Shiny environment: the editor, which
+contains the code to be modified and/or executed; the terminal, which shows the
+inputs and outputs and can be interacted with; and a viewer, which is a
+special shiny class that renders text and figures as html.
+The following is and example of a code and a directive that shows the three
+components.
+
+````yaml
+```{shinylive-python}
+#| standalone: true
+#| components: [editor, terminal, viewer]
+
+print('The standard output is printed in the terminal below')
+
+# The User Interface (UI) provides multiple functions for the output
+from shiny import ui
+app_ui = ui.div("Hello world!")
+
+# It is necessary to create an Application and provide the UI
+from shiny import App
+app = App(app_ui, None)
+```
+````
+
+which is rendered as follows
+
+```{shinylive-python}
+#| standalone: true
+#| components: [editor, terminal, viewer]
+
+print('The standard output is printed in the terminal below')
+
+# The User Interface (UI) provides multiple functions for the output
+from shiny import ui
+app_ui = ui.div("Hello world!")
+
+# It is necessary to create an Application and provide the UI
+from shiny import App
+app = App(app_ui, None)
+```
+
+The following subsections show multiple examples of the current functionalities
+and its limitations.
