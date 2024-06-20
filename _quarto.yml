@@ -19,23 +19,32 @@ website:
     style: "docked"
     search: true
     logo: "./images/TAILOR-MOOC-tai.svg"
-    collapse-level: 1
+    collapse-level: 2
+    number-sections: true
+    number-depth: 1
+    tools:
+      - icon: github
+        menu:
+          - text: Source Code
+            href: https://github.com/TAILOR-UoB/mooc_trustworthy_ai
+          - text: Report a Bug
+            href: https://github.com/TAILOR-UoB/mooc_trustworthy_ai/issues/new?labels=bug
     contents:
-      - index.qmd
-      - intro.qmd
-      - section: shinylive.qmd
-        contents:
-          - cha_sl/shinylive-user-interface.qmd
-          - cha_sl/shinylive-not-working.qmd
-          - cha_sl/shinylive-not-working-terminals.qmd
-      - section: explainable-ai-systems.qmd
+      - href: index.qmd
+        text: Home
+      - href: 0_foundations_of_ai.qmd
+      - href: 1_foundations_of_tai.qmd
+      - section: 2_ai_paradigms_representations.qmd
         contents:
           - cha_wahcc/wahcc.qmd
           - cha_odm/odm.qmd
+      - href: 3_deciding_learning_how_act.qmd
+      - href: 4_reasoning_learning_social_context.qmd
+      - href: 5_automated_ai.qmd
 
   page-footer:
     left: |
-      Foundations of Trustworthy AI was written by Miquel Perello Nieto by compiling multiple information from the TAILOR project.
+      Foundations of Trustworthy AI was written by Miquel Perello Nieto based on the TAILOR PhD Curriculum and other sources.
     right: |
       This website was built with <a href="https://quarto.org/">Quarto</a>.
   #cover-image: "images/TAILOR-MOOC-tai.svg"

@@ -1,0 +1,4 @@
+# Deciding and Learning How to Act
+
+This topic covers ways in which AI agents can be empowered with the ability to
+deliberate autonomously how to act in the world. 

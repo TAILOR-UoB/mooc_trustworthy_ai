@@ -33,19 +33,17 @@ format:
 bibliography: references.bib
 ---
 
+::: {.hidden}
+$$
+{{< include definitions.tex >}}
+$$
+:::
+
 # Motivation
 
 ::: {.content-visible when-format="html" unless-format="revealjs"}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/IymQ6f87CtA?si=WHzlG4CfINqIqQ0G" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 :::
-
-::: {.hidden}
-$$
-{{< include definitions.tex >}}
-{{< include commands.tex >}}
-$$
-:::
-
 
 ## Optimal Decision Making. Why and how?
 

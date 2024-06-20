@@ -1,22 +1,25 @@
-# Welcome {.unnumbered}
+---
+format:
+  html:
+    mermaid:
+      theme: neutral
+---
+# Foundations of Trustworthy AI {.unnumbered}
 
-This topic covers the dimensions of Trustworthy AI: (i) Explainability, (ii)
-Safety, (iii) Fairness, (iv) Accountability and Reproducibility, (v) Privacy,
-and (vi) Sustainability.
+This website serves as an example of the possible online content for a Massive
+Open Online Course aligned with the TAILOR PhD curriculum in Trustworthy AI.
 
-## About {.unnumbered}
-
-This MOOC is based on the first topic proposed in the TAILOR PhD curriculum
-about Integrating Approaches for Trustworthy AI. The idea is to adapt the
-content of The TAILOR Handbook of Trustworthy AI and create a course with six
-subtopics
-
-1. Explainable AI Systems
-2. Safety and Robustness
-3. Fairness, Equity, and Justice by Design
-4. Accountability and Reproducibility
-5. Respect for Privacy
-6. Sustainability
+The material in this course equips students with essential knowledge and skills
+for developing trustworthy Artificial Intelligence systems. With a general
+foundation on Artificial Intelligence, students learn how an integrated
+approach to learning, optimisation and reasoning can achieve trustworthiness.
+The first three topics are introductory, with (0) a general overview of
+Artificial Intelligence that ensures a common understanding across the
+curriculum; (1) a special focus on the trustworthy aspects of AI; and (2) how
+to leverage complementary AI paradigms and representations. The last three
+advanced topics include (3) AI agents deciding and learning how to act; (4) AI
+agents acting and learning in society; and (5) ensuring that AI tools and
+systems are performant, robust and trustworthy.
 
 ```{mermaid}
 %%{
@@ -32,15 +35,22 @@ subtopics
     }
   }
 }%%
-flowchart TD
-  A[Explainable <br> AI Systems] --> B(Accountability <br> and Reproducibility)
-  A --> C(Safety and <br> Robustness)
-  B --> D[Sustainability]
-  B --> E[Respect for Privacy]
-  B --> F[Fairness, Equity, <br> and Justice <br> by Design]
-  C --> F
+flowchart LR
+  subgraph "B. Advanced Topics"
+    direction LR
+    D["3. Deciding and <br> Learning How to Act"] --- E["4. Reasoning and Learning <br> in Social Contexts"]
+    E --- F["5. Automated AI"]
+  end
+  subgraph "A. Foundational Topics"
+    direction LR
+    A["0. Foundations of <br> Artificial Intelligence"] --- B["1. Foundations of <br> Trustworthy AI"]
+    B --- C["2. AI Paradigms and <br> Representations"]
+  end
 ```
 
-## Acknowledgements {.unnumbered}
+::: {.callout-caution icon="true" collapse="false"}
+# Under development
 
-Thanks to ...
+The content of this website is a demonstrator of the functionalities that could
+be used in a MOOC. At the moment only two sections have actual content.
+:::

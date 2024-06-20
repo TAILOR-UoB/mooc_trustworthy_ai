@@ -1,7 +1,3 @@
-
-\usetikzlibrary{graphs}
-\usetikzlibrary{positioning}
-\usepackage{pgfplots}
 \usepackage{xcolor}
 
 \definecolor{light-gray}{gray}{0.95}
@@ -14,4 +10,10 @@
 \definecolor{darkblue}{HTML}{111199}
 \definecolor{pcolor}{HTML}{111199}
 
-
+\newcommand{\posc}{{\color{pcolor}\oplus}}
+\newcommand{\negc}{{\color{ncolor}\ominus}}
+\newcommand{\fun}[1]{\text{\lowercase{#1}}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\DeclareMathOperator{\ve}{\vec{e}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}

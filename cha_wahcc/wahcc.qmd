@@ -1182,7 +1182,9 @@ probabilities.
 :::
 
 ::: {.callout-tip}
-# Can Platt scaling calibrate models that are overconfident?
+# Platt scaling:
+
+Can Platt scaling calibrate probabilistic models that are overconfident?
 :::
 
 ::: {.callout-caution icon="false" collapse="true"}
@@ -1194,12 +1196,14 @@ probabilities.
 ::: {.callout-caution icon="false" collapse="true"}
 # Answer: No.
 
-**Correct**. Platt scaling can only generate S shaped calibration maps, which
-can only calibrate under-confident scores.
+**Correct**. Platt scaling for probability scores can only generate S shaped
+calibration maps, which can only calibrate under-confident scores.
 :::
 
 ::: {.callout-tip}
-# Is isotonic regression a parametric method?
+# Isotonic regression:
+
+Is isotonic regression a parametric method?
 :::
 
 ::: {.callout-caution icon="false" collapse="true"}
@@ -1215,7 +1219,9 @@ can only calibrate under-confident scores.
 :::
 
 ::: {.callout-tip}
-# Can Platt scaling learn an identity function if the model is already calibrated?
+# Platt scaling:
+
+Can Platt scaling learn an identity function if the model is already calibrated?
 :::
 
 ::: {.callout-caution icon="false" collapse="true"}
@@ -1334,7 +1340,9 @@ All of this will be elaborated in the next part of the tutorial.
 ## Questions and answers
 
 ::: {.callout-tip}
-# Can we interpret the output of any model that produces values between zero and
+# Model scores:
+
+Can we interpret the output of any model that produces values between zero and
 one as probabilities?
 :::
 

@@ -1,0 +1,4 @@
+# Automated AI
+
+This topic covers meta-level methods to ensure that AI tools and systems are
+performant, robust and trustworthy.  

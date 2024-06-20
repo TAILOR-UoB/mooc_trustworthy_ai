@@ -1,0 +1,5 @@
+# AI Paradigms and Representations
+
+This topic covers the challenge of integrating different representations and
+paradigms for AI in order to enable both learning, reasoning and optimisation.
+The integrated representations are intended to engender trustworthiness. 

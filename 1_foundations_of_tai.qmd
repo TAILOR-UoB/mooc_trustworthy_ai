@@ -1,0 +1,7 @@
+# Foundations of Trustworthy AI
+
+
+This topic covers the dimensions of Trustworthy AI: (i) Explainability, (ii)
+Safety, (iii) Fairness, (iv) Accountability and Reproducibility, (v) Privacy,
+and (vi) Sustainability. 
+

@@ -1,0 +1,3 @@
+# Foundations of Artificial Intelligence
+
+This topic presents the foundations, scope, history and methodologies of AI.
