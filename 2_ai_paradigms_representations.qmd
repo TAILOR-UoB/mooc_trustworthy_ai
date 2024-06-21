@@ -1,5 +1,61 @@
 # AI Paradigms and Representations
 
+::: {.callout-note icon="true" collapse="false"}
+# Content from TAILOR deliverable report D9.6 
+
+The content of this page is currently a re-formatted copy from the Deliverable
+9.6 PhD Curriculum Report.
+:::
+
 This topic covers the challenge of integrating different representations and
 paradigms for AI in order to enable both learning, reasoning and optimisation.
 The integrated representations are intended to engender trustworthiness. 
+
+## Content/Knowledge
+
+Students should be able to:
+
+-   Understand the motivations for the need to integrate learning,
+    reasoning and optimisation, and the role of prior knowledge and
+    knowledge representation.
+-   Understand integrated representations for Trustworthy AI.
+-   Understand different paradigms that integrate different
+    representations. In particular:
+    -   Statistical relational AI: the integration of logic and
+        probability/fuzziness for both reasoning and learning
+    -   Neurosymbolic AI: integrating logic with neural networks to
+        enable perception and reasoning
+    -   Knowledge graphs, ontologies, graph neural networks and
+        embeddings.
+    -   Constraint satisfaction and optimisation techniques: integrating
+        solvers and learners for better performance and for learning
+        CSP models.
+-   Apply the above methods in perception, spatial reasoning, natural
+    language processing, vision, and other societal/industrial domains
+
+## Methodological/Skills
+
+Students should be able to:
+
+-   Use a wide variety of representations (graphical models, logic,
+    neural networks, knowledge graphs) for both learning and reasoning
+-   Discern the power and limitations of different types of
+    representations.
+-   Combine different representations for a particular AI task.
+-   Use both knowledge and data for a particular AI problem.
+-   Understand and use the above-mentioned categories of techniques
+    (StarAI, NeSy, CSP, Knowledge graphs, Ontologies (OWL/RDFS).
+-   Understand the limitations and challenges of the integrated
+    representations and paradigms.
+-   Understand the trustworthiness of these techniques.
+
+## Transferrable/Application
+
+Students should be able to:
+
+-   Work effectively with experts in different learning, reasoning and
+    optimisation paradigms.
+-   Collaborate with domain experts to identify suitable integrated
+    learning, reasoning and optimisation techniques for Trustworthy
+    AI.
+

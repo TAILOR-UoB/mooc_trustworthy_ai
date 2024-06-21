@@ -1,4 +1,54 @@
 # Deciding and Learning How to Act
 
+::: {.callout-note icon="true" collapse="false"}
+# Content from TAILOR deliverable report D9.6 
+
+The content of this page is currently a re-formatted copy from the Deliverable
+9.6 PhD Curriculum Report.
+:::
+
 This topic covers ways in which AI agents can be empowered with the ability to
 deliberate autonomously how to act in the world. 
+
+## Content/Knowledge
+
+Students should be able to:
+
+-   Understand the different approaches in the fields of Artificial
+    Intelligence and Formal Methods that can be applied in synergy to
+    develop autonomous agents.
+-   Recognize the mathematical and algorithmic techniques as well as the
+    key challenges to solving sequential decision-making problems.
+-   Integrate data-driven learning methods with model-based reasoning
+    methods for deciding and learning how to act.
+-   Identify the limitations of current machine learning and reasoning
+    methods to act in the real world.
+
+## Methodological/Skills
+
+Students should be able to:
+
+-   Program advanced agents using learning and planning techniques for
+    solving sequential decision-making tasks that involve other
+    agents.
+-   Analyse autonomy in dynamic, partially observable settings involving
+    a single agent or multiple agents.
+-   Develop methods for optimising control policies in complex
+    sequential decision-making problems.
+-   Implement techniques to balance exploration and exploitation in
+    decision-making tasks that require learning from the environment
+    while acting on it.
+-   Use linear time logic as a specification language for formulating
+    complex tasks as well as environment properties.
+-   Apply synthesis from formal specifications to solve planning
+    problems in nondeterministic environments.
+
+## Transferrable/Application
+
+Students should be able to:
+
+-   Work effectively with others in an interdisciplinary and/or
+    international team to reach a collective objective by sharing
+    knowledge, learning and building consensus.
+-   Present materials coherently and concisely in written or oral form,
+    with clear use of language to a technical audience.
