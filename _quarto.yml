@@ -85,7 +85,6 @@ format:
 
 contrastcolor: "#37BEED"
 link-color: "#37BEED"
-mainfont: Arial
 editor: visual
 jupyter: python3
 exclude_patterns:
