@@ -1,6 +1,6 @@
 ---
 title: Classifier Calibration
-subtitle: <a href="slides-cla-cal.html" target="_blank"><img src="https://img.shields.io/badge/slides-revealjs-yellow"></a>
+subtitle: <a href="slides-cla-cal.html" target="_blank"><img src="https://img.shields.io/badge/Slides-Revealjs_(html)-yellow"></a> <a href="cla-cal-slides.pdf" target="_blank"><img src="https://img.shields.io/badge/Slides-LaTeX_Beamer_(pdf)-orange"></a>
 author: 
   - name: Peter Flach
     orcid: 0000-0001-6857-5810
@@ -35,15 +35,18 @@ format:
     smaller: false
     auto-stretch: false
     chalkboard: true
+  pdf:
+    include-in-header:
+      - file: packages.tex
+      - operators.tex
+      - colors.tex
 bibliography: references.bib
 ---
 
 # Taking inspiration from forecasting
 
 ::: {.hidden}
-$$
 {{< include definitions.tex >}}
-$$
 :::
 
 ::: {.content-visible when-format="html" unless-format="revealjs"}
@@ -707,8 +710,6 @@ This gives the optimal threshold on the hypothetical Bayes-optimal probabilities
 
 It is also the best thing to do in practice -- as long as the probabilities are well-calibrated! 
 
-\framebreak
-
 ## Optimal decisions III
 
 Without loss of generality we can set the cost of true positives and true negatives to zero; 
@@ -880,8 +881,8 @@ increased or decreased.
 
 ::: {.column width="70%"}
 
-- Underconfidence typically gives \highlighted{ecmlred}{sigmoidal} distortions. 
-- To calibrate these means to \textit{pull predicted probabilities away from the centre}. 
+- Underconfidence typically gives *sigmoidal* distortions. 
+- To calibrate these means to _pull predicted probabilities away from the centre_. 
 
 :::
 ::: {.column width="30%"}
@@ -902,9 +903,8 @@ Source: [@niculescu-mizil2005]
 ::: {.column width="70%"}
 
 - Overconfidence is very common, and usually a consequence of over-counting evidence. 
-%\\(e.g. naive Bayes, some forms of boosting).
-- Here, distortions are \highlighted{ecmlred}{inverse-sigmoidal}
-- Calibrating these means to \textit{push predicted probabilities toward the centre}. 
+- Here, distortions are *inverse-sigmoidal*
+- Calibrating these means to _push predicted probabilities toward the centre_. 
 
 :::
 ::: {.column width="30%"}
