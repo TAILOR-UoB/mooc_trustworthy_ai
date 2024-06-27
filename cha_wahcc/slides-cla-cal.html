@@ -351,7 +351,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Classifier Calibration</h1>
-  <p class="subtitle"><a href="slides-cla-cal.html" target="_blank"><img src="https://img.shields.io/badge/slides-revealjs-yellow"></a></p>
+  <p class="subtitle"><a href="slides-cla-cal.html" target="_blank"><img src="https://img.shields.io/badge/Slides-Revealjs_(html)-yellow"></a> <a href="cla-cal-slides.pdf" target="_blank"><img src="https://img.shields.io/badge/Slides-LaTeX_Beamer_(pdf)-orange"></a></p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -383,8 +383,7 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 <section id="taking-inspiration-from-forecasting" class="title-slide slide level1 center">
 <h1>Taking inspiration from forecasting</h1>
 <div class="hidden">
-$$
-<p>$$</p>
+
 </div>
 </section>
 <section id="weather-forecasters" class="slide level2">
@@ -568,7 +567,7 @@ $$
 </div><div class="column" style="width:10%;">
 
 </div><div class="column v-center-container" style="width:70%;">
-<div id="1b856647" class="cell" data-execution_count="1">
+<div id="24615253" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -635,7 +634,7 @@ $$
 </div><div class="column" style="width:10%;">
 
 </div><div class="column" style="width:70%;">
-<div id="f769a1cb" class="cell" data-execution_count="2">
+<div id="8c2b7d43" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -698,7 +697,7 @@ $$
 </div><div class="column" style="width:10%;">
 
 </div><div class="column" style="width:70%;">
-<div id="985aef65" class="cell" data-execution_count="3">
+<div id="c09db0f6" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -773,7 +772,7 @@ $$
 </div><div class="column" style="width:10%;">
 
 </div><div class="column" style="width:70%;">
-<div id="c2deada6" class="cell" data-execution_count="4">
+<div id="c13f8bd6" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -840,7 +839,7 @@ $$
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="d81014c4" class="cell" data-execution_count="5">
+<div id="8ebed0a2" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -888,7 +887,7 @@ $$
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="faabf0de" class="cell" data-execution_count="6">
+<div id="4aebea5b" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -970,7 +969,7 @@ $$
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="fdc3d899" class="cell" data-execution_count="7">
+<div id="13ea1ca4" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1018,7 +1017,7 @@ $$
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="39989ddb" class="cell" data-execution_count="8">
+<div id="5f446b74" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1145,7 +1144,7 @@ C(\hat{Y}=j|X=x) = \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
 <p>where <span class="math inline">\(P(Y=i|X=x)\)</span> is the probability of instance <span class="math inline">\(x\)</span> having true class <span class="math inline">\(i\)</span> (as would be given by the Bayes-optimal classifier).</p>
 <p>The optimal decision is then to predict the class with lowest expected cost:</p>
 <p><span class="math display">\[
-\hat{Y}^* = \mathop{\mathrm{argmin}}_j C(\hat{Y}=j|X=x) = \mathop{\mathrm{argmin}}_j \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
+\hat{Y}^* = \argmin_j C(\hat{Y}=j|X=x) = \argmin_j \sum_i P(Y=i|X=x)C(\hat{Y}=j|Y=i)
 \]</span></p>
 </section>
 <section id="optimal-decisions-ii" class="slide level2">
@@ -1396,8 +1395,8 @@ Table&nbsp;2: Example of a cost matrix
 <div class="columns v-center-container">
 <div class="column" style="width:70%;">
 <ul>
-<li class="fragment">Underconfidence typically gives distortions.</li>
-<li class="fragment">To calibrate these means to .</li>
+<li class="fragment">Underconfidence typically gives <em>sigmoidal</em> distortions.</li>
+<li class="fragment">To calibrate these means to <em>pull predicted probabilities away from the centre</em>.</li>
 </ul>
 </div><div class="column" style="width:30%;">
 <p><img data-src="images/Underconfidence.png"></p>
@@ -1410,9 +1409,9 @@ Table&nbsp;2: Example of a cost matrix
 <div class="columns v-center-container">
 <div class="column" style="width:70%;">
 <ul>
-<li class="fragment">Overconfidence is very common, and usually a consequence of over-counting evidence. %\(e.g.&nbsp;naive Bayes, some forms of boosting).</li>
-<li class="fragment">Here, distortions are </li>
-<li class="fragment">Calibrating these means to .</li>
+<li class="fragment">Overconfidence is very common, and usually a consequence of over-counting evidence.</li>
+<li class="fragment">Here, distortions are <em>inverse-sigmoidal</em></li>
+<li class="fragment">Calibrating these means to <em>push predicted probabilities toward the centre</em>.</li>
 </ul>
 </div><div class="column" style="width:30%;">
 <p><img data-src="images/Overconfidence.png"></p>
@@ -1485,7 +1484,7 @@ Table&nbsp;2: Example of a cost matrix
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="5ad6c826" class="cell" data-execution_count="11">
+<div id="07473093" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1530,7 +1529,7 @@ Table&nbsp;2: Example of a cost matrix
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="8e6f6734" class="cell" data-execution_count="12">
+<div id="adaa5fa4" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1575,7 +1574,7 @@ Table&nbsp;2: Example of a cost matrix
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="107833f2" class="cell" data-execution_count="13">
+<div id="568d3cd5" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1822,7 +1821,7 @@ Table&nbsp;2: Example of a cost matrix
 <p>This was proposed by <span class="citation" data-cites="guo2017">Guo et al. (<a href="#/references" role="doc-biblioref" onclick="">2017</a>)</span>, requiring that among all instances where the probability of <strong>the most likely class</strong> is predicted to be <span class="math inline">\(c\)</span>, the expected accuracy is <span class="math inline">\(c\)</span>. (We call this `confidence calibration’ to distinguish it from the stronger notions of calibration.)</p>
 <p>Formally, a probabilistic classifier <span class="math inline">\(\mathbf{\hat{p}}:\mathcal{X}\to\Delta_{k}\)</span> is <strong>confidence-calibrated</strong>, if for any confidence level <span class="math inline">\(c\in[0,1]\)</span>, the actual proportion of the predicted class, among all possible instances <span class="math inline">\(\mathbf{x}\)</span> being predicted this class with confidence <span class="math inline">\(c\)</span>, is equal to <span class="math inline">\(c\)</span>:</p>
 <p><span class="math display">\[\begin{align*}
-P(Y=i \: | \: \hat{p}_i(\mathbf{x})=c)=c\qquad\text{where }\ i=\mathop{\mathrm{argmax}}_j \hat{p}_j(\mathbf{x}).
+P(Y=i \: | \: \hat{p}_i(\mathbf{x})=c)=c\qquad\text{where }\ i=\argmax_j \hat{p}_j(\mathbf{x}).
 %P\Big(Y=\argmax\big(\vph(X)\big) \: \Big| \: \max\big(\vph(X)\big)=c\Big)=c.
 \end{align*}\]</span></p>
 </section>
