@@ -30,14 +30,21 @@ format:
     smaller: false
     auto-stretch: false
     chalkboard: true
+  pdf:
+    include-in-header:
+      - file: packages.tex
+      - operators.tex
+      - colors.tex
+      - definitions.tex
 bibliography: references.bib
 ---
 
-::: {.hidden}
-$$
+::: {.content-visible when-format="html"}
+{{< include packages.tex >}}
+{{< include operators.tex >}}
 {{< include definitions.tex >}}
-$$
 :::
+
 
 # Motivation
 

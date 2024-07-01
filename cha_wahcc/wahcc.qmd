@@ -40,12 +40,15 @@ format:
       - file: packages.tex
       - operators.tex
       - colors.tex
+      - definitions.tex
 bibliography: references.bib
 ---
 
 # Taking inspiration from forecasting
 
-::: {.hidden}
+::: {.content-visible when-format="html"}
+{{< include packages.tex >}}
+{{< include operators.tex >}}
 {{< include definitions.tex >}}
 :::
 
@@ -703,7 +706,7 @@ On the optimal decision boundary these two expected costs are equal,
 which gives
 
 \begin{align*}%\label{eq::cost-threshold}
-P(+|x)  = \frac{\textcolor{blue}{C(+|-)-C(-|-)}}{\textcolor{blue}{C(+|-)-C(-|-)}+\textcolor{red}{C(-|+)-C(+|+)}} \triangleq c
+P(+|x)  = \frac{\color{blue}{C(+|-)-C(-|-)}}{\color{blue}{C(+|-)-C(-|-)}+\color{red}{C(-|+)-C(+|+)}} \triangleq c
 \end{align*}
 
 This gives the optimal threshold on the hypothetical Bayes-optimal probabilities. 
