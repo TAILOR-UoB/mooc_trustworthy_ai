@@ -305,21 +305,21 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#motivation" id="toc-motivation" class="nav-link active" data-scroll-target="#motivation">Motivation</a>
+  <li><a href="#sec-motivation" id="toc-sec-motivation" class="nav-link active" data-scroll-target="#sec-motivation">Motivation</a>
   <ul class="collapse">
   <li><a href="#optimal-decision-making.-why-and-how" id="toc-optimal-decision-making.-why-and-how" class="nav-link" data-scroll-target="#optimal-decision-making.-why-and-how">Optimal Decision Making. Why and how?</a></li>
   <li><a href="#optimal-decisions-with-different-types-of-model" id="toc-optimal-decisions-with-different-types-of-model" class="nav-link" data-scroll-target="#optimal-decisions-with-different-types-of-model">Optimal decisions with different types of model</a></li>
   </ul></li>
-  <li><a href="#cost-sensitive-classification" id="toc-cost-sensitive-classification" class="nav-link" data-scroll-target="#cost-sensitive-classification">Cost-sensitive classification</a>
+  <li><a href="#sec-cost" id="toc-sec-cost" class="nav-link" data-scroll-target="#sec-cost">Cost-sensitive classification</a>
   <ul class="collapse">
-  <li><a href="#cost-matrices-binary-example" id="toc-cost-matrices-binary-example" class="nav-link" data-scroll-target="#cost-matrices-binary-example">Cost matrices: Binary example</a></li>
+  <li><a href="#sec-binary" id="toc-sec-binary" class="nav-link" data-scroll-target="#sec-binary">Cost matrices: Binary example</a></li>
   <li><a href="#cost-matrix-reasonableness-condition" id="toc-cost-matrix-reasonableness-condition" class="nav-link" data-scroll-target="#cost-matrix-reasonableness-condition">Cost Matrix “reasonableness” condition</a></li>
   <li><a href="#optimal-threshold-for-the-binary-case" id="toc-optimal-threshold-for-the-binary-case" class="nav-link" data-scroll-target="#optimal-threshold-for-the-binary-case">Optimal threshold for the binary case</a></li>
   <li><a href="#different-costs-binary-example" id="toc-different-costs-binary-example" class="nav-link" data-scroll-target="#different-costs-binary-example">Different costs binary example</a></li>
   <li><a href="#cost-invariances" id="toc-cost-invariances" class="nav-link" data-scroll-target="#cost-invariances">Cost invariances</a></li>
   <li><a href="#multiclass-setting" id="toc-multiclass-setting" class="nav-link" data-scroll-target="#multiclass-setting">Multiclass setting</a></li>
-  <li><a href="#ternary-example" id="toc-ternary-example" class="nav-link" data-scroll-target="#ternary-example">Ternary example</a></li>
-  <li><a href="#option-to-abstain" id="toc-option-to-abstain" class="nav-link" data-scroll-target="#option-to-abstain">Option to abstain</a></li>
+  <li><a href="#sec-ternary" id="toc-sec-ternary" class="nav-link" data-scroll-target="#sec-ternary">Ternary example {.smaller}</a></li>
+  <li><a href="#sec-abstain" id="toc-sec-abstain" class="nav-link" data-scroll-target="#sec-abstain">Option to abstain</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -361,12 +361,16 @@ window.Quarto = {
 </header>
 
 
-<section id="motivation" class="level2">
-<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>This is an introductory course on the topic of <code>Optimal Decision Making</code> for multiclass classification. In <a href="#sec-motivation" class="quarto-xref">Section&nbsp;1</a>, we give some motivation insights about the importance of estimating missclassification costs when making automatic decisions, then we define a common setting to calculate expected costs and how to make an optimal decision based on those expected costs in the binary (<a href="#sec-binary" class="quarto-xref">Section&nbsp;2.1</a>) and multiclass (<a href="#sec-ternary" class="quarto-xref">Section&nbsp;2.7</a>) case. We provide interactive examples that demonstrate how the optimal decision change under different operational conditions. Finally in <a href="#sec-abstain" class="quarto-xref">Section&nbsp;2.8</a>, we demonstrate examples in which abstaining on making a prediction and delegating the decision may be optimal solution.</p>
+<section id="sec-motivation" class="level2">
+<h2 class="anchored" data-anchor-id="sec-motivation">Motivation</h2>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/IymQ6f87CtA?si=WHzlG4CfINqIqQ0G" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
 </iframe>
 <section id="optimal-decision-making.-why-and-how" class="level3">
 <h3 class="anchored" data-anchor-id="optimal-decision-making.-why-and-how">Optimal Decision Making. Why and how?</h3>
+<p>One of the most common objectives of multiclass classification is to train a machine learning model that is able to predict the most probable class given a new instance. However, in certain applications in which the missclassification costs are of main importance, the most probable class may not be the one that provides the highest expected utilities. The objective of optimal decision making is to predict the class that maximises the expected utilities, and minimises the expected misclassification costs. Some typical scenarios in which this is important are medical diagnosis, self-driving cars, extreme weather prediction and finances.</p>
+<section id="key-points" class="level4">
+<h4 class="anchored" data-anchor-id="key-points">Key points</h4>
 <!-- {.smaller} -->
 <ul>
 <li>The objective is to classify a new instance into one of the possible classes in an optimal manner.</li>
@@ -375,6 +379,7 @@ window.Quarto = {
 <li>One way to make optimal decisions is with cost-sensitive classification.</li>
 <li>Can we make optimal decisions with any type of classifier?</li>
 </ul>
+</section>
 </section>
 <section id="optimal-decisions-with-different-types-of-model" class="level3 smaller">
 <h3 class="smaller anchored" data-anchor-id="optimal-decisions-with-different-types-of-model">Optimal decisions with different types of model</h3>
@@ -407,8 +412,8 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="cost-sensitive-classification" class="level2">
-<h2 class="anchored" data-anchor-id="cost-sensitive-classification">Cost-sensitive classification</h2>
+<section id="sec-cost" class="level2">
+<h2 class="anchored" data-anchor-id="sec-cost">Cost-sensitive classification</h2>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/-EhbHciKfJM?si=v82U931tWHUC4HxU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
 </iframe>
 <ul>
@@ -417,8 +422,8 @@ window.Quarto = {
 <li>Assumes the costs are not instance dependent (only depend on the predicted and true class).</li>
 <li>Class priors and costs can be changed during deployment (if known or estimated).</li>
 </ul>
-<section id="cost-matrices-binary-example" class="level3">
-<h3 class="anchored" data-anchor-id="cost-matrices-binary-example">Cost matrices: Binary example</h3>
+<section id="sec-binary" class="level3">
+<h3 class="anchored" data-anchor-id="sec-binary">Cost matrices: Binary example</h3>
 <div class="fragment" data-fragment-index="1">
 <p>The following is a typical example of a cost matrix <span class="math inline">c</span> for a binary problem.</p>
 <table class="table">
@@ -487,7 +492,7 @@ window.Quarto = {
 </div>
 <hr>
 <p>will result in the following cost lines</p>
-<div id="f9197993" class="cell" data-execution_count="1">
+<div id="82b12128" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -563,7 +568,7 @@ window.Quarto = {
 </table>
 </div>
 <div class="fragment" data-fragment-index="2">
-<div id="b1c03ad8" class="cell" data-execution_count="2">
+<div id="959252cb" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -681,7 +686,7 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 </table>
 <p>which would result in the following cost lines.</p>
 <hr>
-<div id="839dad55" class="cell" data-execution_count="3">
+<div id="0a36e15f" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -995,8 +1000,8 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <p>However, with more than 2 classes the threshold is not a single value but multiple decision boundaries in the probability simplex.</p>
 </div>
 </section>
-<section id="ternary-example" class="level3 smaller">
-<h3 class="smaller anchored" data-anchor-id="ternary-example">Ternary example</h3>
+<section id="sec-ternary" class="level3">
+<h3 class="anchored" data-anchor-id="sec-ternary">Ternary example {.smaller}</h3>
 <div class="fragment" data-fragment-index="1">
 <p>In order to exemplify the process of making an optimal decision in more with more than two classes we can look at the ternary case, which naturally extends to more classes. Given the following cost matrix</p>
 <table class="table">
@@ -1054,7 +1059,7 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <section id="ternary-expected-cost-isolines-per-decision" class="level4">
 <h4 class="anchored" data-anchor-id="ternary-expected-cost-isolines-per-decision">Ternary expected cost isolines per decision</h4>
 <div class="center">
-<div id="b1ce02b1" class="cell" data-execution_count="4">
+<div id="8e30f70f" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1094,7 +1099,7 @@ Commented section
 
 ### Ternary thresholds and optimal decisions
 
-::: {#a0e2f531 .cell execution_count=5}
+::: {#c8a30f47 .cell execution_count=5}
 ``` {.python .cell-code code-fold="true" code-summary="Show the code"}
 import matplotlib
 import numpy as np
@@ -1138,7 +1143,7 @@ plt.show()
 <section id="ternary-hyperplanes-optimal-decision-combined" class="level4">
 <h4 class="anchored" data-anchor-id="ternary-hyperplanes-optimal-decision-combined">Ternary hyperplanes optimal decision combined</h4>
 <div class="center">
-<div id="3a9c0d2e" class="cell" data-execution_count="6">
+<div id="a2fb836c" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> matplotlib</span>
@@ -1185,8 +1190,8 @@ The following kwargs were not used by contour: 'cb_orientation'
 </div>
 </section>
 </section>
-<section id="option-to-abstain" class="level3">
-<h3 class="anchored" data-anchor-id="option-to-abstain">Option to abstain</h3>
+<section id="sec-abstain" class="level3">
+<h3 class="anchored" data-anchor-id="sec-abstain">Option to abstain</h3>
 <p>It is possible to add the costs of abstaining on making a prediction by adding a column into the original cost matrix <span class="citation" data-cites="charoenphakdee2021">(<a href="#ref-charoenphakdee2021" role="doc-biblioref">Charoenphakdee et al. 2021</a>)</span>. The following is an example which illustrates this in a binary classification problem.</p>
 <table class="table">
 <colgroup>
@@ -1226,7 +1231,7 @@ The following kwargs were not used by contour: 'cb_orientation'
 <hr>
 <section id="option-to-abstain-cost-lines" class="level4">
 <h4 class="anchored" data-anchor-id="option-to-abstain-cost-lines">Option to abstain cost lines</h4>
-<div id="9ab53946" class="cell" data-execution_count="7">
+<div id="2f349eb5" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1290,7 +1295,7 @@ The following kwargs were not used by contour: 'cb_orientation'
 </tr>
 </tbody>
 </table>
-<div id="2a6c683b" class="cell" data-execution_count="8">
+<div id="6c54afff" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>

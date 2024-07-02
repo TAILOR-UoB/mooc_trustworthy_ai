@@ -442,7 +442,7 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 
 </section>
 <section>
-<section id="motivation" class="title-slide slide level1 center">
+<section id="sec-motivation" class="title-slide slide level1 center">
 <h1>Motivation</h1>
 
 </section>
@@ -488,7 +488,7 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 </div>
 </section></section>
 <section>
-<section id="cost-sensitive-classification" class="title-slide slide level1 center">
+<section id="sec-cost" class="title-slide slide level1 center">
 <h1>Cost-sensitive classification</h1>
 <ul>
 <li class="fragment">Cost-sensitive classification <span class="citation" data-cites="elkan2001">(<a href="#/references" role="doc-biblioref" onclick="">Elkan 2001</a>)</span> provides a framework to make optimal decisions (with certain assumptions).</li>
@@ -497,7 +497,7 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 <li class="fragment">Class priors and costs can be changed during deployment (if known or estimated).</li>
 </ul>
 </section>
-<section id="cost-matrices-binary-example" class="slide level2">
+<section id="sec-binary" class="slide level2">
 <h2>Cost matrices: Binary example</h2>
 <div class="fragment" data-fragment-index="1">
 <p>The following is a typical example of a cost matrix <span class="math inline">\(c\)</span> for a binary problem.</p>
@@ -572,7 +572,7 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 <section class="slide level2">
 
 <p>will result in the following cost lines</p>
-<div id="2448a6f0" class="cell" data-execution_count="1">
+<div id="3442a30e" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -628,7 +628,7 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 </table>
 </div>
 <div class="fragment" data-fragment-index="2">
-<div id="67c40635" class="cell" data-execution_count="2">
+<div id="7dca0e1b" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -736,7 +736,7 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 </section>
 <section class="slide level2">
 
-<div id="72f6782c" class="cell" data-execution_count="3">
+<div id="f39c2cc0" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1030,8 +1030,8 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <p>However, with more than 2 classes the threshold is not a single value but multiple decision boundaries in the probability simplex.</p>
 </div>
 </section>
-<section id="ternary-example" class="slide level2 smaller">
-<h2>Ternary example</h2>
+<section id="sec-ternary" class="slide level2">
+<h2>Ternary example {.smaller}</h2>
 <div class="fragment" data-fragment-index="1">
 <p>In order to exemplify the process of making an optimal decision in more with more than two classes we can look at the ternary case, which naturally extends to more classes. Given the following cost matrix</p>
 <table>
@@ -1126,7 +1126,7 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 </tbody>
 </table>
 <div class="center">
-<div id="4fac10f9" class="cell" data-execution_count="4">
+<div id="35cbfe65" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1145,7 +1145,7 @@ Commented section
 
 ### Ternary thresholds and optimal decisions
 
-::: {#533f0055 .cell execution_count=5}
+::: {#a323f904 .cell execution_count=5}
 
 ::: {.cell-output .cell-output-display}
 ![](odm_files/figure-revealjs/cell-6-output-1.png){width=856 height=326}
@@ -1197,7 +1197,7 @@ Commented section
 </tbody>
 </table>
 <div class="center">
-<div id="5074d28f" class="cell" data-execution_count="6">
+<div id="899e7a61" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1208,7 +1208,7 @@ Commented section
 </div>
 </div>
 </section>
-<section id="option-to-abstain" class="slide level2">
+<section id="sec-abstain" class="slide level2">
 <h2>Option to abstain</h2>
 <p>It is possible to add the costs of abstaining on making a prediction by adding a column into the original cost matrix <span class="citation" data-cites="charoenphakdee2021">(<a href="#/references" role="doc-biblioref" onclick="">Charoenphakdee et al. 2021</a>)</span>. The following is an example which illustrates this in a binary classification problem.</p>
 <table>
@@ -1280,7 +1280,7 @@ Commented section
 </tr>
 </tbody>
 </table>
-<div id="3ea4cc5d" class="cell" data-execution_count="7">
+<div id="7fd8d014" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1324,7 +1324,7 @@ Commented section
 </tr>
 </tbody>
 </table>
-<div id="c0bfcd8d" class="cell" data-execution_count="8">
+<div id="5574c4d4" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
