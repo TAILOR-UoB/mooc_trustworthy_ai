@@ -45,14 +45,45 @@ bibliography: references.bib
 {{< include definitions.tex >}}
 :::
 
+::: {.content-visible when-format="pdf"}
+# Introduction
 
-# Motivation
+:::
+
+::: {.content-hidden when-format="revealjs"}
+This is an introductory course on the topic of `Optimal Decision Making` for
+multiclass classification. In @sec-motivation, we give some motivation
+insights about the importance of estimating missclassification costs when
+making automatic decisions, then we define a common setting to calculate
+expected costs and how to make an optimal decision based on those expected
+costs in the binary (@sec-binary) and multiclass (@sec-ternary) case. We
+provide interactive examples that demonstrate how the optimal decision change
+under different operational conditions. Finally in @sec-abstain, we
+demonstrate examples in which abstaining on making a prediction and delegating
+the decision may be optimal solution.
+:::
+
+# Motivation {#sec-motivation}
 
 ::: {.content-visible when-format="html" unless-format="revealjs"}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/IymQ6f87CtA?si=WHzlG4CfINqIqQ0G" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 :::
 
 ## Optimal Decision Making. Why and how?
+
+::: {.content-hidden when-format="revealjs"}
+One of the most common objectives of multiclass classification is to train a
+machine learning model that is able to predict the most probable class given a
+new instance. However, in certain applications in which the missclassification
+costs are of main importance, the most probable class may not be the one that
+provides the highest expected utilities. The objective of optimal decision making
+is to predict the class that maximises the expected utilities, and minimises
+the expected misclassification costs. Some typical scenarios in which this is
+important are medical diagnosis, self-driving cars, extreme weather prediction
+and finances.
+
+### Key points
+:::
 
 <!-- {.smaller} -->
 
@@ -98,7 +129,7 @@ multi-label [@Alotaibi2021].
 ::::
 
 
-# Cost-sensitive classification
+# Cost-sensitive classification {#sec-cost}
 
 ::: {.content-visible when-format="html" unless-format="revealjs"}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/-EhbHciKfJM?si=v82U931tWHUC4HxU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -114,7 +145,7 @@ multi-label [@Alotaibi2021].
 - Class priors and costs can be changed during deployment (if known or estimated).
 
 
-## Cost matrices: Binary example
+## Cost matrices: Binary example {#sec-binary}
 
 ::: {.fragment fragment-index=1}
 The following is a typical example of a cost matrix $c$ for a binary problem.
@@ -621,7 +652,7 @@ multiple decision boundaries in the probability simplex.
 :::
 
 
-## Ternary example {.smaller}
+## Ternary example {.smaller} {#sec-ternary}
 
 ::: {.fragment fragment-index=1}
 In order to exemplify the process of making an optimal decision in more with
@@ -780,7 +811,7 @@ plt.show()
 ```
 :::
 
-## Option to abstain
+## Option to abstain {#sec-abstain}
 
 It is possible to add the costs of abstaining on making a prediction by adding
 a column into the original cost matrix [@charoenphakdee2021]. The following is
