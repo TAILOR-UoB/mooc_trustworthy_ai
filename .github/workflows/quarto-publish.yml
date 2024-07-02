@@ -13,6 +13,8 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Install Ubuntu packages
+        run: sudo apt-get install -y librsvg2-bin
       - name: Check out repository
         uses: actions/checkout@v4
       - name: Set up Python
