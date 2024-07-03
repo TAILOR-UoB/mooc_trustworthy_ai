@@ -56,7 +56,7 @@ multiclass classification. In @sec-motivation, we give some motivation
 insights about the importance of estimating missclassification costs when
 making automatic decisions, then we define a common setting to calculate
 expected costs and how to make an optimal decision based on those expected
-costs in the binary (@sec-binary) and multiclass (@sec-ternary) case. We
+costs in the binary (@sec-binary) and multiclass (@sec-multiclass) case. We
 provide interactive examples that demonstrate how the optimal decision change
 under different operational conditions. Finally in @sec-abstain, we
 demonstrate examples in which abstaining on making a prediction and delegating
@@ -152,8 +152,8 @@ The following is a typical example of a cost matrix $c$ for a binary problem.
 
 |          | Predicted $C_1$               | Predicted $C_2$ |
 |-|-|-|
-|True $C_1$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$ |
-|True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
+|True $C_1$ | $\color{DarkGreen}{0}$    | $\color{DarkRed}{1}$ |
+|True $C_2$ | $\color{DarkRed}{1}$      | $\color{DarkGreen}{0}$ |
 
 We will refer to $c_{i|j}$ the cost of predicting class $C_i$ given that the true class is $C_j$.
 :::
@@ -173,9 +173,9 @@ For example, lets assume that the posterior probability vector for a given
 instance is $[0.4, 0.6]$, the expected costs will be
 
 - Predicting **Class 1** will have an expected cost of $0.4 \times 0 +
-    0.6 \times 1 = \color{darkred}{0.6}$
+    0.6 \times 1 = \color{DarkRed}{0.6}$
 - Predicting **Class 2** will have an expected cost of $0.4 \times 1
-    + 0.6 \times 0 = \mathbf{\color{darkred}{0.4}}$.
+    + 0.6 \times 0 = \mathbf{\color{DarkRed}{0.4}}$.
 
 ---
 
@@ -189,8 +189,8 @@ predictions [@drummond2006]. For example, the following cost matrix
 
 |          | Predicted $C_1$               | Predicted $C_2$ |
 |-|-|-|
-|True $C_1$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$ |
-|True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
+|True $C_1$ | $\color{DarkGreen}{0}$    | $\color{DarkRed}{1}$ |
+|True $C_2$ | $\color{DarkRed}{1}$      | $\color{DarkGreen}{0}$ |
 :::
 
 ---
@@ -254,8 +254,8 @@ will always have a lower expected cost.
 
 |               | Predicted $C_1$       | Predicted $C_2$      |
 |---------------|---------------------------|--------------------------|
-|True $C_1$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$   |
-|True $C_2$ | $\color{darkred}{0.4}$      | $\color{darkgreen}{0.5}$ |
+|True $C_1$ | $\color{DarkGreen}{0}$    | $\color{DarkRed}{1}$   |
+|True $C_2$ | $\color{DarkRed}{0.4}$      | $\color{DarkGreen}{0.5}$ |
 :::
 
 ::: {.fragment fragment-index=2}
@@ -336,15 +336,15 @@ For the previous cost matrix
 
 |          | Predicted $C_1$               | Predicted $C_2$ |
 |-|-|-|
-|True $C_1$ | $\color{darkgreen}{0}$    | $\color{darkred}{1}$ |
-|True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{0}$ |
+|True $C_1$ | $\color{DarkGreen}{0}$    | $\color{DarkRed}{1}$ |
+|True $C_2$ | $\color{DarkRed}{1}$      | $\color{DarkGreen}{0}$ |
 
 the optimal threshold corresponds to
 
 \begin{equation}
-  t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
-               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
-                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}
+  t^* = \frac{{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}}}
+               {{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}} +
+                {\color{DarkRed}c_{2|1}} - {\color{DarkGreen}c_{1|1}}}
   = \frac{1 - 0}{1 + 1 - 0 - 0} = 0.5
 \end{equation}
 
@@ -356,8 +356,8 @@ with different `gains` on the main diagonal and missclassification costs.
 
 |               | Predicted $C_1$       | Predicted $C_2$      |
 |---------------|---------------------------|--------------------------|
-|True $C_1$ | $\color{darkgreen}{-5}$    | $\color{darkred}{10}$   |
-|True $C_2$ | $\color{darkred}{1}$      | $\color{darkgreen}{-1}$ |
+|True $C_1$ | $\color{DarkGreen}{-5}$    | $\color{DarkRed}{10}$   |
+|True $C_2$ | $\color{DarkRed}{1}$      | $\color{DarkGreen}{-1}$ |
 
 which would result in the following cost lines.
 
@@ -386,13 +386,69 @@ plt.show()
 In this case, for a posterior probability vector $[0.4, 0.6]$ we would expect
 
 - Predicting **Class 1** will have an expected cost of $-5 \times 0.4 + 1 \times
-0.6 = \mathbf{\color{darkgreen}{-1.4}}$
+0.6 = \mathbf{\color{DarkGreen}{-1.4}}$
 - Predicting **Class 2** will have an expected cost of $10 \times 0.4 - 1 \times
-0.6 = \color{darkred}{3.4}$
+0.6 = \color{DarkRed}{3.4}$
 
 ---
 
 ### Other binary examples
+
+::: {.content-hidden when-format="html"}
+
+```{python}
+import matplotlib.pyplot as plt
+from shiny import App, render, ui
+import pandas as pd
+
+TP = -5
+FN = 10
+FP = 1
+TN = -1
+fig = plt.figure()
+ax = fig.add_subplot()
+ax.grid(True)
+ax.plot([0, 1], [FP, TP], '--', label="Predict $C_1$")
+ax.plot([0, 1], [TN, FN], '--', label="Predict $C_2$")
+
+threshold = (FP - TN)/(FP - TN + FN - TP)
+cost_t = threshold*TP + (1-threshold)*FP
+ax.plot([threshold, 1], [cost_t, TP], lw=5, color='tab:blue', label="Optimal $C_1$")
+ax.plot([0, threshold], [TN, cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")
+
+C = [[TP, FP], [FN, TN]]
+bbox = dict(boxstyle="round", fc="white")
+ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(2, -1),
+            textcoords='offset fontsize',
+            arrowprops=dict(arrowstyle='->', facecolor='black'),
+            bbox=bbox)
+ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(2, 0),
+            textcoords='offset fontsize',
+            arrowprops=dict(arrowstyle='->', facecolor='black'),
+            bbox=bbox)
+ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(0, 2),
+            textcoords='offset fontsize',
+            arrowprops=dict(arrowstyle='->', facecolor='black'),
+            bbox=bbox)
+ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(2, 0),
+            textcoords='offset fontsize',
+            arrowprops=dict(arrowstyle='->', facecolor='black'),
+            bbox=bbox)
+
+ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), 
+            xytext=(0, --3),
+            textcoords='offset fontsize',
+            arrowprops=dict(arrowstyle='->', facecolor='black'),
+            bbox=bbox)
+
+ax.set_xlabel('$P(C_1|x)$')
+ax.set_ylabel('Expected cost')
+ax.legend()
+```
+
+:::
+
+::: {.content-visible when-format="html"}
 
 See how the beginning and end of the cost lines change with the costs.
 
@@ -471,6 +527,7 @@ def server(input, output, session):
 
 app = App(app_ui, server, debug=True)
 ```
+:::
 
 ## Cost invariances
 
@@ -592,12 +649,12 @@ $c_{1|2}^*=1$ and $c_{2|2}^*=0$ we get
 
 ::: {.fragment fragment-index=1}
 \begin{equation}
-  t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
-               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
-                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}
+  t^* = \frac{{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}}}
+               {{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}} +
+                {\color{DarkRed}c_{2|1}} - {\color{DarkGreen}c_{1|1}}}
   = \frac{1}
                {1 +
-                {\color{darkred}c_{2|1}^*} - {\color{darkgreen}c_{1|1}^*}}
+                {\color{DarkRed}c_{2|1}^*} - {\color{DarkGreen}c_{1|1}^*}}
 \end{equation}
 :::
 
@@ -621,13 +678,13 @@ with an optimal threshold
 
 \begin{equation}
   t^*
-  = \frac{1} {1 + {\color{darkred}c_{2|1}}' - {\color{darkgreen}c_{1|1}'}}
-  = \frac{1} {1 + {\color{darkred}0.5} - {\color{darkgreen}0.25}}
+  = \frac{1} {1 + {\color{DarkRed}c_{2|1}}' - {\color{DarkGreen}c_{1|1}'}}
+  = \frac{1} {1 + {\color{DarkRed}0.5} - {\color{DarkGreen}0.25}}
   = 0.8
 \end{equation}
 :::
 
-## Multiclass setting
+## Multiclass setting {#sec-multiclass}
 
 ::: {.content-visible when-format="html" unless-format="revealjs"}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qO-tAjqHkw8?si=XHXNJfcuBoRY5aej" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -640,10 +697,10 @@ additional true classes and columns with predicted classes.
 
 |              | Predicted $C_1$              | Predicted $C_2$              | $\cdots$ | Predicted $C_K$                |
 |--------------|------------------------------|------------------------------|----------|--------------------------------|
-| True $C_1$   | $\color{darkgreen}{c_{1|1}}$ | $\color{darkred}{c_{2|1}}$   | $\cdots$ | $\color{darkred}{c_{K|1}}$     |
-| True $C_2$   | $\color{darkred}{c_{1|2}}$   | $\color{darkgreen}{c_{2|2}}$ | $\cdots$ | $\color{darkred}{c_{2|2}}$     |
+| True $C_1$   | $\color{DarkGreen}{c_{1|1}}$ | $\color{DarkRed}{c_{2|1}}$   | $\cdots$ | $\color{DarkRed}{c_{K|1}}$     |
+| True $C_2$   | $\color{DarkRed}{c_{1|2}}$   | $\color{DarkGreen}{c_{2|2}}$ | $\cdots$ | $\color{DarkRed}{c_{2|2}}$     |
 | $\vdots$     | $\vdots$ 			   	 	  | $\vdots$                     | $\ddots$ | $\vdots$                       |
-| True $C_K$   | $\color{darkred}{c_{1|K}}$   | $\color{darkred}{c_{2|K}}$   | $\cdots$ | $\color{darkgreen}{c_{K|K}}$   |
+| True $C_K$   | $\color{DarkRed}{c_{1|K}}$   | $\color{DarkRed}{c_{2|K}}$   | $\cdots$ | $\color{DarkGreen}{c_{K|K}}$   |
 :::
 
 ::: {.fragment fragment-index=2}
@@ -661,9 +718,9 @@ to more classes. Given the following cost matrix
 
 |              | Predicted $C_1$ | Predicted $C_2$ | Predicted $C_3$   |
 |--------------|-----------------|-----------------|-------------------|
-| True $C_1$   | $\color{darkgreen}{-10}$ |  $\color{darkred}{20}$ |  $\color{darkred}{30}$  |
-| True $C_2$   |  $\color{darkred}{40}$ | $\color{darkgreen}{-50}$ |  $\color{darkred}{60}$   |
-| True $C_3$   |  $\color{darkred}{70}$ |  $\color{darkred}{80}$ |  $\color{darkgreen}{-90}$   |
+| True $C_1$   | $\color{DarkGreen}{-10}$ |  $\color{DarkRed}{20}$ |  $\color{DarkRed}{30}$  |
+| True $C_2$   |  $\color{DarkRed}{40}$ | $\color{DarkGreen}{-50}$ |  $\color{DarkRed}{60}$   |
+| True $C_3$   |  $\color{DarkRed}{70}$ |  $\color{DarkRed}{80}$ | $\color{DarkGreen}{-90}$   |
 :::
 
 ::: {.fragment fragment-index=2}
@@ -679,11 +736,11 @@ we can estimate the expected cost of making each class prediction
 which results in the following expected costs:
 
 - Predicting **Class 1** will have a cost of 
-$-10 \times 0.5 + 40 \times 0.1 +70 \times 0.4 = \color{darkred}{27}$
+$-10 \times 0.5 + 40 \times 0.1 +70 \times 0.4 = \color{DarkRed}{27}$
 - Predicting **Class 2** will have a cost of 
-$20 \times 0.5 - 50 \times 0.1 +80 \times 0.4 = \color{darkred}{37}$
+$20 \times 0.5 - 50 \times 0.1 +80 \times 0.4 = \color{DarkRed}{37}$
 - Predicting **Class 3** will have a cost of 
-$30 \times 0.5 + 60 \times 0.1 -90 \times 0.4 = \mathbf{\color{darkgreen}{-15}}$
+$30 \times 0.5 + 60 \times 0.1 -90 \times 0.4 = \mathbf{\color{DarkGreen}{-15}}$
 :::
 
 ---
@@ -693,9 +750,10 @@ $30 \times 0.5 + 60 \times 0.1 -90 \times 0.4 = \mathbf{\color{darkgreen}{-15}}$
 ::: {.content-visible when-format="revealjs"}
 |              | Predicted $C_1$ | Predicted $C_2$ | Predicted $C_3$   |
 |--------------|-----------------|-----------------|-------------------|
-| True $C_1$   | $\color{darkgreen}{-10}$ |  $\color{darkred}{20}$ |  $\color{darkred}{30}$  |
-| True $C_2$   |  $\color{darkred}{40}$ | $\color{darkgreen}{-50}$ |  $\color{darkred}{60}$   |
-| True $C_3$   |  $\color{darkred}{70}$ |  $\color{darkred}{80}$ |  $\color{darkgreen}{-90}$   |
+| True $C_1$   | $\color{DarkGreen}{-10}$ |  $\color{DarkRed}{20}$ |  $\color{DarkRed}{30}$  |
+| True $C_2$   |  $\color{DarkRed}{40}$ | $\color{DarkGreen}{-50}$ |  $\color{DarkRed}{60}$   |
+| True $C_3$   |  $\color{DarkRed}{70}$ |  $\color{DarkRed}{80}$ |
+$\color{DarkGreen}{-90}$   |
 :::
 
 ::: {.center data-latex=""}
@@ -773,9 +831,10 @@ plt.show()
 ::: {.content-visible when-format="revealjs"}
 |              | Predicted $C_1$ | Predicted $C_2$ | Predicted $C_3$   |
 |--------------|-----------------|-----------------|-------------------|
-| True $C_1$   | $\color{darkgreen}{-10}$ |  $\color{darkred}{20}$ |  $\color{darkred}{30}$  |
-| True $C_2$   |  $\color{darkred}{40}$ | $\color{darkgreen}{-50}$ |  $\color{darkred}{60}$   |
-| True $C_3$   |  $\color{darkred}{70}$ |  $\color{darkred}{80}$ |  $\color{darkgreen}{-90}$   |
+| True $C_1$   | $\color{DarkGreen}{-10}$ |  $\color{DarkRed}{20}$ |  $\color{DarkRed}{30}$  |
+| True $C_2$   |  $\color{DarkRed}{40}$ | $\color{DarkGreen}{-50}$ |  $\color{DarkRed}{60}$   |
+| True $C_3$   |  $\color{DarkRed}{70}$ |  $\color{DarkRed}{80}$ |
+$\color{DarkGreen}{-90}$   |
 :::
 
 ::: {.center data-latex=""}
@@ -819,16 +878,16 @@ an example which illustrates this in a binary classification problem.
 
 |              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
 |--------------|-----------------|-----------------|---------|
-| True $C_1$   | $\color{darkgreen}{0}$ | $\color{darkred}{10}$ | $\color{darkred}{2}$ |
-| True $C_2$   | $\color{darkred}{9}$ | $\color{darkgreen}{-3}$ | $\color{darkred}{2}$ |
+| True $C_1$   | $\color{DarkGreen}{0}$ | $\color{DarkRed}{10}$ | $\color{DarkRed}{2}$ |
+| True $C_2$   | $\color{DarkRed}{9}$ | $\color{DarkGreen}{-3}$ | $\color{DarkRed}{2}$ |
 
 
 - Predicting **Class 1** has an expected cost of
-$0 \times 0.3 + 9 \times 0.7 = \color{darkred}{6.3}$
+$0 \times 0.3 + 9 \times 0.7 = \color{DarkRed}{6.3}$
 - Predicting **Class 2** has an expected cost of
-$10 \times 0.3 - 3 \times 0.7 = \mathbf{\color{darkred}{0.9}}$
+$10 \times 0.3 - 3 \times 0.7 = \mathbf{\color{DarkRed}{0.9}}$
 - **Abstaining** has an expected cost of
-$2 \times 0.3 + 2 \times 0.7 = \color{darkred}{2}$
+$2 \times 0.3 + 2 \times 0.7 = \color{DarkRed}{2}$
 
 ---
 
@@ -837,8 +896,8 @@ $2 \times 0.3 + 2 \times 0.7 = \color{darkred}{2}$
 ::: {.content-visible when-format="revealjs"}
 |              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
 |--------------|-----------------|-----------------|---------|
-| True $C_1$   | $\color{darkgreen}{0}$ | $\color{darkred}{10}$ | $\color{darkred}{2}$ |
-| True $C_2$   | $\color{darkred}{9}$ | $\color{darkgreen}{-3}$ | $\color{darkred}{2}$ |
+| True $C_1$   | $\color{DarkGreen}{0}$ | $\color{DarkRed}{10}$ | $\color{DarkRed}{2}$ |
+| True $C_2$   | $\color{DarkRed}{9}$ | $\color{DarkGreen}{-3}$ | $\color{DarkRed}{2}$ |
 :::
 
 
@@ -873,8 +932,8 @@ if the true class was $C_2$ would incur into a `gain`.
 
 |              | Predicted $C_1$ | Predicted $C_2$ | Abstain |
 |--------------|-----------------|-----------------|---------|
-| True $C_1$   | $\color{darkgreen}{0}$ | $\color{darkred}{10}$ | $\color{darkred}{2}$ |
-| True $C_2$   | $\color{darkred}{9}$ | $\color{darkgreen}{-3}$ | $\color{darkgreen}{-1}$ |
+| True $C_1$   | $\color{DarkGreen}{0}$ | $\color{DarkRed}{10}$ | $\color{DarkRed}{2}$ |
+| True $C_2$   | $\color{DarkRed}{9}$ | $\color{DarkGreen}{-3}$ | $\color{DarkGreen}{-1}$ |
 
 
 ```{python}

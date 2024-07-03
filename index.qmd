@@ -3,6 +3,7 @@ format:
   html:
     mermaid:
       theme: neutral
+  pdf: default
 ---
 # Foundations of Trustworthy AI {.unnumbered}
 

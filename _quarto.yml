@@ -7,6 +7,14 @@ project:
     - "!venv/"
     - "!inprogress/"
 
+#book:
+#  title: "Foundations of Trustworthy AI"
+#  author: "Miquel Perello Nieto"
+#  chapters:
+#    - index.qmd
+#    - cha_wahcc/wahcc.qmd
+#    - cha_odm/odm.qmd
+
 website:
   title: "Foundations of Trustworthy AI"
   reader-mode: true
@@ -50,15 +58,15 @@ website:
   #downloads: [pdf, epub]
 
 format:
-    # pdf:
-    #   documentclass: scrbook
-    #   papersize: a4
-    #   toc: true
-    #   toc-depth: 2
-    #   toc-title: "Contents"
-    #   number-sections: true
-    #   number-detph: 2
-    #   cite-method: biblatex
+  pdf:
+    documentclass: scrbook
+    papersize: a4
+    toc: true
+    toc-depth: 2
+    toc-title: "Contents"
+    number-sections: true
+    number-detph: 2
+    cite-method: biblatex
   html:
     theme:
       light: [yeti, mooctai.scss]
