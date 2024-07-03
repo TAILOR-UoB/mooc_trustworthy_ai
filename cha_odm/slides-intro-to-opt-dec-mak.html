@@ -512,13 +512,13 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{0}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{1}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{0}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{1}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{1}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{0}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{1}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{0}\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -536,9 +536,9 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 <p>For example, lets assume that the posterior probability vector for a given instance is <span class="math inline">\([0.4, 0.6]\)</span>, the expected costs will be</p>
 <ul>
 <li class="fragment">Predicting <strong>Class 1</strong> will have an expected cost of <span class="math inline">\(0.4 \times 0 +
-  0.6 \times 1 = \color{darkred}{0.6}\)</span></li>
+  0.6 \times 1 = \color{DarkRed}{0.6}\)</span></li>
 <li class="fragment">Predicting <strong>Class 2</strong> will have an expected cost of <span class="math inline">\(0.4 \times 1
-  + 0.6 \times 0 = \mathbf{\color{darkred}{0.4}}\)</span>.</li>
+  + 0.6 \times 0 = \mathbf{\color{DarkRed}{0.4}}\)</span>.</li>
 </ul>
 </section>
 <section class="slide level2">
@@ -557,13 +557,13 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{0}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{1}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{0}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{1}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{1}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{0}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{1}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{0}\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -572,7 +572,7 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 <section class="slide level2">
 
 <p>will result in the following cost lines</p>
-<div id="3442a30e" class="cell" data-execution_count="1">
+<div id="da63d0ba" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -616,19 +616,19 @@ Miquel Perello Nieto <a href="https://orcid.org/0000-0001-8925-424X" class="quar
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{0}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{1}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{0}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{1}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{0.4}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{0.5}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{0.4}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{0.5}\)</span></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="fragment" data-fragment-index="2">
-<div id="7dca0e1b" class="cell" data-execution_count="2">
+<div id="651ddf40" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -690,21 +690,21 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{0}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{1}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{0}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{1}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{1}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{0}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{1}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{0}\)</span></td>
 </tr>
 </tbody>
 </table>
 <p>the optimal threshold corresponds to</p>
 <p><span class="math display">\[\begin{equation}
-  t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
-               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
-                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}
+  t^* = \frac{{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}}}
+               {{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}} +
+                {\color{DarkRed}c_{2|1}} - {\color{DarkGreen}c_{1|1}}}
   = \frac{1 - 0}{1 + 1 - 0 - 0} = 0.5
 \end{equation}\]</span></p>
 </section>
@@ -722,13 +722,13 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-5}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{10}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-5}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{10}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{1}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-1}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{1}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-1}\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -736,7 +736,7 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 </section>
 <section class="slide level2">
 
-<div id="f39c2cc0" class="cell" data-execution_count="3">
+<div id="641f0d1a" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -748,9 +748,9 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <p>In this case, for a posterior probability vector <span class="math inline">\([0.4, 0.6]\)</span> we would expect</p>
 <ul>
 <li class="fragment">Predicting <strong>Class 1</strong> will have an expected cost of <span class="math inline">\(-5 \times 0.4 + 1 \times
-0.6 = \mathbf{\color{darkgreen}{-1.4}}\)</span></li>
+0.6 = \mathbf{\color{DarkGreen}{-1.4}}\)</span></li>
 <li class="fragment">Predicting <strong>Class 2</strong> will have an expected cost of <span class="math inline">\(10 \times 0.4 - 1 \times
-0.6 = \color{darkred}{3.4}\)</span></li>
+0.6 = \color{DarkRed}{3.4}\)</span></li>
 </ul>
 </section>
 <section class="slide level2">
@@ -944,12 +944,12 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <p>Because of these invariances, it is common in the binary case to modify the matrix <span class="math inline">\(c\)</span> in such a way that the missclassification cost for one of the classes is <span class="math inline">\(1\)</span> and a cost of <span class="math inline">\(0\)</span> for its correct prediction. For example, if <span class="math inline">\(c_{1|2}^*=1\)</span> and <span class="math inline">\(c_{2|2}^*=0\)</span> we get</p>
 <div class="fragment" data-fragment-index="1">
 <p><span class="math display">\[\begin{equation}
-  t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
-               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
-                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}
+  t^* = \frac{{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}}}
+               {{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}} +
+                {\color{DarkRed}c_{2|1}} - {\color{DarkGreen}c_{1|1}}}
   = \frac{1}
                {1 +
-                {\color{darkred}c_{2|1}^*} - {\color{darkgreen}c_{1|1}^*}}
+                {\color{DarkRed}c_{2|1}^*} - {\color{DarkGreen}c_{1|1}^*}}
 \end{equation}\]</span></p>
 </div>
 <div class="fragment" data-fragment-index="2">
@@ -967,13 +967,13 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <p>with an optimal threshold</p>
 <p><span class="math display">\[\begin{equation}
   t^*
-  = \frac{1} {1 + {\color{darkred}c_{2|1}}' - {\color{darkgreen}c_{1|1}'}}
-  = \frac{1} {1 + {\color{darkred}0.5} - {\color{darkgreen}0.25}}
+  = \frac{1} {1 + {\color{DarkRed}c_{2|1}}' - {\color{DarkGreen}c_{1|1}'}}
+  = \frac{1} {1 + {\color{DarkRed}0.5} - {\color{DarkGreen}0.25}}
   = 0.8
 \end{equation}\]</span></p>
 </div>
 </section>
-<section id="multiclass-setting" class="slide level2">
+<section id="sec-multiclass" class="slide level2">
 <h2>Multiclass setting</h2>
 <div class="fragment" data-fragment-index="1">
 <p>The binary cost matrix can be extended to multiclass by extending the rows with additional true classes and columns with predicted classes.</p>
@@ -997,17 +997,17 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{c_{1|1}}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{c_{2|1}}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{c_{1|1}}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{c_{2|1}}\)</span></td>
 <td><span class="math inline">\(\cdots\)</span></td>
-<td><span class="math inline">\(\color{darkred}{c_{K|1}}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{c_{K|1}}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{c_{1|2}}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{c_{2|2}}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{c_{1|2}}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{c_{2|2}}\)</span></td>
 <td><span class="math inline">\(\cdots\)</span></td>
-<td><span class="math inline">\(\color{darkred}{c_{2|2}}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{c_{2|2}}\)</span></td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(\vdots\)</span></td>
@@ -1018,10 +1018,10 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_K\)</span></td>
-<td><span class="math inline">\(\color{darkred}{c_{1|K}}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{c_{2|K}}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{c_{1|K}}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{c_{2|K}}\)</span></td>
 <td><span class="math inline">\(\cdots\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{c_{K|K}}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{c_{K|K}}\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -1052,21 +1052,21 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-10}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{20}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{30}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-10}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{20}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{30}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{40}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-50}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{60}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{40}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-50}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{60}\)</span></td>
 </tr>
 <tr class="odd">
 <td>True <span class="math inline">\(C_3\)</span></td>
-<td><span class="math inline">\(\color{darkred}{70}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{80}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-90}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{70}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{80}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-90}\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -1080,9 +1080,9 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <div class="fragment" data-fragment-index="3">
 <p>which results in the following expected costs:</p>
 <ul>
-<li class="fragment">Predicting <strong>Class 1</strong> will have a cost of <span class="math inline">\(-10 \times 0.5 + 40 \times 0.1 +70 \times 0.4 = \color{darkred}{27}\)</span></li>
-<li class="fragment">Predicting <strong>Class 2</strong> will have a cost of <span class="math inline">\(20 \times 0.5 - 50 \times 0.1 +80 \times 0.4 = \color{darkred}{37}\)</span></li>
-<li class="fragment">Predicting <strong>Class 3</strong> will have a cost of <span class="math inline">\(30 \times 0.5 + 60 \times 0.1 -90 \times 0.4 = \mathbf{\color{darkgreen}{-15}}\)</span></li>
+<li class="fragment">Predicting <strong>Class 1</strong> will have a cost of <span class="math inline">\(-10 \times 0.5 + 40 \times 0.1 +70 \times 0.4 = \color{DarkRed}{27}\)</span></li>
+<li class="fragment">Predicting <strong>Class 2</strong> will have a cost of <span class="math inline">\(20 \times 0.5 - 50 \times 0.1 +80 \times 0.4 = \color{DarkRed}{37}\)</span></li>
+<li class="fragment">Predicting <strong>Class 3</strong> will have a cost of <span class="math inline">\(30 \times 0.5 + 60 \times 0.1 -90 \times 0.4 = \mathbf{\color{DarkGreen}{-15}}\)</span></li>
 </ul>
 </div>
 </section>
@@ -1107,30 +1107,36 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-10}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{20}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{30}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-10}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{20}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{30}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{40}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-50}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{60}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{40}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-50}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{60}\)</span></td>
 </tr>
 <tr class="odd">
 <td>True <span class="math inline">\(C_3\)</span></td>
-<td><span class="math inline">\(\color{darkred}{70}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{80}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-90}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{70}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{80}\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\color{DarkGreen}{-90}\)</span></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <div class="center">
-<div id="35cbfe65" class="cell" data-execution_count="4">
+<div id="1ec2271f" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="odm_files/figure-revealjs/cell-5-output-1.png" width="856" height="326"></p>
+<p><img data-src="odm_files/figure-revealjs/cell-6-output-1.png" width="856" height="326"></p>
 </figure>
 </div>
 </div>
@@ -1145,10 +1151,10 @@ Commented section
 
 ### Ternary thresholds and optimal decisions
 
-::: {#a323f904 .cell execution_count=5}
+::: {#f49d278b .cell execution_count=6}
 
 ::: {.cell-output .cell-output-display}
-![](odm_files/figure-revealjs/cell-6-output-1.png){width=856 height=326}
+![](odm_files/figure-revealjs/cell-7-output-1.png){width=856 height=326}
 :::
 :::
 
@@ -1178,30 +1184,36 @@ Commented section
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-10}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{20}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{30}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-10}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{20}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{30}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{40}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-50}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{60}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{40}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-50}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{60}\)</span></td>
 </tr>
 <tr class="odd">
 <td>True <span class="math inline">\(C_3\)</span></td>
-<td><span class="math inline">\(\color{darkred}{70}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{80}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-90}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{70}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{80}\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\color{DarkGreen}{-90}\)</span></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <div class="center">
-<div id="899e7a61" class="cell" data-execution_count="6">
+<div id="cbbb6477" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="odm_files/figure-revealjs/cell-7-output-1.png" width="405" height="441"></p>
+<p><img data-src="odm_files/figure-revealjs/cell-8-output-1.png" width="405" height="441"></p>
 </figure>
 </div>
 </div>
@@ -1229,22 +1241,22 @@ Commented section
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{0}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{10}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{2}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{0}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{10}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{2}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{9}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-3}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{2}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{9}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-3}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{2}\)</span></td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li class="fragment">Predicting <strong>Class 1</strong> has an expected cost of <span class="math inline">\(0 \times 0.3 + 9 \times 0.7 = \color{darkred}{6.3}\)</span></li>
-<li class="fragment">Predicting <strong>Class 2</strong> has an expected cost of <span class="math inline">\(10 \times 0.3 - 3 \times 0.7 = \mathbf{\color{darkred}{0.9}}\)</span></li>
-<li class="fragment"><strong>Abstaining</strong> has an expected cost of <span class="math inline">\(2 \times 0.3 + 2 \times 0.7 = \color{darkred}{2}\)</span></li>
+<li class="fragment">Predicting <strong>Class 1</strong> has an expected cost of <span class="math inline">\(0 \times 0.3 + 9 \times 0.7 = \color{DarkRed}{6.3}\)</span></li>
+<li class="fragment">Predicting <strong>Class 2</strong> has an expected cost of <span class="math inline">\(10 \times 0.3 - 3 \times 0.7 = \mathbf{\color{DarkRed}{0.9}}\)</span></li>
+<li class="fragment"><strong>Abstaining</strong> has an expected cost of <span class="math inline">\(2 \times 0.3 + 2 \times 0.7 = \color{DarkRed}{2}\)</span></li>
 </ul>
 </section>
 <section class="slide level2">
@@ -1268,23 +1280,23 @@ Commented section
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{0}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{10}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{2}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{0}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{10}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{2}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{9}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-3}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{2}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{9}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-3}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{2}\)</span></td>
 </tr>
 </tbody>
 </table>
-<div id="7fd8d014" class="cell" data-execution_count="7">
+<div id="bf10b804" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="odm_files/figure-revealjs/cell-8-output-1.png" width="810" height="432"></p>
+<p><img data-src="odm_files/figure-revealjs/cell-9-output-1.png" width="810" height="432"></p>
 </figure>
 </div>
 </div>
@@ -1312,23 +1324,23 @@ Commented section
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">\(C_1\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{0}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{10}\)</span></td>
-<td><span class="math inline">\(\color{darkred}{2}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{0}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{10}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{2}\)</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">\(C_2\)</span></td>
-<td><span class="math inline">\(\color{darkred}{9}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-3}\)</span></td>
-<td><span class="math inline">\(\color{darkgreen}{-1}\)</span></td>
+<td><span class="math inline">\(\color{DarkRed}{9}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-3}\)</span></td>
+<td><span class="math inline">\(\color{DarkGreen}{-1}\)</span></td>
 </tr>
 </tbody>
 </table>
-<div id="5574c4d4" class="cell" data-execution_count="8">
+<div id="5e901494" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="odm_files/figure-revealjs/cell-9-output-1.png" width="810" height="432"></p>
+<p><img data-src="odm_files/figure-revealjs/cell-10-output-1.png" width="810" height="432"></p>
 </figure>
 </div>
 </div>

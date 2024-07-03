@@ -317,7 +317,7 @@ window.Quarto = {
   <li><a href="#optimal-threshold-for-the-binary-case" id="toc-optimal-threshold-for-the-binary-case" class="nav-link" data-scroll-target="#optimal-threshold-for-the-binary-case">Optimal threshold for the binary case</a></li>
   <li><a href="#different-costs-binary-example" id="toc-different-costs-binary-example" class="nav-link" data-scroll-target="#different-costs-binary-example">Different costs binary example</a></li>
   <li><a href="#cost-invariances" id="toc-cost-invariances" class="nav-link" data-scroll-target="#cost-invariances">Cost invariances</a></li>
-  <li><a href="#multiclass-setting" id="toc-multiclass-setting" class="nav-link" data-scroll-target="#multiclass-setting">Multiclass setting</a></li>
+  <li><a href="#sec-multiclass" id="toc-sec-multiclass" class="nav-link" data-scroll-target="#sec-multiclass">Multiclass setting</a></li>
   <li><a href="#sec-ternary" id="toc-sec-ternary" class="nav-link" data-scroll-target="#sec-ternary">Ternary example {.smaller}</a></li>
   <li><a href="#sec-abstain" id="toc-sec-abstain" class="nav-link" data-scroll-target="#sec-abstain">Option to abstain</a></li>
   </ul></li>
@@ -361,7 +361,7 @@ window.Quarto = {
 </header>
 
 
-<p>This is an introductory course on the topic of <code>Optimal Decision Making</code> for multiclass classification. In <a href="#sec-motivation" class="quarto-xref">Section&nbsp;1</a>, we give some motivation insights about the importance of estimating missclassification costs when making automatic decisions, then we define a common setting to calculate expected costs and how to make an optimal decision based on those expected costs in the binary (<a href="#sec-binary" class="quarto-xref">Section&nbsp;2.1</a>) and multiclass (<a href="#sec-ternary" class="quarto-xref">Section&nbsp;2.7</a>) case. We provide interactive examples that demonstrate how the optimal decision change under different operational conditions. Finally in <a href="#sec-abstain" class="quarto-xref">Section&nbsp;2.8</a>, we demonstrate examples in which abstaining on making a prediction and delegating the decision may be optimal solution.</p>
+<p>This is an introductory course on the topic of <code>Optimal Decision Making</code> for multiclass classification. In <a href="#sec-motivation" class="quarto-xref">Section&nbsp;1</a>, we give some motivation insights about the importance of estimating missclassification costs when making automatic decisions, then we define a common setting to calculate expected costs and how to make an optimal decision based on those expected costs in the binary (<a href="#sec-binary" class="quarto-xref">Section&nbsp;2.1</a>) and multiclass (<a href="#sec-multiclass" class="quarto-xref">Section&nbsp;2.6</a>) case. We provide interactive examples that demonstrate how the optimal decision change under different operational conditions. Finally in <a href="#sec-abstain" class="quarto-xref">Section&nbsp;2.8</a>, we demonstrate examples in which abstaining on making a prediction and delegating the decision may be optimal solution.</p>
 <section id="sec-motivation" class="level2">
 <h2 class="anchored" data-anchor-id="sec-motivation">Motivation</h2>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/IymQ6f87CtA?si=WHzlG4CfINqIqQ0G" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
@@ -437,13 +437,13 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
-<td><span class="math inline">\color{darkgreen}{0}</span></td>
-<td><span class="math inline">\color{darkred}{1}</span></td>
+<td><span class="math inline">\color{DarkGreen}{0}</span></td>
+<td><span class="math inline">\color{DarkRed}{1}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td><span class="math inline">\color{darkred}{1}</span></td>
-<td><span class="math inline">\color{darkgreen}{0}</span></td>
+<td><span class="math inline">\color{DarkRed}{1}</span></td>
+<td><span class="math inline">\color{DarkGreen}{0}</span></td>
 </tr>
 </tbody>
 </table>
@@ -459,9 +459,9 @@ window.Quarto = {
 <p>For example, lets assume that the posterior probability vector for a given instance is <span class="math inline">[0.4, 0.6]</span>, the expected costs will be</p>
 <ul>
 <li>Predicting <strong>Class 1</strong> will have an expected cost of <span class="math inline">0.4 \times 0 +
-  0.6 \times 1 = \color{darkred}{0.6}</span></li>
+  0.6 \times 1 = \color{DarkRed}{0.6}</span></li>
 <li>Predicting <strong>Class 2</strong> will have an expected cost of <span class="math inline">0.4 \times 1
-  + 0.6 \times 0 = \mathbf{\color{darkred}{0.4}}</span>.</li>
+  + 0.6 \times 0 = \mathbf{\color{DarkRed}{0.4}}</span>.</li>
 </ul>
 <hr>
 <section id="expected-costs-figure" class="level4">
@@ -479,20 +479,20 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
-<td><span class="math inline">\color{darkgreen}{0}</span></td>
-<td><span class="math inline">\color{darkred}{1}</span></td>
+<td><span class="math inline">\color{DarkGreen}{0}</span></td>
+<td><span class="math inline">\color{DarkRed}{1}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td><span class="math inline">\color{darkred}{1}</span></td>
-<td><span class="math inline">\color{darkgreen}{0}</span></td>
+<td><span class="math inline">\color{DarkRed}{1}</span></td>
+<td><span class="math inline">\color{DarkGreen}{0}</span></td>
 </tr>
 </tbody>
 </table>
 </div>
 <hr>
 <p>will result in the following cost lines</p>
-<div id="82b12128" class="cell" data-execution_count="1">
+<div id="6a0f2796" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -556,19 +556,19 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
-<td><span class="math inline">\color{darkgreen}{0}</span></td>
-<td><span class="math inline">\color{darkred}{1}</span></td>
+<td><span class="math inline">\color{DarkGreen}{0}</span></td>
+<td><span class="math inline">\color{DarkRed}{1}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td><span class="math inline">\color{darkred}{0.4}</span></td>
-<td><span class="math inline">\color{darkgreen}{0.5}</span></td>
+<td><span class="math inline">\color{DarkRed}{0.4}</span></td>
+<td><span class="math inline">\color{DarkGreen}{0.5}</span></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="fragment" data-fragment-index="2">
-<div id="959252cb" class="cell" data-execution_count="2">
+<div id="a2db471f" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -642,21 +642,21 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
-<td><span class="math inline">\color{darkgreen}{0}</span></td>
-<td><span class="math inline">\color{darkred}{1}</span></td>
+<td><span class="math inline">\color{DarkGreen}{0}</span></td>
+<td><span class="math inline">\color{DarkRed}{1}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td><span class="math inline">\color{darkred}{1}</span></td>
-<td><span class="math inline">\color{darkgreen}{0}</span></td>
+<td><span class="math inline">\color{DarkRed}{1}</span></td>
+<td><span class="math inline">\color{DarkGreen}{0}</span></td>
 </tr>
 </tbody>
 </table>
 <p>the optimal threshold corresponds to</p>
 <p><span class="math display">\begin{equation}
-  t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
-               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
-                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}
+  t^* = \frac{{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}}}
+               {{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}} +
+                {\color{DarkRed}c_{2|1}} - {\color{DarkGreen}c_{1|1}}}
   = \frac{1 - 0}{1 + 1 - 0 - 0} = 0.5
 \end{equation}</span></p>
 </section>
@@ -674,19 +674,19 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
-<td><span class="math inline">\color{darkgreen}{-5}</span></td>
-<td><span class="math inline">\color{darkred}{10}</span></td>
+<td><span class="math inline">\color{DarkGreen}{-5}</span></td>
+<td><span class="math inline">\color{DarkRed}{10}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td><span class="math inline">\color{darkred}{1}</span></td>
-<td><span class="math inline">\color{darkgreen}{-1}</span></td>
+<td><span class="math inline">\color{DarkRed}{1}</span></td>
+<td><span class="math inline">\color{DarkGreen}{-1}</span></td>
 </tr>
 </tbody>
 </table>
 <p>which would result in the following cost lines.</p>
 <hr>
-<div id="0a36e15f" class="cell" data-execution_count="3">
+<div id="5b6e2bd5" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -716,9 +716,9 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <p>In this case, for a posterior probability vector <span class="math inline">[0.4, 0.6]</span> we would expect</p>
 <ul>
 <li>Predicting <strong>Class 1</strong> will have an expected cost of <span class="math inline">-5 \times 0.4 + 1 \times
-0.6 = \mathbf{\color{darkgreen}{-1.4}}</span></li>
+0.6 = \mathbf{\color{DarkGreen}{-1.4}}</span></li>
 <li>Predicting <strong>Class 2</strong> will have an expected cost of <span class="math inline">10 \times 0.4 - 1 \times
-0.6 = \color{darkred}{3.4}</span></li>
+0.6 = \color{DarkRed}{3.4}</span></li>
 </ul>
 <hr>
 <section id="other-binary-examples" class="level4">
@@ -911,12 +911,12 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <p>Because of these invariances, it is common in the binary case to modify the matrix <span class="math inline">c</span> in such a way that the missclassification cost for one of the classes is <span class="math inline">1</span> and a cost of <span class="math inline">0</span> for its correct prediction. For example, if <span class="math inline">c_{1|2}^*=1</span> and <span class="math inline">c_{2|2}^*=0</span> we get</p>
 <div class="fragment" data-fragment-index="1">
 <p><span class="math display">\begin{equation}
-  t^* = \frac{{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}}}
-               {{\color{darkred}c_{1|2}} - {\color{darkgreen}c_{2|2}} +
-                {\color{darkred}c_{2|1}} - {\color{darkgreen}c_{1|1}}}
+  t^* = \frac{{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}}}
+               {{\color{DarkRed}c_{1|2}} - {\color{DarkGreen}c_{2|2}} +
+                {\color{DarkRed}c_{2|1}} - {\color{DarkGreen}c_{1|1}}}
   = \frac{1}
                {1 +
-                {\color{darkred}c_{2|1}^*} - {\color{darkgreen}c_{1|1}^*}}
+                {\color{DarkRed}c_{2|1}^*} - {\color{DarkGreen}c_{1|1}^*}}
 \end{equation}</span></p>
 </div>
 <div class="fragment" data-fragment-index="2">
@@ -934,15 +934,15 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <p>with an optimal threshold</p>
 <p><span class="math display">\begin{equation}
   t^*
-  = \frac{1} {1 + {\color{darkred}c_{2|1}}' - {\color{darkgreen}c_{1|1}'}}
-  = \frac{1} {1 + {\color{darkred}0.5} - {\color{darkgreen}0.25}}
+  = \frac{1} {1 + {\color{DarkRed}c_{2|1}}' - {\color{DarkGreen}c_{1|1}'}}
+  = \frac{1} {1 + {\color{DarkRed}0.5} - {\color{DarkGreen}0.25}}
   = 0.8
 \end{equation}</span></p>
 </div>
 </section>
 </section>
-<section id="multiclass-setting" class="level3">
-<h3 class="anchored" data-anchor-id="multiclass-setting">Multiclass setting</h3>
+<section id="sec-multiclass" class="level3">
+<h3 class="anchored" data-anchor-id="sec-multiclass">Multiclass setting</h3>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qO-tAjqHkw8?si=XHXNJfcuBoRY5aej" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
 </iframe>
 <div class="fragment" data-fragment-index="1">
@@ -967,17 +967,17 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
-<td><span class="math inline">\color{darkgreen}{c_{1|1}}</span></td>
-<td><span class="math inline">\color{darkred}{c_{2|1}}</span></td>
+<td><span class="math inline">\color{DarkGreen}{c_{1|1}}</span></td>
+<td><span class="math inline">\color{DarkRed}{c_{2|1}}</span></td>
 <td><span class="math inline">\cdots</span></td>
-<td><span class="math inline">\color{darkred}{c_{K|1}}</span></td>
+<td><span class="math inline">\color{DarkRed}{c_{K|1}}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td><span class="math inline">\color{darkred}{c_{1|2}}</span></td>
-<td><span class="math inline">\color{darkgreen}{c_{2|2}}</span></td>
+<td><span class="math inline">\color{DarkRed}{c_{1|2}}</span></td>
+<td><span class="math inline">\color{DarkGreen}{c_{2|2}}</span></td>
 <td><span class="math inline">\cdots</span></td>
-<td><span class="math inline">\color{darkred}{c_{2|2}}</span></td>
+<td><span class="math inline">\color{DarkRed}{c_{2|2}}</span></td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\vdots</span></td>
@@ -988,10 +988,10 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_K</span></td>
-<td><span class="math inline">\color{darkred}{c_{1|K}}</span></td>
-<td><span class="math inline">\color{darkred}{c_{2|K}}</span></td>
+<td><span class="math inline">\color{DarkRed}{c_{1|K}}</span></td>
+<td><span class="math inline">\color{DarkRed}{c_{2|K}}</span></td>
 <td><span class="math inline">\cdots</span></td>
-<td><span class="math inline">\color{darkgreen}{c_{K|K}}</span></td>
+<td><span class="math inline">\color{DarkGreen}{c_{K|K}}</span></td>
 </tr>
 </tbody>
 </table>
@@ -1022,21 +1022,21 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
-<td><span class="math inline">\color{darkgreen}{-10}</span></td>
-<td><span class="math inline">\color{darkred}{20}</span></td>
-<td><span class="math inline">\color{darkred}{30}</span></td>
+<td><span class="math inline">\color{DarkGreen}{-10}</span></td>
+<td><span class="math inline">\color{DarkRed}{20}</span></td>
+<td><span class="math inline">\color{DarkRed}{30}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td><span class="math inline">\color{darkred}{40}</span></td>
-<td><span class="math inline">\color{darkgreen}{-50}</span></td>
-<td><span class="math inline">\color{darkred}{60}</span></td>
+<td><span class="math inline">\color{DarkRed}{40}</span></td>
+<td><span class="math inline">\color{DarkGreen}{-50}</span></td>
+<td><span class="math inline">\color{DarkRed}{60}</span></td>
 </tr>
 <tr class="odd">
 <td>True <span class="math inline">C_3</span></td>
-<td><span class="math inline">\color{darkred}{70}</span></td>
-<td><span class="math inline">\color{darkred}{80}</span></td>
-<td><span class="math inline">\color{darkgreen}{-90}</span></td>
+<td><span class="math inline">\color{DarkRed}{70}</span></td>
+<td><span class="math inline">\color{DarkRed}{80}</span></td>
+<td><span class="math inline">\color{DarkGreen}{-90}</span></td>
 </tr>
 </tbody>
 </table>
@@ -1050,16 +1050,16 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <div class="fragment" data-fragment-index="3">
 <p>which results in the following expected costs:</p>
 <ul>
-<li>Predicting <strong>Class 1</strong> will have a cost of <span class="math inline">-10 \times 0.5 + 40 \times 0.1 +70 \times 0.4 = \color{darkred}{27}</span></li>
-<li>Predicting <strong>Class 2</strong> will have a cost of <span class="math inline">20 \times 0.5 - 50 \times 0.1 +80 \times 0.4 = \color{darkred}{37}</span></li>
-<li>Predicting <strong>Class 3</strong> will have a cost of <span class="math inline">30 \times 0.5 + 60 \times 0.1 -90 \times 0.4 = \mathbf{\color{darkgreen}{-15}}</span></li>
+<li>Predicting <strong>Class 1</strong> will have a cost of <span class="math inline">-10 \times 0.5 + 40 \times 0.1 +70 \times 0.4 = \color{DarkRed}{27}</span></li>
+<li>Predicting <strong>Class 2</strong> will have a cost of <span class="math inline">20 \times 0.5 - 50 \times 0.1 +80 \times 0.4 = \color{DarkRed}{37}</span></li>
+<li>Predicting <strong>Class 3</strong> will have a cost of <span class="math inline">30 \times 0.5 + 60 \times 0.1 -90 \times 0.4 = \mathbf{\color{DarkGreen}{-15}}</span></li>
 </ul>
 </div>
 <hr>
 <section id="ternary-expected-cost-isolines-per-decision" class="level4">
 <h4 class="anchored" data-anchor-id="ternary-expected-cost-isolines-per-decision">Ternary expected cost isolines per decision</h4>
 <div class="center">
-<div id="8e30f70f" class="cell" data-execution_count="4">
+<div id="098ee274" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1084,7 +1084,7 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="odm_files/figure-html/cell-5-output-1.svg" class="img-fluid figure-img"></p>
+<p><img src="odm_files/figure-html/cell-6-output-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1099,7 +1099,7 @@ Commented section
 
 ### Ternary thresholds and optimal decisions
 
-::: {#c8a30f47 .cell execution_count=5}
+::: {#23bb0dd6 .cell execution_count=6}
 ``` {.python .cell-code code-fold="true" code-summary="Show the code"}
 import matplotlib
 import numpy as np
@@ -1130,7 +1130,7 @@ plt.show()
 ```
 
 ::: {.cell-output .cell-output-display}
-![](odm_files/figure-html/cell-6-output-1.svg){}
+![](odm_files/figure-html/cell-7-output-1.svg){}
 :::
 :::
 
@@ -1143,7 +1143,7 @@ plt.show()
 <section id="ternary-hyperplanes-optimal-decision-combined" class="level4">
 <h4 class="anchored" data-anchor-id="ternary-hyperplanes-optimal-decision-combined">Ternary hyperplanes optimal decision combined</h4>
 <div class="center">
-<div id="a2fb836c" class="cell" data-execution_count="6">
+<div id="72e93e61" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> matplotlib</span>
@@ -1182,7 +1182,7 @@ The following kwargs were not used by contour: 'cb_orientation'
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="odm_files/figure-html/cell-7-output-2.svg" class="img-fluid figure-img"></p>
+<p><img src="odm_files/figure-html/cell-8-output-2.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1211,27 +1211,27 @@ The following kwargs were not used by contour: 'cb_orientation'
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
-<td><span class="math inline">\color{darkgreen}{0}</span></td>
-<td><span class="math inline">\color{darkred}{10}</span></td>
-<td><span class="math inline">\color{darkred}{2}</span></td>
+<td><span class="math inline">\color{DarkGreen}{0}</span></td>
+<td><span class="math inline">\color{DarkRed}{10}</span></td>
+<td><span class="math inline">\color{DarkRed}{2}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td><span class="math inline">\color{darkred}{9}</span></td>
-<td><span class="math inline">\color{darkgreen}{-3}</span></td>
-<td><span class="math inline">\color{darkred}{2}</span></td>
+<td><span class="math inline">\color{DarkRed}{9}</span></td>
+<td><span class="math inline">\color{DarkGreen}{-3}</span></td>
+<td><span class="math inline">\color{DarkRed}{2}</span></td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li>Predicting <strong>Class 1</strong> has an expected cost of <span class="math inline">0 \times 0.3 + 9 \times 0.7 = \color{darkred}{6.3}</span></li>
-<li>Predicting <strong>Class 2</strong> has an expected cost of <span class="math inline">10 \times 0.3 - 3 \times 0.7 = \mathbf{\color{darkred}{0.9}}</span></li>
-<li><strong>Abstaining</strong> has an expected cost of <span class="math inline">2 \times 0.3 + 2 \times 0.7 = \color{darkred}{2}</span></li>
+<li>Predicting <strong>Class 1</strong> has an expected cost of <span class="math inline">0 \times 0.3 + 9 \times 0.7 = \color{DarkRed}{6.3}</span></li>
+<li>Predicting <strong>Class 2</strong> has an expected cost of <span class="math inline">10 \times 0.3 - 3 \times 0.7 = \mathbf{\color{DarkRed}{0.9}}</span></li>
+<li><strong>Abstaining</strong> has an expected cost of <span class="math inline">2 \times 0.3 + 2 \times 0.7 = \color{DarkRed}{2}</span></li>
 </ul>
 <hr>
 <section id="option-to-abstain-cost-lines" class="level4">
 <h4 class="anchored" data-anchor-id="option-to-abstain-cost-lines">Option to abstain cost lines</h4>
-<div id="2f349eb5" class="cell" data-execution_count="7">
+<div id="1aa55eb3" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1255,7 +1255,7 @@ The following kwargs were not used by contour: 'cb_orientation'
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="odm_files/figure-html/cell-8-output-1.svg" class="img-fluid figure-img"></p>
+<p><img src="odm_files/figure-html/cell-9-output-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1283,19 +1283,19 @@ The following kwargs were not used by contour: 'cb_orientation'
 <tbody>
 <tr class="odd">
 <td>True <span class="math inline">C_1</span></td>
-<td><span class="math inline">\color{darkgreen}{0}</span></td>
-<td><span class="math inline">\color{darkred}{10}</span></td>
-<td><span class="math inline">\color{darkred}{2}</span></td>
+<td><span class="math inline">\color{DarkGreen}{0}</span></td>
+<td><span class="math inline">\color{DarkRed}{10}</span></td>
+<td><span class="math inline">\color{DarkRed}{2}</span></td>
 </tr>
 <tr class="even">
 <td>True <span class="math inline">C_2</span></td>
-<td><span class="math inline">\color{darkred}{9}</span></td>
-<td><span class="math inline">\color{darkgreen}{-3}</span></td>
-<td><span class="math inline">\color{darkgreen}{-1}</span></td>
+<td><span class="math inline">\color{DarkRed}{9}</span></td>
+<td><span class="math inline">\color{DarkGreen}{-3}</span></td>
+<td><span class="math inline">\color{DarkGreen}{-1}</span></td>
 </tr>
 </tbody>
 </table>
-<div id="6c54afff" class="cell" data-execution_count="8">
+<div id="a3495316" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1319,7 +1319,7 @@ The following kwargs were not used by contour: 'cb_orientation'
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="odm_files/figure-html/cell-9-output-1.svg" class="img-fluid figure-img"></p>
+<p><img src="odm_files/figure-html/cell-10-output-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
