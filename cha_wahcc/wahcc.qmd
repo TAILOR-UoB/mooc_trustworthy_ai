@@ -22,6 +22,8 @@ author:
         postal-code: BS8 1QU
     attributes:
         equal-contributor: False
+filters:
+  - shinylive
 format:
   html:
     css: wahcc_style.css
@@ -353,6 +355,145 @@ But adjusting forecasts in groups also gives rise to practical calibration **met
 
 - empirical binning
 - isotonic regression (aka ROC convex hull)
+
+
+::: {.content-visible when-format="html"}
+
+## Expected calibration error affected by the number of bins
+
+In the following example you can change the number of bins of a fixed set of
+samples and see how the Expected Calibration Error changes accordingly.
+
+```{shinylive-python}
+#| standalone: true
+#| components: viewer
+#| viewerHeight: 480
+
+from utils import plot_reliability_diagram
+import numpy as np
+
+np.random.seed(42)
+scores = np.random.rand(100)
+labels = np.random.binomial(1, scores)
+
+import numpy as np
+from shiny import App, render, ui
+
+app_ui = ui.page_fluid(
+    ui.layout_sidebar(
+        ui.panel_sidebar(
+    ui.input_slider("n", "Number of bins", 
+                    min=1, max=100, value=10),
+    ),
+    ui.panel_main(
+    ui.output_plot("plot")
+    )
+    ),
+)
+
+def server(input, output, session):
+    @output
+    @render.plot(alt="A histogram")
+    def plot():
+        fig = plot_reliability_diagram(labels, scores,
+                                       n_bins=input.n())
+        return fig
+
+app = App(app_ui, server, debug=True)
+
+
+## file: utils.py
+import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+import numpy as np
+import matplotlib.ticker as mticker
+
+def get_binned_scores(labels, scores, bins=10):
+    '''
+    Parameters
+    ==========
+    labels : array (n_samples, )
+        Labels indicating the true class.
+    scores : matrix (n_samples, )
+        Output probability scores for one or several methods.
+    bins : int or list of floats
+        Number of bins to create in the scores' space, or list of bin
+        boundaries.
+    '''
+    n_bins = 1
+    if isinstance(bins, int):
+        n_bins = bins
+        bins = np.linspace(0, 1 + 1e-8, n_bins + 1)
+    elif isinstance(bins, list) or isinstance(bins, np.ndarray):
+        n_bins = len(bins) - 1
+        bins = np.array(bins)
+        if bins[0] == 0.0:
+            bins[0] = 0 - 1e-8
+        if bins[-1] == 1.0:
+            bins[-1] = 1 + 1e-8
+
+    scores = np.clip(scores, a_min=0, a_max=1)
+
+    bin_idx = np.digitize(scores, bins) - 1
+
+    bin_true = np.bincount(bin_idx, weights=labels,
+                           minlength=n_bins)
+    bin_pred = np.bincount(bin_idx, weights=scores,
+                           minlength=n_bins)
+    bin_total = np.bincount(bin_idx, minlength=n_bins)
+
+    zero_idx = bin_total == 0
+    avg_true = np.empty(bin_total.shape[0])
+    avg_true.fill(np.nan)
+    avg_true[~zero_idx] = np.divide(bin_true[~zero_idx],
+                                    bin_total[~zero_idx])
+    avg_pred = np.empty(bin_total.shape[0])
+    avg_pred.fill(np.nan)
+    avg_pred[~zero_idx] = np.divide(bin_pred[~zero_idx],
+                                    bin_total[~zero_idx])
+    return avg_true, avg_pred, bin_true, bin_total
+    
+def plot_reliability_diagram(labels, scores, n_bins=10):
+    bins = np.linspace(0, 1 + 1e-8, n_bins + 1)
+
+    avg_true, avg_pred, bin_true, bin_total = get_binned_scores(
+            labels, scores, bins=bins)
+
+    zero_idx = bin_total == 0
+    fig = plt.figure()
+    ax1 = fig.add_subplot()
+    fig, axs = plt.subplots(2, 1,
+                            gridspec_kw={'height_ratios': [4, 1]})
+    axs[0].bar(x=bins[:-1][~zero_idx], height=avg_true[~zero_idx],
+                        align='edge', width=(bins[1:] - bins[:-1])[~zero_idx],
+                        edgecolor='black')
+    axs[0].scatter(avg_pred, avg_true)
+    axs[0].plot([0, 1], [0, 1], '--', color='red')
+
+    axs[0].set_xlim([0, 1])
+    axs[0].set_ylim([0, 1])
+    axs[0].set_ylabel('Fraction of positives')
+    axs[0].grid(True)
+    axs[0].set_axisbelow(True)
+
+    axs[1].hist(scores, range=(0, 1),
+             bins=bins,
+             histtype="bar",
+             lw=1,
+             edgecolor='black')
+
+    axs[1].set_xlim([0, 1])
+    axs[1].set_ylabel('Count')
+    axs[1].set_xlabel('Scores')
+
+
+    weights = bin_total[~zero_idx]/sum(bin_total)
+    ece = sum(np.abs(avg_pred - avg_true)[~zero_idx]*weights)
+    fig.suptitle(f'Expected Calibration Error = {ece:0.3f}')
+    return fig
+```
+
+:::
 
 ## Questions and answers
 
