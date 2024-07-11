@@ -528,7 +528,7 @@
     "href": "index.html",
     "title": "Foundations of Trustworthy AI",
     "section": "",
-    "text": "This website is authored in Quarto. See New Ways of Publishing: A Roadmap to Authoring Online Training Material for a detailed description of how this training material was created and the formats and tools used.\n\n\n\nThis website contains two short courses related to Trustworthy AI. The content can be viewed in a variety of ways.",
+    "text": "This website is authored in Quarto. See New Ways of Publishing: A Roadmap to Authoring Online Training Material for a detailed description of how this training material was created and the formats and tools used.\n\n\n\nThis website contains two short courses related to Trustworthy AI. The content can be viewed in a variety of ways, following the Single Input, Multiple Output paradigm. See the links under Other Formats in the right-hand panel.\n\nIntroduction to Optimal Decision Making was created from scratch in Quarto, as described here.\nClassifier Calibration was converted to Quarto from LaTeX Beamer source, as described here. Note that this is a much more involved process, and some imperfections remain.",
     "crumbs": [
       "Home"
     ]
@@ -538,7 +538,7 @@
     "href": "index.html#foundations-of-trustworthy-ai",
     "title": "Foundations of Trustworthy AI",
     "section": "",
-    "text": "This website is authored in Quarto. See New Ways of Publishing: A Roadmap to Authoring Online Training Material for a detailed description of how this training material was created and the formats and tools used.\n\n\n\nThis website contains two short courses related to Trustworthy AI. The content can be viewed in a variety of ways.",
+    "text": "This website is authored in Quarto. See New Ways of Publishing: A Roadmap to Authoring Online Training Material for a detailed description of how this training material was created and the formats and tools used.\n\n\n\nThis website contains two short courses related to Trustworthy AI. The content can be viewed in a variety of ways, following the Single Input, Multiple Output paradigm. See the links under Other Formats in the right-hand panel.\n\nIntroduction to Optimal Decision Making was created from scratch in Quarto, as described here.\nClassifier Calibration was converted to Quarto from LaTeX Beamer source, as described here. Note that this is a much more involved process, and some imperfections remain.",
     "crumbs": [
       "Home"
     ]
