@@ -38,12 +38,12 @@ website:
     contents:
       - href: index.qmd
         text: Home
-      - href: cha_wahcc/wahcc.qmd
       - href: cha_odm/odm.qmd
+      - href: cha_wahcc/wahcc.qmd
  
   page-footer:
     left: |
-      Foundations of Trustworthy AI was written by Miquel Perello Nieto based on the TAILOR PhD Curriculum and other sources.
+      Foundations of Trustworthy AI was written by Miquel Perello Nieto and Peter Flach.
     right: |
       This website was built with <a href="https://quarto.org/">Quarto</a>.
   #cover-image: "images/TAILOR-MOOC-tai.svg"
