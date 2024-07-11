@@ -1,7 +1,3 @@
-# mooc_trustworthy_ai
+# A demonstrator website for New Ways of Publishing
 
-To rund webR it is necessary to install the following extension
-
-```bash
-quarto add coatless/quarto-webr
-```
+This website is authored in `Quarto`. See [New Ways of Publishing: A Roadmap to Authoring Online Training Material](https://tailor-uob.github.io/new_ways_of_publishing/) for a detailed description of how this training material was created and the formats and tools used. 
