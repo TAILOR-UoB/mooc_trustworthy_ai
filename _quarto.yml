@@ -38,16 +38,9 @@ website:
     contents:
       - href: index.qmd
         text: Home
-      - href: 0_foundations_of_ai.qmd
-      - section: 1_foundations_of_tai.qmd
-        contents:
-          - cha_wahcc/wahcc.qmd
-          - cha_odm/odm.qmd
-      - href: 2_ai_paradigms_representations.qmd
-      - href: 3_deciding_learning_how_act.qmd
-      - href: 4_reasoning_learning_social_context.qmd
-      - href: 5_automated_ai.qmd
-
+      - href: cha_wahcc/wahcc.qmd
+      - href: cha_odm/odm.qmd
+ 
   page-footer:
     left: |
       Foundations of Trustworthy AI was written by Miquel Perello Nieto based on the TAILOR PhD Curriculum and other sources.
