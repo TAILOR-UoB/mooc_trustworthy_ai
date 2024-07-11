@@ -26,7 +26,7 @@ website:
   sidebar:
     style: "docked"
     search: true
-    logo: "./images/TAILOR-MOOC-tai.svg"
+    logo: "./images/TAILOR logo - full-color rgb.svg"
     collapse-level: 2
     tools:
       - icon: github
