@@ -10,13 +10,17 @@ format:
 This website is a demonstrator for authoring online training material in `Quarto`. 
 See the companion website [New Ways of Publishing: A Roadmap to Authoring Online Training Material](https://tailor-uob.github.io/new_ways_of_publishing/) for a detailed description of how this training material was created and the formats and tools used. 
 
-This website contains the following two short courses related to Trustworthy AI: 
+---
+
+At the moment we offer the following two short courses related to Trustworthy AI as demonstrators: 
 
 - [Introduction to Optimal Decision Making](https://tailor-uob.github.io/mooc_trustworthy_ai/cha_odm/odm.html) was created from scratch in `Quarto`, as described [here](https://tailor-uob.github.io/new_ways_of_publishing/use-cases/qmd.html). 
 - [Classifier Calibration](https://tailor-uob.github.io/mooc_trustworthy_ai/cha_wahcc/wahcc.html) was converted to `Quarto` from LaTeX Beamer source, as described [here](https://tailor-uob.github.io/new_ways_of_publishing/use-cases/tex-to-qmd.html). Note that this is a much more involved process, and some imperfections remain. 
 
 The content can be viewed in a variety of ways, following the [Single-In-Multiple-Out](https://tailor-uob.github.io/new_ways_of_publishing/introduction/publishing-workflow.html#single-in-multiple-out) paradigm. 
 See the links under `Other Formats` in the right-hand panel. 
+
+---
 
 This work forms part of a deliverable of the 
 [TAILOR Network of Trustworthy AI through Integrating Learning, Optimisation and Reasoning](https://tailor-network.eu) 
