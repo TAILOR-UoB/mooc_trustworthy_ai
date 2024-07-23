@@ -463,15 +463,13 @@ import pandas as pd
 
 app_ui = ui.page_fluid(
     ui.layout_sidebar(
-        ui.panel_sidebar(
+        ui.sidebar(
     ui.input_slider("TP", "Cost True C1",  value=-5, min=-10, max=0),
     ui.input_slider("TN", "Cost True C2",  value=-1, min=-10, max=0),
     ui.input_slider("FN", "Cost False C2", value=10, min=1,   max=10),
     ui.input_slider("FP", "Cost False C1", value=1,  min=1,   max=10),
     ),
-    ui.panel_main(
     ui.output_plot("plot")
-    )
     ),
 )
 
@@ -565,7 +563,7 @@ C_original = np.array([[-2,  3],     # 1|1, 2|1
 
 app_ui = ui.page_fluid(
     ui.layout_sidebar(
-        ui.panel_sidebar(
+        ui.sidebar(
             ui.input_slider("S", "Shift constant S", value=0,  min=-10,
                             max=10),
             ui.input_radio_buttons("M", "Multiplicative constant M",
@@ -574,9 +572,7 @@ app_ui = ui.page_fluid(
                                    selected = '1', inline=True, width='100%'),
             ui.output_table('cost_matrix'),
         ),
-        ui.panel_main(
-            ui.output_plot("plot")
-        )
+        ui.output_plot("plot")
     ),
 )
 

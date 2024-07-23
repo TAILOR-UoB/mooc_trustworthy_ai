@@ -7,3 +7,6 @@
 docs/*
 _site
 *.js
+
+# Quarto temporal files
+cha_*/*_files
