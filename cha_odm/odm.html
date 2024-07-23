@@ -451,7 +451,7 @@ window.Quarto = {
 </div>
 <hr>
 <p>will result in the following cost lines</p>
-<div id="d962bc9b" class="cell" data-execution_count="1">
+<div id="c8d88f38" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -527,7 +527,7 @@ window.Quarto = {
 </table>
 </div>
 <div class="fragment" data-fragment-index="2">
-<div id="7c09dc5e" class="cell" data-execution_count="2">
+<div id="1b8c1c20" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -645,7 +645,7 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 </table>
 <p>which would result in the following cost lines.</p>
 <hr>
-<div id="040d965f" class="cell" data-execution_count="3">
+<div id="8b84b309" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -693,69 +693,67 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <span id="cb4-8"><a href="#cb4-8"></a></span>
 <span id="cb4-9"><a href="#cb4-9"></a>app_ui = ui.page_fluid(</span>
 <span id="cb4-10"><a href="#cb4-10"></a>    ui.layout_sidebar(</span>
-<span id="cb4-11"><a href="#cb4-11"></a>        ui.panel_sidebar(</span>
+<span id="cb4-11"><a href="#cb4-11"></a>        ui.sidebar(</span>
 <span id="cb4-12"><a href="#cb4-12"></a>    ui.input_slider("TP", "Cost True C1",  value=-5, min=-10, max=0),</span>
 <span id="cb4-13"><a href="#cb4-13"></a>    ui.input_slider("TN", "Cost True C2",  value=-1, min=-10, max=0),</span>
 <span id="cb4-14"><a href="#cb4-14"></a>    ui.input_slider("FN", "Cost False C2", value=10, min=1,   max=10),</span>
 <span id="cb4-15"><a href="#cb4-15"></a>    ui.input_slider("FP", "Cost False C1", value=1,  min=1,   max=10),</span>
 <span id="cb4-16"><a href="#cb4-16"></a>    ),</span>
-<span id="cb4-17"><a href="#cb4-17"></a>    ui.panel_main(</span>
-<span id="cb4-18"><a href="#cb4-18"></a>    ui.output_plot("plot")</span>
-<span id="cb4-19"><a href="#cb4-19"></a>    )</span>
-<span id="cb4-20"><a href="#cb4-20"></a>    ),</span>
-<span id="cb4-21"><a href="#cb4-21"></a>)</span>
-<span id="cb4-22"><a href="#cb4-22"></a></span>
-<span id="cb4-23"><a href="#cb4-23"></a>def server(input, output, session):</span>
-<span id="cb4-24"><a href="#cb4-24"></a>    @output</span>
-<span id="cb4-25"><a href="#cb4-25"></a>    @render.plot(alt="A histogram")</span>
-<span id="cb4-26"><a href="#cb4-26"></a>    def plot():</span>
-<span id="cb4-27"><a href="#cb4-27"></a>        TP = input.TP() # C_1|1</span>
-<span id="cb4-28"><a href="#cb4-28"></a>        FN = input.FN() # C_1|2</span>
-<span id="cb4-29"><a href="#cb4-29"></a>        FP = input.FP() # C_2|1</span>
-<span id="cb4-30"><a href="#cb4-30"></a>        TN = input.TN() # C_2|2</span>
-<span id="cb4-31"><a href="#cb4-31"></a>        fig = plt.figure()</span>
-<span id="cb4-32"><a href="#cb4-32"></a>        ax = fig.add_subplot()</span>
-<span id="cb4-33"><a href="#cb4-33"></a>        ax.grid(True)</span>
-<span id="cb4-34"><a href="#cb4-34"></a>        ax.plot([0, 1], [FP, TP], '--', label="Predict $C_1$")</span>
-<span id="cb4-35"><a href="#cb4-35"></a>        ax.plot([0, 1], [TN, FN], '--', label="Predict $C_2$")</span>
-<span id="cb4-36"><a href="#cb4-36"></a></span>
-<span id="cb4-37"><a href="#cb4-37"></a>        threshold = (FP - TN)/(FP - TN + FN - TP)</span>
-<span id="cb4-38"><a href="#cb4-38"></a>        cost_t = threshold*TP + (1-threshold)*FP</span>
-<span id="cb4-39"><a href="#cb4-39"></a>        ax.plot([threshold, 1], [cost_t, TP], lw=5, color='tab:blue', label="Optimal $C_1$")</span>
-<span id="cb4-40"><a href="#cb4-40"></a>        ax.plot([0, threshold], [TN, cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")</span>
-<span id="cb4-41"><a href="#cb4-41"></a></span>
-<span id="cb4-42"><a href="#cb4-42"></a>        C = [[TP, FP], [FN, TN]]</span>
-<span id="cb4-43"><a href="#cb4-43"></a>        bbox = dict(boxstyle="round", fc="white")</span>
-<span id="cb4-44"><a href="#cb4-44"></a>        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(2, -1),</span>
-<span id="cb4-45"><a href="#cb4-45"></a>                    textcoords='offset fontsize',</span>
-<span id="cb4-46"><a href="#cb4-46"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb4-47"><a href="#cb4-47"></a>                    bbox=bbox)</span>
-<span id="cb4-48"><a href="#cb4-48"></a>        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(2, 0),</span>
-<span id="cb4-49"><a href="#cb4-49"></a>                    textcoords='offset fontsize',</span>
-<span id="cb4-50"><a href="#cb4-50"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb4-51"><a href="#cb4-51"></a>                    bbox=bbox)</span>
-<span id="cb4-52"><a href="#cb4-52"></a>        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(0, 2),</span>
-<span id="cb4-53"><a href="#cb4-53"></a>                    textcoords='offset fontsize',</span>
-<span id="cb4-54"><a href="#cb4-54"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb4-55"><a href="#cb4-55"></a>                    bbox=bbox)</span>
-<span id="cb4-56"><a href="#cb4-56"></a>        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(2, 0),</span>
-<span id="cb4-57"><a href="#cb4-57"></a>                    textcoords='offset fontsize',</span>
-<span id="cb4-58"><a href="#cb4-58"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb4-59"><a href="#cb4-59"></a>                    bbox=bbox)</span>
-<span id="cb4-60"><a href="#cb4-60"></a></span>
-<span id="cb4-61"><a href="#cb4-61"></a>        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), </span>
-<span id="cb4-62"><a href="#cb4-62"></a>                    xytext=(0, --3),</span>
-<span id="cb4-63"><a href="#cb4-63"></a>                    textcoords='offset fontsize',</span>
-<span id="cb4-64"><a href="#cb4-64"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb4-65"><a href="#cb4-65"></a>                    bbox=bbox)</span>
-<span id="cb4-66"><a href="#cb4-66"></a></span>
-<span id="cb4-67"><a href="#cb4-67"></a>        ax.set_xlabel('$P(C_1|x)$')</span>
-<span id="cb4-68"><a href="#cb4-68"></a>        ax.set_ylabel('Expected cost')</span>
-<span id="cb4-69"><a href="#cb4-69"></a>        ax.legend()</span>
+<span id="cb4-17"><a href="#cb4-17"></a>    ui.output_plot("plot")</span>
+<span id="cb4-18"><a href="#cb4-18"></a>    ),</span>
+<span id="cb4-19"><a href="#cb4-19"></a>)</span>
+<span id="cb4-20"><a href="#cb4-20"></a></span>
+<span id="cb4-21"><a href="#cb4-21"></a>def server(input, output, session):</span>
+<span id="cb4-22"><a href="#cb4-22"></a>    @output</span>
+<span id="cb4-23"><a href="#cb4-23"></a>    @render.plot(alt="A histogram")</span>
+<span id="cb4-24"><a href="#cb4-24"></a>    def plot():</span>
+<span id="cb4-25"><a href="#cb4-25"></a>        TP = input.TP() # C_1|1</span>
+<span id="cb4-26"><a href="#cb4-26"></a>        FN = input.FN() # C_1|2</span>
+<span id="cb4-27"><a href="#cb4-27"></a>        FP = input.FP() # C_2|1</span>
+<span id="cb4-28"><a href="#cb4-28"></a>        TN = input.TN() # C_2|2</span>
+<span id="cb4-29"><a href="#cb4-29"></a>        fig = plt.figure()</span>
+<span id="cb4-30"><a href="#cb4-30"></a>        ax = fig.add_subplot()</span>
+<span id="cb4-31"><a href="#cb4-31"></a>        ax.grid(True)</span>
+<span id="cb4-32"><a href="#cb4-32"></a>        ax.plot([0, 1], [FP, TP], '--', label="Predict $C_1$")</span>
+<span id="cb4-33"><a href="#cb4-33"></a>        ax.plot([0, 1], [TN, FN], '--', label="Predict $C_2$")</span>
+<span id="cb4-34"><a href="#cb4-34"></a></span>
+<span id="cb4-35"><a href="#cb4-35"></a>        threshold = (FP - TN)/(FP - TN + FN - TP)</span>
+<span id="cb4-36"><a href="#cb4-36"></a>        cost_t = threshold*TP + (1-threshold)*FP</span>
+<span id="cb4-37"><a href="#cb4-37"></a>        ax.plot([threshold, 1], [cost_t, TP], lw=5, color='tab:blue', label="Optimal $C_1$")</span>
+<span id="cb4-38"><a href="#cb4-38"></a>        ax.plot([0, threshold], [TN, cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")</span>
+<span id="cb4-39"><a href="#cb4-39"></a></span>
+<span id="cb4-40"><a href="#cb4-40"></a>        C = [[TP, FP], [FN, TN]]</span>
+<span id="cb4-41"><a href="#cb4-41"></a>        bbox = dict(boxstyle="round", fc="white")</span>
+<span id="cb4-42"><a href="#cb4-42"></a>        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(2, -1),</span>
+<span id="cb4-43"><a href="#cb4-43"></a>                    textcoords='offset fontsize',</span>
+<span id="cb4-44"><a href="#cb4-44"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb4-45"><a href="#cb4-45"></a>                    bbox=bbox)</span>
+<span id="cb4-46"><a href="#cb4-46"></a>        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(2, 0),</span>
+<span id="cb4-47"><a href="#cb4-47"></a>                    textcoords='offset fontsize',</span>
+<span id="cb4-48"><a href="#cb4-48"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb4-49"><a href="#cb4-49"></a>                    bbox=bbox)</span>
+<span id="cb4-50"><a href="#cb4-50"></a>        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(0, 2),</span>
+<span id="cb4-51"><a href="#cb4-51"></a>                    textcoords='offset fontsize',</span>
+<span id="cb4-52"><a href="#cb4-52"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb4-53"><a href="#cb4-53"></a>                    bbox=bbox)</span>
+<span id="cb4-54"><a href="#cb4-54"></a>        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(2, 0),</span>
+<span id="cb4-55"><a href="#cb4-55"></a>                    textcoords='offset fontsize',</span>
+<span id="cb4-56"><a href="#cb4-56"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb4-57"><a href="#cb4-57"></a>                    bbox=bbox)</span>
+<span id="cb4-58"><a href="#cb4-58"></a></span>
+<span id="cb4-59"><a href="#cb4-59"></a>        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), </span>
+<span id="cb4-60"><a href="#cb4-60"></a>                    xytext=(0, --3),</span>
+<span id="cb4-61"><a href="#cb4-61"></a>                    textcoords='offset fontsize',</span>
+<span id="cb4-62"><a href="#cb4-62"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb4-63"><a href="#cb4-63"></a>                    bbox=bbox)</span>
+<span id="cb4-64"><a href="#cb4-64"></a></span>
+<span id="cb4-65"><a href="#cb4-65"></a>        ax.set_xlabel('$P(C_1|x)$')</span>
+<span id="cb4-66"><a href="#cb4-66"></a>        ax.set_ylabel('Expected cost')</span>
+<span id="cb4-67"><a href="#cb4-67"></a>        ax.legend()</span>
+<span id="cb4-68"><a href="#cb4-68"></a></span>
+<span id="cb4-69"><a href="#cb4-69"></a>        return fig</span>
 <span id="cb4-70"><a href="#cb4-70"></a></span>
-<span id="cb4-71"><a href="#cb4-71"></a>        return fig</span>
-<span id="cb4-72"><a href="#cb4-72"></a></span>
-<span id="cb4-73"><a href="#cb4-73"></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-71"><a href="#cb4-71"></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="cost-invariances" class="level3">
@@ -793,7 +791,7 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <span id="cb5-26"><a href="#cb5-26"></a></span>
 <span id="cb5-27"><a href="#cb5-27"></a>app_ui = ui.page_fluid(</span>
 <span id="cb5-28"><a href="#cb5-28"></a>    ui.layout_sidebar(</span>
-<span id="cb5-29"><a href="#cb5-29"></a>        ui.panel_sidebar(</span>
+<span id="cb5-29"><a href="#cb5-29"></a>        ui.sidebar(</span>
 <span id="cb5-30"><a href="#cb5-30"></a>            ui.input_slider("S", "Shift constant S", value=0,  min=-10,</span>
 <span id="cb5-31"><a href="#cb5-31"></a>                            max=10),</span>
 <span id="cb5-32"><a href="#cb5-32"></a>            ui.input_radio_buttons("M", "Multiplicative constant M",</span>
@@ -802,68 +800,66 @@ p c_{1|1} + (1 - p) c_{1|2}                    =   p c_{2|1} + (1 - p) c_{2|2}
 <span id="cb5-35"><a href="#cb5-35"></a>                                   selected = '1', inline=True, width='100%'),</span>
 <span id="cb5-36"><a href="#cb5-36"></a>            ui.output_table('cost_matrix'),</span>
 <span id="cb5-37"><a href="#cb5-37"></a>        ),</span>
-<span id="cb5-38"><a href="#cb5-38"></a>        ui.panel_main(</span>
-<span id="cb5-39"><a href="#cb5-39"></a>            ui.output_plot("plot")</span>
-<span id="cb5-40"><a href="#cb5-40"></a>        )</span>
-<span id="cb5-41"><a href="#cb5-41"></a>    ),</span>
-<span id="cb5-42"><a href="#cb5-42"></a>)</span>
-<span id="cb5-43"><a href="#cb5-43"></a></span>
-<span id="cb5-44"><a href="#cb5-44"></a>def server(input, output, session):</span>
-<span id="cb5-45"><a href="#cb5-45"></a>    @output</span>
-<span id="cb5-46"><a href="#cb5-46"></a>    @render.plot(alt="A histogram")</span>
-<span id="cb5-47"><a href="#cb5-47"></a>    def plot():</span>
-<span id="cb5-48"><a href="#cb5-48"></a>        fig = plt.figure()</span>
-<span id="cb5-49"><a href="#cb5-49"></a>        ax = fig.add_subplot()</span>
-<span id="cb5-50"><a href="#cb5-50"></a>        ax.grid(True)</span>
-<span id="cb5-51"><a href="#cb5-51"></a></span>
-<span id="cb5-52"><a href="#cb5-52"></a>        global C_original</span>
-<span id="cb5-53"><a href="#cb5-53"></a>        C = C_original + input.S()</span>
-<span id="cb5-54"><a href="#cb5-54"></a>        C = C*fraction_to_float(input.M())</span>
-<span id="cb5-55"><a href="#cb5-55"></a>        </span>
-<span id="cb5-56"><a href="#cb5-56"></a>        threshold = (C[0][1] - C[1][1])/(C[0][1] - C[1][1] + C[1][0] - C[0][0])</span>
-<span id="cb5-57"><a href="#cb5-57"></a>        cost_t = threshold*C[0][0] + (1-threshold)*C[0][1]</span>
-<span id="cb5-58"><a href="#cb5-58"></a></span>
-<span id="cb5-59"><a href="#cb5-59"></a>        ax.plot([0, 1], [C[0][1], C[0][0]], '--', label="Predict $C_1$")</span>
-<span id="cb5-60"><a href="#cb5-60"></a>        ax.plot([0, 1], [C[1][1], C[1][0]], '--', label="Predict $C_2$")</span>
-<span id="cb5-61"><a href="#cb5-61"></a>        ax.plot([threshold, 1], [cost_t, C[0][0]], lw=5, color='tab:blue', label="Optimal $C_1$")</span>
-<span id="cb5-62"><a href="#cb5-62"></a>        ax.plot([0, threshold], [C[1][1], cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")</span>
-<span id="cb5-63"><a href="#cb5-63"></a></span>
-<span id="cb5-64"><a href="#cb5-64"></a>        bbox = dict(boxstyle="round", fc="white")</span>
-<span id="cb5-65"><a href="#cb5-65"></a>        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(-0.2, C[1][1]),</span>
-<span id="cb5-66"><a href="#cb5-66"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb5-67"><a href="#cb5-67"></a>                    bbox=bbox)</span>
-<span id="cb5-68"><a href="#cb5-68"></a>        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(1.1, C[0][0]),</span>
-<span id="cb5-69"><a href="#cb5-69"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb5-70"><a href="#cb5-70"></a>                    bbox=bbox)</span>
-<span id="cb5-71"><a href="#cb5-71"></a>        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(-0.2, C[0][1]),</span>
-<span id="cb5-72"><a href="#cb5-72"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb5-73"><a href="#cb5-73"></a>                    bbox=bbox)</span>
-<span id="cb5-74"><a href="#cb5-74"></a>        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(1.1, C[1][0]),</span>
-<span id="cb5-75"><a href="#cb5-75"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb5-76"><a href="#cb5-76"></a>                    bbox=bbox)</span>
-<span id="cb5-77"><a href="#cb5-77"></a></span>
-<span id="cb5-78"><a href="#cb5-78"></a>        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), </span>
-<span id="cb5-79"><a href="#cb5-79"></a>                    xytext=(threshold + 0.2, cost_t),</span>
-<span id="cb5-80"><a href="#cb5-80"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
-<span id="cb5-81"><a href="#cb5-81"></a>                    bbox=bbox)</span>
-<span id="cb5-82"><a href="#cb5-82"></a></span>
-<span id="cb5-83"><a href="#cb5-83"></a>        ax.set_xlabel('$P(C_1|x)$')</span>
-<span id="cb5-84"><a href="#cb5-84"></a>        ax.set_ylabel('Expected cost')</span>
-<span id="cb5-85"><a href="#cb5-85"></a>        ax.legend()</span>
-<span id="cb5-86"><a href="#cb5-86"></a></span>
-<span id="cb5-87"><a href="#cb5-87"></a>        return fig</span>
-<span id="cb5-88"><a href="#cb5-88"></a>    @output</span>
-<span id="cb5-89"><a href="#cb5-89"></a>    @render.table(index=True)</span>
-<span id="cb5-90"><a href="#cb5-90"></a>    def cost_matrix():</span>
-<span id="cb5-91"><a href="#cb5-91"></a>        global C_original</span>
-<span id="cb5-92"><a href="#cb5-92"></a>        C = C_original.T + input.S() # Need to transpose back to show print matrix</span>
-<span id="cb5-93"><a href="#cb5-93"></a>        C = C*fraction_to_float(input.M())</span>
-<span id="cb5-94"><a href="#cb5-94"></a></span>
-<span id="cb5-95"><a href="#cb5-95"></a>        return pd.DataFrame(C,</span>
-<span id="cb5-96"><a href="#cb5-96"></a>                            index=['True C1', 'True C2'],</span>
-<span id="cb5-97"><a href="#cb5-97"></a>                            columns=['Predicted C1', 'Predicted C2'])</span>
-<span id="cb5-98"><a href="#cb5-98"></a></span>
-<span id="cb5-99"><a href="#cb5-99"></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-38"><a href="#cb5-38"></a>        ui.output_plot("plot")</span>
+<span id="cb5-39"><a href="#cb5-39"></a>    ),</span>
+<span id="cb5-40"><a href="#cb5-40"></a>)</span>
+<span id="cb5-41"><a href="#cb5-41"></a></span>
+<span id="cb5-42"><a href="#cb5-42"></a>def server(input, output, session):</span>
+<span id="cb5-43"><a href="#cb5-43"></a>    @output</span>
+<span id="cb5-44"><a href="#cb5-44"></a>    @render.plot(alt="A histogram")</span>
+<span id="cb5-45"><a href="#cb5-45"></a>    def plot():</span>
+<span id="cb5-46"><a href="#cb5-46"></a>        fig = plt.figure()</span>
+<span id="cb5-47"><a href="#cb5-47"></a>        ax = fig.add_subplot()</span>
+<span id="cb5-48"><a href="#cb5-48"></a>        ax.grid(True)</span>
+<span id="cb5-49"><a href="#cb5-49"></a></span>
+<span id="cb5-50"><a href="#cb5-50"></a>        global C_original</span>
+<span id="cb5-51"><a href="#cb5-51"></a>        C = C_original + input.S()</span>
+<span id="cb5-52"><a href="#cb5-52"></a>        C = C*fraction_to_float(input.M())</span>
+<span id="cb5-53"><a href="#cb5-53"></a>        </span>
+<span id="cb5-54"><a href="#cb5-54"></a>        threshold = (C[0][1] - C[1][1])/(C[0][1] - C[1][1] + C[1][0] - C[0][0])</span>
+<span id="cb5-55"><a href="#cb5-55"></a>        cost_t = threshold*C[0][0] + (1-threshold)*C[0][1]</span>
+<span id="cb5-56"><a href="#cb5-56"></a></span>
+<span id="cb5-57"><a href="#cb5-57"></a>        ax.plot([0, 1], [C[0][1], C[0][0]], '--', label="Predict $C_1$")</span>
+<span id="cb5-58"><a href="#cb5-58"></a>        ax.plot([0, 1], [C[1][1], C[1][0]], '--', label="Predict $C_2$")</span>
+<span id="cb5-59"><a href="#cb5-59"></a>        ax.plot([threshold, 1], [cost_t, C[0][0]], lw=5, color='tab:blue', label="Optimal $C_1$")</span>
+<span id="cb5-60"><a href="#cb5-60"></a>        ax.plot([0, threshold], [C[1][1], cost_t], lw=5, color='tab:orange', label="Optimal $C_2$")</span>
+<span id="cb5-61"><a href="#cb5-61"></a></span>
+<span id="cb5-62"><a href="#cb5-62"></a>        bbox = dict(boxstyle="round", fc="white")</span>
+<span id="cb5-63"><a href="#cb5-63"></a>        ax.annotate(r'$C_{2|2}$', (0, C[1][1]), xytext=(-0.2, C[1][1]),</span>
+<span id="cb5-64"><a href="#cb5-64"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb5-65"><a href="#cb5-65"></a>                    bbox=bbox)</span>
+<span id="cb5-66"><a href="#cb5-66"></a>        ax.annotate(r'$C_{1|1}$', (1, C[0][0]), xytext=(1.1, C[0][0]),</span>
+<span id="cb5-67"><a href="#cb5-67"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb5-68"><a href="#cb5-68"></a>                    bbox=bbox)</span>
+<span id="cb5-69"><a href="#cb5-69"></a>        ax.annotate(r'$C_{1|2}$', (0, C[0][1]), xytext=(-0.2, C[0][1]),</span>
+<span id="cb5-70"><a href="#cb5-70"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb5-71"><a href="#cb5-71"></a>                    bbox=bbox)</span>
+<span id="cb5-72"><a href="#cb5-72"></a>        ax.annotate(r'$C_{2|1}$', (1, C[1][0]), xytext=(1.1, C[1][0]),</span>
+<span id="cb5-73"><a href="#cb5-73"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb5-74"><a href="#cb5-74"></a>                    bbox=bbox)</span>
+<span id="cb5-75"><a href="#cb5-75"></a></span>
+<span id="cb5-76"><a href="#cb5-76"></a>        ax.annotate(f'$t*={threshold:0.2}$', (threshold, cost_t), </span>
+<span id="cb5-77"><a href="#cb5-77"></a>                    xytext=(threshold + 0.2, cost_t),</span>
+<span id="cb5-78"><a href="#cb5-78"></a>                    arrowprops=dict(arrowstyle='-&gt;', facecolor='black'),</span>
+<span id="cb5-79"><a href="#cb5-79"></a>                    bbox=bbox)</span>
+<span id="cb5-80"><a href="#cb5-80"></a></span>
+<span id="cb5-81"><a href="#cb5-81"></a>        ax.set_xlabel('$P(C_1|x)$')</span>
+<span id="cb5-82"><a href="#cb5-82"></a>        ax.set_ylabel('Expected cost')</span>
+<span id="cb5-83"><a href="#cb5-83"></a>        ax.legend()</span>
+<span id="cb5-84"><a href="#cb5-84"></a></span>
+<span id="cb5-85"><a href="#cb5-85"></a>        return fig</span>
+<span id="cb5-86"><a href="#cb5-86"></a>    @output</span>
+<span id="cb5-87"><a href="#cb5-87"></a>    @render.table(index=True)</span>
+<span id="cb5-88"><a href="#cb5-88"></a>    def cost_matrix():</span>
+<span id="cb5-89"><a href="#cb5-89"></a>        global C_original</span>
+<span id="cb5-90"><a href="#cb5-90"></a>        C = C_original.T + input.S() # Need to transpose back to show print matrix</span>
+<span id="cb5-91"><a href="#cb5-91"></a>        C = C*fraction_to_float(input.M())</span>
+<span id="cb5-92"><a href="#cb5-92"></a></span>
+<span id="cb5-93"><a href="#cb5-93"></a>        return pd.DataFrame(C,</span>
+<span id="cb5-94"><a href="#cb5-94"></a>                            index=['True C1', 'True C2'],</span>
+<span id="cb5-95"><a href="#cb5-95"></a>                            columns=['Predicted C1', 'Predicted C2'])</span>
+<span id="cb5-96"><a href="#cb5-96"></a></span>
+<span id="cb5-97"><a href="#cb5-97"></a>app = App(app_ui, server, debug=True)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 <section id="simplification-example" class="level4 smaller">
 <h4 class="smaller anchored" data-anchor-id="simplification-example">Simplification example</h4>
@@ -1018,7 +1014,7 @@ c' = \begin{bmatrix} (-2 + 7)/20 &amp; (3 + 7)/20 \\ (13 + 7)/20 &amp; (-7 + 7)/
 <section id="ternary-expected-cost-isolines-per-decision" class="level4">
 <h4 class="anchored" data-anchor-id="ternary-expected-cost-isolines-per-decision">Ternary expected cost isolines per decision</h4>
 <div class="center">
-<div id="9e9382aa" class="cell" data-execution_count="5">
+<div id="17abfff8" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1058,7 +1054,7 @@ Commented section
 
 ### Ternary thresholds and optimal decisions
 
-::: {#1be4756f .cell execution_count=6}
+::: {#296c9af9 .cell execution_count=6}
 ``` {.python .cell-code code-fold="true" code-summary="Show the code"}
 import matplotlib
 import numpy as np
@@ -1102,7 +1098,7 @@ plt.show()
 <section id="ternary-hyperplanes-optimal-decision-combined" class="level4">
 <h4 class="anchored" data-anchor-id="ternary-hyperplanes-optimal-decision-combined">Ternary hyperplanes optimal decision combined</h4>
 <div class="center">
-<div id="31869472" class="cell" data-execution_count="7">
+<div id="efb3ac03" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> matplotlib</span>
@@ -1190,7 +1186,7 @@ The following kwargs were not used by contour: 'cb_orientation'
 <hr>
 <section id="option-to-abstain-cost-lines" class="level4">
 <h4 class="anchored" data-anchor-id="option-to-abstain-cost-lines">Option to abstain cost lines</h4>
-<div id="d8c79ac9" class="cell" data-execution_count="8">
+<div id="3607ae75" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1254,7 +1250,7 @@ The following kwargs were not used by contour: 'cb_orientation'
 </tr>
 </tbody>
 </table>
-<div id="421f8fc1" class="cell" data-execution_count="9">
+<div id="efd4c0e2" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>

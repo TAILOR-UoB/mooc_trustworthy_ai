@@ -551,7 +551,7 @@ window.Quarto = {
 </div><div class="column" style="width:10%;">
 
 </div><div class="column v-center-container" style="width:70%;">
-<div id="70b48314" class="cell" data-execution_count="1">
+<div id="7e072f2e" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -634,7 +634,7 @@ window.Quarto = {
 </div><div class="column" style="width:10%;">
 
 </div><div class="column" style="width:70%;">
-<div id="7cdbb03e" class="cell" data-execution_count="2">
+<div id="ca834d33" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -713,7 +713,7 @@ window.Quarto = {
 </div><div class="column" style="width:10%;">
 
 </div><div class="column" style="width:70%;">
-<div id="c14cea5e" class="cell" data-execution_count="3">
+<div id="f50c4b86" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -804,7 +804,7 @@ window.Quarto = {
 </div><div class="column" style="width:10%;">
 
 </div><div class="column" style="width:70%;">
-<div id="64ad1d31" class="cell" data-execution_count="4">
+<div id="9b98f008" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -867,116 +867,114 @@ window.Quarto = {
 <span id="cb5-14"><a href="#cb5-14"></a></span>
 <span id="cb5-15"><a href="#cb5-15"></a>app_ui = ui.page_fluid(</span>
 <span id="cb5-16"><a href="#cb5-16"></a>    ui.layout_sidebar(</span>
-<span id="cb5-17"><a href="#cb5-17"></a>        ui.panel_sidebar(</span>
+<span id="cb5-17"><a href="#cb5-17"></a>        ui.sidebar(</span>
 <span id="cb5-18"><a href="#cb5-18"></a>    ui.input_slider("n", "Number of bins", </span>
 <span id="cb5-19"><a href="#cb5-19"></a>                    min=1, max=100, value=10),</span>
 <span id="cb5-20"><a href="#cb5-20"></a>    ),</span>
-<span id="cb5-21"><a href="#cb5-21"></a>    ui.panel_main(</span>
-<span id="cb5-22"><a href="#cb5-22"></a>    ui.output_plot("plot")</span>
-<span id="cb5-23"><a href="#cb5-23"></a>    )</span>
-<span id="cb5-24"><a href="#cb5-24"></a>    ),</span>
-<span id="cb5-25"><a href="#cb5-25"></a>)</span>
-<span id="cb5-26"><a href="#cb5-26"></a></span>
-<span id="cb5-27"><a href="#cb5-27"></a>def server(input, output, session):</span>
-<span id="cb5-28"><a href="#cb5-28"></a>    @output</span>
-<span id="cb5-29"><a href="#cb5-29"></a>    @render.plot(alt="A histogram")</span>
-<span id="cb5-30"><a href="#cb5-30"></a>    def plot():</span>
-<span id="cb5-31"><a href="#cb5-31"></a>        fig = plot_reliability_diagram(labels, scores,</span>
-<span id="cb5-32"><a href="#cb5-32"></a>                                       n_bins=input.n())</span>
-<span id="cb5-33"><a href="#cb5-33"></a>        return fig</span>
+<span id="cb5-21"><a href="#cb5-21"></a>    ui.output_plot("plot")</span>
+<span id="cb5-22"><a href="#cb5-22"></a>    ),</span>
+<span id="cb5-23"><a href="#cb5-23"></a>)</span>
+<span id="cb5-24"><a href="#cb5-24"></a></span>
+<span id="cb5-25"><a href="#cb5-25"></a>def server(input, output, session):</span>
+<span id="cb5-26"><a href="#cb5-26"></a>    @output</span>
+<span id="cb5-27"><a href="#cb5-27"></a>    @render.plot(alt="A histogram")</span>
+<span id="cb5-28"><a href="#cb5-28"></a>    def plot():</span>
+<span id="cb5-29"><a href="#cb5-29"></a>        fig = plot_reliability_diagram(labels, scores,</span>
+<span id="cb5-30"><a href="#cb5-30"></a>                                       n_bins=input.n())</span>
+<span id="cb5-31"><a href="#cb5-31"></a>        return fig</span>
+<span id="cb5-32"><a href="#cb5-32"></a></span>
+<span id="cb5-33"><a href="#cb5-33"></a>app = App(app_ui, server, debug=True)</span>
 <span id="cb5-34"><a href="#cb5-34"></a></span>
-<span id="cb5-35"><a href="#cb5-35"></a>app = App(app_ui, server, debug=True)</span>
-<span id="cb5-36"><a href="#cb5-36"></a></span>
-<span id="cb5-37"><a href="#cb5-37"></a></span>
-<span id="cb5-38"><a href="#cb5-38"></a>## file: utils.py</span>
-<span id="cb5-39"><a href="#cb5-39"></a>import matplotlib.pyplot as plt</span>
-<span id="cb5-40"><a href="#cb5-40"></a>from mpl_toolkits.axes_grid1 import make_axes_locatable</span>
-<span id="cb5-41"><a href="#cb5-41"></a>import numpy as np</span>
-<span id="cb5-42"><a href="#cb5-42"></a>import matplotlib.ticker as mticker</span>
-<span id="cb5-43"><a href="#cb5-43"></a></span>
-<span id="cb5-44"><a href="#cb5-44"></a>def get_binned_scores(labels, scores, bins=10):</span>
-<span id="cb5-45"><a href="#cb5-45"></a>    '''</span>
-<span id="cb5-46"><a href="#cb5-46"></a>    Parameters</span>
-<span id="cb5-47"><a href="#cb5-47"></a>    ==========</span>
-<span id="cb5-48"><a href="#cb5-48"></a>    labels : array (n_samples, )</span>
-<span id="cb5-49"><a href="#cb5-49"></a>        Labels indicating the true class.</span>
-<span id="cb5-50"><a href="#cb5-50"></a>    scores : matrix (n_samples, )</span>
-<span id="cb5-51"><a href="#cb5-51"></a>        Output probability scores for one or several methods.</span>
-<span id="cb5-52"><a href="#cb5-52"></a>    bins : int or list of floats</span>
-<span id="cb5-53"><a href="#cb5-53"></a>        Number of bins to create in the scores' space, or list of bin</span>
-<span id="cb5-54"><a href="#cb5-54"></a>        boundaries.</span>
-<span id="cb5-55"><a href="#cb5-55"></a>    '''</span>
-<span id="cb5-56"><a href="#cb5-56"></a>    n_bins = 1</span>
-<span id="cb5-57"><a href="#cb5-57"></a>    if isinstance(bins, int):</span>
-<span id="cb5-58"><a href="#cb5-58"></a>        n_bins = bins</span>
-<span id="cb5-59"><a href="#cb5-59"></a>        bins = np.linspace(0, 1 + 1e-8, n_bins + 1)</span>
-<span id="cb5-60"><a href="#cb5-60"></a>    elif isinstance(bins, list) or isinstance(bins, np.ndarray):</span>
-<span id="cb5-61"><a href="#cb5-61"></a>        n_bins = len(bins) - 1</span>
-<span id="cb5-62"><a href="#cb5-62"></a>        bins = np.array(bins)</span>
-<span id="cb5-63"><a href="#cb5-63"></a>        if bins[0] == 0.0:</span>
-<span id="cb5-64"><a href="#cb5-64"></a>            bins[0] = 0 - 1e-8</span>
-<span id="cb5-65"><a href="#cb5-65"></a>        if bins[-1] == 1.0:</span>
-<span id="cb5-66"><a href="#cb5-66"></a>            bins[-1] = 1 + 1e-8</span>
+<span id="cb5-35"><a href="#cb5-35"></a></span>
+<span id="cb5-36"><a href="#cb5-36"></a>## file: utils.py</span>
+<span id="cb5-37"><a href="#cb5-37"></a>import matplotlib.pyplot as plt</span>
+<span id="cb5-38"><a href="#cb5-38"></a>from mpl_toolkits.axes_grid1 import make_axes_locatable</span>
+<span id="cb5-39"><a href="#cb5-39"></a>import numpy as np</span>
+<span id="cb5-40"><a href="#cb5-40"></a>import matplotlib.ticker as mticker</span>
+<span id="cb5-41"><a href="#cb5-41"></a></span>
+<span id="cb5-42"><a href="#cb5-42"></a>def get_binned_scores(labels, scores, bins=10):</span>
+<span id="cb5-43"><a href="#cb5-43"></a>    '''</span>
+<span id="cb5-44"><a href="#cb5-44"></a>    Parameters</span>
+<span id="cb5-45"><a href="#cb5-45"></a>    ==========</span>
+<span id="cb5-46"><a href="#cb5-46"></a>    labels : array (n_samples, )</span>
+<span id="cb5-47"><a href="#cb5-47"></a>        Labels indicating the true class.</span>
+<span id="cb5-48"><a href="#cb5-48"></a>    scores : matrix (n_samples, )</span>
+<span id="cb5-49"><a href="#cb5-49"></a>        Output probability scores for one or several methods.</span>
+<span id="cb5-50"><a href="#cb5-50"></a>    bins : int or list of floats</span>
+<span id="cb5-51"><a href="#cb5-51"></a>        Number of bins to create in the scores' space, or list of bin</span>
+<span id="cb5-52"><a href="#cb5-52"></a>        boundaries.</span>
+<span id="cb5-53"><a href="#cb5-53"></a>    '''</span>
+<span id="cb5-54"><a href="#cb5-54"></a>    n_bins = 1</span>
+<span id="cb5-55"><a href="#cb5-55"></a>    if isinstance(bins, int):</span>
+<span id="cb5-56"><a href="#cb5-56"></a>        n_bins = bins</span>
+<span id="cb5-57"><a href="#cb5-57"></a>        bins = np.linspace(0, 1 + 1e-8, n_bins + 1)</span>
+<span id="cb5-58"><a href="#cb5-58"></a>    elif isinstance(bins, list) or isinstance(bins, np.ndarray):</span>
+<span id="cb5-59"><a href="#cb5-59"></a>        n_bins = len(bins) - 1</span>
+<span id="cb5-60"><a href="#cb5-60"></a>        bins = np.array(bins)</span>
+<span id="cb5-61"><a href="#cb5-61"></a>        if bins[0] == 0.0:</span>
+<span id="cb5-62"><a href="#cb5-62"></a>            bins[0] = 0 - 1e-8</span>
+<span id="cb5-63"><a href="#cb5-63"></a>        if bins[-1] == 1.0:</span>
+<span id="cb5-64"><a href="#cb5-64"></a>            bins[-1] = 1 + 1e-8</span>
+<span id="cb5-65"><a href="#cb5-65"></a></span>
+<span id="cb5-66"><a href="#cb5-66"></a>    scores = np.clip(scores, a_min=0, a_max=1)</span>
 <span id="cb5-67"><a href="#cb5-67"></a></span>
-<span id="cb5-68"><a href="#cb5-68"></a>    scores = np.clip(scores, a_min=0, a_max=1)</span>
+<span id="cb5-68"><a href="#cb5-68"></a>    bin_idx = np.digitize(scores, bins) - 1</span>
 <span id="cb5-69"><a href="#cb5-69"></a></span>
-<span id="cb5-70"><a href="#cb5-70"></a>    bin_idx = np.digitize(scores, bins) - 1</span>
-<span id="cb5-71"><a href="#cb5-71"></a></span>
-<span id="cb5-72"><a href="#cb5-72"></a>    bin_true = np.bincount(bin_idx, weights=labels,</span>
+<span id="cb5-70"><a href="#cb5-70"></a>    bin_true = np.bincount(bin_idx, weights=labels,</span>
+<span id="cb5-71"><a href="#cb5-71"></a>                           minlength=n_bins)</span>
+<span id="cb5-72"><a href="#cb5-72"></a>    bin_pred = np.bincount(bin_idx, weights=scores,</span>
 <span id="cb5-73"><a href="#cb5-73"></a>                           minlength=n_bins)</span>
-<span id="cb5-74"><a href="#cb5-74"></a>    bin_pred = np.bincount(bin_idx, weights=scores,</span>
-<span id="cb5-75"><a href="#cb5-75"></a>                           minlength=n_bins)</span>
-<span id="cb5-76"><a href="#cb5-76"></a>    bin_total = np.bincount(bin_idx, minlength=n_bins)</span>
-<span id="cb5-77"><a href="#cb5-77"></a></span>
-<span id="cb5-78"><a href="#cb5-78"></a>    zero_idx = bin_total == 0</span>
-<span id="cb5-79"><a href="#cb5-79"></a>    avg_true = np.empty(bin_total.shape[0])</span>
-<span id="cb5-80"><a href="#cb5-80"></a>    avg_true.fill(np.nan)</span>
-<span id="cb5-81"><a href="#cb5-81"></a>    avg_true[~zero_idx] = np.divide(bin_true[~zero_idx],</span>
-<span id="cb5-82"><a href="#cb5-82"></a>                                    bin_total[~zero_idx])</span>
-<span id="cb5-83"><a href="#cb5-83"></a>    avg_pred = np.empty(bin_total.shape[0])</span>
-<span id="cb5-84"><a href="#cb5-84"></a>    avg_pred.fill(np.nan)</span>
-<span id="cb5-85"><a href="#cb5-85"></a>    avg_pred[~zero_idx] = np.divide(bin_pred[~zero_idx],</span>
-<span id="cb5-86"><a href="#cb5-86"></a>                                    bin_total[~zero_idx])</span>
-<span id="cb5-87"><a href="#cb5-87"></a>    return avg_true, avg_pred, bin_true, bin_total</span>
-<span id="cb5-88"><a href="#cb5-88"></a>    </span>
-<span id="cb5-89"><a href="#cb5-89"></a>def plot_reliability_diagram(labels, scores, n_bins=10):</span>
-<span id="cb5-90"><a href="#cb5-90"></a>    bins = np.linspace(0, 1 + 1e-8, n_bins + 1)</span>
-<span id="cb5-91"><a href="#cb5-91"></a></span>
-<span id="cb5-92"><a href="#cb5-92"></a>    avg_true, avg_pred, bin_true, bin_total = get_binned_scores(</span>
-<span id="cb5-93"><a href="#cb5-93"></a>            labels, scores, bins=bins)</span>
-<span id="cb5-94"><a href="#cb5-94"></a></span>
-<span id="cb5-95"><a href="#cb5-95"></a>    zero_idx = bin_total == 0</span>
-<span id="cb5-96"><a href="#cb5-96"></a>    fig = plt.figure()</span>
-<span id="cb5-97"><a href="#cb5-97"></a>    ax1 = fig.add_subplot()</span>
-<span id="cb5-98"><a href="#cb5-98"></a>    fig, axs = plt.subplots(2, 1,</span>
-<span id="cb5-99"><a href="#cb5-99"></a>                            gridspec_kw={'height_ratios': [4, 1]})</span>
-<span id="cb5-100"><a href="#cb5-100"></a>    axs[0].bar(x=bins[:-1][~zero_idx], height=avg_true[~zero_idx],</span>
-<span id="cb5-101"><a href="#cb5-101"></a>                        align='edge', width=(bins[1:] - bins[:-1])[~zero_idx],</span>
-<span id="cb5-102"><a href="#cb5-102"></a>                        edgecolor='black')</span>
-<span id="cb5-103"><a href="#cb5-103"></a>    axs[0].scatter(avg_pred, avg_true)</span>
-<span id="cb5-104"><a href="#cb5-104"></a>    axs[0].plot([0, 1], [0, 1], '--', color='red')</span>
-<span id="cb5-105"><a href="#cb5-105"></a></span>
-<span id="cb5-106"><a href="#cb5-106"></a>    axs[0].set_xlim([0, 1])</span>
-<span id="cb5-107"><a href="#cb5-107"></a>    axs[0].set_ylim([0, 1])</span>
-<span id="cb5-108"><a href="#cb5-108"></a>    axs[0].set_ylabel('Fraction of positives')</span>
-<span id="cb5-109"><a href="#cb5-109"></a>    axs[0].grid(True)</span>
-<span id="cb5-110"><a href="#cb5-110"></a>    axs[0].set_axisbelow(True)</span>
-<span id="cb5-111"><a href="#cb5-111"></a></span>
-<span id="cb5-112"><a href="#cb5-112"></a>    axs[1].hist(scores, range=(0, 1),</span>
-<span id="cb5-113"><a href="#cb5-113"></a>             bins=bins,</span>
-<span id="cb5-114"><a href="#cb5-114"></a>             histtype="bar",</span>
-<span id="cb5-115"><a href="#cb5-115"></a>             lw=1,</span>
-<span id="cb5-116"><a href="#cb5-116"></a>             edgecolor='black')</span>
-<span id="cb5-117"><a href="#cb5-117"></a></span>
-<span id="cb5-118"><a href="#cb5-118"></a>    axs[1].set_xlim([0, 1])</span>
-<span id="cb5-119"><a href="#cb5-119"></a>    axs[1].set_ylabel('Count')</span>
-<span id="cb5-120"><a href="#cb5-120"></a>    axs[1].set_xlabel('Scores')</span>
-<span id="cb5-121"><a href="#cb5-121"></a></span>
-<span id="cb5-122"><a href="#cb5-122"></a></span>
-<span id="cb5-123"><a href="#cb5-123"></a>    weights = bin_total[~zero_idx]/sum(bin_total)</span>
-<span id="cb5-124"><a href="#cb5-124"></a>    ece = sum(np.abs(avg_pred - avg_true)[~zero_idx]*weights)</span>
-<span id="cb5-125"><a href="#cb5-125"></a>    fig.suptitle(f'Expected Calibration Error = {ece:0.3f}')</span>
-<span id="cb5-126"><a href="#cb5-126"></a>    return fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-74"><a href="#cb5-74"></a>    bin_total = np.bincount(bin_idx, minlength=n_bins)</span>
+<span id="cb5-75"><a href="#cb5-75"></a></span>
+<span id="cb5-76"><a href="#cb5-76"></a>    zero_idx = bin_total == 0</span>
+<span id="cb5-77"><a href="#cb5-77"></a>    avg_true = np.empty(bin_total.shape[0])</span>
+<span id="cb5-78"><a href="#cb5-78"></a>    avg_true.fill(np.nan)</span>
+<span id="cb5-79"><a href="#cb5-79"></a>    avg_true[~zero_idx] = np.divide(bin_true[~zero_idx],</span>
+<span id="cb5-80"><a href="#cb5-80"></a>                                    bin_total[~zero_idx])</span>
+<span id="cb5-81"><a href="#cb5-81"></a>    avg_pred = np.empty(bin_total.shape[0])</span>
+<span id="cb5-82"><a href="#cb5-82"></a>    avg_pred.fill(np.nan)</span>
+<span id="cb5-83"><a href="#cb5-83"></a>    avg_pred[~zero_idx] = np.divide(bin_pred[~zero_idx],</span>
+<span id="cb5-84"><a href="#cb5-84"></a>                                    bin_total[~zero_idx])</span>
+<span id="cb5-85"><a href="#cb5-85"></a>    return avg_true, avg_pred, bin_true, bin_total</span>
+<span id="cb5-86"><a href="#cb5-86"></a>    </span>
+<span id="cb5-87"><a href="#cb5-87"></a>def plot_reliability_diagram(labels, scores, n_bins=10):</span>
+<span id="cb5-88"><a href="#cb5-88"></a>    bins = np.linspace(0, 1 + 1e-8, n_bins + 1)</span>
+<span id="cb5-89"><a href="#cb5-89"></a></span>
+<span id="cb5-90"><a href="#cb5-90"></a>    avg_true, avg_pred, bin_true, bin_total = get_binned_scores(</span>
+<span id="cb5-91"><a href="#cb5-91"></a>            labels, scores, bins=bins)</span>
+<span id="cb5-92"><a href="#cb5-92"></a></span>
+<span id="cb5-93"><a href="#cb5-93"></a>    zero_idx = bin_total == 0</span>
+<span id="cb5-94"><a href="#cb5-94"></a>    fig = plt.figure()</span>
+<span id="cb5-95"><a href="#cb5-95"></a>    ax1 = fig.add_subplot()</span>
+<span id="cb5-96"><a href="#cb5-96"></a>    fig, axs = plt.subplots(2, 1,</span>
+<span id="cb5-97"><a href="#cb5-97"></a>                            gridspec_kw={'height_ratios': [4, 1]})</span>
+<span id="cb5-98"><a href="#cb5-98"></a>    axs[0].bar(x=bins[:-1][~zero_idx], height=avg_true[~zero_idx],</span>
+<span id="cb5-99"><a href="#cb5-99"></a>                        align='edge', width=(bins[1:] - bins[:-1])[~zero_idx],</span>
+<span id="cb5-100"><a href="#cb5-100"></a>                        edgecolor='black')</span>
+<span id="cb5-101"><a href="#cb5-101"></a>    axs[0].scatter(avg_pred, avg_true)</span>
+<span id="cb5-102"><a href="#cb5-102"></a>    axs[0].plot([0, 1], [0, 1], '--', color='red')</span>
+<span id="cb5-103"><a href="#cb5-103"></a></span>
+<span id="cb5-104"><a href="#cb5-104"></a>    axs[0].set_xlim([0, 1])</span>
+<span id="cb5-105"><a href="#cb5-105"></a>    axs[0].set_ylim([0, 1])</span>
+<span id="cb5-106"><a href="#cb5-106"></a>    axs[0].set_ylabel('Fraction of positives')</span>
+<span id="cb5-107"><a href="#cb5-107"></a>    axs[0].grid(True)</span>
+<span id="cb5-108"><a href="#cb5-108"></a>    axs[0].set_axisbelow(True)</span>
+<span id="cb5-109"><a href="#cb5-109"></a></span>
+<span id="cb5-110"><a href="#cb5-110"></a>    axs[1].hist(scores, range=(0, 1),</span>
+<span id="cb5-111"><a href="#cb5-111"></a>             bins=bins,</span>
+<span id="cb5-112"><a href="#cb5-112"></a>             histtype="bar",</span>
+<span id="cb5-113"><a href="#cb5-113"></a>             lw=1,</span>
+<span id="cb5-114"><a href="#cb5-114"></a>             edgecolor='black')</span>
+<span id="cb5-115"><a href="#cb5-115"></a></span>
+<span id="cb5-116"><a href="#cb5-116"></a>    axs[1].set_xlim([0, 1])</span>
+<span id="cb5-117"><a href="#cb5-117"></a>    axs[1].set_ylabel('Count')</span>
+<span id="cb5-118"><a href="#cb5-118"></a>    axs[1].set_xlabel('Scores')</span>
+<span id="cb5-119"><a href="#cb5-119"></a></span>
+<span id="cb5-120"><a href="#cb5-120"></a></span>
+<span id="cb5-121"><a href="#cb5-121"></a>    weights = bin_total[~zero_idx]/sum(bin_total)</span>
+<span id="cb5-122"><a href="#cb5-122"></a>    ece = sum(np.abs(avg_pred - avg_true)[~zero_idx]*weights)</span>
+<span id="cb5-123"><a href="#cb5-123"></a>    fig.suptitle(f'Expected Calibration Error = {ece:0.3f}')</span>
+<span id="cb5-124"><a href="#cb5-124"></a>    return fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="questions-and-answers" class="level3">
 <h3 class="anchored" data-anchor-id="questions-and-answers">Questions and answers</h3>
@@ -1030,7 +1028,7 @@ Answer: No
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="698537fb" class="cell" data-execution_count="5">
+<div id="eba886f5" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1109,7 +1107,7 @@ Answer: No
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="2e479c74" class="cell" data-execution_count="6">
+<div id="38baae0e" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>labels <span class="op">=</span> np.array([<span class="dv">0</span>,   <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">1</span>])</span>
@@ -1231,7 +1229,7 @@ Answer: Under-estimates
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="dc112a58" class="cell" data-execution_count="7">
+<div id="614c2559" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1306,7 +1304,7 @@ Answer: Under-estimates
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="3d523f2f" class="cell" data-execution_count="8">
+<div id="8681d640" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1936,7 +1934,7 @@ Answer: Under-confident.
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="79e14d9a" class="cell" data-execution_count="11">
+<div id="55aee25e" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -2013,7 +2011,7 @@ Answer: Under-confident.
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="93e19328" class="cell" data-execution_count="12">
+<div id="20d3779a" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -2090,7 +2088,7 @@ Answer: Under-confident.
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="6b191ac8" class="cell" data-execution_count="13">
+<div id="4b86e1fd" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
