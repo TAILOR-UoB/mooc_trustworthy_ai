@@ -1,3 +1,0 @@
-# Explainable AI systems
-
-This is the content of the explainable AI systems section
